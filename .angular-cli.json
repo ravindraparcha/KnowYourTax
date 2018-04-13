@@ -19,9 +19,19 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../src/assets/css/custom.css",
+        "../src/assets/css/ie10-viewport-bug-workaround.css",
+        "../src/assets/css/sticky-footer-navbar.css"
+                    
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../src/assets/js/ie-emulation-modes-warning.js",
+        "../src/assets/js/ie10-viewport-bug-workaround.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js"        
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

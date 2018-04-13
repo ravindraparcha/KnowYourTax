@@ -1,0 +1,105 @@
+<form #calcFrm="ngForm" (ngSubmit)="calculateTax(calcFrm.value,calcFrm.valid)">
+    <div class="container margin-top15 margin-top75">
+        <div class="row">
+            <div class="panel panel-default border-radius border-box">
+                <div class="panel-heading">Income Tax Calculator</div>
+                <div class="form-horizontal">
+                    <!-- <div class="form-group margin-top15">
+                        <div class="col-sm-10">
+                            <label class="invalid" style="margin-left:10px;padding-left:10px;"> All fields are mandatory</label>
+                        </div>
+                    </div> -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#Step1">Salary details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#Step2">Deductions & Calculation</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                    <div id="Step1" class="tab-pane fade in active">
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2">Assessment year</label>
+                            <div class="col-sm-3">
+                                <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.assessmentYearId" name="assessmentYearId">
+                                    <option selected="true" value="0">Select</option>
+                                    <option [ngValue]="ast.YearId" *ngFor="let ast of AssessmentYrList">
+                                        {{ast.Year}}
+                                </select>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2">Who you are</label>
+                            <div class="col-sm-3">
+                                <select id="Category" #Category="ngModel" class="form-control" [(ngModel)]="calcModel.Category" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)" >
+                                    <option selected="true" value="0">Select</option>
+                                    <option [ngValue]="ct.CategoryId" *ngFor="let ct of CategoryList">
+                                        {{ct.CategoryName}}
+                                </select>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2">Income from salary</label>
+                            <div class="col-sm-2">
+                                <input type="number" required novalidate [ngClass]="SalaryIncome.valid? 'valid': 'invalid'" [(ngModel)]="calcModel.SalaryIncome"
+                                    value="0" min="0" #SalaryIncome="ngModel" name="SalaryIncome" class="form-control" (input)="calculateGrossSalary()"
+                                />
+                            </div>
+                            <!-- <div *ngIf="GrossTaxableSalary.invalid && (GrossTaxableSalary.dirty || GrossTaxableSalary.touched)" class="errorColor">
+                            <div *ngIf="GrossTaxableSalary.errors.required">service number? its required</div>
+                        </div> -->
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2">Income from other sources</label>
+                            <div class="col-sm-2">
+                                <input type="number" novalidate [(ngModel)]="calcModel.OtherSourceIncome" value="0" min="0" #OtherSourceIncome="ngModel"
+                                    name="OtherSourceIncome" class="form-control" (input)="calculateGrossSalary()" />
+                            </div>
+                            <div class="col-sm-3">
+
+                            </div>
+                        </div>
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2">Gross taxable salary</label>
+                            <div class="col-sm-2">
+                                <label class="control-label">{{calcModel.GrossTaxableSalary}}</label>
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                        </div>
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2"></label>
+                            <div class="col-sm-6">
+                                <button class="btn btn-default" [disabled]='!calcFrm.valid'>Save</button>
+                                <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalSuccess" (click)="saveVariantDetails()" *ngIf="iseditable" [disabled]="!validateForm(basicForm,additionalInfoForm,countryForm)">Save</button> -->
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                    </div>
+                    <div id="Step2" class="tab-pane fade">
+                        <div class="form-group margin-top15">
+                            <label class="control-label col-sm-2">Assessment year</label>
+                            <div class="col-sm-3">
+                                <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.assessmentYearId" name="assessmentYearId">
+                                    <option selected="true" value="0">Select</option>
+                                    <option [ngValue]="ast.YearId" *ngFor="let ast of AssessmentYrList">
+                                        {{ast.Year}}
+                                </select>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
