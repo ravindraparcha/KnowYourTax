@@ -19,21 +19,17 @@ export class CalculatorDataService {
 
     public getAssessmentYearData<T>(assessmentYearId : number,category:number) : Observable<T>{        
         //const input = JSON.stringify({ assessmentYearId :assessmentYearId, category :category });
-        const input = "?m=GetAssessmentYearData&assessmentYearId="+assessmentYearId+"&category="+category;
+        const input = "?m=GetAssessmentYearData&assessmentYearId="+assessmentYearId+"&category="+category;    
         return this.http.get<T>(this.actionUrl+input);
     }
-}
 
-@Injectable()
-export class CustomInterceptor implements HttpInterceptor {
+    public getAssessmentYears<T>() : Observable<T>{
+        const input = "?m=GetAssessmentYears";
+        return this.http.get<T>(this.actionUrl+input);
+    }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!req.headers.has('Content-Type')) {
-            req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
-        }
-
-        req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
-        console.log(JSON.stringify(req.headers));
-        return next.handle(req);
+    public getSections<T>(assessmentYearId:number,category:number) : Observable<T>{
+        const input = "?m=GetSections&assessmentYearId="+assessmentYearId+"&category="+category;
+        return this.http.get<T>(this.actionUrl+input);
     }
 }

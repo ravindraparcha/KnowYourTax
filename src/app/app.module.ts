@@ -21,6 +21,7 @@ import { Configuration } from "../app/shared/constants";
     FormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: true }),
     HttpClientModule
+
   ],
   providers: [HttpClientModule ,Configuration,CalculatorDataService],
   bootstrap: [AppComponent]

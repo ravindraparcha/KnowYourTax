@@ -18,61 +18,78 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                    <div id="Step1" class="tab-pane fade in active">
-                        <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2">Assessment year</label>
-                            <div class="col-sm-3">
-                                <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.assessmentYearId" name="assessmentYearId">
-                                    <option selected="true" value="0">Select</option>
-                                    <option [ngValue]="ast.YearId" *ngFor="let ast of AssessmentYrList">
-                                        {{ast.Year}}
-                                </select>
+                        <div id="Step1" class="tab-pane fade in active">
+                            <div class="form-group margin-top15">
+                                <label class="control-label col-sm-2">Assessment year</label>
+                                <div class="col-sm-3">
+                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.assessmentYearId" name="assessmentYearId">
+                                        <option selected="true" value="0">Select</option>
+                                        <option [ngValue]="ast.Key" *ngFor="let ast of calcModel.AssessmentYearsModels">
+                                            {{ast.Value}}
+                                    </select>
+                                </div>
+                                <div class="col-sm-2"></div>
                             </div>
-                            <div class="col-sm-2"></div>
-                        </div>
 
-                        <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2">Who you are</label>
-                            <div class="col-sm-3">
-                                <select id="Category" #Category="ngModel" class="form-control" [(ngModel)]="calcModel.Category" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)" >
-                                    <option selected="true" value="0">Select</option>
-                                    <option [ngValue]="ct.CategoryId" *ngFor="let ct of CategoryList">
-                                        {{ct.CategoryName}}
-                                </select>
+                            <div class="form-group margin-top15">
+                                <label class="control-label col-sm-2">Who you are</label>
+                                <div class="col-sm-3">
+                                    <select id="Category" #Category="ngModel" class="form-control" [(ngModel)]="calcModel.Category" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)">
+                                        <option selected="true" value="0">Select</option>
+                                        <option [ngValue]="ct.CategoryId" *ngFor="let ct of CategoryList">
+                                            {{ct.CategoryName}}
+                                    </select>
+                                </div>
+                                <div class="col-sm-2"></div>
                             </div>
-                            <div class="col-sm-2"></div>
-                        </div>
-                        <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2">Income from salary</label>
-                            <div class="col-sm-2">
-                                <input type="number" required novalidate [ngClass]="SalaryIncome.valid? 'valid': 'invalid'" [(ngModel)]="calcModel.SalaryIncome"
-                                    value="0" min="0" #SalaryIncome="ngModel" name="SalaryIncome" class="form-control" (input)="calculateGrossSalary()"
-                                />
-                            </div>
-                            <!-- <div *ngIf="GrossTaxableSalary.invalid && (GrossTaxableSalary.dirty || GrossTaxableSalary.touched)" class="errorColor">
+                            <div class="form-group margin-top15">
+                                <label class="control-label col-sm-2">Income from salary</label>
+                                <div class="col-sm-2">
+                                    <input type="number" required novalidate [ngClass]="SalaryIncome.valid? 'valid': 'invalid'" [(ngModel)]="calcModel.SalaryIncome"
+                                        value="0" min="0" #SalaryIncome="ngModel" name="SalaryIncome" class="form-control" (input)="calculateGrossSalary()"
+                                    />
+                                </div>
+                                <!-- <div *ngIf="GrossTaxableSalary.invalid && (GrossTaxableSalary.dirty || GrossTaxableSalary.touched)" class="errorColor">
                             <div *ngIf="GrossTaxableSalary.errors.required">service number? its required</div>
                         </div> -->
-                            <div class="col-sm-2"></div>
-                        </div>
-                        <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2">Income from other sources</label>
-                            <div class="col-sm-2">
-                                <input type="number" novalidate [(ngModel)]="calcModel.OtherSourceIncome" value="0" min="0" #OtherSourceIncome="ngModel"
-                                    name="OtherSourceIncome" class="form-control" (input)="calculateGrossSalary()" />
+                                <div class="col-sm-2"></div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="form-group margin-top15">
+                                <label class="control-label col-sm-2">Income from other sources</label>
+                                <div class="col-sm-2">
+                                    <input type="number" novalidate [(ngModel)]="calcModel.OtherSourceIncome" value="0" min="0" #OtherSourceIncome="ngModel"
+                                        name="OtherSourceIncome" class="form-control" (input)="calculateGrossSalary()" />
+                                </div>
+                                <div class="col-sm-3">
 
+                                </div>
+                            </div>
+                            <div class="form-group margin-top15">
+                                <label class="control-label col-sm-2">Gross taxable salary</label>
+                                <div class="col-sm-2">
+                                    <label class="control-label">{{calcModel.GrossTaxableSalary}}</label>
+                                </div>
+                                <div class="col-sm-3">
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2">Gross taxable salary</label>
-                            <div class="col-sm-2">
-                                <label class="control-label">{{calcModel.GrossTaxableSalary}}</label>
-                            </div>
-                            <div class="col-sm-3">
+                        <!-- Step 2 divs -->
+                        <div id="Step2" class="tab-pane fade">
+                            <div class="form-group margin-top15" *ngFor="let section of  calcModel.Sections;let i=index">
+                                <label class="control-label col-sm-2">Section {{section.ReadOnlyName}}</label>                                
+                                <div class="col-sm-2">
+                                    <input type="number" novalidate [(ngModel)]=section.Name class="form-control" name="{{section.Name}}" 
+                                    min="1" maxlength="8" value="1" />                                    
+                                </div>
+                                <div class="col-sm-8">
+                                    [<i>{{section.Description}}                                                                                 
+                                        <span *ngFor="let option of section.SectionOptions" style="color:#d1c7c7;" >{{option.Name}} &nbsp;</span>                                         
+                                    </i>]
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group margin-top15">
+                    </div>
+                    <div class="form-group margin-top15">
                             <label class="control-label col-sm-2"></label>
                             <div class="col-sm-6">
                                 <button class="btn btn-default" [disabled]='!calcFrm.valid'>Save</button>
@@ -80,21 +97,6 @@
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
-                    </div>
-                    <div id="Step2" class="tab-pane fade">
-                        <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2">Assessment year</label>
-                            <div class="col-sm-3">
-                                <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.assessmentYearId" name="assessmentYearId">
-                                    <option selected="true" value="0">Select</option>
-                                    <option [ngValue]="ast.YearId" *ngFor="let ast of AssessmentYrList">
-                                        {{ast.Year}}
-                                </select>
-                            </div>
-                            <div class="col-sm-2"></div>
-                        </div>
-                    </div>
-                </div>
 
                 </div>
             </div>
