@@ -32,4 +32,11 @@ export class CalculatorDataService {
         const input = "?m=GetSections&assessmentYearId="+assessmentYearId+"&category="+category;
         return this.http.get<T>(this.actionUrl+input);
     }
+
+    public calculateTax<T>(model: any): Observable<T> {
+        debugger;
+        const methodQueryStringUrl=this.actionUrl+ "?m=CalculateTax";        
+        return this.http.post<T>(methodQueryStringUrl,JSON.stringify(model)); 
+    }
+
 }

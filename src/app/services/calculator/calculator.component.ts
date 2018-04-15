@@ -44,13 +44,14 @@ export class CalculatorComponent implements OnInit {
         this.calcModel.GrossTaxableSalary =(isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
     }
 
-    calculateTax(model: any,isValid:boolean) : void{    
-        debugger;     
+    calculateTax(model: any,isValid:boolean) : void{            
         let calculatorInputs=new CalculatorInputs();
         calculatorInputs.assessmentYearId = model.assessmentYearId;
         calculatorInputs.Category =  model.Category;
         calculatorInputs.OtherSourceIncome = model.OtherSourceIncome;
         calculatorInputs.SalaryIncome = model.SalaryIncome;
+        calculatorInputs.GrossTaxableSalary =(isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
+        calculatorInputs.OtherDeductions = model.OtherDeductions;
 
         calculatorInputs.SectionValues=[];
         calculatorInputs.SectionValues.push( new SectionValue("80C",model.Section80C));
@@ -60,8 +61,21 @@ export class CalculatorComponent implements OnInit {
         calculatorInputs.SectionValues.push( new SectionValue("80G",model.Section80G));
         calculatorInputs.SectionValues.push( new SectionValue("80E",model.Section80E));
 
-        console.log(model);
-    }
+        this._calcService.calculateTax<any>(calculatorInputs)
+        .subscribe((data: any )=> this.calcModel.TaxToPay = data,
+        error => () => {
+            //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
+            alert('érror');
+        },
+        () => {
+            //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
+            //this._slimLoadingBarService.complete();
+            // debugger;
+            // var a = this.calcModel.AssessmentYearsModels;
+             
+        });
+
+     }
     
     onCategoryChange(categoryId:string,assessmentYearId:number){
         let category =parseInt(categoryId.substr(categoryId.indexOf( ":")+1).trim());         

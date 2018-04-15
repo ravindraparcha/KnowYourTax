@@ -2,13 +2,13 @@
     <div class="container margin-top15 margin-top75">
         <div class="row">
             <div class="panel panel-default border-radius border-box">
-                <div class="panel-heading">Income Tax Calculator</div>
+                <div class="panel-heading">Income Tax Calculator</div> <span>{{calcModel.TaxToPay}}</span>
                 <div class="form-horizontal">
-                    <!-- <div class="form-group margin-top15">
+                    <div class="form-group margin-top15">
                         <div class="col-sm-10">
                             <label class="invalid" style="margin-left:10px;padding-left:10px;"> All fields are mandatory</label>
                         </div>
-                    </div> -->
+                    </div>
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a data-toggle="tab" href="#Step1">Salary details</a>
@@ -76,14 +76,26 @@
                         <!-- Step 2 divs -->
                         <div id="Step2" class="tab-pane fade">
                             <div class="form-group margin-top15" *ngFor="let section of  calcModel.Sections;let i=index">
-                                <label class="control-label col-sm-2">Section {{section.ReadOnlyName}}</label>                                
+                                <label class="control-label col-sm-2">Section {{section.ReadOnlyName}} </label>                                
                                 <div class="col-sm-2">
                                     <input type="number" novalidate [(ngModel)]=section.Name class="form-control" name="{{section.Name}}" 
+                                    min="1" max="{{section.Amount}}" value="1" />                                    
+                                </div>
+                                <div class="col-sm-8">
+                                    [<i>{{section.Description}} 
+                                        <span *ngFor="let option of section.SectionOptions" style="color:#d1c7c7;" >{{option.Name}} &nbsp;</span>                                         
+                                    </i>, Limit - {{section.Amount >1000000 ? 'No limit' : section.Amount}}]
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-top15">
+                                <label class="control-label col-sm-2">Other deductions</label>                                
+                                <div class="col-sm-2">
+                                    <input type="number" novalidate [(ngModel)]=OtherDeductions class="form-control" name="OtherDeductions" 
                                     min="1" maxlength="8" value="1" />                                    
                                 </div>
                                 <div class="col-sm-8">
-                                    [<i>{{section.Description}}                                                                                 
-                                        <span *ngFor="let option of section.SectionOptions" style="color:#d1c7c7;" >{{option.Name}} &nbsp;</span>                                         
+                                    [<i>Other valid deductions not covered in any of above sections                                                                                                                         
                                     </i>]
                                 </div>
                             </div>
@@ -92,7 +104,7 @@
                     <div class="form-group margin-top15">
                             <label class="control-label col-sm-2"></label>
                             <div class="col-sm-6">
-                                <button class="btn btn-default" [disabled]='!calcFrm.valid'>Save</button>
+                                <button class="btn btn-default" [disabled]='!calcFrm.valid'>Calculate Tax</button>
                                 <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalSuccess" (click)="saveVariantDetails()" *ngIf="iseditable" [disabled]="!validateForm(basicForm,additionalInfoForm,countryForm)">Save</button> -->
                             </div>
                             <div class="col-sm-2"></div>

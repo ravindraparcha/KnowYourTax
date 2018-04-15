@@ -10,7 +10,7 @@ export class CalculatorModel {
     public TransportAllowance: number;
     public Sections: any[];    
     public AssessmentYearsModels: any[]; //Array<AssessmentYearsModel>
-    
+    public TaxToPay:number;
 }
 
 export class CalculatorInputs{
@@ -25,6 +25,8 @@ export class CalculatorInputs{
     public SectionTTA : number;
     public Section80G : number;
     public Section80E : number;
+    public OtherDeductions : number;    
+    public GrossTaxableSalary :number;
 }
 export class SectionValue {
     constructor(name:string,amount:number){
