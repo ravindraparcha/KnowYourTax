@@ -168,36 +168,52 @@ label{
     border-bottom: 1px dotted black;
 }
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
+.margin-top65{
+    margin-top:65px;
 }
 
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+body {
+    padding: 0;
+    margin: 0;
 }
 
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+header {
+    border-bottom: 1px solid #eee;
+    height: 6.5rem;
 }
- 
+
+.navbar-list {
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.navbar-item {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.navbar-link {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .2rem;
+    margin-right: 35px;
+    text-decoration: none;
+    line-height: 6.5rem;
+    color: #222;
+}
+
+small {
+    font-size: 6px;
+    opacity: .2;
+}
+
+code {
+    word-break: break-word;
+}
+
+@media (max-width: 400px) {
+    header {
+        display: none;
+    }
+}

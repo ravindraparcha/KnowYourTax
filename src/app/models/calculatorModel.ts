@@ -11,6 +11,8 @@ export class CalculatorModel {
     public Sections: any[];    
     public AssessmentYearsModels: any[]; //Array<AssessmentYearsModel>
     public TaxToPay:number;
+    SelectedMediClaim : string;
+    SelectedMediClaimValue : number;
 }
 
 export class CalculatorInputs{
@@ -27,6 +29,7 @@ export class CalculatorInputs{
     public Section80E : number;
     public OtherDeductions : number;    
     public GrossTaxableSalary :number;
+    public SelectedMediClaim : string;
 }
 export class SectionValue {
     constructor(name:string,amount:number){
@@ -37,19 +40,19 @@ export class SectionValue {
     public Amount : number;
 }
 export class Section {
-    constructor(Amount : number,Description:string, EnteredAmount : number, Mediclaims : any[],SectionOptions : any[],Name : string)
+    constructor(Amount : number,Description:string, EnteredAmount : number, Mediclaim : Mediclaim,SectionOptions : any[],Name : string)
     {
         this.Amount=Amount;
         this.Description = Description;
         this.EnteredAmount= EnteredAmount;
-        this.Mediclaims=Mediclaims;
+        this.Mediclaim=Mediclaim;
         this.SectionOptions = SectionOptions;
         this.Name=Name;
     }
     public Amount: number;
     public Description: string;
     public EnteredAmount: number;
-    public Mediclaims: any[];
+    public Mediclaim: Mediclaim;
     public SectionOptions : any[];
     public Name: string;
 }

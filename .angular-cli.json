@@ -23,14 +23,16 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../src/assets/css/custom.css",
         "../src/assets/css/ie10-viewport-bug-workaround.css",
-        "../src/assets/css/sticky-footer-navbar.css"
+        "../src/assets/css/sticky-footer-navbar.css",
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css"
                     
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../src/assets/js/ie-emulation-modes-warning.js",
         "../src/assets/js/ie10-viewport-bug-workaround.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.min.js"        
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.js"     
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

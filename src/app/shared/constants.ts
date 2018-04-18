@@ -4,5 +4,5 @@ import { Injectable } from '@angular/core';
 export class Configuration {
     public Server = 'http://localhost/ITApplication.Web/';
     public ApiUrl = 'api/';
-    public ServerWithApiUrl = this.Server + this.ApiUrl;
+    public ServerWithApiUrl = this.Server + this.ApiUrl;    
 }

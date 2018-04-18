@@ -1,21 +1,21 @@
 <form #calcFrm="ngForm" (ngSubmit)="calculateTax(calcFrm.value,calcFrm.valid)">
-    <div class="container margin-top15 margin-top75">
+    <div class="container margin-top15 margin-top65">
         <div class="row">
             <div class="panel panel-default border-radius border-box">
-                <div class="panel-heading">Income Tax Calculator</div> <span>{{calcModel.TaxToPay}}</span>
+                <div class="panel-heading">Income Tax Calculator</div>
                 <div class="form-horizontal">
-                    <div class="form-group margin-top15">
+                    <!-- <div class="form-group margin-top15">
                         <div class="col-sm-10">
                             <label class="invalid" style="margin-left:10px;padding-left:10px;"> All fields are mandatory</label>
                         </div>
-                    </div>
+                    </div> -->
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a data-toggle="tab" href="#Step1">Salary details</a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#Step2">Deductions & Calculation</a>
-                        </li>
+                        </li>                        
                     </ul>
                     <div class="tab-content">
                         <div id="Step1" class="tab-pane fade in active">
@@ -67,7 +67,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Gross taxable salary</label>
                                 <div class="col-sm-2">
-                                    <label class="control-label">{{calcModel.GrossTaxableSalary}}</label>
+                                    <label class="control-label">{{calcModel.GrossTaxableSalary | number}}</label>
                                 </div>
                                 <div class="col-sm-3">
                                 </div>
@@ -75,45 +75,73 @@
                         </div>
                         <!-- Step 2 divs -->
                         <div id="Step2" class="tab-pane fade">
-                            <div class="form-group margin-top15" *ngFor="let section of  calcModel.Sections;let i=index">
-                                <label class="control-label col-sm-2">Section {{section.ReadOnlyName}} </label>                                
+                            <div class="form-group margin-top15" *ngFor="let section of  calcModel.Sections;">
+                                <label class="control-label col-sm-2">Section {{section.ReadOnlyName}} </label>
                                 <div class="col-sm-2">
-                                    <input type="number" novalidate [(ngModel)]=section.Name class="form-control" name="{{section.Name}}" 
-                                    min="1" max="{{section.Amount}}" value="1" />                                    
+                                    <input type="number" novalidate [(ngModel)]="section.Name" class="form-control" name="Section{{section.ReadOnlyName}}" min="1"
+                                        max="{{section.Amount}}" />
                                 </div>
                                 <div class="col-sm-8">
-                                    [<i>{{section.Description}} 
-                                        <span *ngFor="let option of section.SectionOptions" style="color:#d1c7c7;" >{{option.Name}} &nbsp;</span>                                         
-                                    </i>, Limit - {{section.Amount >1000000 ? 'No limit' : section.Amount}}]
+                                    <!-- [
+                                    <i>{{section.Description}}
+                                        <span *ngFor="let option of section.SectionOptions" style="color:#d1c7c7;">{{option.Name}} &nbsp;</span>
+                                        ,Limit - {{section.Amount >1000000 ?  'No limit' : (section.Amount==0) ? calcModel.SelectedMediClaimValue : (section.Amount>0) ? section.Amount :0
+                                      }}]</i> -->
+                                      [
+                                      <i>{{section.Description}}
+                                          <span>{{section.SectionOptionsString}} </span>
+                                          ,Limit - {{section.Amount >1000000 ?  'No limit' : (section.Amount==0) ? calcModel.SelectedMediClaimValue : (section.Amount>0) ? section.Amount :0
+                                        }}]</i>
+  
+
+
+                                    <div *ngIf="section.Mediclaim!=null">
+                                            <input class="radio-inline" type="radio" id="rdoSelfWithFamily" [checked]="true" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamily',section.Mediclaim.SelfWithFamily)">
+                                            Self including family &nbsp;
+                                            <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilyParents',section.Mediclaim.SelfWithFamilyParents)">
+                                            Self including family and parents
+                                            <br />
+                                            <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilySeniorCitizenParents',section.Mediclaim.SelfWithFamilySeniorCitizenParents)">
+                                            Self including family and senior citizen parents &nbsp;
+                                            <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilySuperSeniorCitizenParents',section.Mediclaim.SelfWithFamilySuperSeniorCitizenParents)">
+                                            Self including family and super senior citizen parents
+                                    </div>
+
+
                                 </div>
                             </div>
 
                             <div class="form-group margin-top15">
-                                <label class="control-label col-sm-2">Other deductions</label>                                
+                                <label class="control-label col-sm-2">Other deductions</label>
                                 <div class="col-sm-2">
-                                    <input type="number" novalidate [(ngModel)]=OtherDeductions class="form-control" name="OtherDeductions" 
-                                    min="1" maxlength="8" value="1" />                                    
+                                    <input type="number" novalidate [(ngModel)]=OtherDeductions class="form-control" name="OtherDeductions" min="1" maxlength="8"
+                                        ng-value="1" />
                                 </div>
                                 <div class="col-sm-8">
-                                    [<i>Other valid deductions not covered in any of above sections                                                                                                                         
+                                    [
+                                    <i>Other valid deductions amount not covered in any of above sections
                                     </i>]
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group margin-top15">
-                            <label class="control-label col-sm-2"></label>
-                            <div class="col-sm-6">
-                                <button class="btn btn-default" [disabled]='!calcFrm.valid'>Calculate Tax</button>
-                                <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalSuccess" (click)="saveVariantDetails()" *ngIf="iseditable" [disabled]="!validateForm(basicForm,additionalInfoForm,countryForm)">Save</button> -->
-                            </div>
-                            <div class="col-sm-2"></div>
+                        <label class="control-label col-sm-2"></label>
+                        <div class="col-sm-6">
+                            <button class="btn btn-default" [disabled]='!calcFrm.valid'>Calculate Tax</button>
                         </div>
+                        <div class="col-sm-2"></div>
+                    </div>
 
+                    <div class="form-group margin-top15" *ngIf="calcModel.TaxToPay!== undefined" style="font-size:20px;">
+                        <label class="control-label col-sm-2">Applicable tax</label>
+                        <div class="col-sm-6">
+                            <label class="control-label">{{calcModel.TaxToPay | number}}/-</label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </form>
