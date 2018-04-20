@@ -11,8 +11,23 @@ export class CalculatorModel {
     public Sections: any[];    
     public AssessmentYearsModels: any[]; //Array<AssessmentYearsModel>
     public TaxToPay:number;
-    SelectedMediClaim : string;
-    SelectedMediClaimValue : number;
+    public SelectedMediClaim : string;
+    public SelectedMediClaimValue : number;
+    public CalculationResult : CalculationOutput;
+
+}
+
+export class CalculationOutput {
+     
+    public  IntermediateOutputs : any[];
+    public TotalTax : number;
+}
+
+export class IntermediateOutput
+{
+    public IncomeSlab:string;
+    public TaxRate : string
+    public Tax : number;
 }
 
 export class CalculatorInputs{

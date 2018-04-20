@@ -5,7 +5,7 @@ import { CalculatorDataService } from '../../dataServices/calculator.dataservice
 import { slimLoaderBarService } from '../../shared/services/slimLoaderBarService';
 //import {ToasterService} from '../../shared/services/toasterService';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-
+import { Configuration } from '../../shared/constants';
 @Component({
     selector: 'calculator',
     templateUrl: './calculator.component.html'
@@ -16,12 +16,11 @@ export class CalculatorComponent implements OnInit {
     public calcModel: CalculatorModel;
     public values: any;
     public assessmentYearsModels: AssessmentYearsModel[];
-    private customOptions = {
-        positionClass: "toast-top-center", newestOnTop: true, showCloseButton: true
-    }
 
-    constructor(private _calcService: CalculatorDataService, private _slimLoader: slimLoaderBarService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    constructor(private _calcService: CalculatorDataService, private _slimLoader: slimLoaderBarService, public toastr: ToastsManager, vcr: ViewContainerRef
+        , private _configuration: Configuration) {
         this.toastr.setRootViewContainerRef(vcr);
+
     }
 
     CategoryList = [
@@ -31,14 +30,14 @@ export class CalculatorComponent implements OnInit {
         { "CategoryId": 4, "CategoryName": "Super Senior Citizen or > 80 years" }
     ];
     ngOnInit() {
-        debugger;
+
         this.calcModel = new CalculatorModel();
 
         this._calcService.getAssessmentYears<any[]>()
             .subscribe((data: any[]) => this.calcModel.AssessmentYearsModels = data,
                 error => () => {
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');                
-                    this.toastr.success("Some error occurred", "Error", this.customOptions);
+                    this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
                 },
                 () => {
                     //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
@@ -74,29 +73,29 @@ export class CalculatorComponent implements OnInit {
         calculatorInputs.SelectedMediClaim = this.calcModel.SelectedMediClaim;
 
         this._calcService.calculateTax<any>(calculatorInputs)
-            .subscribe((data: any) => this.calcModel.TaxToPay = data,
+            .subscribe((data: any) => this.calcModel.CalculationResult = data,  //this.calcModel.TaxToPay = data,
                 error => () => {
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
-                    this.toastr.success("Some error occurred", "Error", this.customOptions);
+                    this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
                 },
                 () => {
                     //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
                     //this._slimLoadingBarService.complete();
                     // debugger;
-                    // var a = this.calcModel.AssessmentYearsModels;             
+                    // var a = this.calcModel.AssessmentYearsModels;         
+                    var a = this.calcModel.CalculationResult.IntermediateOutputs;
                     this._slimLoader.completeLoading();
                 });
 
     }
 
     onMediClaimChange(claimType: string, amount: number) {
-        debugger;
         this.calcModel.SelectedMediClaim = claimType;
         this.calcModel.SelectedMediClaimValue = amount;
     }
 
     onCategoryChange(categoryId: string, assessmentYearId: number) {
-        debugger;
+
         if (assessmentYearId == undefined)
             return;
         this.calcModel.Sections = [];
@@ -105,20 +104,17 @@ export class CalculatorComponent implements OnInit {
             .getSections<Section[]>(assessmentYearId, category)
             .subscribe((data: Section[]) => this.calcModel.Sections = data,
                 error => () => {
-                    debugger;
+
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
-                    this.toastr.success("Some error occurred", "Error", this.customOptions);
+                    this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
                 },
                 () => {
-
-                    //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
-                    //this._slimLoadingBarService.complete();            
-                    debugger;
-                    if (this.calcModel.Sections == null) {
+                    this._slimLoader.completeLoading();
+                    if (this.calcModel.Sections !== null) {
                         console.log(JSON.stringify(this.calcModel.Sections[0]));
                         this.onMediClaimChange('SelfWithFamily', this.calcModel.Sections[1].Mediclaim.SelfWithFamily);
                     }
-                    this._slimLoader.completeLoading();
+                    
                 });
 
     }

@@ -15,7 +15,7 @@
                         </li>
                         <li>
                             <a data-toggle="tab" href="#Step2">Deductions & Calculation</a>
-                        </li>                        
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="Step1" class="tab-pane fade in active">
@@ -87,24 +87,18 @@
                                         <span *ngFor="let option of section.SectionOptions" style="color:#d1c7c7;">{{option.Name}} &nbsp;</span>
                                         ,Limit - {{section.Amount >1000000 ?  'No limit' : (section.Amount==0) ? calcModel.SelectedMediClaimValue : (section.Amount>0) ? section.Amount :0
                                       }}]</i> -->
-                                      [
-                                      <i>{{section.Description}}
-                                          <span>{{section.SectionOptionsString}} </span>
-                                          ,Limit - {{section.Amount >1000000 ?  'No limit' : (section.Amount==0) ? calcModel.SelectedMediClaimValue : (section.Amount>0) ? section.Amount :0
-                                        }}]</i>
-  
-
-
+                                    [
+                                    <i>{{section.Description}}
+                                        <span>{{section.SectionOptionsString}} </span>
+                                        ,Limit - {{section.Amount >1000000 ? 'No limit' : (section.Amount==0) ? calcModel.SelectedMediClaimValue : (section.Amount>0)
+                                        ? section.Amount :0 }}]
+                                    </i>
                                     <div *ngIf="section.Mediclaim!=null">
-                                            <input class="radio-inline" type="radio" id="rdoSelfWithFamily" [checked]="true" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamily',section.Mediclaim.SelfWithFamily)">
-                                            Self including family &nbsp;
-                                            <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilyParents',section.Mediclaim.SelfWithFamilyParents)">
-                                            Self including family and parents
-                                            <br />
-                                            <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilySeniorCitizenParents',section.Mediclaim.SelfWithFamilySeniorCitizenParents)">
-                                            Self including family and senior citizen parents &nbsp;
-                                            <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilySuperSeniorCitizenParents',section.Mediclaim.SelfWithFamilySuperSeniorCitizenParents)">
-                                            Self including family and super senior citizen parents
+                                        <input class="radio-inline" type="radio" id="rdoSelfWithFamily" [checked]="true" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamily',section.Mediclaim.SelfWithFamily)"> Self including family &nbsp;
+                                        <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilyParents',section.Mediclaim.SelfWithFamilyParents)"> Self including family and parents
+                                        <br />
+                                        <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilySeniorCitizenParents',section.Mediclaim.SelfWithFamilySeniorCitizenParents)"> Self including family and senior citizen parents &nbsp;
+                                        <input class="radio-inline" type="radio" name="mediclaimType" (click)="onMediClaimChange('SelfWithFamilySuperSeniorCitizenParents',section.Mediclaim.SelfWithFamilySuperSeniorCitizenParents)"> Self including family and super senior citizen parents
                                     </div>
 
 
@@ -118,7 +112,8 @@
                                         ng-value="1" />
                                 </div>
                                 <div class="col-sm-8">
-                                    [<i>Other valid deductions amount not covered in any of above sections</i>]
+                                    [
+                                    <i>Other valid deductions amount not covered in any of above sections</i>]
                                 </div>
                             </div>
                         </div>
@@ -131,12 +126,43 @@
                         <div class="col-sm-2"></div>
                     </div>
 
-                    <div class="form-group margin-top15" *ngIf="calcModel.TaxToPay!== undefined" style="font-size:16px;">
-                        <label class="control-label col-sm-2">Applicable tax</label>
-                        <div class="col-sm-6">
-                            <label class="control-label">{{calcModel.TaxToPay | number}}/-</label>
+                    <div *ngIf="calcModel.CalculationResult?.IntermediateOutputs!== null">
+                        <hr />
+                        <div class="form-group margin-top15" *ngIf="calcModel.CalculationResult?.IntermediateOutputs!== null" style="font-size:16px;">
+                            <label class="control-label col-sm-2">Tax calculation</label>
+                            <div class="col-sm-6">
+                                <table class="table" style="font-size: 15px; border: 1px solid #ddd">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Tax Rate</th>
+                                            <th>Tax</th>
+                                            <th>Cess Rate</th>
+                                            <th>Cess Tax</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let output of calcModel.CalculationResult?.IntermediateOutputs">
+                                            <td>{{output.IncomeSlab}}</td>
+                                            <td>{{output.TaxRate}}</td>
+                                            <td>{{output.Tax | number}}</td>
+                                            <td>{{output.CessRate}}</td>
+                                            <td>{{output.CessTax | number}}</td>
+                                            <td>{{output.TotalTax | number}}</td>
+                                        </tr>
+                                        <tr style="font-weight: bold;color: #989393">
+                                            <td>Total tax to pay</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>{{calcModel.CalculationResult?.TotalTax | number}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-sm-2"></div>
                     </div>
                 </div>
             </div>

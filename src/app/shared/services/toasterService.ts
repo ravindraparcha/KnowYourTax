@@ -3,8 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class ToasterService{
-    constructor(public toastr: ToastsManager, vcr: ViewContainerRef) {
-      debugger;
+    constructor(public toastr: ToastsManager, vcr: ViewContainerRef) {      
         this.toastr.setRootViewContainerRef(vcr);
      }
  
