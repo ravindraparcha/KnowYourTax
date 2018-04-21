@@ -9,7 +9,7 @@
                             <label class="invalid" style="margin-left:10px;padding-left:10px;"> All fields are mandatory</label>
                         </div>
                     </div> -->
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" style="margin-top:5px;padding-left:1px;">
                         <li class="active">
                             <a data-toggle="tab" href="#Step1">Salary details</a>
                         </li>
@@ -18,7 +18,7 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div id="Step1" class="tab-pane fade in active">
+                        <div id="Step1" class="tab-pane fade in active" style="padding-left: 5px;padding-right: 8px;">
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Assessment year</label>
                                 <div class="col-sm-3">
@@ -34,7 +34,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Who you are</label>
                                 <div class="col-sm-3">
-                                    <select id="Category" #Category="ngModel" class="form-control" [(ngModel)]="calcModel.Category" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)">
+                                    <select id="Category" #Category="ngModel" class="form-control" [ngClass]="{'busyLoading':calcModel.sectionLoader==true}" [(ngModel)]="calcModel.Category" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)">
                                         <option selected="true" value="0">Select</option>
                                         <option [ngValue]="ct.CategoryId" *ngFor="let ct of CategoryList">
                                             {{ct.CategoryName}}
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <!-- Step 2 divs -->
-                        <div id="Step2" class="tab-pane fade">
+                        <div id="Step2" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">
                             <div class="form-group margin-top15" *ngFor="let section of  calcModel.Sections;">
                                 <label class="control-label col-sm-2">Section {{section.ReadOnlyName}} </label>
                                 <div class="col-sm-2">
@@ -121,7 +121,7 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2"></label>
                         <div class="col-sm-6">
-                            <button class="btn btn-default" [disabled]='!calcFrm.valid'>Calculate Tax</button>
+                            <button id="btnCalculateTax" class="btn btn-default" [ngClass]="{'busyLoading':calcModel.calculateTaxLoader==true}" [disabled]='!calcFrm.valid'>Calculate Tax</button>                             
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
@@ -129,7 +129,7 @@
                     <div *ngIf="calcModel.CalculationResult?.IntermediateOutputs!== null || calcModel.CalculationResult?.TaxableSalaryAfterDeduction==0">                        
                         <hr />
                         <div class="form-group margin-top15" *ngIf="calcModel.CalculationResult?.TaxableSalaryAfterDeduction>0">
-                            <label class="control-label col-sm-2">Net taxable salary after deduction</label>
+                            <label class="control-label col-sm-2">After deduction net salary</label>
                             <div class="col-sm-6">
                                 <label class="control-label">
                                     {{calcModel.CalculationResult.TaxableSalaryAfterDeduction | number}}

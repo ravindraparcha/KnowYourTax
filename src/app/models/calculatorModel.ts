@@ -15,6 +15,8 @@ export class CalculatorModel {
     public SelectedMediClaimValue : number;
     public CalculationResult : CalculationOutput;
 
+    public calculateTaxLoader : boolean;
+    public sectionLoader : boolean;
 }
 
 export class CalculationOutput {

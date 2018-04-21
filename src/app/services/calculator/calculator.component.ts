@@ -6,6 +6,11 @@ import { slimLoaderBarService } from '../../shared/services/slimLoaderBarService
 //import {ToasterService} from '../../shared/services/toasterService';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Configuration } from '../../shared/constants';
+
+declare var jquery:any;
+declare var $ :any;
+
+
 @Component({
     selector: 'calculator',
     templateUrl: './calculator.component.html'
@@ -31,20 +36,24 @@ export class CalculatorComponent implements OnInit {
     ];
     ngOnInit() {
 
-        this.calcModel = new CalculatorModel();
-
+        this.calcModel = new CalculatorModel();        
+        
         this._calcService.getAssessmentYears<any[]>()
             .subscribe((data: any[]) => this.calcModel.AssessmentYearsModels = data,
                 error => () => {
+                    this.calcModel.calculateTaxLoader=false;
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');                
                     this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
+                    
                 },
                 () => {
                     //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
                     //this._slimLoadingBarService.complete();
                     // debugger;
                     // var a = this.calcModel.AssessmentYearsModels;
+                    this.calcModel.calculateTaxLoader=false;
                     this._slimLoader.completeLoading();
+                    
                 });
 
     }
@@ -53,6 +62,8 @@ export class CalculatorComponent implements OnInit {
     }
 
     calculateTax(model: any, isValid: boolean): void {
+        
+        this.calcModel.calculateTaxLoader=true;
         let calculatorInputs = new CalculatorInputs();
         calculatorInputs.assessmentYearId = model.assessmentYearId;
         calculatorInputs.Category = model.Category;
@@ -77,6 +88,7 @@ export class CalculatorComponent implements OnInit {
                 error => () => {
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
                     this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
+                    this.calcModel.calculateTaxLoader=false;
                 },
                 () => {
                     //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
@@ -84,6 +96,7 @@ export class CalculatorComponent implements OnInit {
                     // debugger;
                     // var a = this.calcModel.AssessmentYearsModels;         
                     var a = this.calcModel.CalculationResult.IntermediateOutputs;
+                    this.calcModel.calculateTaxLoader=false;
                     this._slimLoader.completeLoading();
                 });
 
@@ -95,7 +108,7 @@ export class CalculatorComponent implements OnInit {
     }
 
     onCategoryChange(categoryId: string, assessmentYearId: number) {
-
+        this.calcModel.sectionLoader=true;
         if (assessmentYearId == undefined)
             return;
         this.calcModel.Sections = [];
@@ -104,12 +117,13 @@ export class CalculatorComponent implements OnInit {
             .getSections<Section[]>(assessmentYearId, category)
             .subscribe((data: Section[]) => this.calcModel.Sections = data,
                 error => () => {
-
+                    this.calcModel.sectionLoader=false;
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
                     this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
                 },
                 () => {
                     this._slimLoader.completeLoading();
+                    this.calcModel.sectionLoader=false;
                     if (this.calcModel.Sections !== null) {
                         console.log(JSON.stringify(this.calcModel.Sections[0]));
                         this.onMediClaimChange('SelfWithFamily', this.calcModel.Sections[1].Mediclaim.SelfWithFamily);
