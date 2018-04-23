@@ -22,9 +22,9 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Assessment year</label>
                                 <div class="col-sm-3">
-                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.assessmentYearId" name="assessmentYearId">
-                                        <option selected="true" value="0">Select</option>
-                                        <option [ngValue]="ast.Key" *ngFor="let ast of calcModel.AssessmentYearsModels">
+                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.selectedAssessmentYearId" name="assessmentYearId">
+                                        <option value="0">Select</option>
+                                        <option [ngValue]="ast.Key" *ngFor="let ast of calcModel.AssessmentYearsModels;">
                                             {{ast.Value}}
                                     </select>
                                 </div>
@@ -34,8 +34,8 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Who you are</label>
                                 <div class="col-sm-3">
-                                    <select id="Category" #Category="ngModel" class="form-control" [ngClass]="{'busyLoading':calcModel.sectionLoader==true}" [(ngModel)]="calcModel.Category" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)">
-                                        <option selected="true" value="0">Select</option>
+                                    <select id="Category" #Category="ngModel" class="form-control" [ngClass]="{'busyLoading':calcModel.sectionLoader==true}" [(ngModel)]="calcModel.selectedCategory" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)">
+                                        <option selected="selected" value="0">Select</option>
                                         <option [ngValue]="ct.CategoryId" *ngFor="let ct of CategoryList">
                                             {{ct.CategoryName}}
                                     </select>
@@ -108,7 +108,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Other deductions</label>
                                 <div class="col-sm-2">
-                                    <input type="number" novalidate [(ngModel)]=OtherDeductions class="form-control" name="OtherDeductions" min="1" maxlength="8"
+                                    <input type="number" novalidate [(ngModel)]=calcModel.OtherDeductions class="form-control" name="OtherDeductions" min="1" maxlength="8"
                                         ng-value="1" />
                                 </div>
                                 <div class="col-sm-8">

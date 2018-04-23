@@ -13,24 +13,27 @@ export class CalculatorModel {
     public TaxToPay:number;
     public SelectedMediClaim : string;
     public SelectedMediClaimValue : number;
-    public CalculationResult : CalculationOutput;
+    public CalculationResult : any; //CalculationOutput;
+    public OtherDeductions : number;
 
     public calculateTaxLoader : boolean;
     public sectionLoader : boolean;
+    public selectedAssessmentYearId :  number;
+    public selectedCategory : number;
 }
 
-export class CalculationOutput {
+// export class CalculationOutput {
      
-    public  IntermediateOutputs : any[];
-    public TotalTax : number;
-}
+//     public  IntermediateOutputs : any[];
+//     public TotalTax : number;
+// }
 
-export class IntermediateOutput
-{
-    public IncomeSlab:string;
-    public TaxRate : string
-    public Tax : number;
-}
+// export class IntermediateOutput
+// {
+//     public IncomeSlab:string;
+//     public TaxRate : string
+//     public Tax : number;
+// }
 
 export class CalculatorInputs{
     public Category : number;

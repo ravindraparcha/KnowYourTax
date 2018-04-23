@@ -21,12 +21,11 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "../src/assets/css/custom.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",        
         "../src/assets/css/ie10-viewport-bug-workaround.css",
         "../src/assets/css/sticky-footer-navbar.css",
-        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css"
-                    
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
+        "../src/assets/css/custom.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

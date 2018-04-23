@@ -6,9 +6,10 @@ import { slimLoaderBarService } from '../../shared/services/slimLoaderBarService
 //import {ToasterService} from '../../shared/services/toasterService';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Configuration } from '../../shared/constants';
+import { debug } from 'util';
 
-declare var jquery:any;
-declare var $ :any;
+declare var jquery: any;
+declare var $: any;
 
 
 @Component({
@@ -27,33 +28,35 @@ export class CalculatorComponent implements OnInit {
         this.toastr.setRootViewContainerRef(vcr);
 
     }
-
     CategoryList = [
-        { "CategoryId": 1, "CategoryName": "Male", selected: true },
+        { "CategoryId": 1, "CategoryName": "Male" },
         { "CategoryId": 2, "CategoryName": "Female" },
         { "CategoryId": 3, "CategoryName": "Senior Citizen or > 60 years" },
         { "CategoryId": 4, "CategoryName": "Super Senior Citizen or > 80 years" }
     ];
     ngOnInit() {
 
-        this.calcModel = new CalculatorModel();        
-        
+        this.calcModel = new CalculatorModel();
+        this.calcModel.selectedCategory = 0;
+        this.calcModel.OtherDeductions=0;
         this._calcService.getAssessmentYears<any[]>()
             .subscribe((data: any[]) => this.calcModel.AssessmentYearsModels = data,
                 error => () => {
-                    this.calcModel.calculateTaxLoader=false;
+                    this.calcModel.calculateTaxLoader = false;
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');                
                     this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
-                    
+
                 },
                 () => {
                     //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
                     //this._slimLoadingBarService.complete();
                     // debugger;
                     // var a = this.calcModel.AssessmentYearsModels;
-                    this.calcModel.calculateTaxLoader=false;
+
+                    this.calcModel.calculateTaxLoader = false;
                     this._slimLoader.completeLoading();
-                    
+                    //$('#assessmentYearId').val("1: 1");
+                    this.calcModel.selectedAssessmentYearId = 1;
                 });
 
     }
@@ -62,8 +65,10 @@ export class CalculatorComponent implements OnInit {
     }
 
     calculateTax(model: any, isValid: boolean): void {
-        
-        this.calcModel.calculateTaxLoader=true;
+        if (model.Category == 0) {
+            return;
+        }
+        this.calcModel.calculateTaxLoader = true;
         let calculatorInputs = new CalculatorInputs();
         calculatorInputs.assessmentYearId = model.assessmentYearId;
         calculatorInputs.Category = model.Category;
@@ -71,7 +76,7 @@ export class CalculatorComponent implements OnInit {
         calculatorInputs.SalaryIncome = model.SalaryIncome;
         calculatorInputs.GrossTaxableSalary = (isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
         calculatorInputs.OtherDeductions = model.OtherDeductions;
-        debugger;
+         
         calculatorInputs.SectionValues = [];
 
         calculatorInputs.SectionValues.push(new SectionValue("80C", (isNaN(model.Section80C) == true || model.Section80C == null) ? 0 : model.Section80C));
@@ -88,7 +93,7 @@ export class CalculatorComponent implements OnInit {
                 error => () => {
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
                     this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
-                    this.calcModel.calculateTaxLoader=false;
+                    this.calcModel.calculateTaxLoader = false;
                 },
                 () => {
                     //this._toasterService.pop('success', 'Complete', 'Getting all values complete');
@@ -96,7 +101,7 @@ export class CalculatorComponent implements OnInit {
                     // debugger;
                     // var a = this.calcModel.AssessmentYearsModels;         
                     var a = this.calcModel.CalculationResult.IntermediateOutputs;
-                    this.calcModel.calculateTaxLoader=false;
+                    this.calcModel.calculateTaxLoader = false;
                     this._slimLoader.completeLoading();
                 });
 
@@ -108,7 +113,7 @@ export class CalculatorComponent implements OnInit {
     }
 
     onCategoryChange(categoryId: string, assessmentYearId: number) {
-        this.calcModel.sectionLoader=true;
+        this.calcModel.sectionLoader = true;
         if (assessmentYearId == undefined)
             return;
         this.calcModel.Sections = [];
@@ -117,18 +122,17 @@ export class CalculatorComponent implements OnInit {
             .getSections<Section[]>(assessmentYearId, category)
             .subscribe((data: Section[]) => this.calcModel.Sections = data,
                 error => () => {
-                    this.calcModel.sectionLoader=false;
+                    this.calcModel.sectionLoader = false;
                     //this._toasterService.pop('error', 'Damn', 'Something went wrong...');
                     this.toastr.success("Some error occurred", "Error", this._configuration.customOptions);
                 },
                 () => {
                     this._slimLoader.completeLoading();
-                    this.calcModel.sectionLoader=false;
-                    if (this.calcModel.Sections !== null) {
-                        console.log(JSON.stringify(this.calcModel.Sections[0]));
+                    this.calcModel.sectionLoader = false;
+                    if (this.calcModel.Sections !== null) {                        
                         this.onMediClaimChange('SelfWithFamily', this.calcModel.Sections[1].Mediclaim.SelfWithFamily);
                     }
-                    
+
                 });
 
     }
