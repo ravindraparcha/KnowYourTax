@@ -1,10 +1,13 @@
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch'; 
 import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Configuration } from "../shared/constants";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch'; 
+import 'rxjs/add/observable/throw';
+import { filter, map, catchError } from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 import {slimLoaderBarService} from '../shared/services/slimLoaderBarService';
+import { Configuration } from "../shared/constants";
 
 @Injectable()
 export class CalculatorDataService {    

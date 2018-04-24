@@ -42,8 +42,7 @@ export class CalculatorComponent implements OnInit {
             .subscribe((data: any[]) => this.calcModel.AssessmentYearsModels = data,
              (error) => {                   
                     this.calcModel.ayLoader = false;                         
-                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
-                    console.log(error);
+                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);                    
                     this._slimLoader.stopLoading();
                 },
                 () => {                   
@@ -88,6 +87,7 @@ export class CalculatorComponent implements OnInit {
                   (error) => {                    
                     this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
                     this.calcModel.calculateTaxLoader = false;
+                    this._slimLoader.stopLoading();
                 },
                 () => {                  
                     this.calcModel.calculateTaxLoader = false;
@@ -103,8 +103,10 @@ export class CalculatorComponent implements OnInit {
 
     onCategoryChange(categoryId: string, assessmentYearId: number) {
         this.calcModel.sectionLoader = true;
-        if (assessmentYearId == undefined)
+        if (assessmentYearId == undefined){
+            this.toastr.warning("Please choose 'Assessment year'", "Warning", this._configuration.CustomOptions);
             return;
+        }
         this.calcModel.Sections = [];
         let category = parseInt(categoryId.substr(categoryId.indexOf(":") + 1).trim());
         this._calcService
@@ -113,11 +115,12 @@ export class CalculatorComponent implements OnInit {
                 (error) => {
                     this.calcModel.sectionLoader = false;                    
                     this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
+                    this._slimLoader.stopLoading();
                 },
                 () => {
                     this._slimLoader.completeLoading();
                     this.calcModel.sectionLoader = false;
-                    if (this.calcModel.Sections !== null) {                        
+                    if (this.calcModel.Sections !== null && this.calcModel.Sections.length>0) {                        
                         this.onMediClaimChange('SelfWithFamily', this.calcModel.Sections[1].Mediclaim.SelfWithFamily);
                     }
                 });

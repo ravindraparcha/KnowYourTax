@@ -14,7 +14,7 @@
                             <a data-toggle="tab" href="#Step1">Salary details</a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#Step2">Deductions & Calculation</a>
+                            <a data-toggle="tab" href="#Step2">Deductions</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -67,7 +67,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Gross taxable salary</label>
                                 <div class="col-sm-2">
-                                    <label class="control-label">{{calcModel.GrossTaxableSalary | currency:'INR'}}</label>
+                                    <label class="control-label">{{calcModel.GrossTaxableSalary | indianCurrency}}</label>
                                 </div>
                                 <div class="col-sm-3">
                                 </div>
@@ -132,7 +132,7 @@
                             <label class="control-label col-sm-2">After deduction net salary</label>
                             <div class="col-sm-6">
                                 <label class="control-label">
-                                    {{calcModel.CalculationResult.TaxableSalaryAfterDeduction |  currency:'INR'}}
+                                    {{calcModel.CalculationResult.TaxableSalaryAfterDeduction |  indianCurrency }}
                                 </label>
                             </div>
                             <div class="col-sm-2"></div>
@@ -162,15 +162,15 @@
                                     <tbody>
                                         <tr *ngFor="let output of calcModel.CalculationResult?.IntermediateOutputs">
                                             <td>{{output.IncomeSlab}}</td>
-                                            <td>{{output.Tax | currency:'INR'}}({{output.TaxRate}})</td>                                            
-                                            <td>{{output.CessTax | currency:'INR'}}({{output.CessRate}})</td>                                            
-                                            <td>{{output.TotalTax | currency:'INR'}}</td>
+                                            <td>{{output.Tax | indianCurrency}}({{output.TaxRate}})</td>                                            
+                                            <td>{{output.CessTax | indianCurrency}}({{output.CessRate}})</td>                                            
+                                            <td>{{output.TotalTax | indianCurrency}}</td>
                                         </tr>
                                         <tr style="font-weight: bold;color: #989393">
                                             <td>Total tax to pay</td>                                            
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
-                                            <td>{{calcModel.CalculationResult?.TotalTax |  currency:'INR'}}</td>
+                                            <td>{{calcModel.CalculationResult?.TotalTax |  indianCurrency}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

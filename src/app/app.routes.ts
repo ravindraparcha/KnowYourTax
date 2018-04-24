@@ -17,7 +17,8 @@ import {CalculatorComponent} from './services/calculator/calculator.component'
 
 export const rootRouterConfig: Routes = [
   { path: '', redirectTo: 'calculator', pathMatch: 'full' },
-  {path: 'calculator', component : CalculatorComponent}
+  {path: 'calculator', component : CalculatorComponent},
+  {path: '', component:CalculatorComponent}
    
 
   // { path: 'home', component: HomeComponent },

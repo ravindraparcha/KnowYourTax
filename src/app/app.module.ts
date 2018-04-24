@@ -13,10 +13,12 @@ import {CalculatorDataService} from '../app/dataServices/calculator.dataservice'
 import { CalculatorComponent } from './services/calculator/calculator.component';
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
+import {IndianCurrency} from '../app/shared/misc/indianCurrency';
 //import {ToasterService} from '../app/shared/services/toasterService';
 
 @NgModule({
   declarations: [
+    IndianCurrency,
     AppComponent,
     CalculatorComponent
   ],
