@@ -18,6 +18,7 @@ export class CalculatorModel {
 
     public calculateTaxLoader : boolean;
     public sectionLoader : boolean;
+    public ayLoader : boolean;
     public selectedAssessmentYearId :  number;
     public selectedCategory : number;
 }
