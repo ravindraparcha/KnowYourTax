@@ -23,18 +23,6 @@ export class CalculatorModel {
     public selectedCategory : number;
 }
 
-// export class CalculationOutput {
-     
-//     public  IntermediateOutputs : any[];
-//     public TotalTax : number;
-// }
-
-// export class IntermediateOutput
-// {
-//     public IncomeSlab:string;
-//     public TaxRate : string
-//     public Tax : number;
-// }
 
 export class CalculatorInputs{
     public Category : number;

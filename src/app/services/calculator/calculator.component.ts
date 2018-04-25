@@ -7,8 +7,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Configuration } from '../../shared/constants';
 import { debug } from 'util';
 
-// declare var jquery: any;
-// declare var $: any;
+declare var jquery: any;
+declare var $: any;
 
 
 @Component({
@@ -40,7 +40,7 @@ export class CalculatorComponent implements OnInit {
         this.calcModel.ayLoader=true;
         this._calcService.getAssessmentYears<any[]>()
             .subscribe((data: any[]) => this.calcModel.AssessmentYearsModels = data,
-             (error) => {                   
+             (error) => {                                    
                     this.calcModel.ayLoader = false;                         
                     this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);                    
                     this._slimLoader.stopLoading();
@@ -56,13 +56,11 @@ export class CalculatorComponent implements OnInit {
         this.calcModel.GrossTaxableSalary = (isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
     }
 
-    calculateTax(model: any, isValid: boolean): void {
-        if (model.Category == 0) { 
-            this.toastr.warning("Please choose 'who you are'", "Warning", this._configuration.CustomOptions);
+    calculateTax(model: any, isValid: boolean): void {        
+        if(!this.validateFormData(model.Category, model.assessmentYearId)){
             return;
         }
        
-        this.calcModel.calculateTaxLoader = true;
         let calculatorInputs = new CalculatorInputs();
         calculatorInputs.assessmentYearId = model.assessmentYearId;
         calculatorInputs.Category = model.Category;
@@ -82,6 +80,7 @@ export class CalculatorComponent implements OnInit {
         calculatorInputs.SectionValues.push(new SectionValue("OtherDeductions", model.OtherDeductions));
         calculatorInputs.SelectedMediClaim = this.calcModel.SelectedMediClaim;
 
+        this.calcModel.calculateTaxLoader = true;
         this._calcService.calculateTax<any>(calculatorInputs)
             .subscribe((data: any) => this.calcModel.CalculationResult = data, 
                   (error) => {                    
@@ -92,6 +91,7 @@ export class CalculatorComponent implements OnInit {
                 () => {                  
                     this.calcModel.calculateTaxLoader = false;
                     this._slimLoader.completeLoading();
+                    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                 });
 
     }
@@ -101,14 +101,14 @@ export class CalculatorComponent implements OnInit {
         this.calcModel.SelectedMediClaimValue = amount;
     }
 
-    onCategoryChange(categoryId: string, assessmentYearId: number) {
-        this.calcModel.sectionLoader = true;
-        if (assessmentYearId == undefined){
-            this.toastr.warning("Please choose 'Assessment year'", "Warning", this._configuration.CustomOptions);
+    onCategoryChange(categoryId: string, assessmentYearId: number) {        
+        let category = parseInt(categoryId.substr(categoryId.indexOf(":") + 1).trim());
+
+        if(!this.validateFormData(category,assessmentYearId)){
             return;
         }
-        this.calcModel.Sections = [];
-        let category = parseInt(categoryId.substr(categoryId.indexOf(":") + 1).trim());
+        this.calcModel.Sections = [];        
+        this.calcModel.sectionLoader = true;
         this._calcService
             .getSections<Section[]>(assessmentYearId, category)
             .subscribe((data: Section[]) => this.calcModel.Sections = data,
@@ -124,5 +124,17 @@ export class CalculatorComponent implements OnInit {
                         this.onMediClaimChange('SelfWithFamily', this.calcModel.Sections[1].Mediclaim.SelfWithFamily);
                     }
                 });
+    }
+
+    validateFormData(category: number,assementYearId:number) {
+        if (category==undefined ||  category == 0) { 
+            this.toastr.warning("Please choose 'who you are'", "Warning", this._configuration.CustomOptions);
+            return false;
+        }
+        else if (assementYearId == undefined || assementYearId == 0){
+            this.toastr.warning("Please choose 'Assessment year'", "Warning", this._configuration.CustomOptions);
+            return false;
+        }
+        return true;
     }
 }

@@ -1,12 +1,7 @@
 import { Routes } from '@angular/router';
-import {CalculatorComponent} from './services/calculator/calculator.component'
-// import { AboutComponent } from './about/about.component';
-// import { HomeComponent } from './home/home.component';
-// import { RepoBrowserComponent } from './github/repo-browser/repo-browser.component';
-// import { RepoListComponent } from './github/repo-list/repo-list.component';
-// import { RepoDetailComponent } from './github/repo-detail/repo-detail.component';
-// import { ContactComponent } from './contact/contact.component';
-// import {ServiceComponent} from './service/service.component';
+import {CalculatorComponent} from './services/calculator/calculator.component';
+import{PageNotFoundComponent} from './services/pageNotFound/pageNotFound.component';
+ 
 
 // { path: '',
 //     redirectTo: '/heroes',
@@ -18,8 +13,8 @@ import {CalculatorComponent} from './services/calculator/calculator.component'
 export const rootRouterConfig: Routes = [
   { path: '', redirectTo: 'calculator', pathMatch: 'full' },
   {path: 'calculator', component : CalculatorComponent},
-  {path: '', component:CalculatorComponent}
-   
+  {path: '', component:CalculatorComponent},
+  { path: '**', component: PageNotFoundComponent }  
 
   // { path: 'home', component: HomeComponent },
   // { path: 'about', component: AboutComponent },

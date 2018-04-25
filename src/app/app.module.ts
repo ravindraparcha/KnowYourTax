@@ -11,6 +11,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import {CalculatorDataService} from '../app/dataServices/calculator.dataservice'
 import { CalculatorComponent } from './services/calculator/calculator.component';
+import {PageNotFoundComponent} from './services/pageNotFound/pageNotFound.component';
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
 import {IndianCurrency} from '../app/shared/misc/indianCurrency';
@@ -20,7 +21,8 @@ import {IndianCurrency} from '../app/shared/misc/indianCurrency';
   declarations: [
     IndianCurrency,
     AppComponent,
-    CalculatorComponent
+    CalculatorComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

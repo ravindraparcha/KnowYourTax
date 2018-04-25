@@ -20,7 +20,7 @@ export class CalculatorDataService {
  
     public getAssessmentYears<T>() : Observable<T>{        
         this._slimLoader.startLoading();
-        const input = "?m=GetAssessmentYears";
+        const input = "?m=GetAssessmentYears";        
         return this.http.get<T>(this.actionUrl+input)
                         .catch(this.handleError);
     }
