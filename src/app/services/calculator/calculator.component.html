@@ -22,7 +22,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Assessment year</label>
                                 <div class="col-sm-3">
-                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [(ngModel)]="calcModel.selectedAssessmentYearId" name="assessmentYearId">
+                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [ngClass]="{'busyLoading':calcModel.ayLoader==true}" [(ngModel)]="calcModel.selectedAssessmentYearId" name="assessmentYearId">
                                         <option value="0">Select</option>
                                         <option [ngValue]="ast.Key" *ngFor="let ast of calcModel.AssessmentYearsModels;">
                                             {{ast.Value}}

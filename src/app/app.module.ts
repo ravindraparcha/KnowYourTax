@@ -15,6 +15,7 @@ import {PageNotFoundComponent} from './services/pageNotFound/pageNotFound.compon
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
 import {IndianCurrency} from '../app/shared/misc/indianCurrency';
+import {PrivacyPolicyComponent} from './services/footer/privacyPolicy.component';
 //import {ToasterService} from '../app/shared/services/toasterService';
 
 @NgModule({
@@ -22,7 +23,8 @@ import {IndianCurrency} from '../app/shared/misc/indianCurrency';
     IndianCurrency,
     AppComponent,
     CalculatorComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,
