@@ -22,7 +22,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Assessment year</label>
                                 <div class="col-sm-3">
-                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [ngClass]="{'busyLoading':calcModel.ayLoader==true}" [(ngModel)]="calcModel.selectedAssessmentYearId" name="assessmentYearId">
+                                    <select id="assessmentYearId" #assessmentYearId="ngModel" class="form-control" [ngClass]="{'busyLoading':calcModel.ayLoader==true}" [(ngModel)]="calcModel.selectedAssessmentYearId" name="assessmentYearId" (change)="onChange(Category.value,$event.target.value,'yearChanged')">
                                         <option value="0">Select</option>
                                         <option [ngValue]="ast.Key" *ngFor="let ast of calcModel.AssessmentYearsModels;">
                                             {{ast.Value}}
@@ -34,7 +34,7 @@
                             <div class="form-group margin-top15">
                                 <label class="control-label col-sm-2">Who you are</label>
                                 <div class="col-sm-3">
-                                    <select id="Category" #Category="ngModel"  class="form-control" [ngClass]="{'busyLoading':calcModel.sectionLoader==true}" [(ngModel)]="calcModel.selectedCategory" name="Category" (change)="onCategoryChange($event.target.value,assessmentYearId.value)">
+                                    <select id="Category" #Category="ngModel"  class="form-control" [ngClass]="{'busyLoading':calcModel.sectionLoader==true}" [(ngModel)]="calcModel.selectedCategory" name="Category" (change)="onChange($event.target.value,assessmentYearId.value,'categoryChanged')">
                                         <option selected="selected" value="0">Select</option>
                                         <option [ngValue]="ct.CategoryId" *ngFor="let ct of CategoryList">
                                             {{ct.CategoryName}}

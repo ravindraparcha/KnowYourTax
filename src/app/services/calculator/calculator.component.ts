@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Configuration } from '../../shared/constants';
 import { debug } from 'util';
 
-declare var jquery: any;
+ 
 declare var $: any;
 
 
@@ -48,7 +48,7 @@ export class CalculatorComponent implements OnInit {
                 () => {                   
                     this.calcModel.ayLoader = false;
                     this._slimLoader.completeLoading();
-                    this.calcModel.selectedAssessmentYearId = 1;
+                    this.calcModel.selectedAssessmentYearId = 0;
                 });
 
     }
@@ -67,7 +67,7 @@ export class CalculatorComponent implements OnInit {
         calculatorInputs.OtherSourceIncome = model.OtherSourceIncome;
         calculatorInputs.SalaryIncome = model.SalaryIncome;
         calculatorInputs.GrossTaxableSalary = (isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
-        calculatorInputs.OtherDeductions = model.OtherDeductions;
+        calculatorInputs.OtherDeductions = (isNaN(model.OtherDeductions) == true || model.OtherDeductions == null) ? 0 : model.OtherDeductions;
          
         calculatorInputs.SectionValues = [];
 
@@ -77,7 +77,7 @@ export class CalculatorComponent implements OnInit {
         calculatorInputs.SectionValues.push(new SectionValue("TTA", (isNaN(model.SectionTTA) == true || model.SectionTTA == null) ? 0 : model.SectionTTA));
         calculatorInputs.SectionValues.push(new SectionValue("80G", (isNaN(model.Section80G) == true || model.Section80G == null) ? 0 : model.Section80G));
         calculatorInputs.SectionValues.push(new SectionValue("80E", (isNaN(model.Section80E) == true || model.Section80E == null) ? 0 : model.Section80E));
-        calculatorInputs.SectionValues.push(new SectionValue("OtherDeductions", model.OtherDeductions));
+        calculatorInputs.SectionValues.push(new SectionValue("OtherDeductions", calculatorInputs.OtherDeductions));
         calculatorInputs.SelectedMediClaim = this.calcModel.SelectedMediClaim;
 
         this.calcModel.calculateTaxLoader = true;
@@ -101,16 +101,25 @@ export class CalculatorComponent implements OnInit {
         this.calcModel.SelectedMediClaimValue = amount;
     }
 
-    onCategoryChange(categoryId: string, assessmentYearId: number) {        
-        let category = parseInt(categoryId.substr(categoryId.indexOf(":") + 1).trim());
-
-        if(!this.validateFormData(category,assessmentYearId)){
+    onChange(categoryId, assessmentYearId,control) {    
+        this.calcModel.CalculationResult = null;  
+        if(isNaN(categoryId)){
+            categoryId = parseInt(categoryId.substr(categoryId.indexOf(":") + 1).trim());    
+        }
+        if(isNaN(assessmentYearId)){
+            assessmentYearId = parseInt(assessmentYearId.substr(assessmentYearId.indexOf(":") + 1).trim());    
+        }
+       
+        if(!this.validateFormData(categoryId,assessmentYearId)){
             return;
         }
         this.calcModel.Sections = [];        
-        this.calcModel.sectionLoader = true;
+        if(control=="categoryChanged")
+            this.calcModel.sectionLoader = true;
+        else if(control=="yearChanged")
+            this.calcModel.ayLoader = true;
         this._calcService
-            .getSections<Section[]>(assessmentYearId, category)
+            .getSections<Section[]>(assessmentYearId, categoryId)
             .subscribe((data: Section[]) => this.calcModel.Sections = data,
                 (error) => {
                     this.calcModel.sectionLoader = false;                    
@@ -120,6 +129,7 @@ export class CalculatorComponent implements OnInit {
                 () => {
                     this._slimLoader.completeLoading();
                     this.calcModel.sectionLoader = false;
+                    this.calcModel.ayLoader = false;
                     if (this.calcModel.Sections !== null && this.calcModel.Sections.length>0) {                        
                         this.onMediClaimChange('SelfWithFamily', this.calcModel.Sections[1].Mediclaim.SelfWithFamily);
                     }

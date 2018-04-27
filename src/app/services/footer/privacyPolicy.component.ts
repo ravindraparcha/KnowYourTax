@@ -6,5 +6,7 @@ import { Component } from "@angular/core";
 
 })
 export class PrivacyPolicyComponent  {
-
+    ngOnInit() {
+        window.scrollTo(0, 0);        
+    }
 }
