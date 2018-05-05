@@ -25,6 +25,7 @@
         "../src/assets/css/ie10-viewport-bug-workaround.css",
         "../src/assets/css/sticky-footer-navbar.css",
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
+        "../node_modules/@ng-select/ng-select/themes/default.theme.css",
         "../src/assets/css/custom.css"        
       ],
       "scripts": [

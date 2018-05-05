@@ -1,0 +1,47 @@
+<form #calcFrm="ngForm" (ngSubmit)="calculateTax(calcFrm.value,calcFrm.valid)">
+    <div class="container margin-top15 margin-top65 margin-bottom70">
+        <div class="row">
+            <div class="panel panel-default border-radius border-box">
+                <div class="panel-heading">Generate e-filing Tax XML</div>
+                <div class="form-horizontal">                   
+                    <ul class="nav nav-tabs" style="margin-top:5px;padding-left:1px;">
+                        <li class="active">
+                            <a data-toggle="tab" href="#personInfo">Personal Information</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#incomeDetails">Income details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#taxDetails">Tax details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#taxPaidVerification">Tax paid and verification </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#gDetails">80G details</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="personInfo" class="tab-pane fade in active" style="padding-left: 5px;padding-right: 8px;">                             
+                        </div>                        
+                        <div id="incomeDetails" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">                            
+                                <ng-select id="selectedCarId"  #selectedCarId="ngModel" name=" selectedCarId" [(ngModel)]="calcModel.selectedCarId">
+                                        <ng-option *ngFor="let car of cars" [value]="car.id" [disabled]="car.disabled" >{{car.name}}</ng-option>
+                                        <ng-option [value]="'custom'">Custom</ng-option>
+                                    </ng-select>
+                                    {{calcModel.selectedCarId}}
+                        </div>
+                        <div id="taxDetails" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">                            
+                        </div>
+                        <div id="taxPaidVerification" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">                            
+                        </div>
+                        <div id="gDetails" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">                            
+                        </div>                        
+                    </div>
+                    
+ 
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

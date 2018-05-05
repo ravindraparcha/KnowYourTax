@@ -21,6 +21,7 @@ export class CalculatorModel {
     public ayLoader : boolean;
     public selectedAssessmentYearId :  number;
     public selectedCategory : number;
+    public selectedCarId : number;
 }
 
 

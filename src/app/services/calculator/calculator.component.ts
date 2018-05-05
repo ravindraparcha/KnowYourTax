@@ -18,10 +18,10 @@ declare var $: any;
 })
 export class CalculatorComponent implements OnInit {
 
-    public calcModel: CalculatorModel;
-    public values: any;
+    public calcModel: CalculatorModel;     
     public assessmentYearsModels: AssessmentYearsModel[];
-
+    public selectedCarId:any;
+    
     constructor(private _calcService: CalculatorDataService, private _slimLoader: slimLoaderBarService, public toastr: ToastsManager, vcr: ViewContainerRef
         , private _configuration: Configuration) {
         this.toastr.setRootViewContainerRef(vcr);
@@ -33,6 +33,8 @@ export class CalculatorComponent implements OnInit {
         { "CategoryId": 3, "CategoryName": "Senior Citizen or > 60 years" },
         { "CategoryId": 4, "CategoryName": "Super Senior Citizen or > 80 years" }
     ];
+    
+
     ngOnInit() {
 
         this.calcModel = new CalculatorModel();
@@ -110,14 +112,24 @@ export class CalculatorComponent implements OnInit {
             assessmentYearId = parseInt(assessmentYearId.substr(assessmentYearId.indexOf(":") + 1).trim());    
         }
        
+        this.calcModel.Sections = [];        
+        if(control=="categoryChanged"){
+            this.calcModel.sectionLoader = true;
+        }
+        else if(control=="yearChanged") {        
+            if(categoryId==0) {
+                this.calcModel.sectionLoader = false;
+                this.calcModel.ayLoader = false;
+                return;
+            }
+            this.calcModel.ayLoader = true;
+        }
         if(!this.validateFormData(categoryId,assessmentYearId)){
+            this.calcModel.sectionLoader = false;
+            this.calcModel.ayLoader = false;
             return;
         }
-        this.calcModel.Sections = [];        
-        if(control=="categoryChanged")
-            this.calcModel.sectionLoader = true;
-        else if(control=="yearChanged")
-            this.calcModel.ayLoader = true;
+       
         this._calcService
             .getSections<Section[]>(assessmentYearId, categoryId)
             .subscribe((data: Section[]) => this.calcModel.Sections = data,

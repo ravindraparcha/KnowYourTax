@@ -121,7 +121,7 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2"></label>
                         <div class="col-sm-6">
-                            <button id="btnCalculateTax" class="btn btn-default" [ngClass]="{'busyLoading':calcModel.calculateTaxLoader==true}" [disabled]='!calcFrm.valid'>Calculate Tax</button>                             
+                            <button id="btnCalculateTax" class="btn btn-default" [ngClass]="{'busyLoading':calcModel.calculateTaxLoader==true}" [disabled]='!calcFrm.valid'>Calculate Tax</button>                                                                                    
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
@@ -172,6 +172,7 @@
                                             <td>&nbsp;</td>
                                             <td>{{calcModel.CalculationResult?.TotalTax |  indianCurrency}}</td>
                                         </tr>
+                                         
                                     </tbody>
                                 </table>
                             </div>
