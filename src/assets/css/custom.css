@@ -240,3 +240,12 @@ code {
 .ng-select .ng-select-container {
     border-radius: 0 ;
 }
+
+.border-left-info{    
+    border-left: 2px solid #aa6708;
+    border-radius: 3px;
+    padding-left: 4px;
+    margin-top: 2px;
+    background-color: #fff8ed;
+    font-style:italic;
+}

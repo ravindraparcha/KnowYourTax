@@ -3,7 +3,10 @@
         <div class="row">
             <div class="panel panel-default border-radius border-box">
                 <div class="panel-heading">Generate e-filing Tax XML</div>
-                <div class="form-horizontal">                   
+                <div class="form-horizontal">      
+                    <div style="color:red;padding:0 5px 0 5px;">
+                            For individuals being a resident other than not ordinarily resident having income from salaries, one house property, other sources(interest etc.) and having total income upto Rs. 50 lakhs.
+                    </div>             
                     <ul class="nav nav-tabs" style="margin-top:5px;padding-left:1px;">
                         <li class="active">
                             <a data-toggle="tab" href="#personInfo">Personal Information</a>
@@ -26,11 +29,11 @@
                             <personal-info></personal-info>
                         </div>                        
                         <div id="incomeDetails" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">                            
-                                <ng-select id="selectedCarId"  #selectedCarId="ngModel" name=" selectedCarId" [(ngModel)]="calcModel.selectedCarId">
+                                <!-- <ng-select id="selectedCarId"  #selectedCarId="ngModel" name=" selectedCarId" [(ngModel)]="calcModel.selectedCarId">
                                         <ng-option *ngFor="let car of cars" [value]="car.id" [disabled]="car.disabled" >{{car.name}}</ng-option>
                                         <ng-option [value]="'custom'">Custom</ng-option>
                                     </ng-select>
-                                    {{calcModel.selectedCarId}}
+                                    {{calcModel.selectedCarId}} -->
                         </div>
                         <div id="taxDetails" class="tab-pane fade"  style="padding-left: 5px;padding-right: 8px;">                            
                         </div>

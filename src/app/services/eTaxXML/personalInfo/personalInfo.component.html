@@ -1,25 +1,106 @@
-
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">First Name</label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.firstName" #firstName="ngModel" name="firstName"
+        />
+    </div>
+    <label class="control-label col-sm-2 text-left">Middle Name</label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.middleName" #middleName="ngModel" name="middleName"
+        />
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Last Name</label>
+    <div class="col-sm-3">
+        <input type="text" required novalidate [ngClass]="lastName.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.lastName"
+            #lastName="ngModel" name="lastName" />
+    </div>
+    <label class="control-label col-sm-2 text-left">PAN number</label>
+    <div class="col-sm-3">
+        <input type="text" required novalidate [ngClass]="panNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.panNo"
+            #panNo="ngModel" name="panNo" />
+    </div>
+</div>
+<div class="form-group margin-top15">
+        <label class="control-label col-sm-2 text-left">Aadhar card </label>
+        <div class="col-sm-3">
+            <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharCardNo" #aadharCardNo="ngModel" name="aadharCardNo"
+            />
+            <div class="border-left-info">Aadhar card linked with PAN number in e-Filling portal </div>
+        </div>
+        <label class="control-label col-sm-2 text-left">Aadhar card enrollment Id</label>
+        <div class="col-sm-3">
+            <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharEnrollmentId" #aadharEnrollmentId="ngModel"
+                name="aadharEnrollmentId" />
+            <div class="border-left-info">If aadhar card not allotted, you can give aadhar card enrollmentId</div>
+        </div>
+    </div>
     <div class="form-group margin-top15">
-        
-            <label class="control-label col-sm-2 text-left">First Name</label>
-             <div class="col-sm-3">
-                <input type="text" class="form-control" [(ngModel)]="personalInfo.firstName" #firstName="ngModel" name="firstName" />
-            </div>
-            <label class="control-label col-sm-2 text-left">Middle Name</label>
+            <label class="control-label col-sm-2 text-left">Flat/Door/Block Number</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" [(ngModel)]="personalInfo.middleName" #middleName="ngModel" name="middleName" />
-            </div>           
-           
-    </div>
-    <div class="form-group margin-top15">
-            
-                    <label class="control-label col-sm-2 text-left">Last Name</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" [(ngModel)]="personalInfo.lastName" #lastName="ngModel" name="lastName" />
+                <input type="text" required name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate class="form-control"
+                    [(ngModel)]="personalInfo.flatDoorBlockNo" #flatDoorBlockNo="ngModel" />
+            </div>
+            <label class="control-label col-sm-2 text-left">Premises/Building/Village</label>
+            <div class="col-sm-3">
+                <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.premisesBldgVillage" name="premisesBldgVillage"
+                    #premisesBldgVillage="ngModel" />
+        
+            </div>
+        </div>
+        <div class="form-group margin-top15">
+                <label class="control-label col-sm-2 text-left">Date of birth</label>
+                <div class="col-sm-3">
+                    <div class="input-group">                      
+                        <input class="form-control" required readonly [ngClass]="personalInfo.birthDate.length? 'valid': 'invalid'" style="float:none;border-radius: 0;" placeholder="Select a date"
+                            ngx-mydatepicker name="mydate" [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onBirthDateChanged($event)"
+                        />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dp.clearDate()">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="dp.toggleCalendar()">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
                     </div>
-                    <label class="control-label col-sm-2 text-left">Last Name</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" [(ngModel)]="personalInfo.panNo" #panNo="ngModel" name="panNo" />
-                    </div>
-           
+                </div>
+
+
+
+    <label class="control-label col-sm-2 text-left">Road/Street/Post Office</label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.roadStreetPostOffice" #roadStreetPostOffice="ngModel"
+            name="roadStreetPostOffice" />
+
     </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Area/Locality</label>
+    <div class="col-sm-3">
+        <input type="text" required [ngClass]="areaLocality.valid? 'valid': 'invalid'" novalidate class="form-control" [(ngModel)]="personalInfo.areaLocality"
+            #areaLocality="ngModel" name="areaLocality" />
+    </div>
+    <label class="control-label col-sm-2 text-left">Town/City/District</label>
+    <div class="col-sm-3">
+        <input type="text" required novalidate [ngClass]="townCityDistrict.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.townCityDistrict"
+            #townCityDistrict="ngModel" name="townCityDistrict" />
+    </div>
+</div>
+
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">State</label>
+    <div class="col-sm-3">     
+            <select id="state" #state="ngModel" required [ngClass]="personalInfo.selectedState>0? 'valid': 'invalid'"  class="form-control"  [(ngModel)]="personalInfo.selectedState" name="state">
+                    <option selected="selected" value="0">Select</option>
+                    <option [ngValue]="st.stateCode" *ngFor="let st of stateList">
+                        {{st.state}}
+                </select>
+    </div>
+    <label class="control-label col-sm-2 text-left">Pin Code</label>
+    <div class="col-sm-3">
+        <input type="text"  novalidate class="form-control" [(ngModel)]="personalInfo.zipCode"
+            #zipCode="ngModel" name="zipCode" />
+    </div>
+</div> 

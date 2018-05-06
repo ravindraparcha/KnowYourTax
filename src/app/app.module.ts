@@ -10,6 +10,7 @@ import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
  
+
 import {CalculatorDataService} from '../app/dataServices/calculator.dataservice'
 import { CalculatorComponent } from './services/calculator/calculator.component';
 import {PageNotFoundComponent} from './services/pageNotFound/pageNotFound.component';
