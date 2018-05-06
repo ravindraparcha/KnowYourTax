@@ -23,52 +23,49 @@
     </div>
 </div>
 <div class="form-group margin-top15">
-        <label class="control-label col-sm-2 text-left">Aadhar card </label>
-        <div class="col-sm-3">
-            <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharCardNo" #aadharCardNo="ngModel" name="aadharCardNo"
-            />
-            <div class="border-left-info">Aadhar card linked with PAN number in e-Filling portal </div>
-        </div>
-        <label class="control-label col-sm-2 text-left">Aadhar card enrollment Id</label>
-        <div class="col-sm-3">
-            <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharEnrollmentId" #aadharEnrollmentId="ngModel"
-                name="aadharEnrollmentId" />
-            <div class="border-left-info">If aadhar card not allotted, you can give aadhar card enrollmentId</div>
+    <label class="control-label col-sm-2 text-left">Aadhar card </label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharCardNo" #aadharCardNo="ngModel" name="aadharCardNo"
+        />
+        <div class="border-left-info">Aadhar card linked with PAN number in e-Filling portal </div>
+    </div>
+    <label class="control-label col-sm-2 text-left">Aadhar card enrollment Id</label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharEnrollmentId" #aadharEnrollmentId="ngModel"
+            name="aadharEnrollmentId" />
+        <div class="border-left-info">If aadhar card not allotted, you can give aadhar card enrollmentId</div>
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Flat/Door/Block Number</label>
+    <div class="col-sm-3">
+        <input type="text" required name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate class="form-control"
+            [(ngModel)]="personalInfo.flatDoorBlockNo" #flatDoorBlockNo="ngModel" />
+    </div>
+    <label class="control-label col-sm-2 text-left">Premises/Building/Village</label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.premisesBldgVillage" name="premisesBldgVillage"
+            #premisesBldgVillage="ngModel" />
+
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Date of birth</label>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <input class="form-control" required readonly [ngClass]="personalInfo.birthDate.length? 'valid': 'invalid'" style="float:none;border-radius: 0;"
+                placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="personalInfo.birthDate" [options]="myOptions" #dp="ngx-mydatepicker"
+                (dateChanged)="onBirthDateChanged($event)" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dp.clearDate()">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="dp.toggleCalendar()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
         </div>
     </div>
-    <div class="form-group margin-top15">
-            <label class="control-label col-sm-2 text-left">Flat/Door/Block Number</label>
-            <div class="col-sm-3">
-                <input type="text" required name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate class="form-control"
-                    [(ngModel)]="personalInfo.flatDoorBlockNo" #flatDoorBlockNo="ngModel" />
-            </div>
-            <label class="control-label col-sm-2 text-left">Premises/Building/Village</label>
-            <div class="col-sm-3">
-                <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.premisesBldgVillage" name="premisesBldgVillage"
-                    #premisesBldgVillage="ngModel" />
-        
-            </div>
-        </div>
-        <div class="form-group margin-top15">
-                <label class="control-label col-sm-2 text-left">Date of birth</label>
-                <div class="col-sm-3">
-                    <div class="input-group">                      
-                        <input class="form-control" required readonly [ngClass]="personalInfo.birthDate.length? 'valid': 'invalid'" style="float:none;border-radius: 0;" placeholder="Select a date"
-                            ngx-mydatepicker name="mydate" [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onBirthDateChanged($event)"
-                        />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dp.clearDate()">
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="dp.toggleCalendar()">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-
-
-
     <label class="control-label col-sm-2 text-left">Road/Street/Post Office</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.roadStreetPostOffice" #roadStreetPostOffice="ngModel"
@@ -91,16 +88,136 @@
 
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">State</label>
-    <div class="col-sm-3">     
-            <select id="state" #state="ngModel" required [ngClass]="personalInfo.selectedState>0? 'valid': 'invalid'"  class="form-control"  [(ngModel)]="personalInfo.selectedState" name="state">
-                    <option selected="selected" value="0">Select</option>
-                    <option [ngValue]="st.stateCode" *ngFor="let st of stateList">
-                        {{st.state}}
-                </select>
+    <div class="col-sm-3">
+        <select id="state" #state="ngModel" required [ngClass]="personalInfo.selectedState>0? 'valid': 'invalid'" class="form-control"
+            [(ngModel)]="personalInfo.selectedState" name="state">
+            <option selected="selected" value="0">Select</option>
+            <option [ngValue]="st.stateCode" *ngFor="let st of _configuration.stateList">
+                {{st.state}}
+        </select>
     </div>
     <label class="control-label col-sm-2 text-left">Pin Code</label>
     <div class="col-sm-3">
-        <input type="text"  novalidate class="form-control" [(ngModel)]="personalInfo.zipCode"
-            #zipCode="ngModel" name="zipCode" />
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.zipCode" #zipCode="ngModel" name="zipCode" />
     </div>
-</div> 
+</div>
+
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Email Address</label>
+    <div class="col-sm-3">
+        <input type="text" required novalidate [ngClass]="email.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.email"
+            #email="ngModel" name="email" [email]/>
+    </div>
+    <label class="control-label col-sm-2 text-left">Mobile Number</label>
+    <div class="col-sm-3">
+        <input type="text" required [ngClass]="mobileNo.valid? 'valid': 'invalid'" novalidate class="form-control" [(ngModel)]="personalInfo.mobileNo"
+            #mobileNo="ngModel" name="mobileNo" />
+    </div>
+</div>
+
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Employer Category</label>
+    <div class="col-sm-3">
+        <select id="employerCategory" #employerCategory="ngModel" required [ngClass]="personalInfo.selectedEmployerCategory!='0'? 'valid': 'invalid'"
+            class="form-control" [(ngModel)]="personalInfo.selectedEmployerCategory" name="employerCategory">
+            <option selected="selected" value="0">Select</option>
+            <option [ngValue]="st.empCatValue" *ngFor="let st of _configuration.employerCategoryList">
+                {{st.empCatText}}
+        </select>
+    </div>
+    <label class="control-label col-sm-2 text-left">Return filed</label>
+    <div class="col-sm-3">
+        <select id="returnFiledSection" #returnFiledSection="ngModel" required [ngClass]="personalInfo.selectedReturnFiledSection>0? 'valid': 'invalid'"
+            class="form-control" [(ngModel)]="personalInfo.selectedReturnFiledSection" name="returnFiledSection">
+            <option selected="selected" value="0">Select</option>
+            <option [ngValue]="st.returnFileValue" *ngFor="let st of _configuration.returnFiledList">
+                {{st.returnFileText}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Governed by Portuguese Civil Code (section 5A)</label>
+    <div class="col-sm-3">
+        <select id="governedByPortugueseCivil" #governedByPortugueseCivil="ngModel" required [ngClass]="personalInfo.selectedGovernedByPortugueseCivil!='0'? 'valid': 'invalid'"
+            class="form-control" [(ngModel)]="personalInfo.selectedGovernedByPortugueseCivil" name="governedByPortugueseCivil">
+            <option selected="selected" value="0">Select</option>
+            <option [ngValue]="st.value" *ngFor="let st of _configuration.yesNoList">
+                {{st.text}}
+        </select>
+    </div>
+    <label class="control-label col-sm-2 text-left">If yes, spouse PAN number</label>
+    <div class="col-sm-3">
+        <input type="text"  novalidate class="form-control" [(ngModel)]="personalInfo.spousePanNo"
+            #spousePanNo="ngModel" name="spousePanNo" />
+    </div>
+</div>
+
+<div class="form-group margin-top15">
+    <label class="control-label  col-sm-2 text-left">Original/Revised Return</label>
+    <div class="col-sm-3">
+        <select id="originalRevisedFile" #originalRevisedFile="ngModel" required [ngClass]="personalInfo.selectedOriginalRevisedFile!='0'? 'valid': 'invalid'"
+            class="form-control" [(ngModel)]="personalInfo.selectedOriginalRevisedFile" name="originalRevisedFile">
+            <option selected="selected" value="0">Select</option>
+            <option [ngValue]="st.value" *ngFor="let st of _configuration.originalRevisedList">
+                {{st.text}}
+        </select>
+    </div>
+    <label class="control-label col-sm-2 text-left">Original Filing Form Date</label>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <input class="form-control"  readonly  
+                style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="originalReturnDate" [(ngModel)]="personalInfo.filingOriginalReturnDate"
+                [options]="myOptions" #originalReturnDatePicker="ngx-mydatepicker" (dateChanged)="onOriginalFilingReturnDateChanged($event)"
+            />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="originalReturnDatePicker.clearDate()">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="originalReturnDatePicker.toggleCalendar()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+   
+
+</div>
+<div class="form-group margin-top15">
+        <label class="control-label col-sm-2 text-left">Receipt Number</label>
+        <div class="col-sm-3">
+            <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.receiptNumber" #receiptNumber="ngModel" name="receiptNumber"
+            />
+            <div class="border-left-info">If revised/defective, enter receipt number of original form</div>
+        </div>
+    <label class="control-label col-sm-2 text-left">Notice Number</label>
+    <div class="col-sm-3">
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.noticeNumber" #noticeNumber="ngModel" name="noticeNumber"
+        />
+        <div class="border-left-info">Original Return filed was defective and a notice is issued to the assessee to file fresh return u/s 139(9)</div>
+    </div>
+</div>
+<div class="form-group margin-top15">
+        <label class="control-label col-sm-2 text-left">Notice date</label>        
+        <div class="col-sm-3">
+                <div class="input-group">
+                        <input class="form-control" readonly
+                            style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="filedAgainstNoticeDate" [(ngModel)]="personalInfo.filedAgainstNotice"
+                            [options]="filedAgainstNoticeOptions" #filedAgainstNoticeDatePicker="ngx-mydatepicker" (dateChanged)="onfiledAgainstNoticeDateChanged($event)"
+                        />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="filedAgainstNoticeDatePicker.clearDate()">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="filedAgainstNoticeDatePicker.toggleCalendar()">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="border-left-info">If filed in response to a notice u/s 139(9)/142(1)/148/153A/153C</div>
+        </div>
+        <label class="control-label col-sm-2 text-left">&nbsp;</label>
+        <div class="col-sm-3">
+&nbsp;        </div>
+    
+</div>
