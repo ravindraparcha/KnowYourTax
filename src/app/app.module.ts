@@ -12,16 +12,16 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
  
 
 import {CalculatorDataService} from '../app/dataServices/calculator.dataservice'
-import { CalculatorComponent } from './services/calculator/calculator.component';
-import {PageNotFoundComponent} from './services/pageNotFound/pageNotFound.component';
+import { CalculatorComponent } from './modules/calculator/calculator.component';
+import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
 import {IndianCurrency} from '../app/shared/misc/indianCurrency';
-import {PrivacyPolicyComponent,AboutComponent} from './services/footer/footer';
+import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer';
 
-import {eTaxXMLComponent} from './services/eTaxXML/eTaxXML.component';
+import {eTaxXMLComponent} from './modules/eTaxXML/eTaxXML.component';
 import {ToasterService} from '../app/shared/services/toasterService';
-import {eTaxXMLModule}  from './services/eTaxXML/eTaxXMLModule';
+import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
 
 
 @NgModule({

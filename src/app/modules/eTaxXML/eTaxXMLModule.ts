@@ -7,11 +7,12 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import {eTaxXMLComponent} from './eTaxXML.component';
 import {personalInfoComponent} from './personalInfo/personalInfo.component';
+import {IncomeDetailsComponent} from './incomeDetails/incomeDetails.component';
 @NgModule({
 
     imports: [CommonModule,NgSelectModule,FormsModule,NgxMyDatePickerModule.forRoot()],
     providers : [],
-    declarations : [eTaxXMLComponent,personalInfoComponent],
+    declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent],
     exports : [eTaxXMLComponent]
 })
 

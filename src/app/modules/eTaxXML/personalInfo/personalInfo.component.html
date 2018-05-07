@@ -1,4 +1,12 @@
 <div class="form-group margin-top15">
+    <label class="col-sm-3 text-left">Upload text file to auto fill below details</label>
+    <div class="col-sm-3">
+        <input name="file" type="file" (change)="on($event)"/>
+    </div>
+   
+</div>
+<hr/>
+<div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">First Name</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.firstName" #firstName="ngModel" name="firstName"
@@ -139,7 +147,7 @@
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Governed by Portuguese Civil Code (section 5A)</label>
     <div class="col-sm-3">
-        <select id="governedByPortugueseCivil" #governedByPortugueseCivil="ngModel" required [ngClass]="personalInfo.selectedGovernedByPortugueseCivil!='0'? 'valid': 'invalid'"
+        <select id="governedByPortugueseCivil" #governedByPortugueseCivil="ngModel" required [ngClass]="(personalInfo.selectedGovernedByPortugueseCivil!='0' && personalInfo.selectedGovernedByPortugueseCivil!='') ? 'valid': 'invalid'"
             class="form-control" [(ngModel)]="personalInfo.selectedGovernedByPortugueseCivil" name="governedByPortugueseCivil">
             <option selected="selected" value="0">Select</option>
             <option [ngValue]="st.value" *ngFor="let st of _configuration.yesNoList">
@@ -156,7 +164,7 @@
 <div class="form-group margin-top15">
     <label class="control-label  col-sm-2 text-left">Original/Revised Return</label>
     <div class="col-sm-3">
-        <select id="originalRevisedFile" #originalRevisedFile="ngModel" required [ngClass]="personalInfo.selectedOriginalRevisedFile!='0'? 'valid': 'invalid'"
+        <select id="originalRevisedFile" #originalRevisedFile="ngModel" required [ngClass]="(personalInfo.selectedOriginalRevisedFile!='0' &&  personalInfo.selectedOriginalRevisedFile!='')? 'valid': 'invalid'"
             class="form-control" [(ngModel)]="personalInfo.selectedOriginalRevisedFile" name="originalRevisedFile">
             <option selected="selected" value="0">Select</option>
             <option [ngValue]="st.value" *ngFor="let st of _configuration.originalRevisedList">

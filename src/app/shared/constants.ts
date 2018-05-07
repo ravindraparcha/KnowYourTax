@@ -8,6 +8,9 @@ export class Configuration {
     }
     public ErrorOccurred = "Some error occurred. Try refreshing page or contact administrator";
 
+    public dateTimeFormat='dd/mm/yyyy';
+
+
     public stateList = [
         { "state": "ANDAMAN AND NICOBAR ISLANDS", stateCode: "01" },
         { "state": "ANDHRA PRADESH", stateCode: "02" },
