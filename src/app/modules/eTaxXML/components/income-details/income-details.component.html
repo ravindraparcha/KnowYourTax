@@ -1,61 +1,76 @@
-<div class="form-group" >
-        <div class="col-sm-12" style="margin-top:10px;">
-                SALARY / PENSION
-                <span> &nbsp;&nbsp; = </span>
-                <span style="font-size:large;" >{{incomeDetailsModel.salaryPensionSum | indianCurrency  }}</span>
-                <hr style="margin:2px 0 0 0;" />
-        </div>
+<div class="form-group">
+    <div class="col-sm-12" style="margin-top:10px;">
+        SALARY / PENSION
+        <span> &nbsp;&nbsp; = </span>
+        <span style="font-size:large;">{{incomeDetailsModel.salaryPensionSum | indianCurrency }}</span>
+        <hr style="margin:2px 0 0 0;" />
+    </div>
 </div>
 
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Salary</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary" #salary="ngModel" name="salary"/>
+        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary"
+            #salary="ngModel" name="salary" />
         <div class="border-left-info">Excluding all allowances,perquisites and profit in liew of salary</div>
     </div>
     <label class="control-label col-sm-2 text-left">Allowance not exempt</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()"  [(ngModel)]="incomeDetailsModel.allowance" #allowance="ngModel" name="allowance"/>
+        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.allowance"
+            #allowance="ngModel" name="allowance" />
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Value of perquisites</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control"(ngModelChange)="updateSalaryPensionSum()"  [(ngModel)]="incomeDetailsModel.perquisites" #perquisites="ngModel" name="perquisites"/>        
+        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.perquisites"
+            #perquisites="ngModel" name="perquisites" />
     </div>
     <label class="control-label col-sm-2 text-left">Profit in lieu of salary</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()"  [(ngModel)]="incomeDetailsModel.profitLieuOfSalary" #profitLieuOfSalary="ngModel" name="profitLieuOfSalary"/>
+        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.profitLieuOfSalary"
+            #profitLieuOfSalary="ngModel" name="profitLieuOfSalary" />
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Deduction u/s 16</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()"  [(ngModel)]="incomeDetailsModel.deductionUS16" #deductionUS16="ngModel" name="deductionUS16"/>        
+        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.deductionUS16"
+            #deductionUS16="ngModel" name="deductionUS16" />
     </div>
 </div>
 
-<div class="form-group" >
-        <div class="col-sm-12" style="margin-top:10px;">
-                HOUSE PROPERTY
-                <span> &nbsp;&nbsp; = </span>
-                <span style="font-size:large;" >{{incomeDetailsModel.housePropertySum | indianCurrency  }}</span>
-                <hr style="margin:2px 0 0 0;" />
-        </div>
+<div class="form-group">
+    <div class="col-sm-12" style="margin-top:10px;">
+        HOUSE PROPERTY
+        <span> &nbsp;&nbsp; = </span>
+        <span style="font-size:large;">{{incomeDetailsModel.housePropertySum | indianCurrency }}</span>
+        <hr style="margin:2px 0 0 0;" />
+    </div>
 </div>
 
 <div class="form-group margin-top15">
-        <label class="control-label col-sm-2 text-left">House property type</label>
-        <div class="col-sm-3">
-                <select id="selectedHousePropertyType" #housePropertyType="ngModel" required [ngClass]="(incomeDetailsModel.selectedHousePropertyType!='0' &&  incomeDetailsModel.selectedHousePropertyType!='')? 'valid': 'invalid'"
-                class="form-control" [(ngModel)]="incomeDetailsModel.selectedHousePropertyType" name="housePropertyType">
-                <option selected="selected" value="0">Select</option>
-                <option [ngValue]="st.value" *ngFor="let st of _configuration.housePropertyType">
-                    {{st.text}}
-            </select>
-        </div>
-        <label class="control-label col-sm-2 text-left">Gross rent received</label>
-        <div class="col-sm-3">
-            <input type="number" novalidate class="form-control"    [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent"/>
-        </div>
+    <label class="control-label col-sm-2 text-left">House property type</label>
+    <div class="col-sm-3">
+        <select id="selectedHousePropertyType" #housePropertyType="ngModel" required [ngClass]="(incomeDetailsModel.selectedHousePropertyType!='0' &&  incomeDetailsModel.selectedHousePropertyType!='')? 'valid': 'invalid'"
+            class="form-control" [(ngModel)]="incomeDetailsModel.selectedHousePropertyType" name="housePropertyType">
+            <option selected="selected" value="0">Select</option>
+            <option [ngValue]="st.value" *ngFor="let st of _configuration.housePropertyType">
+                {{st.text}}
+        </select>
     </div>
+    <label class="control-label col-sm-2 text-left">Gross rent received(A)</label>
+    <div class="col-sm-3">
+        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" />
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Tax paid to local authority(B)</label>
+    <div class="col-sm-3">
+        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel" name="taxPaidToLocalAuthority" />
+    </div>
+    <label class="control-label col-sm-2 text-left">Annual value(A-B)</label>
+    <div class="col-sm-3">
+        <label class="control-label">{{incomeDetailsModel.annualValue | indianCurrency }}</label>
+    </div>
+</div>

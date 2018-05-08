@@ -10,8 +10,7 @@ import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
  
-
-import {CalculatorService} from '../app/services/calculator.dataservice'
+import {CalculatorService} from '../app/services/calculator.service'
 import { CalculatorComponent } from './modules/calculator/calculator.component';
 import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
 import { Configuration } from "../app/shared/constants";
@@ -22,8 +21,7 @@ import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
 import {sharedModule} from './shared/sharedModule';
 
 @NgModule({
-  declarations: [
-    //IndianCurrency,
+  declarations: [     
     AppComponent,
     CalculatorComponent,
     PageNotFoundComponent,

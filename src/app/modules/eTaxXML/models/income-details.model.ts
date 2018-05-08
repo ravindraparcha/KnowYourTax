@@ -9,4 +9,6 @@ export class IncomeDetailsModel
     public housePropertySum : number =0;
     public selectedHousePropertyType : string="0";
     public rent : number;
+    public taxPaidToLocalAuthority : number;
+    public annualValue : number;
 }
