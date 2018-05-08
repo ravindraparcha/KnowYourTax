@@ -7,6 +7,6 @@ export class IncomeDetailsModel
     public deductionUS16 : number ;
     public salaryPensionSum : number  =0;
     public housePropertySum : number =0;
-    public selectedHousePropertyType : string;
+    public selectedHousePropertyType : string="0";
     public rent : number;
 }

@@ -15,7 +15,7 @@ export class IncomeDetailsComponent  implements OnInit {
     ngOnInit(){
         this.incomeDetailsModel = new IncomeDetailsModel();
         this.incomeDetailsModel.salaryPensionSum;
-        this.incomeDetailsModel.selectedHousePropertyType="0";
+        this.incomeDetailsModel.selectedHousePropertyType;
         
     }
 
