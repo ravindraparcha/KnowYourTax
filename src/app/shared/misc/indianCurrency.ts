@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({name: 'indianCurrency'})
+ 
 export class IndianCurrency implements PipeTransform {
   transform(value: number, args: string[]): any {
 
@@ -23,3 +24,5 @@ export class IndianCurrency implements PipeTransform {
         }
   }
 }
+
+ 

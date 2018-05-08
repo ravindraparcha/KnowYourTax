@@ -78,4 +78,8 @@ export class Configuration {
         {"value" : "R", "text":"Revised"}
         
     ];
+    public housePropertyType = [
+        {"value" : "S", "text": "Self Occupied" },
+        {"value" : "L", "text": "Let Out" }
+    ];
 }

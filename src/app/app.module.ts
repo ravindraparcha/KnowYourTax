@@ -16,17 +16,17 @@ import { CalculatorComponent } from './modules/calculator/calculator.component';
 import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
-import {IndianCurrency} from '../app/shared/misc/indianCurrency';
+//import {IndianCurrency} from '../app/shared/misc/indianCurrency';
 import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer';
 
 import {eTaxXMLComponent} from './modules/eTaxXML/eTaxXML.component';
 import {ToasterService} from '../app/shared/services/toasterService';
 import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
-
+import {sharedModule} from './shared/sharedModule';
 
 @NgModule({
   declarations: [
-    IndianCurrency,
+    //IndianCurrency,
     AppComponent,
     CalculatorComponent,
     PageNotFoundComponent,
@@ -41,7 +41,8 @@ import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
     SlimLoadingBarModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),     
-    eTaxXMLModule
+    eTaxXMLModule,
+    sharedModule
   ],
   providers: [
     {provide: LocationStrategy,useClass:HashLocationStrategy},

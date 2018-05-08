@@ -8,9 +8,10 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import {eTaxXMLComponent} from './eTaxXML.component';
 import {personalInfoComponent} from './personalInfo/personalInfo.component';
 import {IncomeDetailsComponent} from './incomeDetails/incomeDetails.component';
-@NgModule({
+import {sharedModule} from '../../shared/sharedModule';
 
-    imports: [CommonModule,NgSelectModule,FormsModule,NgxMyDatePickerModule.forRoot()],
+@NgModule({
+    imports: [CommonModule,NgSelectModule,FormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
     providers : [],
     declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent],
     exports : [eTaxXMLComponent]
