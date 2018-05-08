@@ -4,10 +4,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
-
-import {eTaxXMLComponent} from './eTaxXML.component';
-import {personalInfoComponent} from './personalInfo/personalInfo.component';
-import {IncomeDetailsComponent} from './incomeDetails/incomeDetails.component';
+import {eTaxXMLComponent} from '../eTaxXML/components/eTaxXML.component';
+import {personalInfoComponent} from '../eTaxXML/components/personal-info/personal-info.component';
+import {IncomeDetailsComponent} from '../eTaxXML/components/income-details/income-details.component';
 import {sharedModule} from '../../shared/sharedModule';
 
 @NgModule({

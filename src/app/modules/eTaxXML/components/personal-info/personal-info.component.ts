@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { Configuration } from '../../../shared/constants';
-import { PersonalInfoModel } from '../models/personalInfo.model';
+import { Configuration } from '../../../../shared/constants';
+import { PersonalInfoModel } from '../../models/personal-info.model';
 
 @Component({
     selector: 'personal-info',
-    templateUrl: './personalInfo.component.html'
+    templateUrl: './personal-info.component.html'
 
 })
 export class personalInfoComponent implements OnInit {

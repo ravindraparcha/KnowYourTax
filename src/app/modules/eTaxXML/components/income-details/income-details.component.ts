@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {IncomeDetailsModel} from '../models/incomeDetails.model';
-import { Configuration } from '../../../shared/constants';
+import {IncomeDetailsModel} from '../../models/income-details.model';
+import { Configuration } from '../../../../shared/constants';
 
 @Component({
     selector: 'income-details',
-    templateUrl: './incomeDetails.component.html'
+    templateUrl: './income-details.component.html'
 })
 
 export class IncomeDetailsComponent  implements OnInit {

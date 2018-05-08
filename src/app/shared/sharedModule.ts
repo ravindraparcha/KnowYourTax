@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {IndianCurrency} from './misc/indianCurrency';
+import {IndianCurrency} from './pipe/indianCurrency';
 import { CommonModule } from '@angular/common';
 @NgModule({
     imports: [CommonModule],

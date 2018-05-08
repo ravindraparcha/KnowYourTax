@@ -10,7 +10,7 @@ import {slimLoaderBarService} from '../shared/services/slimLoaderBarService';
 import { Configuration } from "../shared/constants";
 
 @Injectable()
-export class CalculatorDataService {    
+export class CalculatorService {    
    
     private actionUrl: string;
 

@@ -11,15 +11,12 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
  
 
-import {CalculatorDataService} from '../app/dataServices/calculator.dataservice'
+import {CalculatorService} from '../app/services/calculator.dataservice'
 import { CalculatorComponent } from './modules/calculator/calculator.component';
 import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
-//import {IndianCurrency} from '../app/shared/misc/indianCurrency';
-import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer';
-
-import {eTaxXMLComponent} from './modules/eTaxXML/eTaxXML.component';
+import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer'; 
 import {ToasterService} from '../app/shared/services/toasterService';
 import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
 import {sharedModule} from './shared/sharedModule';
@@ -48,7 +45,7 @@ import {sharedModule} from './shared/sharedModule';
     {provide: LocationStrategy,useClass:HashLocationStrategy},
     HttpClientModule,
     Configuration,
-    CalculatorDataService,
+    CalculatorService,
     slimLoaderBarService],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ElementRef } from '@angular/core';
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
 import { AssessmentYearsModel } from '../../models/assessmentYearsModel';
-import { CalculatorDataService } from '../../dataServices/calculator.dataservice';
+import { CalculatorService } from '../../services/calculator.dataservice';
 import { slimLoaderBarService } from '../../shared/services/slimLoaderBarService';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Configuration } from '../../shared/constants';
@@ -9,7 +9,6 @@ import { debug } from 'util';
 
  
 declare var $: any;
-
 
 @Component({
     selector: 'calculator',
@@ -22,7 +21,7 @@ export class CalculatorComponent implements OnInit {
     public assessmentYearsModels: AssessmentYearsModel[];
     public selectedCarId:any;
     
-    constructor(private _calcService: CalculatorDataService, private _slimLoader: slimLoaderBarService, public toastr: ToastsManager, vcr: ViewContainerRef
+    constructor(private _calcService: CalculatorService, private _slimLoader: slimLoaderBarService, public toastr: ToastsManager, vcr: ViewContainerRef
         , private _configuration: Configuration) {
         this.toastr.setRootViewContainerRef(vcr);
 

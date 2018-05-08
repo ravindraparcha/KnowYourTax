@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import {CalculatorComponent} from './modules/calculator/calculator.component';
 import{PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
 import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer';
-import {eTaxXMLComponent} from './modules/eTaxXML/eTaxXML.component';
+import {eTaxXMLComponent} from './modules/eTaxXML/components/eTaxXML.component';
 // <a [routerLink]="['/parcha.net']">Parcha.net</a>
 // <a [routerLink]="['/privacypolicy']">Privacy Policy</a>
 // <a [routerLink]="['/privacypolicy']">
