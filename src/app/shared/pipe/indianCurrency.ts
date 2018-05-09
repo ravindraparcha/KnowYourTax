@@ -6,7 +6,7 @@ export class IndianCurrency implements PipeTransform {
   transform(value: number, args: string[]): any {
 
         if (! isNaN(value)) {
-            var currencySymbol = '₹';
+            var currencySymbol = '₹ ';
             //var output = Number(input).toLocaleString('en-IN');   <-- This method is not working fine in all browsers!           
             var result = value.toString().split('.');
 

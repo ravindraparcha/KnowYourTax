@@ -106,17 +106,17 @@ export class Configuration {
         {"value":"Section80CCD","text":"Self employed contribution to government notificed scheme(20% of salary)"},
         {"value":"Section80CCD","text":"Employer's contribution to Pension scheme(10% of salary)"},
 
-        {"value":"Section80D","text":"Health insurance premium for Self & family"},
-        {"value":"Section80D","text":"Health insurance premium for self(Senior Citizen) & family"},
+        {"value":"Section80D","text":"Health insurance premium for Self and family"},
+        {"value":"Section80D","text":"Health insurance premium for self(Senior Citizen) and family"},
         {"value":"Section80D","text":"Health insurance premium for parents(Senior Citizen)"},
         {"value":"Section80D","text":"Health insurance premium for Self and family including parents"},
         {"value":"Section80D","text":"Health insurance premium for self and family including senior citizen parents"},
-        {"value":"Section80D","text":"Health insurance premium for self(Senior citizen) & family including senior citizen parents"},
+        {"value":"Section80D","text":"Health insurance premium for self(Senior citizen) and family including senior citizen parents"},
 
         {"value":"Section80DD","text":"Medical treatment of your dependant(spouse, parents, kids or siblings)"},
         {"value":"Section80DD","text":"Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability"},
 
-        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(<60 years)"},
+        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent( less than 60 years)"},
         {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(senior citizen)"},
         {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(super senior citizen)"},
 

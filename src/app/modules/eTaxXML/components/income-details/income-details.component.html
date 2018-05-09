@@ -10,32 +10,32 @@
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Salary</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary"
+        <input type="number" novalidate class="form-control" (ngModelChange)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary"
             #salary="ngModel" name="salary" />
         <div class="border-left-info">Excluding all allowances,perquisites and profit in liew of salary</div>
     </div>
     <label class="control-label col-sm-2 text-left">Allowance not exempt</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.allowance"
+        <input type="number" novalidate class="form-control" (ngModelChange)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.allowance"
             #allowance="ngModel" name="allowance" />
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Value of perquisites</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.perquisites"
+        <input type="number" novalidate class="form-control" (ngModelChange)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.perquisites"
             #perquisites="ngModel" name="perquisites" />
     </div>
     <label class="control-label col-sm-2 text-left">Profit in lieu of salary</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.profitLieuOfSalary"
+        <input type="number" novalidate class="form-control" (ngModelChange)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.profitLieuOfSalary"
             #profitLieuOfSalary="ngModel" name="profitLieuOfSalary" />
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Deduction u/s 16</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" (ngModelChange)="updateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.deductionUS16"
+        <input type="number" novalidate class="form-control" (ngModelChange)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.deductionUS16"
             #deductionUS16="ngModel" name="deductionUS16" />
     </div>
 </div>
@@ -53,7 +53,7 @@
     <label class="control-label col-sm-2 text-left">House property type</label>
     <div class="col-sm-3">
         <select id="selectedHousePropertyType" #housePropertyType="ngModel" required [ngClass]="(incomeDetailsModel.selectedHousePropertyType!='0' &&  incomeDetailsModel.selectedHousePropertyType!='')? 'valid': 'invalid'"
-            class="form-control" [(ngModel)]="incomeDetailsModel.selectedHousePropertyType" name="housePropertyType">
+            class="form-control" [(ngModel)]="incomeDetailsModel.selectedHousePropertyType" name="housePropertyType"  >
             <option selected="selected" value="0">Select</option>
             <option [ngValue]="st.value" *ngFor="let st of _configuration.housePropertyType">
                 {{st.text}}
@@ -61,16 +61,18 @@
     </div>
     <label class="control-label col-sm-2 text-left">Gross rent received(A)</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" />
+        <input type="number" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null" 
+        [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" (change)="calculateAnnualValue()"/>
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Tax paid to local authority(B)</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel"
-            name="taxPaidToLocalAuthority" />
+        <input type="number" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null" 
+        [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel"
+            name="taxPaidToLocalAuthority" (change)="calculateAnnualValue()" />
     </div>
-    <label class="control-label col-sm-2 text-left">Annual value(A-B=C)</label>
+    <label class="control-label col-sm-2 text-left">Annual value(C=A-B)</label>
     <div class="col-sm-3">
         <label class="control-label">{{incomeDetailsModel.annualValue | indianCurrency }}</label>
     </div>
@@ -79,16 +81,16 @@
     <label class="control-label col-sm-2 text-left">{{_configuration.annualValuePercentage}}% of annual value(D)</label>
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.annualValuePercentageAmount" #annualValuePercentageAmount="ngModel"
-            name="annualValuePercentageAmount" />
+            name="annualValuePercentageAmount" (change)="calculateIncomeChargeableUnderHouseProperty()"/>
     </div>
     <label class="control-label col-sm-2 text-left">Interest payable on borrowed capital(E)</label>
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.interestOnBorrowedCapital" #interestOnBorrowedCapital="ngModel"
-            name="interestOnBorrowedCapital" />
+            name="interestOnBorrowedCapital" (change)="calculateIncomeChargeableUnderHouseProperty()" />
     </div>
 </div>
 <div class="form-group margin-top15">
-    <label class="control-label col-sm-5" style="text-align: left;padding-left: 38px;">Income chargeable under the head 'House Property'(C-D-E=F)</label>
+    <label class="control-label col-sm-5" style="text-align: left;padding-left: 38px;">Income chargeable under the head 'House Property'(F=C-D-E)</label>
     <div class="col-sm-2">
         <label class="control-label">{{incomeDetailsModel.housePropertySum | indianCurrency }}</label>
 
@@ -124,10 +126,10 @@
 </div>
 <div class="form-group margin-top15">
     <div class="col-sm-12">
-        <ng-select id="selectedSection" #selectedSection="ngModel" name="selectedSection" [(ngModel)]="incomeDetailsModel.selectedSection">
+        <ng-select id="selectedSection" #selectedSection="ngModel"   name="selectedSection" placeholder="Select your investment for deduction" [(ngModel)]="incomeDetailsModel.selectedSection">
             <ng-option *ngFor="let deduction of _configuration.deductionList" [value]="deduction.value" >{{deduction.text}}
             </ng-option>
-            <ng-option [value]="'custom'">Custom</ng-option>
+            <!-- <ng-option [value]="'custom'">Custom</ng-option> -->
         </ng-select>
         {{incomeDetailsModel.selectedSection}}
     </div>

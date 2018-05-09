@@ -10,7 +10,7 @@ export class IncomeDetailsModel
     public selectedHousePropertyType : string="0";
     public rent : number;
     public taxPaidToLocalAuthority : number;
-    public annualValue : number;
+    public annualValue : number=0;
     public annualValuePercentageAmount : number;
     public interestOnBorrowedCapital : number;
     public incomeFromOtherSources: number;
