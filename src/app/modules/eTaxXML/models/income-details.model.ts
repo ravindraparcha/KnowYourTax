@@ -13,4 +13,7 @@ export class IncomeDetailsModel
     public annualValue : number;
     public annualValuePercentageAmount : number;
     public interestOnBorrowedCapital : number;
+    public incomeFromOtherSources: number;
+    public grossTotalIncome : number;
+    public selectedSection : string;
 }
