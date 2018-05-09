@@ -19,8 +19,7 @@ export class IncomeDetailsComponent  implements OnInit {
         
     }
 
-    updateSalaryPensionSum() {
-        
+    updateSalaryPensionSum() {        
         this.incomeDetailsModel.salaryPensionSum =  
          (this.incomeDetailsModel.allowance ==undefined ? 0 :this.incomeDetailsModel.allowance)+ 
          (this.incomeDetailsModel.deductionUS16 ==undefined ? 0 :this.incomeDetailsModel.deductionUS16)+

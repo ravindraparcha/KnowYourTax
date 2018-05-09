@@ -41,7 +41,7 @@
 </div>
 
 <div class="form-group">
-    <div class="col-sm-12" style="margin-top:10px;">
+    <div class="col-sm-12">
         HOUSE PROPERTY
         <span> &nbsp;&nbsp; = </span>
         <span style="font-size:large;">{{incomeDetailsModel.housePropertySum | indianCurrency }}</span>
@@ -67,10 +67,68 @@
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Tax paid to local authority(B)</label>
     <div class="col-sm-3">
-        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel" name="taxPaidToLocalAuthority" />
+        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel"
+            name="taxPaidToLocalAuthority" />
     </div>
-    <label class="control-label col-sm-2 text-left">Annual value(A-B)</label>
+    <label class="control-label col-sm-2 text-left">Annual value(A-B=C)</label>
     <div class="col-sm-3">
         <label class="control-label">{{incomeDetailsModel.annualValue | indianCurrency }}</label>
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">{{_configuration.annualValuePercentage}}% of annual value(D)</label>
+    <div class="col-sm-3">
+        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.annualValuePercentageAmount" #annualValuePercentageAmount="ngModel"
+            name="annualValuePercentageAmount" />
+    </div>
+    <label class="control-label col-sm-2 text-left">Interest payable on borrowed capital(E)</label>
+    <div class="col-sm-3">
+        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.interestOnBorrowedCapital" #interestOnBorrowedCapital="ngModel"
+            name="interestOnBorrowedCapital" />
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-5" style="text-align: left;padding-left: 38px;">Income chargeable under the head 'House Property'(C-D-E=F)</label>
+    <div class="col-sm-2">
+        <label class="control-label">{{incomeDetailsModel.housePropertySum | indianCurrency }}</label>
+
+    </div>
+</div>
+<div class="form-group margin-top15" style="margin-left:22px;">
+    <div class="border-left-info col-sm-5">Note:Maximum loss from House property that can be set-off is {{_configuration.allowedHousePropertyLoss | indianCurrency}}</div>
+</div>
+<div class="form-group">
+    <div class="col-sm-12">
+        <hr style="margin:2px 0 0 0;" />
+    </div>
+</div>
+
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Income from other sources</label>
+    <div class="col-sm-3">
+        <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.incomeFromOtherSources" #incomeFromOtherSources="ngModel"
+            name="incomeFromOtherSources" />
+        <div class="border-left-info">Ensure to fill TDS2</div>
+    </div>
+
+    <label class="control-label col-sm-2 text-left">Gross total income</label>
+    <div class="col-sm-3">
+        <label class="control-label">{{incomeDetailsModel.grossTotalIncome | indianCurrency }}</label>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-12">
+        DEDUCTIONS UNDER SECTIONS
+        <hr style="margin:2px 0 0 0;" />
+    </div>
+</div>
+<div class="form-group margin-top15">
+    <div class="col-sm-12">
+        <ng-select id="selectedSection" #selectedSection="ngModel" name="selectedSection" [(ngModel)]="incomeDetailsModel.selectedSection">
+            <ng-option *ngFor="let deduction of _configuration.deductionList" [value]="deduction.value" >{{deduction.text}}
+            </ng-option>
+            <ng-option [value]="'custom'">Custom</ng-option>
+        </ng-select>
+        {{incomeDetailsModel.selectedSection}}
     </div>
 </div>

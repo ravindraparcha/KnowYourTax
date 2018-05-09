@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'
 @Injectable()
 export class Configuration {
-    public ServerWithApiUrl = environment.apiUrl;
+    public ServerWithApiUrl : string = environment.apiUrl;
     public CustomOptions = {
         positionClass: 'toast-top-center', newestOnTop: true, showCloseButton: true, toastLife: 2000
     }
     public ErrorOccurred = "Some error occurred. Try refreshing page or contact administrator";
 
-    public dateTimeFormat='dd/mm/yyyy';
-
+    public dateTimeFormat:string='dd/mm/yyyy';
 
     public stateList = [
         { "state": "ANDAMAN AND NICOBAR ISLANDS", stateCode: "01" },
@@ -81,5 +80,65 @@ export class Configuration {
     public housePropertyType = [
         {"value" : "S", "text": "Self Occupied" },
         {"value" : "L", "text": "Let Out" }
+    ];
+
+    public annualValuePercentage:number=30;
+    public allowedHousePropertyLoss: number = 200000;
+
+    //Need to get list of deductions from server for assessment year
+
+    public deductionList = [
+        {"value":"Section80C" ,"text": "PPF (Public Provident Fund)"},
+        {"value":"Section80C" ,"text": "EPF (Employees’ Provident Fund)"},
+        {"value":"Section80C" ,"text": "Five years Bank or Post office Tax saving Deposits"},
+        {"value":"Section80C" ,"text": "NSC (National Savings Certificates)"},
+        {"value":"Section80C" ,"text": "ELSS Mutual Funds (Equity Linked Saving Schemes)"},
+        {"value":"Section80C" ,"text": "Kid’s Tuition Fees"},
+        {"value":"Section80C" ,"text": "SCSS (Post office Senior Citizen Savings Scheme)"},
+        {"value":"Section80C" ,"text": "Principal repayment of Home Loan"},
+        {"value":"Section80C" ,"text": "NPS (National Pension System)"},
+        {"value":"Section80C" ,"text": "Life Insurance Premium"},
+        {"value":"Section80C" ,"text": "Sukanya Samriddhi Account Deposit Scheme"},
+
+        {"value":"Section80CCC","text":"LIC/Life insurance company pension for tax benefit"},
+
+        {"value":"Section80CCD","text":"Government notified Pension Scheme/NPS(10% of salary)"},
+        {"value":"Section80CCD","text":"Self employed contribution to government notificed scheme(20% of salary)"},
+        {"value":"Section80CCD","text":"Employer's contribution to Pension scheme(10% of salary)"},
+
+        {"value":"Section80D","text":"Health insurance premium for Self & family"},
+        {"value":"Section80D","text":"Health insurance premium for self(Senior Citizen) & family"},
+        {"value":"Section80D","text":"Health insurance premium for parents(Senior Citizen)"},
+        {"value":"Section80D","text":"Health insurance premium for Self and family including parents"},
+        {"value":"Section80D","text":"Health insurance premium for self and family including senior citizen parents"},
+        {"value":"Section80D","text":"Health insurance premium for self(Senior citizen) & family including senior citizen parents"},
+
+        {"value":"Section80DD","text":"Medical treatment of your dependant(spouse, parents, kids or siblings)"},
+        {"value":"Section80DD","text":"Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability"},
+
+        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(<60 years)"},
+        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(senior citizen)"},
+        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(super senior citizen)"},
+
+        {"value":"Section80CCG","text":"Rajiv Gandhi Equity Saving Scheme(RGESS) tax benefit amount withdrawn or deduction amount not investment amount"},
+        
+        {"value":"Section80E","text":"Interest paid towards higher education loan by you as legal guardian"},
+
+        {"value":"Section80EE","text":"Loan interest for first residential home property"},
+
+        {"value":"Section80G","text":"Contribution made to certain relief funds and charitable institution"},        
+        {"value":"Section80GG","text":"Tax deduction on rent paid who do not receive HRA"},
+        {"value":"Section80GGA","text":"Donation for scientific research or rural development"},
+        {"value":"Section80GGC","text":"Deduction on contribution to political party"},
+
+        {"value":"Section80QQB","text":"Deduction on income received through certain books"},
+
+        {"value":"Section80RRB","text":"Deduction on income received through patent royalty"},
+
+        {"value":"Section80TTA","text":"Deduction on interest received on saving bank accounts"},
+
+        {"value":"Section80U","text":"Medical treatment for self"},
+        {"value":"Section80U","text":"Medical treatment for  self with 40% disability"},
+        
     ];
 }
