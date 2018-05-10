@@ -8,11 +8,11 @@ import {eTaxXMLComponent} from '../eTaxXML/components/eTaxXML.component';
 import {personalInfoComponent} from '../eTaxXML/components/personal-info/personal-info.component';
 import {IncomeDetailsComponent} from '../eTaxXML/components/income-details/income-details.component';
 import {sharedModule} from '../../shared/sharedModule';
-
+import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
     providers : [],
-    declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent],
+    declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent,DeductionsComponent],
     exports : [eTaxXMLComponent]
 })
 

@@ -33,6 +33,8 @@ export class IncomeDetailsComponent  implements OnInit {
         this.incomeDetailsModel.annualValue = 
         isNaN(this.incomeDetailsModel.rent)  ? 0 : this.incomeDetailsModel.rent-
         (isNaN(this.incomeDetailsModel.taxPaidToLocalAuthority) ? 0 :this.incomeDetailsModel.taxPaidToLocalAuthority);
+        this.incomeDetailsModel.annualValuePercentageAmount= (this.incomeDetailsModel.annualValue * this._configuration.annualValuePercentage)/100; 
+        
     }
 
     calculateIncomeChargeableUnderHouseProperty(){
@@ -43,8 +45,22 @@ export class IncomeDetailsComponent  implements OnInit {
         this.calculateGrossTotal();
     }
 
-    public calculateGrossTotal() {         
+    calculateGrossTotal() {         
         this.incomeDetailsModel.grossTotalIncome = this.incomeDetailsModel.salaryPensionSum + this.incomeDetailsModel.housePropertySum + (isNaN(this.incomeDetailsModel.incomeFromOtherSources) ? 0 : this.incomeDetailsModel.incomeFromOtherSources);
     }
+
+    disableEnableHouseProperty(){
+        if(this.incomeDetailsModel.selectedHousePropertyType=='S') {
+            this.incomeDetailsModel.rent=0;
+            this.incomeDetailsModel.taxPaidToLocalAuthority=0;
+        }
+        this.calculateAnnualValue();
+    }
+    onDeductionChange(event){
+        debugger;
+        const val = event.target.options[event.target.selectedIndex].getAttribute('data-dataType');
+
+    }
+
      
 }

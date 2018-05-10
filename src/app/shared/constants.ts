@@ -88,37 +88,38 @@ export class Configuration {
     //Need to get list of deductions from server for assessment year
 
     public deductionList = [
-        {"value":"Section80C" ,"text": "PPF (Public Provident Fund)"},
-        {"value":"Section80C" ,"text": "EPF (Employees’ Provident Fund)"},
-        {"value":"Section80C" ,"text": "Five years Bank or Post office Tax saving Deposits"},
-        {"value":"Section80C" ,"text": "NSC (National Savings Certificates)"},
-        {"value":"Section80C" ,"text": "ELSS Mutual Funds (Equity Linked Saving Schemes)"},
-        {"value":"Section80C" ,"text": "Kid’s Tuition Fees"},
-        {"value":"Section80C" ,"text": "SCSS (Post office Senior Citizen Savings Scheme)"},
-        {"value":"Section80C" ,"text": "Principal repayment of Home Loan"},
-        {"value":"Section80C" ,"text": "NPS (National Pension System)"},
-        {"value":"Section80C" ,"text": "Life Insurance Premium"},
-        {"value":"Section80C" ,"text": "Sukanya Samriddhi Account Deposit Scheme"},
+        {"value":"Section80C_1" ,"text": "PPF (Public Provident Fund)"},
+        {"value":"Section80C_2" ,"text": "EPF (Employees’ Provident Fund)"},
+        {"value":"Section80C_3" ,"text": "Five years Bank or Post office Tax saving Deposits"},
+        {"value":"Section80C_4" ,"text": "NSC (National Savings Certificates)"},
+        {"value":"Section80C_5" ,"text": "ELSS Mutual Funds (Equity Linked Saving Schemes)"},
+        {"value":"Section80C_6" ,"text": "Kid’s Tuition Fees"},
+        {"value":"Section80C_7" ,"text": "SCSS (Post office Senior Citizen Savings Scheme)"},
+        {"value":"Section80C_8" ,"text": "Principal repayment of Home Loan"},
+        {"value":"Section80C_9" ,"text": "NPS (National Pension System)"},
+        {"value":"Section80C_10" ,"text": "Life Insurance Premium"},
+        {"value":"Section80C_11" ,"text": "Sukanya Samriddhi Account Deposit Scheme"},
 
-        {"value":"Section80CCC","text":"LIC/Life insurance company pension for tax benefit"},
+        {"value":"Section80C_12","text":"LIC/Life insurance company pension for tax benefit"}, //Actual section = 80CCC comes under 80C
 
-        {"value":"Section80CCD","text":"Government notified Pension Scheme/NPS(10% of salary)"},
-        {"value":"Section80CCD","text":"Self employed contribution to government notificed scheme(20% of salary)"},
-        {"value":"Section80CCD","text":"Employer's contribution to Pension scheme(10% of salary)"},
+        {"value":"Section80C_13","text":"Government notified Pension Scheme/NPS(10% of salary)"}, //Actual section = 80CCD comes under 80C
+        {"value":"Section80C_13","text":"Self employed contribution to government notificed scheme(20% of salary)"}, //Actual section = 80CCD comes under 80C
+        {"value":"Section80C_14","text":"Employer's contribution to Pension scheme(10% of salary)"}, //Actual section = 80CCD comes under 80C
 
-        {"value":"Section80D","text":"Health insurance premium for Self and family"},
-        {"value":"Section80D","text":"Health insurance premium for self(Senior Citizen) and family"},
-        {"value":"Section80D","text":"Health insurance premium for parents(Senior Citizen)"},
-        {"value":"Section80D","text":"Health insurance premium for Self and family including parents"},
-        {"value":"Section80D","text":"Health insurance premium for self and family including senior citizen parents"},
-        {"value":"Section80D","text":"Health insurance premium for self(Senior citizen) and family including senior citizen parents"},
+        {"value":"Section80D_1","text":"Health insurance premium for Self and family"},
+        {"value":"Section80D_2","text":"Health insurance premium for self(Senior Citizen) and family"},
+        {"value":"Section80D_3","text":"Health insurance premium for parents"},
+        {"value":"Section80D_4","text":"Health insurance premium for parents(Senior Citizen)"},
+        {"value":"Section80D_5","text":"Health insurance premium for Self and family including parents"},
+        {"value":"Section80D_6","text":"Health insurance premium for self and family including senior citizen parents"},
+        {"value":"Section80D_7","text":"Health insurance premium for self(Senior citizen) and family including senior citizen parents"},
 
-        {"value":"Section80DD","text":"Medical treatment of your dependant(spouse, parents, kids or siblings)"},
-        {"value":"Section80DD","text":"Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability"},
+        {"value":"Section80DD_1","text":"Medical treatment of your dependant(spouse, parents, kids or siblings)"},
+        {"value":"Section80DD_2","text":"Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability"},
 
-        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent( less than 60 years)"},
-        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(senior citizen)"},
-        {"value":"Section80DDB","text":"Treatment of specified critical ailment/disease for self or dependent(super senior citizen)"},
+        {"value":"Section80DDB_1","text":"Treatment of specified critical ailment/disease for self or dependent( less than 60 years)"},
+        {"value":"Section80DDB_2","text":"Treatment of specified critical ailment/disease for self or dependent(senior citizen)"},
+        {"value":"Section80DDB_3","text":"Treatment of specified critical ailment/disease for self or dependent(super senior citizen)"},
 
         {"value":"Section80CCG","text":"Rajiv Gandhi Equity Saving Scheme(RGESS) tax benefit amount withdrawn or deduction amount not investment amount"},
         
@@ -137,8 +138,38 @@ export class Configuration {
 
         {"value":"Section80TTA","text":"Deduction on interest received on saving bank accounts"},
 
-        {"value":"Section80U","text":"Medical treatment for self"},
-        {"value":"Section80U","text":"Medical treatment for  self with 40% disability"},
+        {"value":"Section80U_1","text":"Medical treatment for self"},
+        {"value":"Section80U_2","text":"Medical treatment for  self with 40% disability"},
         
     ];
+
+    public masterDeductionList = [
+        { "sectionName" : "Section80C","limit":150000 },
+        { "sectionName" : "Section80D_1","limit":25000 },
+        { "sectionName" : "Section80D_2","limit":30000 },
+        { "sectionName" : "Section80D_3","limit":25000 },
+        { "sectionName" : "Section80D_4","limit":30000 },
+        { "sectionName" : "Section80D_5","limit":50000 },
+        { "sectionName" : "Section80D_6","limit":55000 },
+        { "sectionName" : "Section80D_7","limit":60000 },
+        { "sectionName" : "Section80DD_1","limit":75000 },
+        { "sectionName" : "Section80DD_2","limit":125000 },
+        { "sectionName" : "Section80DDB_1","limit":40000 },
+        { "sectionName" : "Section80DDB_2","limit":40000 },
+        { "sectionName" : "Section80DDB_3","limit":60000 },
+        { "sectionName" : "Section80CCG","limit":-1 },
+        { "sectionName" : "Section80E","limit":-1 },
+        { "sectionName" : "Section80EE","limit":50000 },
+        { "sectionName" : "Section80G","limit":2000 },
+        { "sectionName" : "Section80GG","limit":60000 },
+        { "sectionName" : "Section80GGA","limit":10000 },
+        { "sectionName" : "Section80GGC","limit":-1 },
+        { "sectionName" : "Section80QQB","limit":300000 },
+        { "sectionName" : "Section80RRB","limit":300000 },
+        { "sectionName" : "Section80TTA","limit":10000 },
+        { "sectionName" : "Section80U_1","limit":75000 },
+        { "sectionName" : "Section80U_2","limit":125000 }
+
+    ];
+
 }
