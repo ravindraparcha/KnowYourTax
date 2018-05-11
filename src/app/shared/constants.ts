@@ -88,87 +88,87 @@ export class Configuration {
     //Need to get list of deductions from server for assessment year
 
     public deductionList = [
-        {"value":"Section80C_1" ,"text": "PPF (Public Provident Fund)"},
-        {"value":"Section80C_2" ,"text": "EPF (Employees’ Provident Fund)"},
-        {"value":"Section80C_3" ,"text": "Five years Bank or Post office Tax saving Deposits"},
-        {"value":"Section80C_4" ,"text": "NSC (National Savings Certificates)"},
-        {"value":"Section80C_5" ,"text": "ELSS Mutual Funds (Equity Linked Saving Schemes)"},
-        {"value":"Section80C_6" ,"text": "Kid’s Tuition Fees"},
-        {"value":"Section80C_7" ,"text": "SCSS (Post office Senior Citizen Savings Scheme)"},
-        {"value":"Section80C_8" ,"text": "Principal repayment of Home Loan"},
-        {"value":"Section80C_9" ,"text": "NPS (National Pension System)"},
-        {"value":"Section80C_10" ,"text": "Life Insurance Premium"},
-        {"value":"Section80C_11" ,"text": "Sukanya Samriddhi Account Deposit Scheme"},
+        {"value":"80C_1" ,"text": "PPF (Public Provident Fund)"},
+        {"value":"80C_2" ,"text": "EPF (Employees’ Provident Fund)"},
+        {"value":"80C_3" ,"text": "Five years Bank or Post office Tax saving Deposits"},
+        {"value":"80C_4" ,"text": "NSC (National Savings Certificates)"},
+        {"value":"80C_5" ,"text": "ELSS Mutual Funds (Equity Linked Saving Schemes)"},
+        {"value":"80C_6" ,"text": "Kid’s Tuition Fees"},
+        {"value":"80C_7" ,"text": "SCSS (Post office Senior Citizen Savings Scheme)"},
+        {"value":"80C_8" ,"text": "Principal repayment of Home Loan"},
+        {"value":"80C_9" ,"text": "NPS (National Pension System)"},
+        {"value":"80C_10" ,"text": "Life Insurance Premium"},
+        {"value":"80C_11" ,"text": "Sukanya Samriddhi Account Deposit Scheme"},
 
-        {"value":"Section80C_12","text":"LIC/Life insurance company pension for tax benefit"}, //Actual section = 80CCC comes under 80C
+        {"value":"80C_12","text":"LIC/Life insurance company pension for tax benefit"}, //Actual section = 80CCC comes under 80C
 
-        {"value":"Section80C_13","text":"Government notified Pension Scheme/NPS(10% of salary)"}, //Actual section = 80CCD comes under 80C
-        {"value":"Section80C_13","text":"Self employed contribution to government notificed scheme(20% of salary)"}, //Actual section = 80CCD comes under 80C
-        {"value":"Section80C_14","text":"Employer's contribution to Pension scheme(10% of salary)"}, //Actual section = 80CCD comes under 80C
+        {"value":"80C_13","text":"Government notified Pension Scheme/NPS(10% of salary)"}, //Actual section = 80CCD comes under 80C
+        {"value":"80C_14","text":"Self employed contribution to government notificed scheme(20% of salary)"}, //Actual section = 80CCD comes under 80C
+        {"value":"80C_15","text":"Employer's contribution to Pension scheme(10% of salary)"}, //Actual section = 80CCD comes under 80C
 
-        {"value":"Section80D_1","text":"Health insurance premium for Self and family"},
-        {"value":"Section80D_2","text":"Health insurance premium for self(Senior Citizen) and family"},
-        {"value":"Section80D_3","text":"Health insurance premium for parents"},
-        {"value":"Section80D_4","text":"Health insurance premium for parents(Senior Citizen)"},
-        {"value":"Section80D_5","text":"Health insurance premium for Self and family including parents"},
-        {"value":"Section80D_6","text":"Health insurance premium for self and family including senior citizen parents"},
-        {"value":"Section80D_7","text":"Health insurance premium for self(Senior citizen) and family including senior citizen parents"},
+        {"value":"80D_1","text":"Health insurance premium for Self and family"},
+        {"value":"80D_2","text":"Health insurance premium for self(Senior Citizen) and family"},
+        {"value":"80D_3","text":"Health insurance premium for parents"},
+        {"value":"80D_4","text":"Health insurance premium for parents(Senior Citizen)"},
+        {"value":"80D_5","text":"Health insurance premium for Self and family including parents"},
+        {"value":"80D_6","text":"Health insurance premium for self and family including senior citizen parents"},
+        {"value":"80D_7","text":"Health insurance premium for self(Senior citizen) and family including senior citizen parents"},
 
-        {"value":"Section80DD_1","text":"Medical treatment of your dependant(spouse, parents, kids or siblings)"},
-        {"value":"Section80DD_2","text":"Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability"},
+        {"value":"80DD_1","text":"Medical treatment of your dependant(spouse, parents, kids or siblings)"},
+        {"value":"80DD_2","text":"Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability"},
 
-        {"value":"Section80DDB_1","text":"Treatment of specified critical ailment/disease for self or dependent( less than 60 years)"},
-        {"value":"Section80DDB_2","text":"Treatment of specified critical ailment/disease for self or dependent(senior citizen)"},
-        {"value":"Section80DDB_3","text":"Treatment of specified critical ailment/disease for self or dependent(super senior citizen)"},
+        {"value":"80DDB_1","text":"Treatment of specified critical ailment/disease for self or dependent( less than 60 years)"},
+        {"value":"80DDB_2","text":"Treatment of specified critical ailment/disease for self or dependent(senior citizen)"},
+        {"value":"80DDB_3","text":"Treatment of specified critical ailment/disease for self or dependent(super senior citizen)"},
 
-        {"value":"Section80CCG","text":"Rajiv Gandhi Equity Saving Scheme(RGESS) tax benefit amount withdrawn or deduction amount not investment amount"},
+        {"value":"80CCG","text":"Rajiv Gandhi Equity Saving Scheme(RGESS) tax benefit amount withdrawn or deduction amount not investment amount"},
         
-        {"value":"Section80E","text":"Interest paid towards higher education loan by you as legal guardian"},
+        {"value":"80E","text":"Interest paid towards higher education loan by you as legal guardian"},
 
-        {"value":"Section80EE","text":"Loan interest for first residential home property"},
+        {"value":"80EE","text":"Loan interest for first residential home property"},
 
-        {"value":"Section80G","text":"Contribution made to certain relief funds and charitable institution"},        
-        {"value":"Section80GG","text":"Tax deduction on rent paid who do not receive HRA"},
-        {"value":"Section80GGA","text":"Donation for scientific research or rural development"},
-        {"value":"Section80GGC","text":"Deduction on contribution to political party"},
+        {"value":"80G","text":"Contribution made to certain relief funds and charitable institution"},        
+        {"value":"80GG","text":"Tax deduction on rent paid who do not receive HRA"},
+        {"value":"80GGA","text":"Donation for scientific research or rural development"},
+        {"value":"80GGC","text":"Deduction on contribution to political party"},
 
-        {"value":"Section80QQB","text":"Deduction on income received through certain books"},
+        {"value":"80QQB","text":"Deduction on income received through certain books"},
 
-        {"value":"Section80RRB","text":"Deduction on income received through patent royalty"},
+        {"value":"80RRB","text":"Deduction on income received through patent royalty"},
 
-        {"value":"Section80TTA","text":"Deduction on interest received on saving bank accounts"},
+        {"value":"TTA","text":"Deduction on interest received on saving bank accounts"},
 
-        {"value":"Section80U_1","text":"Medical treatment for self"},
-        {"value":"Section80U_2","text":"Medical treatment for  self with 40% disability"},
+        {"value":"80U_1","text":"Medical treatment for self"},
+        {"value":"80U_2","text":"Medical treatment for  self with 40% disability"},
         
     ];
 
     public masterDeductionList = [
-        { "sectionName" : "Section80C","limit":150000 },
-        { "sectionName" : "Section80D_1","limit":25000 },
-        { "sectionName" : "Section80D_2","limit":30000 },
-        { "sectionName" : "Section80D_3","limit":25000 },
-        { "sectionName" : "Section80D_4","limit":30000 },
-        { "sectionName" : "Section80D_5","limit":50000 },
-        { "sectionName" : "Section80D_6","limit":55000 },
-        { "sectionName" : "Section80D_7","limit":60000 },
-        { "sectionName" : "Section80DD_1","limit":75000 },
-        { "sectionName" : "Section80DD_2","limit":125000 },
-        { "sectionName" : "Section80DDB_1","limit":40000 },
-        { "sectionName" : "Section80DDB_2","limit":40000 },
-        { "sectionName" : "Section80DDB_3","limit":60000 },
-        { "sectionName" : "Section80CCG","limit":-1 },
-        { "sectionName" : "Section80E","limit":-1 },
-        { "sectionName" : "Section80EE","limit":50000 },
-        { "sectionName" : "Section80G","limit":2000 },
-        { "sectionName" : "Section80GG","limit":60000 },
-        { "sectionName" : "Section80GGA","limit":10000 },
-        { "sectionName" : "Section80GGC","limit":-1 },
-        { "sectionName" : "Section80QQB","limit":300000 },
-        { "sectionName" : "Section80RRB","limit":300000 },
-        { "sectionName" : "Section80TTA","limit":10000 },
-        { "sectionName" : "Section80U_1","limit":75000 },
-        { "sectionName" : "Section80U_2","limit":125000 }
+        { "sectionName" : "80C","limit":150000 },
+        { "sectionName" : "80D_1","limit":25000 },
+        { "sectionName" : "80D_2","limit":30000 },
+        { "sectionName" : "80D_3","limit":25000 },
+        { "sectionName" : "80D_4","limit":30000 },
+        { "sectionName" : "80D_5","limit":50000 },
+        { "sectionName" : "80D_6","limit":55000 },
+        { "sectionName" : "80D_7","limit":60000 },
+        { "sectionName" : "80DD_1","limit":75000 },
+        { "sectionName" : "80DD_2","limit":125000 },
+        { "sectionName" : "80DDB_1","limit":40000 },
+        { "sectionName" : "80DDB_2","limit":40000 },
+        { "sectionName" : "80DDB_3","limit":60000 },
+        { "sectionName" : "80CCG","limit":-1 },
+        { "sectionName" : "80E","limit":-1 },
+        { "sectionName" : "80EE","limit":50000 },
+        { "sectionName" : "80G","limit":2000 },
+        { "sectionName" : "80GG","limit":60000 },
+        { "sectionName" : "80GGA","limit":10000 },
+        { "sectionName" : "80GGC","limit":-1 },
+        { "sectionName" : "80QQB","limit":300000 },
+        { "sectionName" : "80RRB","limit":300000 },
+        { "sectionName" : "TTA","limit":10000 },
+        { "sectionName" : "80U_1","limit":75000 },
+        { "sectionName" : "80U_2","limit":125000 }
 
     ];
 

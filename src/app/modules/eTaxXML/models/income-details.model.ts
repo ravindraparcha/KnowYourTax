@@ -16,4 +16,14 @@ export class IncomeDetailsModel
     public incomeFromOtherSources: number;
     public grossTotalIncome : number;
     public selectedSection : string;
+    public totalDeduction : number;
+    public totalTaxableIncome : number;
+    public taxPayable : number;
+    public rebate :number;
+    public cessPercentage : number;
+    public cessCharges : number;
+    public netTax : number;
+    public relief :  number;
+    
+
 }

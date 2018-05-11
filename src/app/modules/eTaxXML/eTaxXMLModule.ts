@@ -1,7 +1,7 @@
 import  { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import {eTaxXMLComponent} from '../eTaxXML/components/eTaxXML.component';
@@ -10,7 +10,7 @@ import {IncomeDetailsComponent} from '../eTaxXML/components/income-details/incom
 import {sharedModule} from '../../shared/sharedModule';
 import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
 @NgModule({
-    imports: [CommonModule,NgSelectModule,FormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
+    imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
     providers : [],
     declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent,DeductionsComponent],
     exports : [eTaxXMLComponent]
