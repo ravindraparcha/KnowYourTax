@@ -7,4 +7,5 @@ export class DeductionModel {
         this.amount = amount;
         this.section=section;
     }
+    
 }

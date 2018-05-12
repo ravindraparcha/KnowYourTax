@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,EventEmitter,Output } from "@angular/core";
 import { Configuration } from '../../../../shared/constants';
 import { DeductionModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
@@ -11,15 +11,16 @@ declare var $: any;
 })
 
 export class DeductionsComponent implements OnInit {
-    selectedSectionValue;
+    private selectedSectionValue;
     public deductions;
-    sectionForm;
+    public sectionForm;
+    @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(private _configuration: Configuration, private _fb: FormBuilder) { }
 
     ngOnInit() {
         this.deductions = [];
-
+        this.deductions
         this.sectionForm = this._fb.group({
             itemRows: this._fb.array([this.initialiseNewRow('', 0, '')]) // here
         });
@@ -28,7 +29,7 @@ export class DeductionsComponent implements OnInit {
         const control = <FormArray>this.sectionForm.controls['itemRows'];
         for(let i = control.length-1; i >= 0; i--) {
           control.removeAt(i)
-        }
+        }         
     }
     initialiseNewRow(text: string, value: number, section: string) {
         return this._fb.group({
@@ -38,14 +39,11 @@ export class DeductionsComponent implements OnInit {
             deductionSection: [section]
         });
     }
-    addSection() {
-
-        let $this = this;
+    addSection() {       
         let section = this.selectedSectionValue;
-
         let duplicateFound = false;
-        //duplicate check
 
+        //duplicate check
         if (this.deductionItemIndex(this.sectionForm.value.itemRows, section) != -1) {
             duplicateFound = true;
             return;
@@ -53,7 +51,7 @@ export class DeductionsComponent implements OnInit {
         if (duplicateFound) {
             return;
         }
-
+        let $this = this;
         const control = <FormArray>this.sectionForm.controls['itemRows'];
         $.each(this._configuration.deductionList, function (i, v) {
             if (v.value == section) {
@@ -61,7 +59,6 @@ export class DeductionsComponent implements OnInit {
                 return;
             }
         });
-
     }
 
     deleteSection(index: number) {
@@ -70,8 +67,14 @@ export class DeductionsComponent implements OnInit {
         // remove the chosen row
         control.removeAt(index);
     }
-    onSubmit(formData: any) {
-        console.log(formData.value);
+    onSubmit(formData: any) {        
+        let deductions = formData.value.itemRows;
+        let sum=0;
+        for(let deduction of deductions){
+            sum+=deduction.deductionValue;
+        }
+        //alert(sum);
+        this.onCalculateDeductionSum.emit(sum);
     }
     private deductionItemIndex(objArray, objElement): number {
         let index = -1;
@@ -87,10 +90,18 @@ export class DeductionsComponent implements OnInit {
     calculateSum(formData: any) {
         console.log(formData.form.value);
         console.log(this.deductions);
+        
 
     }
     onDeductionChange() {
         this.addSection();
+    }
+    onChangeCalculateDeductionAmount(formData:any) {        
+        let sum=0;
+        for(let deduction of formData.form.value){
+            sum+=deduction.amount;
+        }
+        console.log(sum);
     }
 
 }

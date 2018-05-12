@@ -15,8 +15,7 @@ export class IncomeDetailsModel
     public interestOnBorrowedCapital : number;
     public incomeFromOtherSources: number;
     public grossTotalIncome : number;
-    public selectedSection : string;
-    public totalDeduction : number;
+    public selectedSection : string;    
     public totalTaxableIncome : number;
     public taxPayable : number;
     public rebate :number;
@@ -24,6 +23,6 @@ export class IncomeDetailsModel
     public cessCharges : number;
     public netTax : number;
     public relief :  number;
-    
+    public totalDeductionSum : number=0;
 
 }

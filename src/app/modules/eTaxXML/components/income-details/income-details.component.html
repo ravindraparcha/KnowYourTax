@@ -3,6 +3,7 @@
         SALARY / PENSION
         <span> &nbsp;&nbsp; = </span>
         <span style="font-size:large;">{{incomeDetailsModel.salaryPensionSum | indianCurrency }}</span>
+        <span style="font-size:large;">Net total income {{incomeDetailsModel.totalTaxableIncome | indianCurrency }}</span>
         <hr style="margin:2px 0 0 0;" />
     </div>
 </div>
@@ -108,7 +109,7 @@
     <label class="control-label col-sm-2 text-left">Income from other sources</label>
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.incomeFromOtherSources" #incomeFromOtherSources="ngModel"
-            name="incomeFromOtherSources" />
+            name="incomeFromOtherSources"  (change)="onChangeGrossTotalIncome()" />
         <div class="border-left-info">Ensure to fill TDS2</div>
     </div>
 
@@ -119,17 +120,14 @@
 </div>
 <div class="form-group">
     <div class="col-sm-12">
-        DEDUCTIONS UNDER SECTIONS
+        DEDUCTIONS
+        <span> &nbsp;&nbsp; = </span> 
+        <span style="font-size:large;">{{incomeDetailsModel.totalDeductionSum | indianCurrency }}</span>
         <hr style="margin:2px 0 0 0;" />
     </div>
 </div>
 <div class="form-group margin-top15">
     <div class="col-sm-12">
-        <deductions></deductions>
-        <!-- <ng-select id="selectedSection" #selectedSection="ngModel" name="selectedSection" placeholder="Select your investment for deduction" [(ngModel)]="incomeDetailsModel.selectedSection">
-            <ng-option *ngFor="let deduction of _configuration.deductionList" [value]="deduction.value" >{{deduction.text}}
-            </ng-option>            
-        </ng-select>
-        {{incomeDetailsModel.selectedSection}} -->
+        <deductions (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>      
     </div>
 </div>
