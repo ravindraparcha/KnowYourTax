@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
-import {CalculatorService} from '../../../../services/calculator.service';
+
 
 @Component({
     selector: 'income-details',
@@ -9,16 +9,14 @@ import {CalculatorService} from '../../../../services/calculator.service';
 })
 
 export class IncomeDetailsComponent implements OnInit {
-
-    public assessmentYear :string;
+   
     public incomeDetailsModel: IncomeDetailsModel;
-    constructor(private _configuration: Configuration, private _calcService : CalculatorService) { }
+    constructor(private _configuration: Configuration) { }
 
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
         this.incomeDetailsModel.salaryPensionSum = 8690000;        
-        let  currentDate = new Date();        
-        this.assessmentYear = currentDate.getFullYear()+"-" +  (currentDate.getFullYear()+1);        
+        
     }
 
     calculateSalaryPensionSum() {
@@ -51,6 +49,7 @@ export class IncomeDetailsComponent implements OnInit {
     }
     calculateGrossTotal() {
         this.incomeDetailsModel.grossTotalIncome = this.incomeDetailsModel.salaryPensionSum + this.incomeDetailsModel.housePropertySum + (isNaN(this.incomeDetailsModel.incomeFromOtherSources) ? 0 : this.incomeDetailsModel.incomeFromOtherSources);
+        ///this.calculateTaxableIncome();
     }
 
     disableEnableHouseProperty() {
@@ -62,9 +61,11 @@ export class IncomeDetailsComponent implements OnInit {
     }
     updateTotalDeductions(sum: number) {
         this.incomeDetailsModel.totalDeductionSum = sum;
-        this.incomeDetailsModel.totalTaxableIncome =         
-        this.incomeDetailsModel.grossTotalIncome - this.incomeDetailsModel.totalDeductionSum;
-
+        //this.calculateTaxableIncome();
     }
+    // calculateTaxableIncome(){
+    //     this.incomeDetailsModel.totalTaxableIncome =         
+    //     this.incomeDetailsModel.grossTotalIncome - this.incomeDetailsModel.totalDeductionSum;
+    // }
 
 }

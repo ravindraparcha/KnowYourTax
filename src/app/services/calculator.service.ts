@@ -25,9 +25,9 @@ export class CalculatorService {
                         .catch(this.handleError);
     }
 
-    public getSections<T>(assessmentYearId:number,category:number) : Observable<T>{
+    public getSections<T>(assessmentYearId:number,category:number,yearRange:string="") : Observable<T>{
         this._slimLoader.startLoading();
-        const input = "?m=GetSections&assessmentYearId="+assessmentYearId+"&category="+category;
+        const input = "?m=GetSections&assessmentYearId="+assessmentYearId+"&category="+category+"&yearRange="+yearRange;
         return this.http.get<T>(this.actionUrl+input)
                         .catch(this.handleError); ;
     }

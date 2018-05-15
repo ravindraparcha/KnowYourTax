@@ -84,19 +84,21 @@ export class Configuration {
 
     public annualValuePercentage:number=30;
     public allowedHousePropertyLoss: number = 200000;
+    public dueDateForFiling:string = "31/07/"+new Date().getFullYear(); //dd/mm//yyyy format
+    public section234BEndDate: string= "31/03/"+new Date().getFullYear();
 
     //Need to get list of deductions from server for assessment year
 
     public deductionList = [
-        {"value":"80C_1" ,"text": "PPF (Public Provident Fund)"},
-        {"value":"80C_2" ,"text": "EPF (Employees’ Provident Fund)"},
+        {"value":"80C_1" ,"text": "PPF(Public Provident Fund)"},
+        {"value":"80C_2" ,"text": "EPF(Employees’ Provident Fund)"},
         {"value":"80C_3" ,"text": "Five years Bank or Post office Tax saving Deposits"},
-        {"value":"80C_4" ,"text": "NSC (National Savings Certificates)"},
+        {"value":"80C_4" ,"text": "NSC(National Savings Certificates)"},
         {"value":"80C_5" ,"text": "ELSS Mutual Funds (Equity Linked Saving Schemes)"},
         {"value":"80C_6" ,"text": "Kid’s Tuition Fees"},
-        {"value":"80C_7" ,"text": "SCSS (Post office Senior Citizen Savings Scheme)"},
+        {"value":"80C_7" ,"text": "SCSS(Post office Senior Citizen Savings Scheme)"},
         {"value":"80C_8" ,"text": "Principal repayment of Home Loan"},
-        {"value":"80C_9" ,"text": "NPS (National Pension System)"},
+        {"value":"80C_9" ,"text": "NPS(National Pension System)"},
         {"value":"80C_10" ,"text": "Life Insurance Premium"},
         {"value":"80C_11" ,"text": "Sukanya Samriddhi Account Deposit Scheme"},
 

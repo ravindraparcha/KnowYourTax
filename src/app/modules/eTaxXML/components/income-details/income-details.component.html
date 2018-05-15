@@ -63,7 +63,7 @@
     <label class="control-label col-sm-2 text-left">Gross rent received(A)</label>
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null"
-            [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" (change)="calculateAnnualValue()" />
+            [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" (input)="calculateAnnualValue()" />
     </div>
 </div>
 <div class="form-group margin-top15">
@@ -71,7 +71,7 @@
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null"
             [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel" name="taxPaidToLocalAuthority"
-            (change)="calculateAnnualValue()" />
+            (input)="calculateAnnualValue()" />
     </div>
     <label class="control-label col-sm-2 text-left">Annual value(C=A-B)</label>
     <div class="col-sm-3">
@@ -86,7 +86,7 @@
     <label class="control-label col-sm-2 text-left">Interest payable on borrowed capital(E)</label>
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.interestOnBorrowedCapital" #interestOnBorrowedCapital="ngModel"
-            name="interestOnBorrowedCapital" (change)="calculateIncomeChargeableUnderHouseProperty()" />
+            name="interestOnBorrowedCapital" (input)="calculateIncomeChargeableUnderHouseProperty()" />
     </div>
 </div>
 <div class="form-group margin-top15">
@@ -109,7 +109,7 @@
     <label class="control-label col-sm-2 text-left">Income from other sources</label>
     <div class="col-sm-3">
         <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.incomeFromOtherSources" #incomeFromOtherSources="ngModel"
-            name="incomeFromOtherSources"  (change)="onChangeGrossTotalIncome()" />
+            name="incomeFromOtherSources"  (input)="onChangeGrossTotalIncome()" />
         <div class="border-left-info">Ensure to fill TDS2</div>
     </div>
 
@@ -128,6 +128,6 @@
 </div>
 <div class="form-group margin-top15">
     <div class="col-sm-12">
-        <deductions (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>      
+        <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>      
     </div>
 </div>

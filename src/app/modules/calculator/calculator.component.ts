@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ElementRef } from '@angular/core';
-import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../shared/models/calculatorModel";
-import { AssessmentYearsModel } from '../../shared/models/assessmentYearsModel';
+//import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../shared/models/calculatorModel";
+//import { AssessmentYearsModel } from '../../shared/models/assessmentYearsModel';
 import { CalculatorService } from '../../services/calculator.service';
 import { slimLoaderBarService } from '../../shared/services/slimLoaderBarService';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -17,8 +17,8 @@ declare var $: any;
 })
 export class CalculatorComponent implements OnInit {
 
-    public calcModel: CalculatorModel;     
-    public assessmentYearsModels: AssessmentYearsModel[];
+    public calcModel;//CalculatorModel;     
+    public assessmentYearsModels;//: AssessmentYearsModel[];
     public selectedCarId:any;
     
     constructor(private _calcService: CalculatorService, private _slimLoader: slimLoaderBarService, public toastr: ToastsManager, vcr: ViewContainerRef
@@ -36,7 +36,7 @@ export class CalculatorComponent implements OnInit {
 
     ngOnInit() {
 
-        this.calcModel = new CalculatorModel();
+        this.calcModel;// = new CalculatorModel();
         this.calcModel.selectedCategory = 0;
         this.calcModel.ayLoader=true;
         this._calcService.getAssessmentYears<any[]>()
@@ -62,7 +62,7 @@ export class CalculatorComponent implements OnInit {
             return;
         }
        
-        let calculatorInputs = new CalculatorInputs();
+        let calculatorInputs ;//= new CalculatorInputs();
         calculatorInputs.assessmentYearId = model.assessmentYearId;
         calculatorInputs.Category = model.Category;
         calculatorInputs.OtherSourceIncome = model.OtherSourceIncome;
@@ -72,14 +72,14 @@ export class CalculatorComponent implements OnInit {
          
         calculatorInputs.SectionValues = [];
 
-        calculatorInputs.SectionValues.push(new SectionValue("80C", (isNaN(model.Section80C) == true || model.Section80C == null) ? 0 : model.Section80C));
-        calculatorInputs.SectionValues.push(new SectionValue("80D", (isNaN(model.Section80D) == true || model.Section80D == null) ? 0 : model.Section80D));
-        calculatorInputs.SectionValues.push(new SectionValue("24", (isNaN(model.Section24) == true || model.Section24 == null) ? 0 : model.Section24));
-        calculatorInputs.SectionValues.push(new SectionValue("TTA", (isNaN(model.SectionTTA) == true || model.SectionTTA == null) ? 0 : model.SectionTTA));
-        calculatorInputs.SectionValues.push(new SectionValue("80G", (isNaN(model.Section80G) == true || model.Section80G == null) ? 0 : model.Section80G));
-        calculatorInputs.SectionValues.push(new SectionValue("80E", (isNaN(model.Section80E) == true || model.Section80E == null) ? 0 : model.Section80E));
-        calculatorInputs.SectionValues.push(new SectionValue("OtherDeductions", calculatorInputs.OtherDeductions));
-        calculatorInputs.SelectedMediClaim = this.calcModel.SelectedMediClaim;
+        // calculatorInputs.SectionValues.push(new SectionValue("80C", (isNaN(model.Section80C) == true || model.Section80C == null) ? 0 : model.Section80C));
+        // calculatorInputs.SectionValues.push(new SectionValue("80D", (isNaN(model.Section80D) == true || model.Section80D == null) ? 0 : model.Section80D));
+        // calculatorInputs.SectionValues.push(new SectionValue("24", (isNaN(model.Section24) == true || model.Section24 == null) ? 0 : model.Section24));
+        // calculatorInputs.SectionValues.push(new SectionValue("TTA", (isNaN(model.SectionTTA) == true || model.SectionTTA == null) ? 0 : model.SectionTTA));
+        // calculatorInputs.SectionValues.push(new SectionValue("80G", (isNaN(model.Section80G) == true || model.Section80G == null) ? 0 : model.Section80G));
+        // calculatorInputs.SectionValues.push(new SectionValue("80E", (isNaN(model.Section80E) == true || model.Section80E == null) ? 0 : model.Section80E));
+        // calculatorInputs.SectionValues.push(new SectionValue("OtherDeductions", calculatorInputs.OtherDeductions));
+        
 
         this.calcModel.calculateTaxLoader = true;
         this._calcService.calculateTax<any>(calculatorInputs)
@@ -130,8 +130,8 @@ export class CalculatorComponent implements OnInit {
         }
        
         this._calcService
-            .getSections<Section[]>(assessmentYearId, categoryId)
-            .subscribe((data: Section[]) => this.calcModel.Sections = data,
+            .getSections<any[]>(assessmentYearId, categoryId)
+            .subscribe((data: any[]) => this.calcModel.Sections = data,
                 (error) => {
                     this.calcModel.sectionLoader = false;                    
                     this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);

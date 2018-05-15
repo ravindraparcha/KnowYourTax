@@ -2,7 +2,7 @@
     <div class="col-sm-11">        
         <ng-select id="selectedSection" #selectedSection="ngModel" (change)="onDeductionChange()" name="selectedSection" placeholder="Select your investment for deduction"
             [(ngModel)]="selectedSectionValue">
-            <ng-option *ngFor="let deduction of _configuration.deductionList" [value]="deduction.value">{{deduction.text}}
+            <ng-option *ngFor="let deduction of deductionList" [value]="deduction.value">{{deduction.text}}
             </ng-option>
         </ng-select>
         <div class="border-left-info">Select or search by typing your investment for deduction</div>
@@ -18,7 +18,7 @@
                 <label class="control-label col-sm-6" style="text-align:left">{{itemrow.get('deductionText').value}}</label>
                 <div class="col-sm-2">
                     <div class="input-group">
-                        <input type="number" formControlName="deductionValue" (change)="onSubmit(sectionForm)" class="form-control">
+                        <input type="number" formControlName="deductionValue" (input)="onDeductionChangeCalculateSum(sectionForm)" class="form-control">
                         <span class="input-group-btn">
                             <button class="btn btn-default removeIcon" type="button" (click)="deleteSection(i)">
                                 <i class="glyphicon glyphicon-remove"></i>

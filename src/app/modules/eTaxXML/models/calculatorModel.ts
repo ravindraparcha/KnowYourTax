@@ -31,23 +31,28 @@ export class CalculatorInputs{
     public SalaryIncome :number;
     public assessmentYearId : number;
     public SectionValues : any[];
-    public Section80C : number;
-    public Section80D : number;
-    public Section24 :  number;
-    public SectionTTA : number;
-    public Section80G : number;
-    public Section80E : number;
+    // public Section80C : number;
+    // public Section80D : number;
+    // public Section24 :  number;
+    // public SectionTTA : number;
+    // public Section80G : number;
+    // public Section80E : number;
     public OtherDeductions : number;    
     public GrossTaxableSalary :number;
-    public SelectedMediClaim : string;
+    public YearRange : string;
+    public DueDateEfiling:string;
+    public CurrentDate : string;
+    public Section234BEndDate : string;
 }
 export class SectionValue {
-    constructor(name:string,amount:number){
+    constructor(name:string,amount:number,parentSection:string){
         this.SectionName = name;
         this.Amount = amount;
+        this.ParentSection = parentSection;
     }
     public SectionName:string;
     public Amount : number;
+    public ParentSection : string;
 }
 export class Section {
     constructor(Amount : number,Description:string, EnteredAmount : number, Mediclaim : Mediclaim,SectionOptions : any[],Name : string)
