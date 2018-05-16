@@ -20,7 +20,7 @@ export class DeductionsComponent implements OnInit {
     public deductionList = [];
     public sectionForm;
     private assessmentYear;
-
+    public calculationResult={};
     @Input() grossTotalIncome : number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
     
@@ -145,9 +145,9 @@ export class DeductionsComponent implements OnInit {
         for (let i = 0; i < deductions.length; i++) {
             calculatorInputs.SectionValues.push({ "SectionName": deductions[i].deductionSection, "Amount": deductions[i].deductionValue, "ParentSection": deductions[i].parent });
         }
-        let result;
+       
         this._calcService.calculateTax<any>(calculatorInputs)
-            .subscribe((data: any) => result = data,
+            .subscribe((data: any) => this.calculationResult = data,
                 (error) => {
                     this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
                     //this.calcModel.calculateTaxLoader = false;
@@ -156,7 +156,7 @@ export class DeductionsComponent implements OnInit {
                 () => {
                     //this.calcModel.calculateTaxLoader = false;
                     this._slimLoader.completeLoading();
-                    console.log(result);
+                    console.log(this.calculationResult);
                     //$("html, body").animate({ scrollTop: $(document).height() }, 1000);                    
                 });
 
