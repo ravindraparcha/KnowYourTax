@@ -11,10 +11,10 @@
                         <li >
                             <a data-toggle="tab" href="#personInfo">Personal Information</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a data-toggle="tab" href="#incomeDetails">Income details</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a data-toggle="tab" href="#taxDetails">Tax details</a>
                         </li>
                         <li>
@@ -28,16 +28,11 @@
                         <div id="personInfo" class="tab-pane fade" style="padding: 0 5px 0 5px">                             
                             <personal-info></personal-info>
                         </div>                        
-                        <div id="incomeDetails" class="tab-pane fade  in active"  style="padding: 0 5px 0 5px">                            
-                                <!-- <ng-select id="selectedCarId"  #selectedCarId="ngModel" name=" selectedCarId" [(ngModel)]="calcModel.selectedCarId">
-                                        <ng-option *ngFor="let car of cars" [value]="car.id" [disabled]="car.disabled" >{{car.name}}</ng-option>
-                                        <ng-option [value]="'custom'">Custom</ng-option>
-                                    </ng-select>
-                                    {{calcModel.selectedCarId}} -->
+                        <div id="incomeDetails" class="tab-pane fade  in active"  style="padding: 0 5px 0 5px">                                                          
                                 <income-details></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade"  style="padding: 0 5px 0 5px">                            
-
+                            <tax-deducted></tax-deducted>
                         </div>
                         <div id="taxPaidVerification" class="tab-pane fade"  style="padding: 0 5px 0 5px">                            
                         </div>

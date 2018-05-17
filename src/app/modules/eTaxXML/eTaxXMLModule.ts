@@ -9,10 +9,11 @@ import {personalInfoComponent} from '../eTaxXML/components/personal-info/persona
 import {IncomeDetailsComponent} from '../eTaxXML/components/income-details/income-details.component';
 import {sharedModule} from '../../shared/sharedModule';
 import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
+import {TaxDeductedComponent} from '../eTaxXML/components/tax-deducted/tax-deducted.component'
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
     providers : [],
-    declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent,DeductionsComponent],
+    declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent,DeductionsComponent,TaxDeductedComponent],
     exports : [eTaxXMLComponent]
 })
 
