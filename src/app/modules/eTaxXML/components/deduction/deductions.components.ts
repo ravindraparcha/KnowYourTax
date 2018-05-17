@@ -16,7 +16,7 @@ declare var $: any;
 })
 
 export class DeductionsComponent implements OnInit {
-    private selectedSectionValue;
+    public selectedSectionValue;
     public deductionList = [];
     public sectionForm;
     private assessmentYear;

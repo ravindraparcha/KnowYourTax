@@ -20,7 +20,7 @@ export class personalInfoComponent implements OnInit {
         openSelectorTopOfInput: true
     };
 
-    constructor(private cd: ChangeDetectorRef, private _configuration: Configuration) { }
+    constructor(private cd: ChangeDetectorRef, public _configuration: Configuration) { }
 
     // when old value does not match with new value during expression evaluation for child component
     // angular throws ExpressionChangedAfterItHasBeenCheckedError error. 

@@ -2,7 +2,7 @@ export class PersonalInfoModel {
     public firstName: string;
     public middleName: string;
     public lastName: string;
-    public PanNo: string;
+    public panNo: string;
     public aadharCardNo: number;
     public aadharEnrollmentId: string;
     public flatDoorBlockNo: string;

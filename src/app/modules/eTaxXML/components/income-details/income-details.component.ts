@@ -11,7 +11,7 @@ import { Configuration } from '../../../../shared/constants';
 export class IncomeDetailsComponent implements OnInit {
    
     public incomeDetailsModel: IncomeDetailsModel;
-    constructor(private _configuration: Configuration) { }
+    constructor(public _configuration: Configuration) { }
 
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
