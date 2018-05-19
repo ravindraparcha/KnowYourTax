@@ -174,5 +174,29 @@ export class Configuration {
 
     ];
 
+    public incomeNatureList =[
+        {"value":"10(5)","text": "Section 10(5)-Leave Travel Allowance"},
+        {"value":"10(6)","text": "Section 10(6)-Sec 10(6)-Remuneration received as an official, by whatever"},
+        {"value":"10(7)","text": "Section 10(5)-Sec 10(7)-Sec 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India"},
+        {"value":"10(10)","text": "Sec 10(10)-Death-cum-retirement gratuity received "},
+        {"value":"10(10A)","text": "Sec 10(10A)-Commuted value of pension received"},
+        {"value":"10(10AA)","text": "Sec 10(10AA)-Earned leave encashment"},
+        {"value":"10(10B)","text": "Sec 10(10B)-Retrenchment Compensation received"},
+        {"value":"10(10C)","text": "Sec 10(10C)-Amount received on voluntary retirement or termination of service"},
+        {"value":"10(10D)","text": "Sec 10(10D)-Sum received under a life insurance policy including bonus"},
+        {"value":"10(11)","text": "Sec 10(11)-Statuory Provident Fund received"},
+        {"value":"10(12)","text": "Sec 10(12)-Recognised Provident Fund received"},
+        {"value":"10(13)","text": "Sec 10(13)-Approved superannuation fund received"},
+        {"value":"10(13A)","text": "Sec 10(13A)-House Rent Allowance"},
+        {"value":"10(14)","text": "Sec 10(14)-Amount received towards the expenditure incurred during performance of duty"},
+        {"value":"10(15)","text": "Sec 10(15)-Income by way of interest, premium on redemption or other payment on such securities, bonds, annuity certificates, savings certificates, other certificates"},
+        {"value":"10(16)","text": "Sec 10(16)-Scholarships granted to meet the cost of education"},
+        {"value":"10(17)","text": "Sec 10(17)-Allownace MP/MLA/MLC"},
+        {"value":"10(17A)","text": "Sec 10(17A)-Award instituted by Government"},
+        {"value":"10(18)","text": "Sec 10(18)-Pension received by winner of  Param Vir Chakra/Maha Vir Chakra/Vir Chakra/such other gallantry award"},
+        {"value":"10(19)","text": "Sec 10(19)-Family pension received"},
+        {"value":"OTH","text": "Any other"}
+       
+    ];
 
 }
