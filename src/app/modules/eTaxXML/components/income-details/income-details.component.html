@@ -3,7 +3,7 @@
         <div class="panel-heading-custom" role="tab" id="salaryPensionHeading">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#salaryPensionCollapse" aria-expanded="true" aria-controls="collapseOne">
-                    <div>
+                    <div style="font-size:15px;">
                         <span style="font-size:small;" >SALARY / PENSION</span> 
                         <span>&nbsp; = </span>
                         <span style="font-size:large;">{{incomeDetailsModel.salaryPensionSum | indianCurrency }}</span>
@@ -49,17 +49,18 @@
             </div>
         </div>
     </div>
-    <div class="panel-custom panel-default-custom">
+    <div class="panel-custom panel-default-custom">      
         <div class="panel-heading-custom" role="tab" id="housePropertyHeading">
-            <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#housePropertyCollapse" aria-expanded="false"
-                    aria-controls="collapseTwo">
-                    <span style="font-size:small;" >HOUSE PROPERTY</span>
-                    <span>&nbsp; = </span>
-                    <span style="font-size:large;">{{incomeDetailsModel.housePropertySum | indianCurrency }}</span>                     
-                </a>
-            </h4>
-        </div>
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#housePropertyCollapse" aria-expanded="true" aria-controls="collapseOne">
+                        <div style="font-size:15px;">
+                            <span style="font-size:small;" >HOUSE PROPERTY</span> 
+                            <span>&nbsp; = </span>
+                            <span style="font-size:large;">{{incomeDetailsModel.housePropertySum | indianCurrency }}</span>                            
+                        </div>
+                    </a>
+                </h4>
+            </div>
         <div id="housePropertyCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="housePropertyHeading">
             <div class="panel-body">
                 <div class="form-group margin-top15">
@@ -137,16 +138,18 @@
         </div>
     </div>
     <div class="panel-custom panel-default-custom">
+        
         <div class="panel-heading-custom" role="tab" id="deductionHeading">
-            <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#deductionCollapse" aria-expanded="false"
-                    aria-controls="collapseThree">
-                    <span style="font-size:small;" >DEDUCTIONS</span>
-                    <span>&nbsp; = </span>
-                    <span style="font-size:large;">{{incomeDetailsModel.totalDeductionSum | indianCurrency }}</span>
-                </a>
-            </h4>
-        </div>
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#deductionCollapse" aria-expanded="true" aria-controls="collapseOne">
+                        <div style="font-size:15px;">
+                                <span style="font-size:small;" >DEDUCTIONS</span>
+                                <span>&nbsp; = </span>
+                                <span style="font-size:large;">{{incomeDetailsModel.totalDeductionSum | indianCurrency }}</span>
+                        </div>
+                    </a>
+                </h4>
+            </div>
         <div id="deductionCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="deductionHeading">
             <div class="panel-body">
                 <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>

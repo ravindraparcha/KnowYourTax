@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
 
+declare var $: any;
 
 @Component({
     selector: 'income-details',
@@ -15,7 +16,13 @@ export class IncomeDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
-        this.incomeDetailsModel.salaryPensionSum = 8690000;        
+        $('.panel-collapse').on('show.bs.collapse', function () {           
+            $(this).siblings('.panel-heading-custom').addClass('active');
+          });
+        
+          $('.panel-collapse').on('hide.bs.collapse', function () {             
+            $(this).siblings('.panel-heading-custom').removeClass('active');
+          });
         
     }
 

@@ -1,51 +1,155 @@
-<div class="form-group margin-top15">
-    <div class="col-sm-11">        
-         hi 
-        <div class="border-left-info">Select or search by typing your investment for deduction</div>
+<div class="panel-group margin-top15" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel-custom panel-default-custom">
+        <div class="panel-heading-custom" role="tab" id="tds1Heading">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds1Collapse" aria-expanded="true" aria-controls="collapseOne">
+                    <div style="font-size:15px;">Details of Tax deducted at source from
+                        <span style="color:red">SALARY</span> (as per
+                        <span style="color:red">FORM</span> 16 issued by employer(s))</div>
+                </a>
+            </h4>
+        </div>
+        <div id="tds1Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="tds1Heading">
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>TAN of deductor</th>
+                            <th>Deductor name</th>
+                            <th>Income chargeable under salaries</th>
+                            <th>Total tax deducted</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let taxDeductedSalaryModel of taxDeductedSalaryModels; let i = index">
+                            <td>
+                                <input [(ngModel)]="taxDeductedSalaryModel.TAN" class="form-control" type="text" name="{{taxDeductedSalaryModel.TAN}}" />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedSalaryModel.name" class="form-control" type="text" name="{{taxDeductedSalaryModel.name}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedSalaryModel.income" class="form-control" type="number" name="{{taxDeductedSalaryModel.income}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedSalaryModel.taxDeducted}}"
+                                />
+                            </td>
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default removeIcon" type="button" (click)="deleteTaxDeductedSalary(i)">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" (click)="addNewTaxDeductedSalary()">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
- 
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let field of fieldArray; let i = index">
-            <td>
-                <input [(ngModel)]="field.code" class="form-control" type="text" name="{{field.code}}" />
-            </td>
-            <td>
-                <input [(ngModel)]="field.name" class="form-control" type="text" name="{{field.name}}" />
-            </td>
-            <td>
-                <input [(ngModel)]="field.price" class="form-control" type="text" name="{{field.price}}" />
-            </td>
-            <td>
-                <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input class="form-control" type="text" id="newAttributeCode" [(ngModel)]="newAttribute.code" name="newAttributeCode" />
-            </td>
-            <td>
-                <input class="form-control" type="text" id="newAttributeName" [(ngModel)]="newAttribute.name" name="newAttributeName" />
-            </td>
-            <td>
-                <input class="form-control" type="text" id="newAttributePrice" [(ngModel)]="newAttribute.price" name="newAttributePrice" />
-            </td>
-            <td>
-                <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <div class="panel-custom panel-default-custom">
+        <div class="panel-heading-custom" role="tab" id="tds2Heading" style="font-size:15px;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds2Collapse" aria-expanded="true" aria-controls="collapseOne">
+                    <div style="font-size:15px;">Details of tax deducted at source from income
+                        <span style="color:red">OTHER THAN salary</span> (as per
+                        <span style="color:red">FORM 16 A</span> issued by Deductor(s))</div>
+                </a>
+            </h4>
+        </div>
+        <div id="tds2Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="tds2Heading">
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>TAN of deductor</th>
+                            <th>Deductor name</th>
+                            <th>Amount for tax deduction</th>
+                            <th>Tax deduction year</th>
+                            <th>Tax deducted</th>
+                            <th>Amount claimed this year</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let taxDeductedOtherThanSalaryModel of taxDeductedOtherThanSalaryModels; let i = index">
+                            <td>
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.TAN" class="form-control" type="text" name="{{taxDeductedOtherThanSalaryModel.TAN}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.name" class="form-control" type="text" name="{{taxDeductedOtherThanSalaryModel.name}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountForDeduction" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.amountForDeduction}}"
+                                />
+                            </td>
+                            <td>
+                                    <select id="selectedYear" #selectedYear="ngModel" required [ngClass]="taxDeductedOtherThanSalaryModel.selectedYear>0? 'valid': 'invalid'" class="form-control"
+                                            [(ngModel)]="taxDeductedOtherThanSalaryModel.selectedYear" name="selectedYear">
+                                            <option selected="selected" value="0">Select</option>
+                                            <option [ngValue]="year.key" *ngFor="let year of yearList">
+                                                {{year.value}}
+                                        </select>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.taxDeducted}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.amountClaimedThisYear}}"
+                                />
+                            </td>
+
+                          
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default removeIcon" type="button" (click)="deleteTaxDeductedOtherThanSalary(i)">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" (click)="addNewTaxDeductedOtherThanSalary()">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <button (click)="onSubmit()">
-Submit data
+    Submit data
 </button>
