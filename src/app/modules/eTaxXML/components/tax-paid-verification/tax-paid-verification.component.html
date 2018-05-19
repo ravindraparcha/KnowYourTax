@@ -107,6 +107,90 @@
             </div>
         </div>
     </div>
+
+    <div class="panel-custom panel-default-custom">
+            <div class="panel-heading-custom" role="tab" id="otherInformationHeading">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#otherInformationCollapse" aria-expanded="true"
+                        aria-controls="collapseOne">
+                        <div style="font-size:15px;">
+                            Bank account held in India at any time during previous year (excluding dormant account)
+                        </div>
+                    </a>
+                </h4>
+            </div>
+            <div id="otherInformationCollapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="otherInformationHeading">
+                <div class="panel-body">
+                    Bank account in which refund, if any, shall be credited
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-2 text-left">IFSC code</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="accountDetailModel.ifscCode" class="form-control" type="text" name="{{accountDetailModel.ifscCode}}"
+                            />
+                        </div>
+                        <label class="control-label col-sm-2 text-left">Bank name</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="accountDetailModel.bankName" class="form-control" type="text" name="{{accountDetailModel.bankName}}"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-2 text-left">Account number</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="accountDetailModel.accountNo" class="form-control" type="text" name="{{accountDetailModel.accountNo}}"
+                            />
+                        </div>
+                    </div>              
+                    Other bank account details  
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>IFSC code</th>
+                                <th>Bank name</th>
+                                <th>Account number</th>                            
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let otherAccountDetailModel of otherAccountDetailModels; let i = index">
+                                <td>
+                                        <input [(ngModel)]="otherAccountDetailModel.ifscCode" class="form-control" type="text" name="{{otherAccountDetailModel.ifscCode}}"
+                                        />  
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="otherAccountDetailModel.bankName" class="form-control" type="text" name="{{otherAccountDetailModel.bankName}}"
+                                    />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="otherAccountDetailModel.accountNo" class="form-control" type="number" name="{{otherAccountDetailModel.accountNo}}"
+                                    />
+                                </td>
+                                
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default removeIcon" type="button" (click)="deleteOtherAccountDetailModelItem(i)">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" (click)="addNewOtherAccountDetailModel()">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 </div>
 
 <button (click)="onSubmit()">

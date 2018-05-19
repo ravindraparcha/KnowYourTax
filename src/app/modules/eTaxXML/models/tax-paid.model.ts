@@ -10,6 +10,8 @@ export class TaxPaidModel {
     public exemptedDividendIncome: number;
     public agricultureIncome: number;
     public otherExemptionModels: OtherExemptionModel[]
+    public accountDetail: AccountDetailModel;
+    public otherAccountDetail:AccountDetailModel[];
 }
 export class OtherExemptionModel {
     public selectedIncomeNature: string;
@@ -19,5 +21,16 @@ export class OtherExemptionModel {
         this.descriptionIfAnyOtherSelected = descriptionIfAnyOtherSelected;
         this.amount = amount;
         this.selectedIncomeNature=selectedIncomeNature;
+    }
+}
+
+export class AccountDetailModel{
+    public ifscCode : string;
+    public bankName:string;
+    public accountNo : string;
+    constructor(ifscCode:string,bankName:string,accountNo:string){
+        this.ifscCode=ifscCode;
+        this.bankName=bankName;
+        this.accountNo=accountNo;
     }
 }
