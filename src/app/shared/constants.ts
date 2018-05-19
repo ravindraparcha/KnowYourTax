@@ -174,19 +174,5 @@ export class Configuration {
 
     ];
 
-    public taxDeductionYearList = function () {
-        
-        let previousYear = new Date().getFullYear() - 1;
-        let startYear = 2001;
-        let startDate = new Date(startYear,0,1);
-        let keyValuePair = [];
-        let intermediateDate;
-        for (let i = 0; i <= 100; i++) {
-            intermediateDate = new Date(startDate.getFullYear() + i,0,1);           
-            keyValuePair.push({ "key": intermediateDate.getFullYear(), "value": intermediateDate.getFullYear() });
-            if(previousYear==intermediateDate.getFullYear())
-            break;
-        }
-        return keyValuePair;
-    }
+
 }
