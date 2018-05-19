@@ -4,6 +4,7 @@ import { TaxDeductedSalaryModel } from '../../models/tax-deducted-salary.Model';
 import { TaxDeductedOtherThanSalaryModel } from '../../models/tax-deducted-other-than-salary.model';
 import { TaxDeductedUnder26QCModel } from '../../models/tax-deducted-under-26QC.model';
 import { AdvanceTaxSelfAssessmentTaxModel } from '../../models/advanceTax-selfAssessmentTax.model';
+import { TaxCollectedModel } from '../../models/tax-collected.model';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { Configuration } from '../../../../shared/constants';
 
@@ -24,16 +25,19 @@ export class TaxDeductedComponent implements OnInit {
     public taxDeductedUnder26QCModels = [];
     public newTaxDeductedUnder26QCModel;
 
-    public otherThanSalaryYearList = [];
+    public taxCollectionDeductionYearList = [];
     public taxDeductionTenantYearList = [];
 
     public advanceTaxSelfAssessmentTaxModels = [];
     public newAdvanceTaxSelfAssessmentTaxModel;
 
-    constructor(private _configuration: Configuration){}
+    public taxCollectedModels = [];
+    public newTaxCollectedModel;
+
+    constructor(private _configuration: Configuration) { }
 
     myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat    
+        dateFormat: this._configuration.dateTimeFormat
     };
 
     ngOnInit() {
@@ -44,12 +48,12 @@ export class TaxDeductedComponent implements OnInit {
         $('.panel-collapse').on('hide.bs.collapse', function () {
             $(this).siblings('.panel-heading-custom').removeClass('active');
         });
-        this.otherThanSalaryYearList = this.getTaxDeductionYearList();
+        this.taxCollectionDeductionYearList = this.getTaxCollectionDeductionYearList();
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
         this.taxDeductionTenantYearList = [{ "key": previousYear, "value": previousYear }];
-    }    
-    private getTaxDeductionYearList() {        
-        let previousYear = new Date( new Date().getFullYear()-1,0,1).getFullYear();
+    }
+    private getTaxCollectionDeductionYearList() {
+        let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
         let startYear = 2001;
         let startDate = new Date(startYear, 0, 1);
         let keyValuePair = [];
@@ -78,6 +82,7 @@ export class TaxDeductedComponent implements OnInit {
         console.log(this.taxDeductedOtherThanSalaryModels);
         console.log(this.taxDeductedUnder26QCModels);
         console.log(this.advanceTaxSelfAssessmentTaxModels);
+        console.log(this.taxCollectedModels);
     }
 
     addNewTaxDeductedOtherThanSalary() {
@@ -97,21 +102,29 @@ export class TaxDeductedComponent implements OnInit {
     }
 
     addNewAdvanceTaxSelfAssessmentTax() {
-        this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", 0,"");
+        this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", 0, "");
         this.advanceTaxSelfAssessmentTaxModels.push(this.newAdvanceTaxSelfAssessmentTaxModel);
     }
     deleteAdvanceTaxSelfAssessmentTaxItem(index: number) {
         this.deleteItemFromArray(this.advanceTaxSelfAssessmentTaxModels, index);
     }
 
+    addNewTaxCollection() {
+        this.newTaxCollectedModel = new TaxCollectedModel("", "", 0, 0);
+        this.taxCollectedModels.push(this.newTaxCollectedModel);;
+    }
+
+    deleteTaxCollectionItem(index: number) {
+        this.deleteItemFromArray(this.taxCollectedModels, index);
+    }
+
     deleteItemFromArray(itemArray: any[], index: number) {
         itemArray.splice(index, 1);
     }
-    onDepositDateChanged(event: IMyDateModel){  
-        debugger;     
+    onDepositDateChanged(event: IMyDateModel) {
         if (event.date.day != 0)
-        this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-    else
-        this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
+            this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
+        else
+            this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
     }
 }
