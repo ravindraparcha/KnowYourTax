@@ -1,0 +1,395 @@
+<div class="panel-group margin-top15" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel-custom panel-default-custom">
+        <div class="panel-heading-custom" role="tab" id="g801Heading">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#g801Collapse" aria-expanded="true" aria-controls="g801Collapse">
+                    <div style="font-size:15px;">
+                        Donation entitled for 100% deduction without qualifying limit
+                    </div>
+                </a>
+            </h4>
+        </div>
+        <div id="g801Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="g801Heading">
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Donee name</th>
+                            <th>Address</th>
+                            <th>City/Town/District</th>
+                            <th>State code</th>
+                            <th>Pincode</th>
+                            <th>Donee's PAN</th>
+                            <th>Donation amount</th>
+                            <th>Eligible donation amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let donation100DeductionWithoutQualifyingLimitModel of donation100DeductionWithoutQualifyingLimitModels; let i = index">
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.doneeName" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.doneeName}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.address" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.address}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.cityTownDistrict" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.cityTownDistrict}}"
+                                />
+                            </td>
+                            <td>
+                                <select id="selectedStateCode100WithoutQualifying" #selectedStateCode100WithoutQualifying="ngModel" required [ngClass]="donation100DeductionWithoutQualifyingLimitModel.selectedStateCode>0? 'valid': 'invalid'"
+                                    class="form-control" [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.selectedStateCode"
+                                    name="selectedStateCode100WithoutQualifying">
+                                    <option selected="selected" value="0">Select</option>
+                                    <option [ngValue]="st.stateCode" *ngFor="let st of configuration.stateList">
+                                        {{st.state}}
+                                </select>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.pinCode}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.PAN" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.PAN}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="number" name="{{donation100DeductionWithoutQualifyingLimitModel.donationAmount}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="number"
+                                    name="{{donation100DeductionWithoutQualifyingLimitModel.eligibleDonationAmount}}" />
+                            </td>
+
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation100DeductionWithoutQualifyingLimitItem(i)">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                             <td>&nbsp;</td>   
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" (click)="addNewDonation100DeductionWithoutQualifyingLimit()">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel-custom panel-default-custom">
+        <div class="panel-heading-custom" role="tab" id="g802Heading">
+            <h4 class="panel-title">
+                <a role="button"  class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#g802Collapse" aria-expanded="false" aria-controls="g802Collapse">
+                    <div style="font-size:15px;">
+                        Donations entitled for 50% deduction without qualifying limit
+                    </div>
+                </a>
+            </h4>
+        </div>
+        <div id="g802Collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="g802Heading">
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Donee name</th>
+                            <th>Address</th>
+                            <th>City/Town/District</th>
+                            <th>State code</th>
+                            <th>Pincode</th>
+                            <th>Donee's PAN</th>
+                            <th>Donation amount</th>
+                            <th>Eligible donation amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let donation50DeductionWithoutQualifyingLimitModel of donation50DeductionWithoutQualifyingLimitModels; let i = index">
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.doneeName" class="form-control" type="text" name="{{donation50DeductionWithoutQualifyingLimitModel.doneeName}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.address" class="form-control" type="text" name="{{donation50DeductionWithoutQualifyingLimitModel.address}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.cityTownDistrict" class="form-control" type="text" name="{{donation50DeductionWithoutQualifyingLimitModel.cityTownDistrict}}"
+                                />
+                            </td>
+                            <td>
+                                <select id="selectedStateCode50WithoutQualifying" #selectedStateCode50WithoutQualifying="ngModel" required [ngClass]="donation50DeductionWithoutQualifyingLimitModel.selectedStateCode>0? 'valid': 'invalid'"
+                                    class="form-control" [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.selectedStateCode"
+                                    name="selectedStateCode50WithoutQualifying">
+                                    <option selected="selected" value="0">Select</option>
+                                    <option [ngValue]="st.stateCode" *ngFor="let st of configuration.stateList">
+                                        {{st.state}}
+                                </select>
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="text" name="{{donation50DeductionWithoutQualifyingLimitModel.pinCode}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.PAN" class="form-control" type="text" name="{{donation50DeductionWithoutQualifyingLimitModel.PAN}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="number" name="{{donation50DeductionWithoutQualifyingLimitModel.donationAmount}}"
+                                />
+                            </td>
+                            <td>
+                                <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="number"
+                                    name="{{donation50DeductionWithoutQualifyingLimitModel.eligibleDonationAmount}}" />
+                            </td>
+
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation50DeductionWithoutQualifyingLimitItem(i)">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                             <td>&nbsp;</td>   
+                            <td>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" (click)="addNewDonation50DeductionWithoutQualifyingLimit()">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-custom panel-default-custom">
+            <div class="panel-heading-custom" role="tab" id="g803Heading">
+                <h4 class="panel-title">
+                    <a role="button"  class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#g803Collapse" aria-expanded="false" aria-controls="g803Collapse">
+                        <div style="font-size:15px;">
+                            Donations entitled for 100% deduction subject to qualifying limit
+                        </div>
+                    </a>
+                </h4>
+            </div>
+            <div id="g803Collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="g803Heading">
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Donee name</th>
+                                <th>Address</th>
+                                <th>City/Town/District</th>
+                                <th>State code</th>
+                                <th>Pincode</th>
+                                <th>Donee's PAN</th>
+                                <th>Donation amount</th>
+                                <th>Eligible donation amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let donation100DeductionWithQualifyingLimitModel of donation100DeductionWithQualifyingLimitModels; let i = index">
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.doneeName" class="form-control" type="text" name="{{donation100DeductionWithQualifyingLimitModel.doneeName}}"
+                                    />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.address" class="form-control" type="text" name="{{donation100DeductionWithQualifyingLimitModel.address}}"
+                                    />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.cityTownDistrict" class="form-control" type="text" name="{{donation100DeductionWithQualifyingLimitModel.cityTownDistrict}}"
+                                    />
+                                </td>
+                                <td>
+                                    <select id="selectedStateCode100WithQualifying" #selectedStateCode100WithQualifying="ngModel" required [ngClass]="donation100DeductionWithQualifyingLimitModel.selectedStateCode>0? 'valid': 'invalid'"
+                                        class="form-control" [(ngModel)]="donation100DeductionWithQualifyingLimitModel.selectedStateCode"
+                                        name="selectedStateCode100WithQualifying">
+                                        <option selected="selected" value="0">Select</option>
+                                        <option [ngValue]="st.stateCode" *ngFor="let st of configuration.stateList">
+                                            {{st.state}}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.pinCode" class="form-control" type="text" name="{{donation100DeductionWithQualifyingLimitModel.pinCode}}"
+                                    />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.PAN" class="form-control" type="text" name="{{donation100DeductionWithQualifyingLimitModel.PAN}}"
+                                    />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="number" name="{{donation100DeductionWithQualifyingLimitModel.donationAmount}}"
+                                    />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="number"
+                                        name="{{donation100DeductionWithQualifyingLimitModel.eligibleDonationAmount}}" />
+                                </td>
+    
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation100DeductionWithQualifyingLimitItem(i)">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                 <td>&nbsp;</td>   
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" (click)="addNewDonation100DeductionWithQualifyingLimit()">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-custom panel-default-custom">
+                <div class="panel-heading-custom" role="tab" id="g804Heading">
+                    <h4 class="panel-title">
+                        <a role="button"  class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#g804Collapse" aria-expanded="false" aria-controls="g804Collapse">
+                            <div style="font-size:15px;">
+                                Donations entitled for 50% deduction subject to qualifying limit
+                            </div>
+                        </a>
+                    </h4>
+                </div>
+                <div id="g804Collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="g804Heading">
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Donee name</th>
+                                    <th>Address</th>
+                                    <th>City/Town/District</th>
+                                    <th>State code</th>
+                                    <th>Pincode</th>
+                                    <th>Donee's PAN</th>
+                                    <th>Donation amount</th>
+                                    <th>Eligible donation amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let donation50DeductionWithQualifyingLimitModel of donation50DeductionWithQualifyingLimitModels; let i = index">
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.doneeName" class="form-control" type="text" name="{{donation50DeductionWithQualifyingLimitModel.doneeName}}"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.address" class="form-control" type="text" name="{{donation50DeductionWithQualifyingLimitModel.address}}"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.cityTownDistrict" class="form-control" type="text" name="{{donation50DeductionWithQualifyingLimitModel.cityTownDistrict}}"
+                                        />
+                                    </td>
+                                    <td>
+                                        <select id="selectedStateCode50WithQualifying" #selectedStateCode50WithQualifying="ngModel" required [ngClass]="donation50DeductionWithQualifyingLimitModel.selectedStateCode>0? 'valid': 'invalid'"
+                                            class="form-control" [(ngModel)]="donation50DeductionWithQualifyingLimitModel.selectedStateCode"
+                                            name="donation50DeductionWithQualifyingLimitModel">
+                                            <option selected="selected" value="0">Select</option>
+                                            <option [ngValue]="st.stateCode" *ngFor="let st of configuration.stateList">
+                                                {{st.state}}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.pinCode" class="form-control" type="text" name="{{donation50DeductionWithQualifyingLimitModel.pinCode}}"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.PAN" class="form-control" type="text" name="{{donation50DeductionWithQualifyingLimitModel.PAN}}"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="number" name="{{donation50DeductionWithQualifyingLimitModel.donationAmount}}"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="number"
+                                            name="{{donation50DeductionWithQualifyingLimitModel.eligibleDonationAmount}}" />
+                                    </td>
+        
+                                    <td>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation50DeductionWithQualifyingLimitItem(i)">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                     <td>&nbsp;</td>   
+                                    <td>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" (click)="addNewDonation50DeductionWithQualifyingLimit()">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+</div>
+<button (click)="onSubmit()">
+    Submit 
+</button>
