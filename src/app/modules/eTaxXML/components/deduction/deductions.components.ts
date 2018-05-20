@@ -133,8 +133,8 @@ export class DeductionsComponent implements OnInit {
         let month=date.getMonth()+1;
         let monthStr;
         if((date.getMonth()+1)<10){
-            //monthStr="0"+month;
-            monthStr="09";
+            monthStr="0"+month;
+            //monthStr="09";
         }
         else {
             monthStr=month;

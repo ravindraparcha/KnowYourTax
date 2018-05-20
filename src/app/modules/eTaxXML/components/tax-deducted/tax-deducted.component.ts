@@ -1,10 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
-import { TaxDeductedSalaryModel } from '../../models/tax-deducted-salary.Model';
-import { TaxDeductedOtherThanSalaryModel } from '../../models/tax-deducted-other-than-salary.model';
-import { TaxDeductedUnder26QCModel } from '../../models/tax-deducted-under-26QC.model';
-import { AdvanceTaxSelfAssessmentTaxModel } from '../../models/advanceTax-selfAssessmentTax.model';
-import { TaxCollectedModel } from '../../models/tax-collected.model';
+import {TaxDeductedSalaryModel,TaxDeductedOtherThanSalaryModel,TaxDeductedUnder26QCModel,AdvanceTaxSelfAssessmentTaxModel,TaxCollectedModel} from '../../models/tax-deducted-collected.model';
+
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { Configuration } from '../../../../shared/constants';
 
