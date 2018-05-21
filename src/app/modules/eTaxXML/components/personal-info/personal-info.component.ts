@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { Configuration } from '../../../../shared/constants';
 import { PersonalInfoModel } from '../../models/personal-info.model';
+ 
+import {Form26ASParserService} from '../../../../shared/services/form26AS-parser-service';
 
 @Component({
     selector: 'personal-info',
@@ -20,7 +22,7 @@ export class personalInfoComponent implements OnInit {
         openSelectorTopOfInput: true
     };
 
-    constructor(private cd: ChangeDetectorRef, public _configuration: Configuration) { }
+    constructor(private cd: ChangeDetectorRef, public _configuration: Configuration,private _form26ASParserService:Form26ASParserService) { }
 
     // when old value does not match with new value during expression evaluation for child component
     // angular throws ExpressionChangedAfterItHasBeenCheckedError error. 
@@ -62,7 +64,8 @@ export class personalInfoComponent implements OnInit {
     }
 
 
-    onChange(event: EventTarget) {
+    onFileSelection(event: EventTarget) {
+        let $this=this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
         let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
         let files: FileList = target.files;
@@ -71,11 +74,13 @@ export class personalInfoComponent implements OnInit {
 
         var reader = new FileReader();
         reader.readAsText(this.file);
-        console.log(reader.result);
+        
         var me = this;
-        reader.onload = function () {
-            console.log(reader.result);
+        reader.onload = function () {   
+            console.log(reader.result);    
+            $this._form26ASParserService.dataToParse(reader.result);
         }
+        
     }
 
 }

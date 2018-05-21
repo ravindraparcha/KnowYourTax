@@ -1,4 +1,4 @@
-import  { NgModule} from '@angular/core';
+import  { NgModule, forwardRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
@@ -12,6 +12,8 @@ import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.co
 import {TaxDeductedComponent} from '../eTaxXML/components/tax-deducted/tax-deducted.component';
 import {TaxPaidVerificationComponent} from '../eTaxXML/components/tax-paid-verification/tax-paid-verification.component';
 import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.80G.component';
+
+
 
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
