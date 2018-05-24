@@ -11,7 +11,7 @@ export class PersonalInfoModel {
     public roadStreetPostOffice: string;
     public areaLocality: string;
     public townCityDistrict: string;
-    public selectedState: number;
+    public selectedState: string;
     public country: string;
     public zipCode: string;
     public email: string;
@@ -24,6 +24,5 @@ export class PersonalInfoModel {
     public receiptNumber: string;
     public filingOriginalReturnDate: string;
     public noticeNumber: string;
-    public filedAgainstNotice: string;
-
+    public filedAgainstNotice: string;     
 }

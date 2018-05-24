@@ -11,7 +11,7 @@
         "assets",
         "favicon.ico",
         "images"
-      ],
+      ],       
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -28,11 +28,14 @@
         "../node_modules/@ng-select/ng-select/themes/default.theme.css",
         "../src/assets/css/custom.css"        
       ],
+     
+       
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../src/assets/js/ie-emulation-modes-warning.js",
         "../src/assets/js/ie10-viewport-bug-workaround.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.min.js"        
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js" ,
+        "../src/app/modules/eTaxXML/services/form26AS-parser.js"       
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

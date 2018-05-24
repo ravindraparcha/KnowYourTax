@@ -296,3 +296,8 @@ th{
      -moz-transform: rotate(180deg);
      transform: rotate(180deg);
  } 
+ .modal-header{
+    background:-webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#91cfef));
+    background:linear-gradient(#ffffff, #91cfef);
+    padding:5px;
+ }

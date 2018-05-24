@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Input } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { Configuration } from '../../../../shared/constants';
-import { PersonalInfoModel } from '../../models/personal-info.model';
- 
-import {Form26ASParserService} from '../../../../shared/services/form26AS-parser-service';
+import { PersonalInfoModel } from '../../models/personal-info.model'; 
+import { pseudoRandomBytes } from "crypto";
 
 @Component({
     selector: 'personal-info',
@@ -11,6 +10,23 @@ import {Form26ASParserService} from '../../../../shared/services/form26AS-parser
 
 })
 export class personalInfoComponent implements OnInit {
+
+    @Input()
+    set personalInfoData(personalInfoData:PersonalInfoModel) {      
+        this.initialisePersonalModelObject();
+        this.personalInfo.panNo=personalInfoData.panNo;
+        this.personalInfo.firstName=personalInfoData.firstName;
+        this.personalInfo.middleName=personalInfoData.middleName;
+        this.personalInfo.lastName=personalInfoData.lastName;
+        this.personalInfo.flatDoorBlockNo=personalInfoData.flatDoorBlockNo;
+        this.personalInfo.premisesBldgVillage=personalInfoData.premisesBldgVillage;
+        this.personalInfo.roadStreetPostOffice=personalInfoData.roadStreetPostOffice;
+        this.personalInfo.areaLocality=personalInfoData.areaLocality;
+        this.personalInfo.townCityDistrict=personalInfoData.townCityDistrict;
+        this.personalInfo.selectedState=personalInfoData.selectedState;
+        this.personalInfo.zipCode=personalInfoData.zipCode;
+    }
+  
     public personalInfo: PersonalInfoModel;
     private file: File;
     myOptions: INgxMyDpOptions = {
@@ -22,7 +38,7 @@ export class personalInfoComponent implements OnInit {
         openSelectorTopOfInput: true
     };
 
-    constructor(private cd: ChangeDetectorRef, public _configuration: Configuration,private _form26ASParserService:Form26ASParserService) { }
+    constructor(private cd: ChangeDetectorRef, public _configuration: Configuration) { }
 
     // when old value does not match with new value during expression evaluation for child component
     // angular throws ExpressionChangedAfterItHasBeenCheckedError error. 
@@ -31,18 +47,23 @@ export class personalInfoComponent implements OnInit {
         this.cd.detectChanges();
     }
 
-    ngOnInit() {
+    ngOnInit() {        
+       this.initialisePersonalModelObject();
+    }
+    initialisePersonalModelObject(){
         this.personalInfo = new PersonalInfoModel();
         this.personalInfo.birthDate = "";
-        this.personalInfo.selectedState = 0;
+        this.personalInfo.selectedState = "08";
         this.personalInfo.selectedEmployerCategory = "0";
         this.personalInfo.selectedReturnFiledSection = 0;
         this.personalInfo.filingOriginalReturnDate = "";
         this.personalInfo.selectedGovernedByPortugueseCivil = "0";
         this.personalInfo.selectedOriginalRevisedFile = "0";
         this.personalInfo.filedAgainstNotice = "";
+        this.personalInfo.premisesBldgVillage="";
     }
     onBirthDateChanged(event: IMyDateModel) {
+        debugger;
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0)
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
@@ -64,23 +85,6 @@ export class personalInfoComponent implements OnInit {
     }
 
 
-    onFileSelection(event: EventTarget) {
-        let $this=this;
-        let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
-        let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
-        let files: FileList = target.files;
-        this.file = files[0];
-        console.log(this.file);
-
-        var reader = new FileReader();
-        reader.readAsText(this.file);
-        
-        var me = this;
-        reader.onload = function () {   
-            console.log(reader.result);    
-            $this._form26ASParserService.dataToParse(reader.result);
-        }
-        
-    }
+    
 
 }

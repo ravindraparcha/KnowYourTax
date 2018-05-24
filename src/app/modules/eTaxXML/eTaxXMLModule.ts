@@ -12,12 +12,12 @@ import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.co
 import {TaxDeductedComponent} from '../eTaxXML/components/tax-deducted/tax-deducted.component';
 import {TaxPaidVerificationComponent} from '../eTaxXML/components/tax-paid-verification/tax-paid-verification.component';
 import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.80G.component';
-
+import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service';
 
 
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
-    providers : [],
+    providers : [Form26ASParserService],
     declarations : [eTaxXMLComponent,personalInfoComponent,IncomeDetailsComponent,DeductionsComponent,TaxDeductedComponent,TaxPaidVerificationComponent,Donation80GComponent],
     exports : [eTaxXMLComponent]
 })

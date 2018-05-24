@@ -17,7 +17,7 @@ import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
 import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer'; 
 import {ToasterService} from '../app/shared/services/toasterService';
-import {Form26ASParserService} from '../app/shared/services/form26AS-parser-service';
+// import {Form26ASParserService} from '../app/shared/services/form26AS-parser-service';
 import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
 import {sharedModule} from './shared/sharedModule';
 
@@ -46,7 +46,8 @@ import {sharedModule} from './shared/sharedModule';
     Configuration,
     CalculatorService,
     slimLoaderBarService,
-    Form26ASParserService],
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
