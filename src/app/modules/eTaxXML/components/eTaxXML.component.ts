@@ -2,7 +2,9 @@ import { Component, Input } from "@angular/core";
 import {Form26ASParserService} from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
 import {Configuration} from '../../../shared/constants'; 
-declare var $: any;
+import {TaxDeductedSalaryModel} from '../models/tax-deducted-collected.model';
+
+declare var $:any;
 
 @Component({
     selector: 'eTaxXML',
@@ -16,6 +18,7 @@ export class eTaxXMLComponent  {
 
    
     public personalInfoData = new PersonalInfoModel();
+    public taxDeducted;
     //public personalData=this.personalInfoData; 
     private parseJson;
     constructor(private _form26ASParserService:Form26ASParserService,private _configuration: Configuration){}
@@ -32,13 +35,18 @@ export class eTaxXMLComponent  {
        $('#form26ASModel').modal('hide');
         reader.onload = function () {                                            
            $this.parseJson= $this._form26ASParserService.parseTextFile(reader.result);
-           console.log($this.parseJson);
+           //console.log($this.parseJson);
            //convert json to appropriate model 
            $this.parseJson.forEach(element => {            
-            if(element.partName=="Personal Information") {      
-                // $this.parseJson.personalInfo[0];          
-                // return false;
+            //Personal Information
+           
+            if(element.partNumber==0) {                    
                 $this.personalInfoData = $this.getPersonalInformationModel($this.parseJson.personalInfo[0].personalInfoArray);
+            }
+            //PART A - Details of Tax Deducted at Source
+            else if(element.partNumber==1){
+                let result =$this.parseJson.cumulatives.filter(x=> x.partNumber==1);    
+                $this.taxDeducted= $this.getDeductionAtSource(result);            
             }
         });
         }
@@ -69,4 +77,22 @@ export class eTaxXMLComponent  {
         return  personalInfoModel;     
     }
 
+    // constructor(tan:string,tax:string,name:string,incomeChargeableForDeduction:number,taxDeducted:number){
+    //     this.TAN= tan;
+    //     this.name=name;
+    //     this.incomeChargeableForDeduction=incomeChargeableForDeduction;
+    //     this.taxDeducted=taxDeducted;        
+    // }
+
+    private getDeductionAtSource(arr:any[]) :TaxDeductedSalaryModel[] {
+        let taxDeductedSalaryModels = [];
+        let taxDeductedSalaryModel;         
+        arr.forEach(arrElement=>{           
+            taxDeductedSalaryModel = new TaxDeductedSalaryModel(
+                arrElement[1],arrElement[8],arrElement[0],arrElement[6],arrElement[7]);
+                taxDeductedSalaryModels.push(taxDeductedSalaryModel);
+            });
+        
+        return taxDeductedSalaryModels;
+    }
 }

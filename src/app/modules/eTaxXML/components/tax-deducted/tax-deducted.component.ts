@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 
 import {TaxDeductedSalaryModel,TaxDeductedOtherThanSalaryModel,TaxDeductedUnder26QCModel,AdvanceTaxSelfAssessmentTaxModel,TaxCollectedModel} from '../../models/tax-deducted-collected.model';
 
@@ -37,6 +37,15 @@ export class TaxDeductedComponent implements OnInit {
         dateFormat: this._configuration.dateTimeFormat
     };
 
+    @Input()
+    set taxDeducted(taxDeductedModels:TaxDeductedSalaryModel[]) {        
+        //this.newTaxDeductedSalaryModel = new TaxDeductedSalaryModel("", "", "", 0, 0);   
+        if(taxDeductedModels!=undefined) {
+            for(let i=0;i<taxDeductedModels.length;i++)
+                this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
+        }
+        
+    }
     ngOnInit() {
         $('.panel-collapse').on('show.bs.collapse', function () {
             $(this).siblings('.panel-heading-custom').addClass('active');

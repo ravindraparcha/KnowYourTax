@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Input } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { Configuration } from '../../../../shared/constants';
 import { PersonalInfoModel } from '../../models/personal-info.model'; 
-import { pseudoRandomBytes } from "crypto";
+
 
 @Component({
     selector: 'personal-info',
@@ -63,7 +63,7 @@ export class personalInfoComponent implements OnInit {
         this.personalInfo.premisesBldgVillage="";
     }
     onBirthDateChanged(event: IMyDateModel) {
-        debugger;
+         
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0)
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
