@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { saveAs } from 'file-saver';
 import { SharedXMLService } from '../shared/sharedXMLService';
+
+
 declare var require: any;
 
 @Injectable()
@@ -16,10 +18,16 @@ export class XmlGeneratorService {
         let panNo: string;
         //call user data node methods
         xmlDataArray.forEach(element => {
-            if (element.infoType == "personalInfo") {
+            if (element.infoType === "personalInfo") {
                 this.addPersonalInfoNode(element.data);
                 this.addFillingStatusNode(element.data);
-                panNo=element.data.panNo;
+                panNo = element.data.panNo;
+            }
+            else if (element.infoType === "incomeDetails") {
+                this.addIncomeDeductionNode(element.data);
+            }
+            else if (element.infoType === "taxPaid") {
+                this.addTaxPaid(element.data);
             }
         });
 
@@ -28,7 +36,11 @@ export class XmlGeneratorService {
         console.log(xmlData);
 
         var blob = new Blob([xmlData], { type: "text/xml" });
-        saveAs(blob, panNo+".xml");
+        if (panNo == undefined || panNo == "") {
+            let currentDate = new Date();
+            panNo = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
+        }
+        //saveAs(blob, panNo + ".xml");
     }
     private addPredefinedXmlNodes() {
         this.xmlWriterRequire = require('xml-writer');
@@ -44,9 +56,9 @@ export class XmlGeneratorService {
 
 
     }
-    private addFormCreationInfo() {        
+    private addFormCreationInfo() {
         let date = new Date();
-        let dateString = this._sharedXMLService.formatDateDDMMYYYY(date.getDate(), date.getMonth() + 1, date.getFullYear());
+        let dateString = this._sharedXMLService.formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear(), "yyyy-mm-dd", "-");
         this.xmlWriter.startElement("ITRForm:CreationInfo");
         this.xmlWriter.writeElement("ITRForm:SWVersionNo", "R1");
         this.xmlWriter.writeElement("ITRForm:SWCreatedBy", "KnowYourTax");
@@ -65,7 +77,7 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
     }
 
-    private addPersonalInfoNode(personalInfo) {       
+    private addPersonalInfoNode(personalInfo) {
         this.xmlWriter.startElement("ITRForm:PersonalInfo");
         this.xmlWriter.startElement("ITRForm:AssesseeName");
         if (personalInfo.firstName !== undefined && personalInfo.firstName !== "")
@@ -139,5 +151,207 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
     }
 
+    private addIncomeDeductionNode(incomeDetails) {
+        this.xmlWriter.startElement("ITRForm:ITR1_IncomeDeductions");
 
+        if (incomeDetails.salary !== undefined && incomeDetails.salary !== null)
+            this.xmlWriter.writeElement("ITRForm:Salary", incomeDetails.salary);
+        if (incomeDetails.allowance !== undefined && incomeDetails.allowance !== null)
+            this.xmlWriter.writeElement("ITRForm:AlwnsNotExempt", incomeDetails.allowance);
+        if (incomeDetails.perquisites !== undefined && incomeDetails.perquisites !== null)
+            this.xmlWriter.writeElement("ITRForm:PerquisitesValue", incomeDetails.perquisites);
+        if (incomeDetails.profitLieuOfSalary !== undefined && incomeDetails.profitLieuOfSalary !== null)
+            this.xmlWriter.writeElement("ITRForm:ProfitsInSalary", incomeDetails.profitLieuOfSalary);
+        if (incomeDetails.deductionUS16 !== undefined && incomeDetails.deductionUS16 !== null)
+            this.xmlWriter.writeElement("ITRForm:DeductionUs16", incomeDetails.deductionUS16);
+        if (incomeDetails.salaryPensionSum !== undefined && incomeDetails.salaryPensionSum !== null)
+            this.xmlWriter.writeElement("ITRForm:IncomeFromSal", incomeDetails.salaryPensionSum);
+        if (incomeDetails.selectedHousePropertyType !== undefined && incomeDetails.selectedHousePropertyType !== "0")
+            this.xmlWriter.writeElement("ITRForm:TypeOfHP", incomeDetails.selectedHousePropertyType);
+        if (incomeDetails.annualValue !== undefined && incomeDetails.annualValue == null)
+            this.xmlWriter.writeElement("ITRForm:AnnualValue", incomeDetails.annualValue);
+        if (incomeDetails.annualValuePercentageAmount !== undefined && incomeDetails.annualValuePercentageAmount == null)
+            this.xmlWriter.writeElement("ITRForm:StandardDeduction", incomeDetails.annualValuePercentageAmount);
+        if (incomeDetails.interestOnBorrowedCapital !== undefined && incomeDetails.interestOnBorrowedCapital !== null)
+            this.xmlWriter.writeElement("ITRForm:InterestPayable", incomeDetails.interestOnBorrowedCapital);
+        if (incomeDetails.housePropertySum !== undefined && incomeDetails.housePropertySum !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalIncomeOfHP", incomeDetails.housePropertySum);
+        if (incomeDetails.incomeFromOtherSources !== undefined && incomeDetails.incomeFromOtherSources !== null)
+            this.xmlWriter.writeElement("ITRForm:IncomeOthSrc", incomeDetails.incomeFromOtherSources);
+        if (incomeDetails.grossTotalIncome !== undefined && incomeDetails.grossTotalIncome !== null)
+            this.xmlWriter.writeElement("ITRForm:GrossTotIncome", incomeDetails.grossTotalIncome);
+
+        this.xmlWriter.endElement();
+
+    }
+
+    private addUserDeductionNode(userDeductions) {
+        this.xmlWriter.startElement("ITRForm:UsrDeductUndChapVIA");
+        this.addDeductionNode(userDeductions);
+        this.xmlWriter.endElement();
+    }
+
+    private addSysCalculatedDeductionNode(sysDeductions) {
+        this.xmlWriter.startElement("ITRForm:DeductUndChapVIA");
+        this.addDeductionNode(sysDeductions);
+        this.xmlWriter.endElement();
+    }
+
+    private addDeductionNode(deductions) {
+        if (deductions.section80C !== undefined && deductions.section80C !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80C", deductions.section80C);
+        if (deductions.section80CCC !== undefined && deductions.section80CCC !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80CCC", deductions.section80CCC);
+        if (deductions.section80CCDEmployeeOrSE !== undefined && deductions.section80CCDEmployeeOrSE !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80CCDEmployeeOrSE", deductions.section80CCDEmployeeOrSE);
+        if (deductions.section80CCD1B !== undefined && deductions.section80CCD1B !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80CCD1B", deductions.section80CCD1B);
+        if (deductions.section80CCDEmployer !== undefined && deductions.section80CCDEmployer !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80CCDEmployer", deductions.section80CCDEmployer);
+        if (deductions.section80DUsrType !== undefined && deductions.section80DUsrType !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80DUsrType", deductions.section80DUsrType);
+        if (deductions.section80D !== undefined && deductions.section80D !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80D", deductions.section80D);
+        if (deductions.section80DDUsrType !== undefined && deductions.section80DDUsrType !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80DDUsrType", deductions.section80DDUsrType);
+        if (deductions.section80DD !== undefined && deductions.section80DD !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80DD", deductions.section80DD);
+        if (deductions.section80DDBUsrType !== undefined && deductions.section80DDBUsrType !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80DDBUsrType", deductions.section80DDBUsrType);
+        if (deductions.section80DDB !== undefined && deductions.section80DDB !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80DDB", deductions.section80DDB);
+        if (deductions.section80E !== undefined && deductions.section80E !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80E", deductions.section80E);
+        if (deductions.section80EE !== undefined && deductions.section80EE !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80EE", deductions.section80EE);
+        if (deductions.section80G !== undefined && deductions.section80G !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80G", deductions.section80G);
+        if (deductions.section80GG !== undefined && deductions.section80GG !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80GG", deductions.section80GG);
+        if (deductions.section80GGA !== undefined && deductions.section80GGA !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80GGA", deductions.section80GGA);
+        if (deductions.section80GGC !== undefined && deductions.section80GGC !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80GGC", deductions.section80GGC);
+        if (deductions.section80UUsrType !== undefined && deductions.section80UUsrType !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80UUsrType", deductions.section80UUsrType);
+        if (deductions.section80U !== undefined && deductions.section80U !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80U", deductions.section80U);
+        if (deductions.section80RRB !== undefined && deductions.section80RRB !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80RRB", deductions.section80RRB);
+        if (deductions.section80QQB !== undefined && deductions.section80QQB !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80QQB", deductions.section80QQB);
+        if (deductions.section80CCG !== undefined && deductions.section80CCG !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80CCG", deductions.section80CCG);
+        if (deductions.section80TTA !== undefined && deductions.section80TTA !== null)
+            this.xmlWriter.writeElement("ITRForm:Section80TTA", deductions.section80TTA);
+        if (deductions.totalChapVIADeductions !== undefined && deductions.totalChapVIADeductions !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalChapVIADeductions", deductions.totalChapVIADeductions);
+
+
+        //         <ITRForm:Section80C>50000</ITRForm:Section80C>
+        // <ITRForm:Section80CCC>1000</ITRForm:Section80CCC>
+        // <ITRForm:Section80CCDEmployeeOrSE>2000</ITRForm:Section80CCDEmployeeOrSE>
+        // <ITRForm:Section80CCD1B>3000</ITRForm:Section80CCD1B>
+        // <ITRForm:Section80CCDEmployer>4000</ITRForm:Section80CCDEmployer>
+        // <ITRForm:Section80DUsrType>1</ITRForm:Section80DUsrType>
+        // <ITRForm:Section80D>6000</ITRForm:Section80D>
+        // <ITRForm:Section80DDUsrType>1</ITRForm:Section80DDUsrType>
+        // <ITRForm:Section80DD>7000</ITRForm:Section80DD>
+        // <ITRForm:Section80DDBUsrType>1</ITRForm:Section80DDBUsrType>
+        // <ITRForm:Section80DDB>8000</ITRForm:Section80DDB>
+        // <ITRForm:Section80E>10000</ITRForm:Section80E>
+        // <ITRForm:Section80EE>11000</ITRForm:Section80EE>
+        // <ITRForm:Section80G>0</ITRForm:Section80G>
+        // <ITRForm:Section80GG>8000</ITRForm:Section80GG>
+        // <ITRForm:Section80GGA>9000</ITRForm:Section80GGA>
+        // <ITRForm:Section80GGC>10000</ITRForm:Section80GGC>
+        // <ITRForm:Section80UUsrType>1</ITRForm:Section80UUsrType>
+        // <ITRForm:Section80U>64230</ITRForm:Section80U>
+        // <ITRForm:Section80RRB>3333</ITRForm:Section80RRB>
+        // <ITRForm:Section80QQB>11000</ITRForm:Section80QQB>
+        // <ITRForm:Section80CCG>5000</ITRForm:Section80CCG>
+        // <ITRForm:Section80TTA>11111</ITRForm:Section80TTA>
+        // <ITRForm:TotalChapVIADeductions>223674</ITRForm:TotalChapVIADeductions>
+    }
+
+    private addTaxComputationNode(incomeDetails) {
+        this.xmlWriter.startElement("ITRForm:ITR1_TaxComputation");
+
+        if (incomeDetails.totalTaxableIncome !== undefined && incomeDetails.totalTaxableIncome !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalTaxPayable", incomeDetails.totalTaxableIncome);
+        if (incomeDetails.rebate !== undefined && incomeDetails.rebate !== null)
+            this.xmlWriter.writeElement("ITRForm:Rebate87A", incomeDetails.rebate);
+        if (incomeDetails.taxAfterRebate !== undefined && incomeDetails.taxAfterRebate !== null)
+            this.xmlWriter.writeElement("ITRForm:TaxPayableOnRebate", incomeDetails.taxAfterRebate);
+        if (incomeDetails.cessCharges !== undefined && incomeDetails.cessCharges !== null)
+            this.xmlWriter.writeElement("ITRForm:EducationCess", incomeDetails.cessCharges);
+        if (incomeDetails.totalTaxWithCess !== undefined && incomeDetails.totalTaxWithCess !== null)
+            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxWithCess);
+        if (incomeDetails.relief !== undefined && incomeDetails.relief !== null)
+            this.xmlWriter.writeElement("ITRForm:Section89", incomeDetails.relief);
+        if (incomeDetails.balanceTaxAfterRelief !== undefined && incomeDetails.balanceTaxAfterRelief !== null)
+            this.xmlWriter.writeElement("ITRForm:NetTaxLiability", incomeDetails.balanceTaxAfterRelief);
+        if (incomeDetails.totalIntrstPay !== undefined && incomeDetails.totalIntrstPay !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalIntrstPay", incomeDetails.totalIntrstPay);
+
+        this.xmlWriter.endElement();
+        this.xmlWriter.startElement("ITRForm:IntrstPay");
+
+        if (incomeDetails.intrstPayUs234A !== undefined && incomeDetails.intrstPayUs234A !== null)
+            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234A", incomeDetails.intrstPayUs234A);
+        if (incomeDetails.intrstPayUs234B !== undefined && incomeDetails.intrstPayUs234B !== null)
+            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234B", incomeDetails.intrstPayUs234B);
+        if (incomeDetails.intrstPayUs234C !== undefined && incomeDetails.intrstPayUs234C !== null)
+            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234C", incomeDetails.intrstPayUs234C);
+        if (incomeDetails.lateFilingFee234F !== undefined && incomeDetails.lateFilingFee234F !== null)
+            this.xmlWriter.writeElement("ITRForm:LateFilingFee234F", incomeDetails.lateFilingFee234F);
+        if (incomeDetails.totTaxPlusIntrstPay !== undefined && incomeDetails.totTaxPlusIntrstPay !== null)
+            this.xmlWriter.writeElement("ITRForm:TotTaxPlusIntrstPay", incomeDetails.totTaxPlusIntrstPay);
+
+        this.xmlWriter.endElement();
+    }
+
+    private addTaxPaid(taxPaid) {
+
+        this.xmlWriter.startElement("ITRForm:TaxPaid");
+        this.xmlWriter.startElement("ITRForm:TaxesPaid");
+
+        if (taxPaid.totalAdvanceTaxPaid !== undefined && taxPaid.totalAdvanceTaxPaid !== null)
+            this.xmlWriter.writeElement("ITRForm:AdvanceTax", taxPaid.totalAdvanceTaxPaid);
+        if (taxPaid.totalTDSClaimed !== undefined && taxPaid.totalTDSClaimed !== null)
+            this.xmlWriter.writeElement("ITRForm:TDS", taxPaid.totalTDSClaimed);
+        if (taxPaid.totalTCSClaimed !== undefined && taxPaid.totalTCSClaimed !== null)
+            this.xmlWriter.writeElement("ITRForm:TCS", taxPaid.totalTCSClaimed);
+        if (taxPaid.totalSelfAssessmentTaxPaid !== undefined && taxPaid.totalSelfAssessmentTaxPaid !== null)
+            this.xmlWriter.writeElement("ITRForm:SelfAssessmentTax", taxPaid.totalSelfAssessmentTaxPaid);
+        if (taxPaid.totalTaxesPaid !== undefined && taxPaid.totalTaxesPaid !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalTaxesPaid", taxPaid.totalTaxesPaid);
+        if (taxPaid.exemptedLongTermCapitalGain !== undefined && taxPaid.exemptedLongTermCapitalGain !== null)
+            this.xmlWriter.writeElement("ITRForm:ExcIncSec1038", taxPaid.exemptedLongTermCapitalGain);
+        if (taxPaid.exemptedDividendIncome !== undefined && taxPaid.exemptedDividendIncome !== null)
+            this.xmlWriter.writeElement("ITRForm:ExcIncSec1034", taxPaid.exemptedDividendIncome);
+
+        if (taxPaid.otherExemptionModels.length > 0)
+            this.xmlWriter.startElement("ITRForm:OthersInc");
+
+        let amountSum = 0;
+        for (let otherExemptModel of taxPaid.otherExemptionModels) {
+            if (otherExemptModel.selectedIncomeNature != "") {
+                this.xmlWriter.startElement("ITRForm:OthersIncDtls");
+                this.xmlWriter.writeElement("ITRForm:NatureDesc", otherExemptModel.selectedIncomeNature);
+                this.xmlWriter.writeElement("ITRForm:OthNatOfInc", otherExemptModel.descriptionIfAnyOtherSelected);
+                this.xmlWriter.writeElement("ITRForm:OthAmount", otherExemptModel.amount);
+                this.xmlWriter.endElement();
+                amountSum += otherExemptModel.amount;
+            }
+        }
+        if (taxPaid.otherExemptionModels.length > 0) {
+            this.xmlWriter.writeElement("ITRForm:OthersIncTotal", amountSum);
+            this.xmlWriter.endElement();
+        }
+        this.xmlWriter.endElement();
+        this.xmlWriter.writeElement("ITRForm:BalTaxPayable", taxPaid.amountPayable == undefined ? 0 : taxPaid.amountPayable);
+        this.xmlWriter.endElement();
+
+    }
 }

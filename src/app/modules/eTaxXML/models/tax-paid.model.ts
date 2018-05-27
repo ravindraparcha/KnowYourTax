@@ -1,17 +1,17 @@
 export class TaxPaidModel {
-    public totalAdvanceTaxPaid: number;
-    public totalTDSClaimed: number;
-    public totalTCSClaimed: number;
-    public totalSelfAssessmentTaxPaid: number;
-    public totalTaxesPaid: number;
-    public amountPayable: number;
-    public refund: number;
-    public exemptedLongTermCapitalGain: number;
-    public exemptedDividendIncome: number;
-    public agricultureIncome: number;
+    public totalAdvanceTaxPaid: number=0;
+    public totalTDSClaimed: number =0;
+    public totalTCSClaimed: number =0;
+    public totalSelfAssessmentTaxPaid: number =0;
+    public totalTaxesPaid: number =0;
+    public amountPayable: number = 0;
+    public refund: number =0;
+    public exemptedLongTermCapitalGain: number =0;
+    public exemptedDividendIncome: number = 0;
+    public agricultureIncome: number =0;
     public otherExemptionModels: OtherExemptionModel[]
     public accountDetail: AccountDetailModel;
-    public otherAccountDetail:AccountDetailModel[];
+    public otherAccountDetails:AccountDetailModel[];
     public verificationModel:VerificationModel;
 }
 export class OtherExemptionModel {

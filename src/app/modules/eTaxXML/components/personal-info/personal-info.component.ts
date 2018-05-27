@@ -9,7 +9,7 @@ import {SharedXMLService} from '../../shared/sharedXMLService';
     selector: 'personal-info',
     templateUrl: './personal-info.component.html'    
 })
-export class personalInfoComponent implements OnInit {
+export class PersonalInfoComponent implements OnInit {
 
 
     @Input()
@@ -69,7 +69,7 @@ export class personalInfoComponent implements OnInit {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.birthDateXml = this._sharedXMLService.formatDateDDMMYYYY(event.date.day,event.date.month,event.date.year);
+            this.personalInfo.birthDateXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
         }
         else {
             this.personalInfo.birthDate = "";
@@ -79,7 +79,7 @@ export class personalInfoComponent implements OnInit {
     onOriginalFilingReturnDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filingOriginalReturnDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.filingOriginalReturnDateXml = this._sharedXMLService.formatDateDDMMYYYY(event.date.day,event.date.month,event.date.year);
+            this.personalInfo.filingOriginalReturnDateXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");            
         }
         else {
             this.personalInfo.filingOriginalReturnDate = "";
@@ -90,7 +90,7 @@ export class personalInfoComponent implements OnInit {
     onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filedAgainstNotice = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.filedAgainstNoticeXml = this._sharedXMLService.formatDateDDMMYYYY(event.date.day,event.date.month,event.date.year);
+            this.personalInfo.filedAgainstNoticeXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
         }
         else {
             this.personalInfo.filedAgainstNotice = "";

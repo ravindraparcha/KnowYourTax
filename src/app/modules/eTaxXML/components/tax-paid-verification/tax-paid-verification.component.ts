@@ -42,10 +42,12 @@ export class TaxPaidVerificationComponent implements OnInit {
         this.verificationModel = new VerificationModel("","","",0,"","","","",0);
         this.incomeNatureList = this._configuration.incomeNatureList;
         this.accountDetailModel = new AccountDetailModel("", "", "");
+        this.taxPaidModel.otherExemptionModels = [];
     }
     addNewOtherExemption() {
         this.newOtherExemptionModel = new OtherExemptionModel("", 0, "");
         this.OtherExemptionModels.push(this.newOtherExemptionModel);
+        this.taxPaidModel.otherExemptionModels=this.OtherExemptionModels;
     }
     deleteOtherExemptionItem(index: number) {
         this.OtherExemptionModels.splice(index, 1);
@@ -54,6 +56,7 @@ export class TaxPaidVerificationComponent implements OnInit {
     addNewOtherAccountDetailModel() {
         this.newOtherAccountDetailModel = new AccountDetailModel("", "", "");
         this.otherAccountDetailModels.push(this.newOtherAccountDetailModel);
+        this.taxPaidModel.otherAccountDetails=this.otherAccountDetailModels;
     }
     deleteOtherAccountDetailModelItem(index: number) {
         this.otherAccountDetailModels.splice(index, 1);
@@ -67,6 +70,7 @@ export class TaxPaidVerificationComponent implements OnInit {
     }
 
     onSubmit() {
+        console.log(this.taxPaidModel);
         console.log(this.OtherExemptionModels);
         console.log(this.otherAccountDetailModels);
 

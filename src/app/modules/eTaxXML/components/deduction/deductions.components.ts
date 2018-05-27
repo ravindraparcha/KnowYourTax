@@ -112,6 +112,7 @@ export class DeductionsComponent implements OnInit {
         return sum;
     }                                                                                                                                                                                                                                                                                  
     onSubmit(formData: any) {
+        debugger;
         let deductions = formData.value.itemRows;
         let sum = 0;
         for (let deduction of deductions) {

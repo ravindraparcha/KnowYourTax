@@ -28,7 +28,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     calculateSalaryPensionSum() {
         this.incomeDetailsModel.salaryPensionSum =
-            (isNaN(this.incomeDetailsModel.allowance) ? 0 : this.incomeDetailsModel.allowance) +
+            (isNaN(this.incomeDetailsModel.allowance) ? 0 : this.incomeDetailsModel.allowance) -
             (isNaN(this.incomeDetailsModel.deductionUS16) ? 0 : this.incomeDetailsModel.deductionUS16) +
             (isNaN(this.incomeDetailsModel.perquisites) ? 0 : this.incomeDetailsModel.perquisites) +
             (isNaN(this.incomeDetailsModel.profitLieuOfSalary) ? 0 : this.incomeDetailsModel.profitLieuOfSalary) +
