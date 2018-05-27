@@ -1,9 +1,10 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import {Form26ASParserService} from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
 import {Configuration} from '../../../shared/constants'; 
 import {TaxDeductedSalaryModel} from '../models/tax-deducted-collected.model';
-
+import {XmlGeneratorService} from '../services/xml-generator';
+import {personalInfoComponent} from '../components/personal-info/personal-info.component';
 declare var $:any;
 
 @Component({
@@ -16,12 +17,14 @@ export class eTaxXMLComponent  {
         { "id": 2 ,"name" :"Mahindra","disabled":false }
     ];
 
-   
+    //child component object for xml generation
+    @ViewChild(personalInfoComponent ) _personalInfoComponent: personalInfoComponent; 
+
     public personalInfoData = new PersonalInfoModel();
-    public taxDeducted;
-    //public personalData=this.personalInfoData; 
+    public taxDeducted;    
     private parseJson;
-    constructor(private _form26ASParserService:Form26ASParserService,private _configuration: Configuration){}
+    private xmlDataArray=[];
+    constructor(private _form26ASParserService:Form26ASParserService,private _configuration: Configuration, private _xmlGeneratorService : XmlGeneratorService){}
     onFileSelection(event: EventTarget) {
         let $this=this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
@@ -34,12 +37,10 @@ export class eTaxXMLComponent  {
        //hiding the modal popup
        $('#form26ASModel').modal('hide');
         reader.onload = function () {                                            
-           $this.parseJson= $this._form26ASParserService.parseTextFile(reader.result);
-           //console.log($this.parseJson);
+           $this.parseJson= $this._form26ASParserService.parseTextFile(reader.result);           
            //convert json to appropriate model 
            $this.parseJson.forEach(element => {            
-            //Personal Information
-           
+            //Personal Information           
             if(element.partNumber==0) {                    
                 $this.personalInfoData = $this.getPersonalInformationModel($this.parseJson.personalInfo[0].personalInfoArray);
             }
@@ -76,14 +77,7 @@ export class eTaxXMLComponent  {
         personalInfoModel.zipCode=arr[11];    
         return  personalInfoModel;     
     }
-
-    // constructor(tan:string,tax:string,name:string,incomeChargeableForDeduction:number,taxDeducted:number){
-    //     this.TAN= tan;
-    //     this.name=name;
-    //     this.incomeChargeableForDeduction=incomeChargeableForDeduction;
-    //     this.taxDeducted=taxDeducted;        
-    // }
-
+ 
     private getDeductionAtSource(arr:any[]) :TaxDeductedSalaryModel[] {
         let taxDeductedSalaryModels = [];
         let taxDeductedSalaryModel;         
@@ -95,4 +89,13 @@ export class eTaxXMLComponent  {
         
         return taxDeductedSalaryModels;
     }
+    generateXML() {
+        this.xmlDataArray=[];
+        this.createSectionArray('personalInfo',this._personalInfoComponent.personalInfo)
+        this._xmlGeneratorService.generateXML(this.xmlDataArray);
+    }
+    private createSectionArray(infoType:string , data: any) {
+        this.xmlDataArray.push({"infoType":infoType,data:data});        
+    }
+     
 }

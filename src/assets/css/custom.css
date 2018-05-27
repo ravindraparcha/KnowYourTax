@@ -301,3 +301,6 @@ th{
     background:linear-gradient(#ffffff, #91cfef);
     padding:5px;
  }
+.btn{
+    border-radius:0;
+}

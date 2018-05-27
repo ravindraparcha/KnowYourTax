@@ -8,6 +8,7 @@ export class PersonalInfoModel {
     public flatDoorBlockNo: string;
     public premisesBldgVillage: string;
     public birthDate: string;
+    public birthDateXml:string;
     public roadStreetPostOffice: string;
     public areaLocality: string;
     public townCityDistrict: string;
@@ -23,6 +24,8 @@ export class PersonalInfoModel {
     public selectedOriginalRevisedFile: string;
     public receiptNumber: string;
     public filingOriginalReturnDate: string;
+    public filingOriginalReturnDateXml : string;
     public noticeNumber: string;
     public filedAgainstNotice: string;     
+    public filedAgainstNoticeXml :string;
 }
