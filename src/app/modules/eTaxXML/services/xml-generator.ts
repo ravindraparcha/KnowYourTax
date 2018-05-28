@@ -23,15 +23,21 @@ export class XmlGeneratorService {
                 this.addFillingStatusNode(element.data);
                 panNo = element.data.panNo;
             }
-            else if (element.infoType === "incomeDetails") {
+            else if (element.infoType === "incomeDetails")
                 this.addIncomeDeductionNode(element.data);
-            }
+
             else if (element.infoType === "taxPaid") {
                 this.addTaxPaid(element.data);
                 this.addRefundNode(element.data);
             }
-            else if(element.infoType === "taxCollectedDeducted") 
+            else if (element.infoType === "taxCollectedDeducted")
                 this.addTaxDeductedCollected(element.data);
+
+            else if (element.infoType === "verification")
+                this.addVerificationNode(element.data);
+            else if (element.infoType === "80g")
+                this.add80GNode(element.data);
+
         });
 
         this.xmlWriter.endDocument();
@@ -372,7 +378,7 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:BankAccountNo", taxPaid.accountDetail.accountNo);
         this.xmlWriter.endElement();
 
-        if (taxPaid.otherAccountDetails.length > 0) {            
+        if (taxPaid.otherAccountDetails.length > 0) {
             for (let otherAccountDetails of taxPaid.otherAccountDetails) {
                 this.xmlWriter.startElement("ITRForm:AddtnlBankDetails");
                 if (otherAccountDetails.ifscCode !== undefined && otherAccountDetails.ifscCode !== null)
@@ -396,117 +402,248 @@ export class XmlGeneratorService {
     private addTaxDeductedCollected(taxDeductedCollected) {
 
         //Tax deducted on salary
-        if(taxDeductedCollected.taxDeductedSalaryModels.length>0) {
-            let deductedSum=0;
-            this.xmlWriter.startElement("ITRForm:TDSonSalaries");  
-            for(let deducted of taxDeductedCollected.taxDeductedSalaryModels)  {
-                this.xmlWriter.startElement("ITRForm:TDSonSalary"); 
+        if (taxDeductedCollected.taxDeductedSalaryModels.length > 0) {
+            let deductedSum = 0;
+            this.xmlWriter.startElement("ITRForm:TDSonSalaries");
+            for (let deducted of taxDeductedCollected.taxDeductedSalaryModels) {
+                this.xmlWriter.startElement("ITRForm:TDSonSalary");
 
-                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");    
-                this.xmlWriter.writeElement("ITRForm:TAN",deducted.TAN);
-                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName",deducted.name);
+                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");
+                this.xmlWriter.writeElement("ITRForm:TAN", deducted.TAN);
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", deducted.name);
                 this.xmlWriter.endElement();
 
-                this.xmlWriter.writeElement("ITRForm:IncChrgSal",deducted.incomeChargeableForDeduction);
-                this.xmlWriter.writeElement("ITRForm:TotalTDSSal",deducted.taxDeducted);
-                
-                this.xmlWriter.endElement(); 
-                deductedSum+=deducted.taxDeducted;
-            }        
-            this.xmlWriter.writeElement("ITRForm:TotalTDSonSalaries",deductedSum);  
-            this.xmlWriter.endElement();  
+                this.xmlWriter.writeElement("ITRForm:IncChrgSal", deducted.incomeChargeableForDeduction);
+                this.xmlWriter.writeElement("ITRForm:TotalTDSSal", deducted.taxDeducted);
+
+                this.xmlWriter.endElement();
+                deductedSum += deducted.taxDeducted;
+            }
+            this.xmlWriter.writeElement("ITRForm:TotalTDSonSalaries", deductedSum);
+            this.xmlWriter.endElement();
         }
 
         //Tax deducted on other salary
-        if(taxDeductedCollected.taxDeductedOtherThanSalaryModels.length>0) {
-            let deductedSum=0;
-            this.xmlWriter.startElement("ITRForm:TDSonOthThanSals");  
-            for(let deducted of taxDeductedCollected.taxDeductedOtherThanSalaryModels)  {
-                this.xmlWriter.startElement("ITRForm:TDSonOthThanSal"); 
+        if (taxDeductedCollected.taxDeductedOtherThanSalaryModels.length > 0) {
+            let deductedSum = 0;
+            this.xmlWriter.startElement("ITRForm:TDSonOthThanSals");
+            for (let deducted of taxDeductedCollected.taxDeductedOtherThanSalaryModels) {
+                this.xmlWriter.startElement("ITRForm:TDSonOthThanSal");
 
-                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");    
-                this.xmlWriter.writeElement("ITRForm:TAN",deducted.TAN);
-                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName",deducted.name);
+                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");
+                this.xmlWriter.writeElement("ITRForm:TAN", deducted.TAN);
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", deducted.name);
                 this.xmlWriter.endElement();
 
-                this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct",deducted.amountForTaxDeduction);
-                this.xmlWriter.writeElement("ITRForm:DeductedYr",deducted.selectedOtherThanSalaryYear);
-                this.xmlWriter.writeElement("ITRForm:TotTDSOnAmtPaid",deducted.taxDeducted);
-                this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid",deducted.amountClaimedThisYear);
-                
-                this.xmlWriter.endElement(); 
-                deductedSum+=deducted.taxDeducted;
-            }        
-            this.xmlWriter.writeElement("ITRForm:TotalTDSonOthThanSals",deductedSum);  
-            this.xmlWriter.endElement();  
+                this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct", deducted.amountForTaxDeduction);
+                this.xmlWriter.writeElement("ITRForm:DeductedYr", deducted.selectedOtherThanSalaryYear);
+                this.xmlWriter.writeElement("ITRForm:TotTDSOnAmtPaid", deducted.taxDeducted);
+                this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid", deducted.amountClaimedThisYear);
+
+                this.xmlWriter.endElement();
+                deductedSum += deducted.taxDeducted;
+            }
+            this.xmlWriter.writeElement("ITRForm:TotalTDSonOthThanSals", deductedSum);
+            this.xmlWriter.endElement();
         }
 
         //Tax deducted at source 26QC
-        if(taxDeductedCollected.taxDeductedUnder26QCModels.length>0) {
-            let deductedSum=0;
-            this.xmlWriter.startElement("ITRForm:TDSDtls26QC");  
-            for(let deducted of taxDeductedCollected.taxDeductedUnder26QCModels)  {
-                this.xmlWriter.startElement("ITRForm:TDSDetails26QC"); 
+        if (taxDeductedCollected.taxDeductedUnder26QCModels.length > 0) {
+            let deductedSum = 0;
+            this.xmlWriter.startElement("ITRForm:TDSDtls26QC");
+            for (let deducted of taxDeductedCollected.taxDeductedUnder26QCModels) {
+                this.xmlWriter.startElement("ITRForm:TDSDetails26QC");
 
-                this.xmlWriter.writeElement("ITRForm:PANofTenant",deducted.PAN);    
-                this.xmlWriter.writeElement("ITRForm:NameOfTenant",deducted.name);
-                this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct",deducted.amountForTaxDeduction);
-                
-                this.xmlWriter.writeElement("ITRForm:DeductedYr",deducted.selectedTenantDeductionYear);
-                this.xmlWriter.writeElement("ITRForm:TaxDeducted",deducted.taxDeducted);
-                this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid",deducted.amountClaimedThisYear);
-                
-                this.xmlWriter.endElement(); 
-                deductedSum+=deducted.taxDeducted;
-            }        
-            this.xmlWriter.writeElement("ITRForm:TotalTDSDetails26QC",deductedSum);  
-            this.xmlWriter.endElement();  
+                this.xmlWriter.writeElement("ITRForm:PANofTenant", deducted.PAN);
+                this.xmlWriter.writeElement("ITRForm:NameOfTenant", deducted.name);
+                this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct", deducted.amountForTaxDeduction);
+
+                this.xmlWriter.writeElement("ITRForm:DeductedYr", deducted.selectedTenantDeductionYear);
+                this.xmlWriter.writeElement("ITRForm:TaxDeducted", deducted.taxDeducted);
+                this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid", deducted.amountClaimedThisYear);
+
+                this.xmlWriter.endElement();
+                deductedSum += deducted.taxDeducted;
+            }
+            this.xmlWriter.writeElement("ITRForm:TotalTDSDetails26QC", deductedSum);
+            this.xmlWriter.endElement();
         }
 
         //tax collected
-        if(taxDeductedCollected.taxCollectedModels.length>0) {
-            let collectedSum=0;
-            this.xmlWriter.startElement("ITRForm:ScheduleTCS");  
-            
-            for(let collected of taxDeductedCollected.taxCollectedModels)  {
-                this.xmlWriter.startElement("ITRForm:TCS"); 
+        if (taxDeductedCollected.taxCollectedModels.length > 0) {
+            let collectedSum = 0;
+            this.xmlWriter.startElement("ITRForm:ScheduleTCS");
 
-                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");    
-                this.xmlWriter.writeElement("ITRForm:TAN",collected.taxCollectionAccountNo);
-                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName",collected.name);
+            for (let collected of taxDeductedCollected.taxCollectedModels) {
+                this.xmlWriter.startElement("ITRForm:TCS");
+
+                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");
+                this.xmlWriter.writeElement("ITRForm:TAN", collected.taxCollectionAccountNo);
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", collected.name);
                 this.xmlWriter.endElement();
 
-                this.xmlWriter.writeElement("ITRForm:AmtTaxCollected",collected.amountForTaxDeduction);
-                this.xmlWriter.writeElement("ITRForm:CollectedYr",collected.selectedTaxCollectionYear);
-                this.xmlWriter.writeElement("ITRForm:TotalTCS",collected.taxCollected);
-                this.xmlWriter.writeElement("ITRForm:AmtTCSClaimedThisYear",collected.amountClaimedThisYear);
-                
-                this.xmlWriter.endElement(); 
-                collectedSum+=collected.taxDeducted;
-            }        
-            this.xmlWriter.writeElement("ITRForm:TotalSchTCS",collectedSum);  
-            this.xmlWriter.endElement();  
+                this.xmlWriter.writeElement("ITRForm:AmtTaxCollected", collected.amountForTaxDeduction);
+                this.xmlWriter.writeElement("ITRForm:CollectedYr", collected.selectedTaxCollectionYear);
+                this.xmlWriter.writeElement("ITRForm:TotalTCS", collected.taxCollected);
+                this.xmlWriter.writeElement("ITRForm:AmtTCSClaimedThisYear", collected.amountClaimedThisYear);
+
+                this.xmlWriter.endElement();
+                collectedSum += collected.taxDeducted;
+            }
+            this.xmlWriter.writeElement("ITRForm:TotalSchTCS", collectedSum);
+            this.xmlWriter.endElement();
         }
 
         //advance tax 
-        if(taxDeductedCollected.advanceTaxSelfAssessmentTaxModels.length>0) {
-            let advanceTaxSum=0;
-            this.xmlWriter.startElement("ITRForm:TaxPayments");  
-            
-            for(let advanceTax of taxDeductedCollected.advanceTaxSelfAssessmentTaxModels)  {
-                this.xmlWriter.startElement("ITRForm:TaxPayment"); 
-                
-                this.xmlWriter.writeElement("ITRForm:BSRCode",advanceTax.BSRCode);
-                this.xmlWriter.writeElement("ITRForm:DateDep",advanceTax.depositDateXml);
-                this.xmlWriter.writeElement("ITRForm:SrlNoOfChaln",advanceTax.challanSerialNumber);
-                this.xmlWriter.writeElement("ITRForm:Amt",advanceTax.taxPaid);
-                
-                this.xmlWriter.endElement(); 
-                advanceTaxSum+=advanceTax.taxPaid;
-            }        
-            this.xmlWriter.writeElement("ITRForm:TotalTaxPayments",advanceTaxSum);  
-            this.xmlWriter.endElement();  
+        if (taxDeductedCollected.advanceTaxSelfAssessmentTaxModels.length > 0) {
+            let advanceTaxSum = 0;
+            this.xmlWriter.startElement("ITRForm:TaxPayments");
+
+            for (let advanceTax of taxDeductedCollected.advanceTaxSelfAssessmentTaxModels) {
+                this.xmlWriter.startElement("ITRForm:TaxPayment");
+
+                this.xmlWriter.writeElement("ITRForm:BSRCode", advanceTax.BSRCode);
+                this.xmlWriter.writeElement("ITRForm:DateDep", advanceTax.depositDateXml);
+                this.xmlWriter.writeElement("ITRForm:SrlNoOfChaln", advanceTax.challanSerialNumber);
+                this.xmlWriter.writeElement("ITRForm:Amt", advanceTax.taxPaid);
+
+                this.xmlWriter.endElement();
+                advanceTaxSum += advanceTax.taxPaid;
+            }
+            this.xmlWriter.writeElement("ITRForm:TotalTaxPayments", advanceTaxSum);
+            this.xmlWriter.endElement();
         }
-        
+
+    }
+
+    private addVerificationNode(verification) {
+        this.xmlWriter.startElement("ITRForm:Verification");
+        this.xmlWriter.startElement("ITRForm:Declaration");
+        if (verification.fullName !== undefined && verification.fullName !== "")
+            this.xmlWriter.writeElement("ITRForm:AssesseeVerName", verification.fullName);
+        if (verification.sonDaughterOf !== undefined && verification.sonDaughterOf !== "")
+            this.xmlWriter.writeElement("ITRForm:FatherName", verification.sonDaughterOf);
+        if (verification.PAN !== undefined && verification.PAN !== "")
+            this.xmlWriter.writeElement("ITRForm:AssesseeVerPAN", verification.PAN);
+
+        this.xmlWriter.endElement();
+
+        if (verification.capacity !== undefined && verification.capacity !== "")
+            this.xmlWriter.writeElement("ITRForm:Capacity", verification.capacity);
+        if (verification.place !== undefined && verification.place !== "")
+            this.xmlWriter.writeElement("ITRForm:Place", verification.place);
+        if (verification.verificationDateXml !== undefined && verification.verificationDateXml !== "")
+            this.xmlWriter.writeElement("ITRForm:Date", verification.verificationDateXml);
+
+        this.xmlWriter.endElement();
+
+        //tax return preparer
+        this.xmlWriter.startElement("ITRForm:TaxReturnPreparer");
+        if (verification.TRPIdentificationNo !== undefined && verification.TRPIdentificationNo !== "")
+            this.xmlWriter.writeElement("ITRForm:IdentificationNoOfTRP", verification.TRPIdentificationNo);
+        if (verification.TRPName !== undefined && verification.TRPName !== "")
+            this.xmlWriter.writeElement("ITRForm:NameOfTRP", verification.TRPName);
+        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "")
+            this.xmlWriter.writeElement("ITRForm:ReImbFrmGov", verification.TRPReimbursementAmount);
+
+        this.xmlWriter.endElement();
+    }
+
+    private donationAmt: number = 0;
+    private eligibleAmt: number = 0;
+    private add80GNode(section80g) {
+
+        this.donationAmt=0;
+        this.eligibleAmt=0;
+        if (section80g.donation100DeductionWithoutQualifyingLimit.length > 0 ||
+            section80g.donation50DeductionWithoutQualifyingLimit.length > 0 ||
+            section80g.donation100DeductionWithQualifyingLimit.length == 0 ||
+            section80g.donation50DeductionWithQualifyingLimit.length == 0
+        ) {
+            this.xmlWriter.startElement("ITRForm:Schedule80G");
+            this.add80gDonee100PercentWithoutQualifyingLimit(section80g);
+            this.add80gDonee50PercentWithoutQualifyingLimit(section80g);
+            this.add80gDonee100PercentWithQualifyingLimit(section80g);
+            this.add80gDonee50PercentWithQualifyingLimit(section80g);
+
+            this.xmlWriter.writeElement("ITRForm:TotalDonationsUs80G", this.donationAmt);
+            this.xmlWriter.writeElement("ITRForm:TotalEligibleDonationsUs80G", this.eligibleAmt);
+            this.xmlWriter.endElement();
+        }
+
+    }
+    private add80gDonee100PercentWithoutQualifyingLimit(section80g) {
+        if (section80g.donation100DeductionWithoutQualifyingLimit.length == 0)
+            return;
+        this.xmlWriter.startElement("ITRForm:Don100Percent");
+        let donationAmount = this.addDoneeNodes(section80g.donation100DeductionWithoutQualifyingLimit);
+        this.xmlWriter.writeElement("ITRForm:TotDon100Percent", donationAmount.donationAmount);
+        this.xmlWriter.writeElement("ITRForm:TotEligibleDon100Percent", donationAmount.eligibleAmount);
+        this.xmlWriter.endElement();
+        this.donationAmt += donationAmount.donationAmount;
+        this.eligibleAmt += donationAmount.eligibleAmount;
+    }
+    private add80gDonee50PercentWithoutQualifyingLimit(section80g) {
+        if (section80g.donation50DeductionWithoutQualifyingLimit.length == 0)
+            return;
+        this.xmlWriter.startElement("ITRForm:Don50PercentNoApprReqd");
+        let donationAmount = this.addDoneeNodes(section80g.donation50DeductionWithoutQualifyingLimit);
+        this.xmlWriter.writeElement("ITRForm:TotDon50PercentNoApprReqd", donationAmount.donationAmount);
+        this.xmlWriter.writeElement("ITRForm:TotEligibleDon50Percent", donationAmount.eligibleAmount);
+        this.xmlWriter.endElement();
+        this.donationAmt += donationAmount.donationAmount;
+        this.eligibleAmt += donationAmount.eligibleAmount;
+    }
+    private add80gDonee100PercentWithQualifyingLimit(section80g) {
+        if (section80g.donation100DeductionWithQualifyingLimit.length == 0)
+            return;
+        this.xmlWriter.startElement("ITRForm:Don100PercentApprReqd");
+        let donationAmount = this.addDoneeNodes(section80g.donation100DeductionWithQualifyingLimit);
+        this.xmlWriter.writeElement("ITRForm:TotDon100PercentApprReqd", donationAmount.donationAmount);
+        this.xmlWriter.writeElement("ITRForm:TotEligibleDon100PercentApprReqd", donationAmount.eligibleAmount);
+        this.xmlWriter.endElement();
+        this.donationAmt += donationAmount.donationAmount;
+        this.eligibleAmt += donationAmount.eligibleAmount;
+    }
+    private add80gDonee50PercentWithQualifyingLimit(section80g) {
+        if (section80g.donation50DeductionWithQualifyingLimit.length == 0)
+            return;
+        this.xmlWriter.startElement("ITRForm:Don50PercentApprReqd");
+        let donationAmount = this.addDoneeNodes(section80g.donation50DeductionWithQualifyingLimit);
+        this.xmlWriter.writeElement("ITRForm:TotDon50PercentApprReqd", donationAmount.donationAmount);
+        this.xmlWriter.writeElement("ITRForm:TotEligibleDon50PercentApprReqd", donationAmount.eligibleAmount);
+        this.xmlWriter.endElement();
+        this.donationAmt += donationAmount.donationAmount;
+        this.eligibleAmt += donationAmount.eligibleAmount;
+    }
+    private addDoneeNodes(doneeDonations): any {
+        let eligibleAmount = 0;
+        let donationAmount = 0;
+        for (let doneeDonation of doneeDonations) {
+            this.xmlWriter.startElement("ITRForm:DoneeWithPan");
+            if (doneeDonation.doneeName !== undefined && doneeDonation.doneeName != "")
+                this.xmlWriter.writeElement("ITRForm:DoneeWithPanName", doneeDonation.doneeName);
+            if (doneeDonation.PAN !== undefined && doneeDonation.PAN != "")
+                this.xmlWriter.writeElement("ITRForm:DoneePAN", doneeDonation.PAN);
+
+            this.xmlWriter.startElement("ITRForm:AddressDetail");
+            if (doneeDonation.address !== undefined && doneeDonation.address != "")
+                this.xmlWriter.writeElement("ITRForm:AddrDetail", doneeDonation.address);
+            if (doneeDonation.cityTownDistrict !== undefined && doneeDonation.cityTownDistrict != "")
+                this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", doneeDonation.cityTownDistrict);
+            if (doneeDonation.selectedStateCode !== undefined && doneeDonation.selectedStateCode != "")
+                this.xmlWriter.writeElement("ITRForm:StateCode", doneeDonation.selectedStateCode);
+            if (doneeDonation.pinCode !== undefined && doneeDonation.pinCode != "")
+                this.xmlWriter.writeElement("ITRForm:PinCode", doneeDonation.pinCode);
+            this.xmlWriter.endElement();
+            if (doneeDonation.donationAmount !== undefined && doneeDonation.donationAmount != 0)
+                this.xmlWriter.writeElement("ITRForm:DonationAmt", doneeDonation.donationAmount);
+            if (doneeDonation.eligibleDonationAmount !== undefined && doneeDonation.eligibleDonationAmount != 0)
+                this.xmlWriter.writeElement("ITRForm:EligibleDonationAmt", doneeDonation.eligibleDonationAmount);
+            this.xmlWriter.endElement();
+            donationAmount += doneeDonation.donationAmount;
+            eligibleAmount += doneeDonation.eligibleDonationAmount;
+        }
+        return { donationAmount: donationAmount, eligibleAmount: eligibleAmount };
     }
 }

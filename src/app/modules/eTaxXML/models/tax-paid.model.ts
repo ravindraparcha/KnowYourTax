@@ -43,6 +43,7 @@ export class VerificationModel {
     public capacity:number;
     public place:string;
     public verficationDate:string;
+    public verificationDateXml : string;
     public TRPIdentificationNo:string;
     public TRPName:string;
     public TRPReimbursementAmount:number;

@@ -1,8 +1,8 @@
 export class Donation80G {
-    public donation100DeductionWithoutQualifyingLimit: DonationDeduction;
-    public donation50DeductionWithoutQualifyingLimit: DonationDeduction;
-    public donation100DeductionWithQualifyingLimit: DonationDeduction;
-    public donation50DeductionWithQualifyingLimit: DonationDeduction;
+    public donation100DeductionWithoutQualifyingLimit: DonationDeduction[];
+    public donation50DeductionWithoutQualifyingLimit: DonationDeduction[];
+    public donation100DeductionWithQualifyingLimit: DonationDeduction[];
+    public donation50DeductionWithQualifyingLimit: DonationDeduction[];
 }
 
 export class DonationDeduction {

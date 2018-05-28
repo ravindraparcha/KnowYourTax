@@ -3,6 +3,8 @@ import { Component, OnInit } from "@angular/core";
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
 import { Configuration } from '../../../../shared/constants';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
+import {SharedXMLService} from '../../shared/sharedXMLService';
+
 declare var $: any;
 @Component({
     selector: 'tax-paid-verification',
@@ -27,7 +29,7 @@ export class TaxPaidVerificationComponent implements OnInit {
         dateFormat: this._configuration.dateTimeFormat
     };
 
-    constructor(private _configuration: Configuration) { }
+    constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService) { }
     ngOnInit() {
 
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -45,6 +47,7 @@ export class TaxPaidVerificationComponent implements OnInit {
         this.taxPaidModel.accountDetail = this.accountDetailModel;
         this.taxPaidModel.otherExemptionModels = [];
         this.taxPaidModel.otherAccountDetails = [];
+        this.taxPaidModel.verificationModel=this.verificationModel;
     }
     addNewOtherExemption() {
         this.newOtherExemptionModel = new OtherExemptionModel("", 0, "");
@@ -65,10 +68,14 @@ export class TaxPaidVerificationComponent implements OnInit {
     }
 
     onVerficationDateChanged(event:IMyDateModel){
-        if (event.date.day != 0)
+        if (event.date.day != 0) {
             this.verificationModel.verficationDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-        else
+            this.verificationModel.verificationDateXml =this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+        }
+        else {
             this.verificationModel.verficationDate = "";
+            this.verificationModel.verificationDateXml ="";
+        }
     }
 
     onSubmit() {

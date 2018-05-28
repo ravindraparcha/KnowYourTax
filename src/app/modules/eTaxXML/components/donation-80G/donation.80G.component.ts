@@ -9,7 +9,9 @@ import { Configuration } from '../../../../shared/constants';
 
 })
 
-export class Donation80GComponent {
+export class Donation80GComponent implements OnInit {
+
+    public donation80G : Donation80G;
 
     public donation100DeductionWithoutQualifyingLimitModels=[];
     public newDonation100DeductionWithoutQualifyingLimitModel;
@@ -26,9 +28,18 @@ export class Donation80GComponent {
     
     constructor(public configuration : Configuration){}
 
+    ngOnInit() {
+        this.donation80G = new Donation80G();
+        this.donation80G.donation100DeductionWithoutQualifyingLimit=[];
+        this.donation80G.donation50DeductionWithoutQualifyingLimit= [];
+        this.donation80G.donation100DeductionWithQualifyingLimit = [];
+        this.donation80G.donation50DeductionWithQualifyingLimit = [];
+    }
+
     addNewDonation100DeductionWithoutQualifyingLimit() {
         this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
         this.donation100DeductionWithoutQualifyingLimitModels.push(this.newDonation100DeductionWithoutQualifyingLimitModel);
+        this.donation80G.donation100DeductionWithoutQualifyingLimit = this.donation100DeductionWithoutQualifyingLimitModels;
     }
     deleteDonation100DeductionWithoutQualifyingLimitItem(index: number) {
         this.donation100DeductionWithoutQualifyingLimitModels.splice(index,1);
@@ -37,6 +48,7 @@ export class Donation80GComponent {
     addNewDonation50DeductionWithoutQualifyingLimit() {
         this.newDonation50DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
         this.donation50DeductionWithoutQualifyingLimitModels.push(this.newDonation50DeductionWithoutQualifyingLimitModel);
+        this.donation80G.donation50DeductionWithoutQualifyingLimit = this.donation50DeductionWithoutQualifyingLimitModels;
     }
     deleteDonation50DeductionWithoutQualifyingLimitItem(index: number) {
         this.donation50DeductionWithoutQualifyingLimitModels.splice(index,1);
@@ -44,6 +56,7 @@ export class Donation80GComponent {
     addNewDonation100DeductionWithQualifyingLimit() {
         this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
         this.donation100DeductionWithQualifyingLimitModels.push(this.newDonation100DeductionWithoutQualifyingLimitModel);
+        this.donation80G.donation100DeductionWithQualifyingLimit = this.donation100DeductionWithQualifyingLimitModels;
     }    
     deleteDonation100DeductionWithQualifyingLimitItem(index: number) {
         this.donation100DeductionWithQualifyingLimitModels.splice(index,1);
@@ -52,6 +65,7 @@ export class Donation80GComponent {
     addNewDonation50DeductionWithQualifyingLimit() {
         this.newDonation50DeductionWithQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
         this.donation50DeductionWithQualifyingLimitModels.push(this.newDonation50DeductionWithQualifyingLimitModel);
+        this.donation80G.donation50DeductionWithQualifyingLimit=this.donation50DeductionWithQualifyingLimitModels;
     }
     deleteDonation50DeductionWithQualifyingLimitItem(index: number) {
         this.donation50DeductionWithQualifyingLimitModels.splice(index,1);
