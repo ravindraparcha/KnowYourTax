@@ -8,7 +8,7 @@ import {XmlGeneratorService} from '../services/xml-generator';
 import {PersonalInfoComponent} from '../components/personal-info/personal-info.component';
 import {IncomeDetailsComponent} from '../components/income-details/income-details.component';
 import {TaxPaidVerificationComponent} from '../components/tax-paid-verification/tax-paid-verification.component';
-
+import {TaxDeductedCollectedComponent} from '../components/tax-deducted-collected/tax-deducted-collected.component';
 declare var $:any;
 
 @Component({
@@ -25,6 +25,7 @@ export class eTaxXMLComponent  {
     @ViewChild(PersonalInfoComponent ) _personalInfoComponent: PersonalInfoComponent; 
     @ViewChild(IncomeDetailsComponent) _incomeDetailsComponent : IncomeDetailsComponent;
     @ViewChild(TaxPaidVerificationComponent) _taxPaidVerificationComponent : TaxPaidVerificationComponent;
+    @ViewChild(TaxDeductedCollectedComponent) _taxDeductedCollectedComponent : TaxDeductedCollectedComponent;
 
     public personalInfoData = new PersonalInfoModel();
     public taxDeducted;    
@@ -100,6 +101,7 @@ export class eTaxXMLComponent  {
         this.createSectionArray('personalInfo',this._personalInfoComponent.personalInfo);
         this.createSectionArray('incomeDetails',this._incomeDetailsComponent.incomeDetailsModel);
         this.createSectionArray('taxPaid',this._taxPaidVerificationComponent.taxPaidModel);
+        this.createSectionArray('taxCollectedDeducted',this._taxDeductedCollectedComponent.taxCollectedDeductedModel);
         this._xmlGeneratorService.generateXML(this.xmlDataArray);
     }
     private createSectionArray(infoType:string , data: any) {

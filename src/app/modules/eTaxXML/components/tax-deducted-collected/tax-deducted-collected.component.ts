@@ -1,18 +1,20 @@
 import { Component, OnInit, Input } from "@angular/core";
 
-import {TaxDeductedSalaryModel,TaxDeductedOtherThanSalaryModel,TaxDeductedUnder26QCModel,AdvanceTaxSelfAssessmentTaxModel,TaxCollectedModel} from '../../models/tax-deducted-collected.model';
+import {TaxCollectedDeductedModel,TaxDeductedSalaryModel,TaxDeductedOtherThanSalaryModel,TaxDeductedUnder26QCModel,AdvanceTaxSelfAssessmentTaxModel,TaxCollectedModel} from '../../models/tax-deducted-collected.model';
 
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { Configuration } from '../../../../shared/constants';
+import {SharedXMLService} from '../../shared/sharedXMLService';
 
 declare var $: any;
 
 @Component({
     selector: 'tax-deducted',
-    templateUrl: './tax-deducted.component.html'
+    templateUrl: './tax-deducted-collected.component.html'
 })
 
-export class TaxDeductedComponent implements OnInit {
+export class TaxDeductedCollectedComponent implements OnInit {
+    public taxCollectedDeductedModel : TaxCollectedDeductedModel;
     public taxDeductedSalaryModels = [];
     public newTaxDeductedSalaryModel;
 
@@ -31,7 +33,7 @@ export class TaxDeductedComponent implements OnInit {
     public taxCollectedModels = [];
     public newTaxCollectedModel;
 
-    constructor(private _configuration: Configuration) { }
+    constructor(private _configuration: Configuration,private _sharedXMLService :SharedXMLService) { }
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
@@ -57,6 +59,13 @@ export class TaxDeductedComponent implements OnInit {
         this.taxCollectionDeductionYearList = this.getTaxCollectionDeductionYearList();
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
         this.taxDeductionTenantYearList = [{ "key": previousYear, "value": previousYear }];
+
+        this.taxCollectedDeductedModel = new TaxCollectedDeductedModel();
+        this.taxCollectedDeductedModel.taxCollectedModels=[];
+        this.taxCollectedDeductedModel.taxDeductedSalaryModels=[];
+        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels =[];
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels=[];
+        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels=[];
     }
     private getTaxCollectionDeductionYearList() {
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
@@ -79,6 +88,7 @@ export class TaxDeductedComponent implements OnInit {
     addNewTaxDeductedSalary() {
         this.newTaxDeductedSalaryModel = new TaxDeductedSalaryModel("", "", "", 0, 0);
         this.taxDeductedSalaryModels.push(this.newTaxDeductedSalaryModel);
+        this.taxCollectedDeductedModel.taxDeductedSalaryModels=this.taxDeductedSalaryModels;
     }
     deleteTaxDeductedSalaryItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedSalaryModels, index)
@@ -94,6 +104,7 @@ export class TaxDeductedComponent implements OnInit {
     addNewTaxDeductedOtherThanSalary() {
         this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)
         this.taxDeductedOtherThanSalaryModels.push(this.newTaxDeductedOtherThanSalaryModel);
+        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels=this.taxDeductedOtherThanSalaryModels;
     }
     deleteTaxDeductedOtherThanSalaryItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedOtherThanSalaryModels, index);
@@ -102,6 +113,7 @@ export class TaxDeductedComponent implements OnInit {
     addNewTaxDeductedUnder26QC() {
         this.newTaxDeductedUnder26QCModel = new TaxDeductedUnder26QCModel("", "", 0, 0, 0);
         this.taxDeductedUnder26QCModels.push(this.newTaxDeductedUnder26QCModel);
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels=this.taxDeductedUnder26QCModels;
     }
     deleteTaxDeductedUnder26QCItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedUnder26QCModels, index);
@@ -110,6 +122,7 @@ export class TaxDeductedComponent implements OnInit {
     addNewAdvanceTaxSelfAssessmentTax() {
         this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", 0, "");
         this.advanceTaxSelfAssessmentTaxModels.push(this.newAdvanceTaxSelfAssessmentTaxModel);
+        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels=this.advanceTaxSelfAssessmentTaxModels;
     }
     deleteAdvanceTaxSelfAssessmentTaxItem(index: number) {
         this.deleteItemFromArray(this.advanceTaxSelfAssessmentTaxModels, index);
@@ -117,7 +130,8 @@ export class TaxDeductedComponent implements OnInit {
 
     addNewTaxCollection() {
         this.newTaxCollectedModel = new TaxCollectedModel("", "", 0, 0);
-        this.taxCollectedModels.push(this.newTaxCollectedModel);;
+        this.taxCollectedModels.push(this.newTaxCollectedModel);
+        this.taxCollectedDeductedModel.taxCollectedModels=this.taxCollectedModels;
     }
 
     deleteTaxCollectionItem(index: number) {
@@ -128,9 +142,13 @@ export class TaxDeductedComponent implements OnInit {
         itemArray.splice(index, 1);
     }
     onDepositDateChanged(event: IMyDateModel) {
-        if (event.date.day != 0)
+        if (event.date.day != 0) {
             this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-        else
+            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+        }
+        else {
             this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
+            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml="";
+        }
     }
 }

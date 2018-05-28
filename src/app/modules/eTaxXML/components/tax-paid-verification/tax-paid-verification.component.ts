@@ -42,7 +42,9 @@ export class TaxPaidVerificationComponent implements OnInit {
         this.verificationModel = new VerificationModel("","","",0,"","","","",0);
         this.incomeNatureList = this._configuration.incomeNatureList;
         this.accountDetailModel = new AccountDetailModel("", "", "");
+        this.taxPaidModel.accountDetail = this.accountDetailModel;
         this.taxPaidModel.otherExemptionModels = [];
+        this.taxPaidModel.otherAccountDetails = [];
     }
     addNewOtherExemption() {
         this.newOtherExemptionModel = new OtherExemptionModel("", 0, "");

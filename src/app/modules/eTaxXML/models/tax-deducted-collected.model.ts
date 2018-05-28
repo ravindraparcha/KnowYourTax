@@ -1,3 +1,11 @@
+export class TaxCollectedDeductedModel {
+    public taxCollectedModels : TaxCollectedModel[];
+    public taxDeductedSalaryModels :TaxDeductedSalaryModel[];
+    public taxDeductedOtherThanSalaryModels : TaxDeductedOtherThanSalaryModel[];
+    public taxDeductedUnder26QCModels : TaxDeductedUnder26QCModel[];
+    public advanceTaxSelfAssessmentTaxModels : AdvanceTaxSelfAssessmentTaxModel[];
+
+}
 export class TaxCollectedModel {
     public taxCollectionAccountNo: string;
     public name: string;
@@ -61,6 +69,7 @@ export class AdvanceTaxSelfAssessmentTaxModel {
     public challanSerialNumber: string;
     public taxPaid: number;
     public depositDate : string;
+    public depositDateXml : string="";
     constructor(bsrCode: string, challan: string, taxPaid: number,depositDate : string) {
         this.BSRCode = bsrCode;
         this.challanSerialNumber = challan;

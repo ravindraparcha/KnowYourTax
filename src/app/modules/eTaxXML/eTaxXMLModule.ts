@@ -9,7 +9,7 @@ import {PersonalInfoComponent} from '../eTaxXML/components/personal-info/persona
 import {IncomeDetailsComponent} from '../eTaxXML/components/income-details/income-details.component';
 import {sharedModule} from '../../shared/sharedModule';
 import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
-import {TaxDeductedComponent} from '../eTaxXML/components/tax-deducted/tax-deducted.component';
+import {TaxDeductedCollectedComponent} from '../eTaxXML/components/tax-deducted-collected/tax-deducted-collected.component';
 import {TaxPaidVerificationComponent} from '../eTaxXML/components/tax-paid-verification/tax-paid-verification.component';
 import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.80G.component';
 import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service';
@@ -19,7 +19,7 @@ import {SharedXMLService} from '../eTaxXML/shared/sharedXMLService';
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
     providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService],
-    declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,DeductionsComponent,TaxDeductedComponent,TaxPaidVerificationComponent,Donation80GComponent],
+    declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent],
     exports : [eTaxXMLComponent]
 })
 

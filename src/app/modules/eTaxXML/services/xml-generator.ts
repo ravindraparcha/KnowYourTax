@@ -28,7 +28,10 @@ export class XmlGeneratorService {
             }
             else if (element.infoType === "taxPaid") {
                 this.addTaxPaid(element.data);
+                this.addRefundNode(element.data);
             }
+            else if(element.infoType === "taxCollectedDeducted") 
+                this.addTaxDeductedCollected(element.data);
         });
 
         this.xmlWriter.endDocument();
@@ -336,14 +339,14 @@ export class XmlGeneratorService {
 
         let amountSum = 0;
         for (let otherExemptModel of taxPaid.otherExemptionModels) {
-            if (otherExemptModel.selectedIncomeNature != "") {
-                this.xmlWriter.startElement("ITRForm:OthersIncDtls");
-                this.xmlWriter.writeElement("ITRForm:NatureDesc", otherExemptModel.selectedIncomeNature);
-                this.xmlWriter.writeElement("ITRForm:OthNatOfInc", otherExemptModel.descriptionIfAnyOtherSelected);
-                this.xmlWriter.writeElement("ITRForm:OthAmount", otherExemptModel.amount);
-                this.xmlWriter.endElement();
-                amountSum += otherExemptModel.amount;
-            }
+            //if (otherExemptModel.selectedIncomeNature != "") {
+            this.xmlWriter.startElement("ITRForm:OthersIncDtls");
+            this.xmlWriter.writeElement("ITRForm:NatureDesc", otherExemptModel.selectedIncomeNature);
+            this.xmlWriter.writeElement("ITRForm:OthNatOfInc", otherExemptModel.descriptionIfAnyOtherSelected);
+            this.xmlWriter.writeElement("ITRForm:OthAmount", otherExemptModel.amount);
+            this.xmlWriter.endElement();
+            amountSum += otherExemptModel.amount;
+            //}
         }
         if (taxPaid.otherExemptionModels.length > 0) {
             this.xmlWriter.writeElement("ITRForm:OthersIncTotal", amountSum);
@@ -353,5 +356,157 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:BalTaxPayable", taxPaid.amountPayable == undefined ? 0 : taxPaid.amountPayable);
         this.xmlWriter.endElement();
 
+    }
+
+    private addRefundNode(taxPaid) {
+        this.xmlWriter.startElement("ITRForm:Refund");
+        if (taxPaid.refund !== undefined && taxPaid.refund !== null)
+            this.xmlWriter.writeElement("ITRForm:RefundDue", taxPaid.refund);
+
+        this.xmlWriter.startElement("ITRFORM:PriBankDetails");
+        if (taxPaid.accountDetail.ifscCode !== undefined && taxPaid.accountDetail.ifscCode !== null)
+            this.xmlWriter.writeElement("ITRForm:IFSCCode", taxPaid.accountDetail.ifscCode);
+        if (taxPaid.accountDetail.bankName !== undefined && taxPaid.accountDetail.bankName !== null)
+            this.xmlWriter.writeElement("ITRForm:BankName", taxPaid.accountDetail.bankName);
+        if (taxPaid.accountDetail.accountNo !== undefined && taxPaid.accountDetail.accountNo !== null)
+            this.xmlWriter.writeElement("ITRForm:BankAccountNo", taxPaid.accountDetail.accountNo);
+        this.xmlWriter.endElement();
+
+        if (taxPaid.otherAccountDetails.length > 0) {            
+            for (let otherAccountDetails of taxPaid.otherAccountDetails) {
+                this.xmlWriter.startElement("ITRForm:AddtnlBankDetails");
+                if (otherAccountDetails.ifscCode !== undefined && otherAccountDetails.ifscCode !== null)
+                    this.xmlWriter.writeElement("ITRForm:IFSCCode", otherAccountDetails.ifscCode);
+                if (otherAccountDetails.bankName !== undefined && otherAccountDetails.bankName !== null)
+                    this.xmlWriter.writeElement("ITRForm:BankName", taxPaid.accountDetail.bankName);
+                if (otherAccountDetails.accountNo !== undefined && otherAccountDetails.accountNo !== null)
+                    this.xmlWriter.writeElement("ITRForm:BankAccountNo", otherAccountDetails.accountNo);
+                this.xmlWriter.endElement();
+            }
+        }
+        this.xmlWriter.endElement();
+        //         ITRForm:AddtnlBankDetails>
+        // <ITRForm:IFSCCode>KKBK0000960</ITRForm:IFSCCode>
+        // <ITRForm:BankName>KOTAK MAHINDRA BANK LIMITED</ITRForm:BankName>
+        // <ITRForm:BankAccountNo>5411448108</ITRForm:BankAccountNo>
+        // </ITRForm:AddtnlBankDetails>
+
+    }
+
+    private addTaxDeductedCollected(taxDeductedCollected) {
+
+        //Tax deducted on salary
+        if(taxDeductedCollected.taxDeductedSalaryModels.length>0) {
+            let deductedSum=0;
+            this.xmlWriter.startElement("ITRForm:TDSonSalaries");  
+            for(let deducted of taxDeductedCollected.taxDeductedSalaryModels)  {
+                this.xmlWriter.startElement("ITRForm:TDSonSalary"); 
+
+                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");    
+                this.xmlWriter.writeElement("ITRForm:TAN",deducted.TAN);
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName",deducted.name);
+                this.xmlWriter.endElement();
+
+                this.xmlWriter.writeElement("ITRForm:IncChrgSal",deducted.incomeChargeableForDeduction);
+                this.xmlWriter.writeElement("ITRForm:TotalTDSSal",deducted.taxDeducted);
+                
+                this.xmlWriter.endElement(); 
+                deductedSum+=deducted.taxDeducted;
+            }        
+            this.xmlWriter.writeElement("ITRForm:TotalTDSonSalaries",deductedSum);  
+            this.xmlWriter.endElement();  
+        }
+
+        //Tax deducted on other salary
+        if(taxDeductedCollected.taxDeductedOtherThanSalaryModels.length>0) {
+            let deductedSum=0;
+            this.xmlWriter.startElement("ITRForm:TDSonOthThanSals");  
+            for(let deducted of taxDeductedCollected.taxDeductedOtherThanSalaryModels)  {
+                this.xmlWriter.startElement("ITRForm:TDSonOthThanSal"); 
+
+                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");    
+                this.xmlWriter.writeElement("ITRForm:TAN",deducted.TAN);
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName",deducted.name);
+                this.xmlWriter.endElement();
+
+                this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct",deducted.amountForTaxDeduction);
+                this.xmlWriter.writeElement("ITRForm:DeductedYr",deducted.selectedOtherThanSalaryYear);
+                this.xmlWriter.writeElement("ITRForm:TotTDSOnAmtPaid",deducted.taxDeducted);
+                this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid",deducted.amountClaimedThisYear);
+                
+                this.xmlWriter.endElement(); 
+                deductedSum+=deducted.taxDeducted;
+            }        
+            this.xmlWriter.writeElement("ITRForm:TotalTDSonOthThanSals",deductedSum);  
+            this.xmlWriter.endElement();  
+        }
+
+        //Tax deducted at source 26QC
+        if(taxDeductedCollected.taxDeductedUnder26QCModels.length>0) {
+            let deductedSum=0;
+            this.xmlWriter.startElement("ITRForm:TDSDtls26QC");  
+            for(let deducted of taxDeductedCollected.taxDeductedUnder26QCModels)  {
+                this.xmlWriter.startElement("ITRForm:TDSDetails26QC"); 
+
+                this.xmlWriter.writeElement("ITRForm:PANofTenant",deducted.PAN);    
+                this.xmlWriter.writeElement("ITRForm:NameOfTenant",deducted.name);
+                this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct",deducted.amountForTaxDeduction);
+                
+                this.xmlWriter.writeElement("ITRForm:DeductedYr",deducted.selectedTenantDeductionYear);
+                this.xmlWriter.writeElement("ITRForm:TaxDeducted",deducted.taxDeducted);
+                this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid",deducted.amountClaimedThisYear);
+                
+                this.xmlWriter.endElement(); 
+                deductedSum+=deducted.taxDeducted;
+            }        
+            this.xmlWriter.writeElement("ITRForm:TotalTDSDetails26QC",deductedSum);  
+            this.xmlWriter.endElement();  
+        }
+
+        //tax collected
+        if(taxDeductedCollected.taxCollectedModels.length>0) {
+            let collectedSum=0;
+            this.xmlWriter.startElement("ITRForm:ScheduleTCS");  
+            
+            for(let collected of taxDeductedCollected.taxCollectedModels)  {
+                this.xmlWriter.startElement("ITRForm:TCS"); 
+
+                this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");    
+                this.xmlWriter.writeElement("ITRForm:TAN",collected.taxCollectionAccountNo);
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName",collected.name);
+                this.xmlWriter.endElement();
+
+                this.xmlWriter.writeElement("ITRForm:AmtTaxCollected",collected.amountForTaxDeduction);
+                this.xmlWriter.writeElement("ITRForm:CollectedYr",collected.selectedTaxCollectionYear);
+                this.xmlWriter.writeElement("ITRForm:TotalTCS",collected.taxCollected);
+                this.xmlWriter.writeElement("ITRForm:AmtTCSClaimedThisYear",collected.amountClaimedThisYear);
+                
+                this.xmlWriter.endElement(); 
+                collectedSum+=collected.taxDeducted;
+            }        
+            this.xmlWriter.writeElement("ITRForm:TotalSchTCS",collectedSum);  
+            this.xmlWriter.endElement();  
+        }
+
+        //advance tax 
+        if(taxDeductedCollected.advanceTaxSelfAssessmentTaxModels.length>0) {
+            let advanceTaxSum=0;
+            this.xmlWriter.startElement("ITRForm:TaxPayments");  
+            
+            for(let advanceTax of taxDeductedCollected.advanceTaxSelfAssessmentTaxModels)  {
+                this.xmlWriter.startElement("ITRForm:TaxPayment"); 
+                
+                this.xmlWriter.writeElement("ITRForm:BSRCode",advanceTax.BSRCode);
+                this.xmlWriter.writeElement("ITRForm:DateDep",advanceTax.depositDateXml);
+                this.xmlWriter.writeElement("ITRForm:SrlNoOfChaln",advanceTax.challanSerialNumber);
+                this.xmlWriter.writeElement("ITRForm:Amt",advanceTax.taxPaid);
+                
+                this.xmlWriter.endElement(); 
+                advanceTaxSum+=advanceTax.taxPaid;
+            }        
+            this.xmlWriter.writeElement("ITRForm:TotalTaxPayments",advanceTaxSum);  
+            this.xmlWriter.endElement();  
+        }
+        
     }
 }
