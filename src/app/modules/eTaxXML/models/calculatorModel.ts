@@ -31,12 +31,7 @@ export class CalculatorInputs{
     public SalaryIncome :number;
     public assessmentYearId : number;
     public SectionValues : any[];
-    // public Section80C : number;
-    // public Section80D : number;
-    // public Section24 :  number;
-    // public SectionTTA : number;
-    // public Section80G : number;
-    // public Section80E : number;
+  
     public OtherDeductions : number;    
     public GrossTaxableSalary :number;
     public YearRange : string;
@@ -94,4 +89,9 @@ export class Mediclaim {
     public SelfWithFamilyParents: number;
     public SelfWithFamilySeniorCitizenParents: number;
     public SelfWithFamilySuperSeniorCitizenParents: number;
+}
+
+export class UserCalculatorInputModel {
+    public name:string;
+    public amount : number;
 }

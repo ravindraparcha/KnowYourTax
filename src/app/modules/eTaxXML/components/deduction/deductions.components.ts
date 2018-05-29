@@ -1,12 +1,14 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
 import { Configuration } from '../../../../shared/constants';
-import { DeductionModel } from '../../models/deduction.model';
+import { DeductionModel, SlabResult } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { slimLoaderBarService } from '../../../../shared/services/slimLoaderBarService';
 
 import { CalculatorService } from '../../../../services/calculator.service';
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
+
+
 
 declare var $: any;
 
@@ -20,16 +22,15 @@ export class DeductionsComponent implements OnInit {
     public deductionList = [];
     public sectionForm;
     private assessmentYear;
-    public calculationResult={};
-    @Input() grossTotalIncome : number;
+    public calculationResult = {};
+    @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
-    
+
     constructor(private _configuration: Configuration, private _fb: FormBuilder,
         private _calcService: CalculatorService, private toastr: ToastsManager, vcr: ViewContainerRef,
-        private _slimLoader: slimLoaderBarService) 
-        {
-            this.toastr.setRootViewContainerRef(vcr);
-         }
+        private _slimLoader: slimLoaderBarService) {
+        this.toastr.setRootViewContainerRef(vcr);
+    }
 
     ngOnInit() {
         let currentDate = new Date();
@@ -38,17 +39,17 @@ export class DeductionsComponent implements OnInit {
 
         //Get all sections on page load
         //assessmentyearid=0, default category = 1(Male)
-        this._calcService.getSections<any[]>(0, 1, this.assessmentYear)
-            .subscribe((data: any[]) => sections = data,
-                (error) => {
-                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
-                    this._slimLoader.stopLoading();
-                },
-                () => {
-                    this._slimLoader.completeLoading();
-                    this.getSectionsArray(sections);
-                });
-
+        // this._calcService.getSections<any[]>(0, 1, this.assessmentYear)
+        //     .subscribe((data: any[]) => sections = data,
+        //         (error) => {
+        //             this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
+        //             this._slimLoader.stopLoading();
+        //         },
+        //         () => {
+        //             this._slimLoader.completeLoading();
+        //             this.getSectionsArray(sections);
+        //         });
+        this.getSectionsArray(this._configuration.deductionList);
         this.sectionForm = this._fb.group({
             itemRows: this._fb.array([this.initialiseNewRow('', 0, '', '')]) // here
         });
@@ -69,6 +70,7 @@ export class DeductionsComponent implements OnInit {
         });
     }
     addSection() {
+
         let section = this.selectedSectionValue;
         let duplicateFound = false;
 
@@ -83,12 +85,12 @@ export class DeductionsComponent implements OnInit {
         let $this = this;
         const control = <FormArray>this.sectionForm.controls['itemRows'];
         $.each(this.deductionList, function (i, v) {
-            if (v.value == section) {
-                control.push($this.initialiseNewRow(v.text, 0, section, v.section));
+            if (v.name == section) {
+                control.push($this.initialiseNewRow(v.text, 0, section, ""));// v.section));
                 return;
             }
         });
-         
+
     }
 
     deleteSection(index: number) {
@@ -97,71 +99,162 @@ export class DeductionsComponent implements OnInit {
         // remove the chosen row
         control.removeAt(index);
         //deduct value from deductionsum
-         let sum=this.calculateDeduction(control.value);         
-         this.onCalculateDeductionSum.emit(sum); 
-    }
-    onDeductionChangeCalculateSum(formData: any) {
-        let sum=this.calculateDeduction(formData.value.itemRows);
+        let sum = this.calculateDeduction(control.value);
         this.onCalculateDeductionSum.emit(sum);
     }
-    calculateDeduction(deductionsArray){        
+    onDeductionChangeCalculateSum(formData: any) {
+        let sum = this.calculateDeduction(formData.value.itemRows);
+        this.onCalculateDeductionSum.emit(sum);
+    }
+    calculateDeduction(deductionsArray) {
         let sum = 0;
         for (let deduction of deductionsArray) {
             sum += deduction.deductionValue;
         }
         return sum;
-    }                                                                                                                                                                                                                                                                                  
-    onSubmit(formData: any) {
+    }
+    calculateTax(formData: any) {
         debugger;
-        let deductions = formData.value.itemRows;
-        let sum = 0;
-        for (let deduction of deductions) {
-            sum += deduction.deductionValue;
-        }
-       
-        //prepare data to send to server for tax calculation 
-        let calculatorInputs = new CalculatorInputs();
+        // let deductions = formData.value.itemRows;
+        // let sum = 0;
+        // for (let deduction of deductions) {
+        //     sum += deduction.deductionValue;
+        // }
+        let deductionList = this.getSectionWithAmount(formData.value.itemRows);
+        let deductionApplicable = 0;
+        for (let deduction of deductionList)
+            deductionApplicable += deduction.amount;
 
-        calculatorInputs.Category = 1;//default Male as of now
-        calculatorInputs.OtherSourceIncome = 0;
-        calculatorInputs.SalaryIncome = 0;
-        calculatorInputs.GrossTaxableSalary = this.grossTotalIncome; //(isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
-        calculatorInputs.OtherDeductions = 0;//(isNaN(model.OtherDeductions) == true || model.OtherDeductions == null) ? 0 : model.OtherDeductions;
-        calculatorInputs.YearRange = this.assessmentYear;
-        calculatorInputs.DueDateEfiling = this._configuration.dueDateForFiling;
-        calculatorInputs.Section234BEndDate = this._configuration.section234BEndDate;
-        let date = new Date();
-        let month=date.getMonth()+1;
-        let monthStr;
-        if((date.getMonth()+1)<10){
-            monthStr="0"+month;
-            //monthStr="09";
-        }
-        else {
-            monthStr=month;
-        }
+        this.calculateTaxPerSlab((this.grossTotalIncome - deductionApplicable));
 
-        calculatorInputs.CurrentDate = date.getDate() + "/"+monthStr+"/"+date.getFullYear();
-        calculatorInputs.SectionValues = [];
-        for (let i = 0; i < deductions.length; i++) {
-            calculatorInputs.SectionValues.push({ "SectionName": deductions[i].deductionSection, "Amount": deductions[i].deductionValue, "ParentSection": deductions[i].parent });
+        // //prepare data to send to server for tax calculation 
+        // let calculatorInputs = new CalculatorInputs();
+
+        // calculatorInputs.Category = 1;//default Male as of now
+        // calculatorInputs.OtherSourceIncome = 0;
+        // calculatorInputs.SalaryIncome = 0;
+        // calculatorInputs.GrossTaxableSalary = this.grossTotalIncome; //(isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
+        // calculatorInputs.OtherDeductions = 0;//(isNaN(model.OtherDeductions) == true || model.OtherDeductions == null) ? 0 : model.OtherDeductions;
+        // calculatorInputs.YearRange = this.assessmentYear;
+        // calculatorInputs.DueDateEfiling = this._configuration.dueDateForFiling;
+        // calculatorInputs.Section234BEndDate = this._configuration.section234BEndDate;
+        // let date = new Date();
+        // let month=date.getMonth()+1;
+        // let monthStr;
+        // if((date.getMonth()+1)<10){
+        //     monthStr="0"+month;
+        //     //monthStr="09";
+        // }
+        // else {
+        //     monthStr=month;
+        // }
+
+        // calculatorInputs.CurrentDate = date.getDate() + "/"+monthStr+"/"+date.getFullYear();
+        // calculatorInputs.SectionValues = [];
+        // for (let i = 0; i < deductions.length; i++) {
+        //     calculatorInputs.SectionValues.push({ "SectionName": deductions[i].deductionSection, "Amount": deductions[i].deductionValue, "ParentSection": deductions[i].parent });
+        // }
+
+        // this._calcService.calculateTax<any>(calculatorInputs)
+        //     .subscribe((data: any) => this.calculationResult = data,
+        //         (error) => {
+        //             this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
+        //             //this.calcModel.calculateTaxLoader = false;
+        //             this._slimLoader.stopLoading();
+        //         },
+        //         () => {
+        //             //this.calcModel.calculateTaxLoader = false;
+        //             this._slimLoader.completeLoading();
+        //             console.log(this.calculationResult);
+        //             //$("html, body").animate({ scrollTop: $(document).height() }, 1000);                    
+        //         });
+
+    }
+
+    private getSectionWithAmount(deductions) {
+        let masterData = this._configuration.masterSec;
+        let deductionSum = 0
+        let limitCrossed = true;
+        let usrSections = [];
+        let optionSum = 0;
+        for (let msData of masterData) {
+            deductionSum = 0;
+            optionSum = 0;
+            for (let usrDeduction of deductions) {
+                if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
+                    //check if section has options but options don't have limits e.g. 80C
+                    if (msData.limit > 0) {
+
+                        if (msData.options.length > 0)
+                            deductionSum += usrDeduction.deductionValue;
+                        //check if section has no option and has limit
+                        else if (msData.options.length == 0) {
+                            deductionSum = usrDeduction.deductionValue;
+                            if (deductionSum > msData.limit) {
+                                deductionSum = msData.limit;
+                            }
+                        }
+                        if (deductionSum >= msData.limit)
+                            deductionSum = msData.limit;
+                    }
+                    else if(msData.limit==-1) {
+                        deductionSum = usrDeduction.deductionValue;
+                    }
+                    //check options with its limit
+                    else if (msData.limit == 0) {
+                        for (let p = 0; p < msData.options.length; p++) {
+                            if (msData.options[p].name == usrDeduction.deductionSection) {
+                                deductionSum += usrDeduction.deductionValue;
+                                if (deductionSum > msData.options[p].limit) {
+                                    deductionSum = msData.options[p].limit;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            usrSections.push({ name: msData.name, amount: deductionSum });
         }
-       
-        this._calcService.calculateTax<any>(calculatorInputs)
-            .subscribe((data: any) => this.calculationResult = data,
-                (error) => {
-                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
-                    //this.calcModel.calculateTaxLoader = false;
-                    this._slimLoader.stopLoading();
-                },
-                () => {
-                    //this.calcModel.calculateTaxLoader = false;
-                    this._slimLoader.completeLoading();
-                    console.log(this.calculationResult);
-                    //$("html, body").animate({ scrollTop: $(document).height() }, 1000);                    
-                });
+        return usrSections;
+    }
 
+    private calculateTaxPerSlab(netTotalIncome: number) {
 
+        let tax = 0;
+        let slabResults = [];
+        let slabTax = 0;
+
+        for (let slab of this._configuration.slabs) {
+            slabTax = 0;
+            let slabResult = new SlabResult();
+            //first slab has exemption			 
+            if (netTotalIncome >= slab.max) {
+                slabTax = ((slab.max - slab.min) * slab.rate) / 100;
+            }
+            else if (netTotalIncome >= slab.min) {
+                slabTax = ((netTotalIncome - slab.min) * slab.rate) / 100;
+            }
+
+            slabResult.min = slab.min;
+            slabResult.max = slab.max;
+            slabResult.taxableAmount = slab.max - slab.min;
+            slabResult.tax = slabTax;
+            slabResult.cessTax = slabTax * 3 / 100;
+            slabResult.totalTax = slabResult.tax + slabResult.cessTax;
+            slabResults.push(slabResult);
+        }
+        for (let i = 0; i < slabResults.length; i++)
+            tax += slabResults[i].totalTax;
+        console.log(slabResults);
+        console.log(tax);
+    }
+
+    private getSectionName(usrSectionName) {
+        let index = usrSectionName.indexOf("_");
+        if (index == -1)
+            return usrSectionName;
+        return usrSectionName.substring(0, index);
     }
     private deductionItemIndex(objArray, objElement): number {
         let index = -1;
@@ -182,20 +275,25 @@ export class DeductionsComponent implements OnInit {
         let sum = 0;
         for (let deduction of formData.form.value) {
             sum += deduction.amount;
-        }        
+        }
     }
 
+    // private getSectionsArray(sections: any[]) {
+    //     sections.forEach(element => {
+    //         if (element.HasOption) {
+    //             for (let i = 0; i < element.SectionOptions.length; i++) {
+    //                 this.deductionList.push({ "value": element.Name + "_" + (i + 1), "text": element.SectionOptions[i].Name, "section": element.Name });
+    //             }
+    //         }
+    //         else {
+    //             this.deductionList.push({ "value": element.Name, "text": element.Description,"section": element.Name  });
+    //         }
+    //     });        
+    // }
     private getSectionsArray(sections: any[]) {
         sections.forEach(element => {
-            if (element.HasOption) {
-                for (let i = 0; i < element.SectionOptions.length; i++) {
-                    this.deductionList.push({ "value": element.Name + "_" + (i + 1), "text": element.SectionOptions[i].Name, "section": element.Name });
-                }
-            }
-            else {
-                this.deductionList.push({ "value": element.Name, "text": element.Description,"section": element.Name  });
-            }
-        });        
+            this.deductionList.push({ "name": element.name, "text": element.text });
+        });
     }
 
 }

@@ -88,60 +88,60 @@ export class Configuration {
     public section234BEndDate: string = "31/03/" + new Date().getFullYear();
 
     //Need to get list of deductions from server for assessment year
-
+    //income tax calculation input starts here
     public deductionList = [
-        { "value": "80C_1", "text": "PPF(Public Provident Fund)" },
-        { "value": "80C_2", "text": "EPF(Employees’ Provident Fund)" },
-        { "value": "80C_3", "text": "Five years Bank or Post office Tax saving Deposits" },
-        { "value": "80C_4", "text": "NSC(National Savings Certificates)" },
-        { "value": "80C_5", "text": "ELSS Mutual Funds (Equity Linked Saving Schemes)" },
-        { "value": "80C_6", "text": "Kid’s Tuition Fees" },
-        { "value": "80C_7", "text": "SCSS(Post office Senior Citizen Savings Scheme)" },
-        { "value": "80C_8", "text": "Principal repayment of Home Loan" },
-        { "value": "80C_9", "text": "NPS(National Pension System)" },
-        { "value": "80C_10", "text": "Life Insurance Premium" },
-        { "value": "80C_11", "text": "Sukanya Samriddhi Account Deposit Scheme" },
+        { "name": "80C_1", "text": "PPF(Public Provident Fund)" },
+        { "name": "80C_2", "text": "EPF(Employees’ Provident Fund)" },
+        { "name": "80C_3", "text": "Five years Bank or Post office Tax saving Deposits" },
+        { "name": "80C_4", "text": "NSC(National Savings Certificates)" },
+        { "name": "80C_5", "text": "ELSS Mutual Funds (Equity Linked Saving Schemes)" },
+        { "name": "80C_6", "text": "Kid’s Tuition Fees" },
+        { "name": "80C_7", "text": "SCSS(Post office Senior Citizen Savings Scheme)" },
+        { "name": "80C_8", "text": "Principal repayment of Home Loan" },
+        { "name": "80C_9", "text": "NPS(National Pension System)" },
+        { "name": "80C_10", "text": "Life Insurance Premium" },
+        { "name": "80C_11", "text": "Sukanya Samriddhi Account Deposit Scheme" },
 
-        { "value": "80C_12", "text": "LIC/Life insurance company pension for tax benefit" }, //Actual section = 80CCC comes under 80C
+        { "name": "80C_12", "text": "LIC/Life insurance company pension for tax benefit" }, //Actual section = 80CCC comes under 80C
 
-        { "value": "80C_13", "text": "Government notified Pension Scheme/NPS(10% of salary)" }, //Actual section = 80CCD comes under 80C
-        { "value": "80C_14", "text": "Self employed contribution to government notificed scheme(20% of salary)" }, //Actual section = 80CCD comes under 80C
-        { "value": "80C_15", "text": "Employer's contribution to Pension scheme(10% of salary)" }, //Actual section = 80CCD comes under 80C
+        { "name": "80C_13", "text": "Government notified Pension Scheme/NPS(10% of salary)" }, //Actual section = 80CCD1 comes under 80C
+        { "name": "80CCD1B", "text": "Self employed contribution to government notificed scheme(NPS)" }, //Actual section = 80CCD1B, limit 50000 (Employees have savings Rs. 1,50,000 under 80C excluding NPS Deductions, Then the Employee can show their NPS  Deductions, under 80 CCD(1B), which is over the 1,50,000 Limit) so now limit 2lakhs
+        { "name": "80CCD2", "text": "Employer's contribution to Pension scheme(10% of salary)" }, //Actual section = 80CCD2 10% of total income (total of salary/pension)
 
-        { "value": "80D_1", "text": "Health insurance premium for Self and family" },
-        { "value": "80D_2", "text": "Health insurance premium for self(Senior Citizen) and family" },
-        { "value": "80D_3", "text": "Health insurance premium for parents" },
-        { "value": "80D_4", "text": "Health insurance premium for parents(Senior Citizen)" },
-        { "value": "80D_5", "text": "Health insurance premium for Self and family including parents" },
-        { "value": "80D_6", "text": "Health insurance premium for self and family including senior citizen parents" },
-        { "value": "80D_7", "text": "Health insurance premium for self(Senior citizen) and family including senior citizen parents" },
+        { "name": "80D_1", "text": "Health insurance premium for Self and family" },
+        { "name": "80D_2", "text": "Health insurance premium for self(Senior Citizen) and family" },
+        { "name": "80D_3", "text": "Health insurance premium for parents" },
+        { "name": "80D_4", "text": "Health insurance premium for parents(Senior Citizen)" },
+        { "name": "80D_5", "text": "Health insurance premium for Self and family including parents" },
+        { "name": "80D_6", "text": "Health insurance premium for self and family including senior citizen parents" },
+        { "name": "80D_7", "text": "Health insurance premium for self(Senior citizen) and family including senior citizen parents" },
 
-        { "value": "80DD_1", "text": "Medical treatment of your dependant(spouse, parents, kids or siblings)" },
-        { "value": "80DD_2", "text": "Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability" },
+        { "name": "80DD_1", "text": "Medical treatment of your dependant(spouse, parents, kids or siblings)" },
+        { "name": "80DD_2", "text": "Medical treatment of your dependant(spouse, parents, kids or siblings) with 40% disability" },
 
-        { "value": "80DDB_1", "text": "Treatment of specified critical ailment/disease for self or dependent( less than 60 years)" },
-        { "value": "80DDB_2", "text": "Treatment of specified critical ailment/disease for self or dependent(senior citizen)" },
-        { "value": "80DDB_3", "text": "Treatment of specified critical ailment/disease for self or dependent(super senior citizen)" },
+        { "name": "80DDB_1", "text": "Treatment of specified critical ailment/disease for self or dependent( less than 60 years)" },
+        { "name": "80DDB_2", "text": "Treatment of specified critical ailment/disease for self or dependent(senior citizen)" },
+        { "name": "80DDB_3", "text": "Treatment of specified critical ailment/disease for self or dependent(super senior citizen)" },
 
-        { "value": "80CCG", "text": "Rajiv Gandhi Equity Saving Scheme(RGESS) tax benefit amount withdrawn or deduction amount not investment amount" },
+        { "name": "80CCG", "text": "Rajiv Gandhi Equity Saving Scheme(RGESS) tax benefit amount withdrawn or deduction amount not investment amount" },
 
-        { "value": "80E", "text": "Interest paid towards higher education loan by you as legal guardian" },
+        { "name": "80E", "text": "Interest paid towards higher education loan by you as legal guardian" },
 
-        { "value": "80EE", "text": "Loan interest for first residential home property" },
+        { "name": "80EE", "text": "Loan interest for first residential home property" },
 
-        { "value": "80G", "text": "Contribution made to certain relief funds and charitable institution" },
-        { "value": "80GG", "text": "Tax deduction on rent paid who do not receive HRA" },
-        { "value": "80GGA", "text": "Donation for scientific research or rural development" },
-        { "value": "80GGC", "text": "Deduction on contribution to political party" },
+        { "name": "80G", "text": "Contribution made to certain relief funds and charitable institution" },
+        { "name": "80GG", "text": "Tax deduction on rent paid who do not receive HRA" },
+        { "name": "80GGA", "text": "Donation for scientific research or rural development" },
+        { "name": "80GGC", "text": "Deduction on contribution to political party" },
 
-        { "value": "80QQB", "text": "Deduction on income received through certain books" },
+        { "name": "80QQB", "text": "Deduction on income received through certain books" },
 
-        { "value": "80RRB", "text": "Deduction on income received through patent royalty" },
+        { "name": "80RRB", "text": "Deduction on income received through patent royalty" },
 
-        { "value": "TTA", "text": "Deduction on interest received on saving bank accounts" },
+        { "name": "TTA", "text": "Deduction on interest received on saving bank accounts" },
 
-        { "value": "80U_1", "text": "Medical treatment for self" },
-        { "value": "80U_2", "text": "Medical treatment for  self with 40% disability" },
+        { "name": "80U_1", "text": "Medical treatment for self" },
+        { "name": "80U_2", "text": "Medical treatment for  self with 40% disability" },
 
     ];
 
@@ -174,29 +174,149 @@ export class Configuration {
 
     ];
 
-    public incomeNatureList =[
-        {"value":"10(5)","text": "Section 10(5)-Leave Travel Allowance"},
-        {"value":"10(6)","text": "Section 10(6)-Sec 10(6)-Remuneration received as an official, by whatever"},
-        {"value":"10(7)","text": "Section 10(5)-Sec 10(7)-Sec 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India"},
-        {"value":"10(10)","text": "Sec 10(10)-Death-cum-retirement gratuity received "},
-        {"value":"10(10A)","text": "Sec 10(10A)-Commuted value of pension received"},
-        {"value":"10(10AA)","text": "Sec 10(10AA)-Earned leave encashment"},
-        {"value":"10(10B)","text": "Sec 10(10B)-Retrenchment Compensation received"},
-        {"value":"10(10C)","text": "Sec 10(10C)-Amount received on voluntary retirement or termination of service"},
-        {"value":"10(10D)","text": "Sec 10(10D)-Sum received under a life insurance policy including bonus"},
-        {"value":"10(11)","text": "Sec 10(11)-Statuory Provident Fund received"},
-        {"value":"10(12)","text": "Sec 10(12)-Recognised Provident Fund received"},
-        {"value":"10(13)","text": "Sec 10(13)-Approved superannuation fund received"},
-        {"value":"10(13A)","text": "Sec 10(13A)-House Rent Allowance"},
-        {"value":"10(14)","text": "Sec 10(14)-Amount received towards the expenditure incurred during performance of duty"},
-        {"value":"10(15)","text": "Sec 10(15)-Income by way of interest, premium on redemption or other payment on such securities, bonds, annuity certificates, savings certificates, other certificates"},
-        {"value":"10(16)","text": "Sec 10(16)-Scholarships granted to meet the cost of education"},
-        {"value":"10(17)","text": "Sec 10(17)-Allownace MP/MLA/MLC"},
-        {"value":"10(17A)","text": "Sec 10(17A)-Award instituted by Government"},
-        {"value":"10(18)","text": "Sec 10(18)-Pension received by winner of  Param Vir Chakra/Maha Vir Chakra/Vir Chakra/such other gallantry award"},
-        {"value":"10(19)","text": "Sec 10(19)-Family pension received"},
-        {"value":"OTH","text": "Any other"}
-       
+    public masterSec = [
+        {
+            name: "80C",
+            limit: 150000,
+            options: [
+                { name: "80C_1", limit: 0 }, { name: "80C_2", limit: 0 }, { name: "80C_3", limit: 0 }, { name: "80C_4", limit: 0 },
+                { name: "80C_5", limit: 0 }, { name: "80C_6", limit: 0 }, , { name: "80C_7", limit: 0 }, { name: "80C_8", limit: 0 },
+                { name: "80C_9", limit: 0 }, { name: "80C_10", limit: 0 }, , { name: "80C_11", limit: 0 }, { name: "80C_12", limit: 0 },
+                { name: "80C_13", limit: 0 }
+            ]
+        },
+        {
+            name: "80CCD1B",
+            limit: 50000,
+            options: []
+        },
+        {
+            name: "80CCD2",
+            limit: 10,
+            options: []
+        },
+
+        {
+            name: "80D",
+            limit: 0,
+            options: [
+                { name: "80D_1", limit: 25000 }, { name: "80D_2", limit: 30000 }, { name: "80D_3", limit: 25000 }, { name: "80D_4", limit: 30000 },
+                { name: "80D_5", limit: 50000 }, { name: "80D_6", limit: 55000 }, { name: "80D_7", limit: 60000 },
+            ]
+        },
+        {
+            name: "80DD",
+            limit: 0,
+            options: [
+                { name: "80DD_1", limit: 75000 }, { name: "80DD_2", limit: 125000 }
+            ]
+        },
+        {
+            name: "80DDB",
+            limit: 0,
+            options: [
+                { name: "80DDB_1", limit: 40000 }, { name: "80DDB_2", limit: 40000 }, { name: "80DDB_2", limit: 60000 }
+            ]
+        },
+        {
+            name: "80CCG",
+            limit: -1,
+            options: []
+        },
+        {
+            name: "80E",
+            limit: -1,
+            options: []
+        },
+        {
+            name: "80EE",
+            limit: 50000,
+            options: []
+        },
+        {
+            name: "80G",
+            limit: 2000,
+            options: []
+        },
+        {
+            name: "80GG",
+            limit: 60000,
+            options: []
+        },
+        {
+            name: "80GGA",
+            limit: 10000,
+            options: []
+        },
+        {
+            name: "80GGC",
+            limit: -1,
+            options: []
+        },
+        {
+            name: "80QQB",
+            limit: 300000,
+            options: []
+        },
+        {
+            name: "80RRB",
+            limit: 300000,
+            options: []
+        },
+        {
+            name: "TTA",
+            limit: 10000,
+            options: []
+        },
+        {
+            name: "80U",
+            limit: 10000,
+            options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]
+        }
+    ];
+
+    public slabs = [
+        {
+            min: 250000,
+            max: 500000,
+            rate: 5
+        },
+        {
+            min: 500000,
+            max: 1000000,
+            rate: 20
+        },
+        {
+            min: 1000000,
+            max: 5000000,
+            rate: 30
+        }
+    ];
+//income tax calculation input ends here
+
+    public incomeNatureList = [
+        { "value": "10(5)", "text": "Section 10(5)-Leave Travel Allowance" },
+        { "value": "10(6)", "text": "Section 10(6)-Sec 10(6)-Remuneration received as an official, by whatever" },
+        { "value": "10(7)", "text": "Section 10(5)-Sec 10(7)-Sec 10(7)-Allowances or perquisites paid or allowed as such outside India by the Government to a citizen of India for rendering service outside India" },
+        { "value": "10(10)", "text": "Sec 10(10)-Death-cum-retirement gratuity received " },
+        { "value": "10(10A)", "text": "Sec 10(10A)-Commuted value of pension received" },
+        { "value": "10(10AA)", "text": "Sec 10(10AA)-Earned leave encashment" },
+        { "value": "10(10B)", "text": "Sec 10(10B)-Retrenchment Compensation received" },
+        { "value": "10(10C)", "text": "Sec 10(10C)-Amount received on voluntary retirement or termination of service" },
+        { "value": "10(10D)", "text": "Sec 10(10D)-Sum received under a life insurance policy including bonus" },
+        { "value": "10(11)", "text": "Sec 10(11)-Statuory Provident Fund received" },
+        { "value": "10(12)", "text": "Sec 10(12)-Recognised Provident Fund received" },
+        { "value": "10(13)", "text": "Sec 10(13)-Approved superannuation fund received" },
+        { "value": "10(13A)", "text": "Sec 10(13A)-House Rent Allowance" },
+        { "value": "10(14)", "text": "Sec 10(14)-Amount received towards the expenditure incurred during performance of duty" },
+        { "value": "10(15)", "text": "Sec 10(15)-Income by way of interest, premium on redemption or other payment on such securities, bonds, annuity certificates, savings certificates, other certificates" },
+        { "value": "10(16)", "text": "Sec 10(16)-Scholarships granted to meet the cost of education" },
+        { "value": "10(17)", "text": "Sec 10(17)-Allownace MP/MLA/MLC" },
+        { "value": "10(17A)", "text": "Sec 10(17A)-Award instituted by Government" },
+        { "value": "10(18)", "text": "Sec 10(18)-Pension received by winner of  Param Vir Chakra/Maha Vir Chakra/Vir Chakra/such other gallantry award" },
+        { "value": "10(19)", "text": "Sec 10(19)-Family pension received" },
+        { "value": "OTH", "text": "Any other" }
+
     ];
 
 }

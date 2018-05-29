@@ -9,3 +9,13 @@ export class DeductionModel {
     }
     
 }
+
+export class SlabResult {
+    public min : number;
+    public max : number;
+    public taxableAmount : number;
+    public tax : number;
+    public cessTax : number;
+    public totalTax : number;
+     
+}

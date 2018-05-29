@@ -3,7 +3,7 @@ import {Form26ASParserService} from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
 import {Configuration} from '../../../shared/constants'; 
 import {TaxDeductedSalaryModel} from '../models/tax-deducted-collected.model';
-import {XmlGeneratorService} from '../services/xml-generator';
+import {XmlGeneratorService} from '../services/xml-generator-service';
 
 import {PersonalInfoComponent} from '../components/personal-info/personal-info.component';
 import {IncomeDetailsComponent} from '../components/income-details/income-details.component';

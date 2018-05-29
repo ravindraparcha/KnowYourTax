@@ -553,12 +553,17 @@ export class XmlGeneratorService {
     private eligibleAmt: number = 0;
     private add80GNode(section80g) {
 
+        if (section80g.donation100DeductionWithoutQualifyingLimit.length == 0 &&
+            section80g.donation50DeductionWithoutQualifyingLimit.length == 0 &&
+            section80g.donation100DeductionWithQualifyingLimit.length == 0 &&
+            section80g.donation50DeductionWithQualifyingLimit.length == 0
+        ) {return ;}
         this.donationAmt=0;
         this.eligibleAmt=0;
         if (section80g.donation100DeductionWithoutQualifyingLimit.length > 0 ||
             section80g.donation50DeductionWithoutQualifyingLimit.length > 0 ||
-            section80g.donation100DeductionWithQualifyingLimit.length == 0 ||
-            section80g.donation50DeductionWithQualifyingLimit.length == 0
+            section80g.donation100DeductionWithQualifyingLimit.length > 0 ||
+            section80g.donation50DeductionWithQualifyingLimit.length > 0
         ) {
             this.xmlWriter.startElement("ITRForm:Schedule80G");
             this.add80gDonee100PercentWithoutQualifyingLimit(section80g);

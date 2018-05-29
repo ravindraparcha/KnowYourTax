@@ -2,7 +2,7 @@
     <div class="col-sm-11">        
         <ng-select id="selectedSection" #selectedSection="ngModel" (change)="onDeductionChange()" name="selectedSection" placeholder="Select your investment for deduction"
             [(ngModel)]="selectedSectionValue">
-            <ng-option *ngFor="let deduction of deductionList" [value]="deduction.value">{{deduction.text}}
+            <ng-option *ngFor="let deduction of deductionList" [value]="deduction.name">{{deduction.text}}
             </ng-option>
         </ng-select>
         <div class="border-left-info">Select or search by typing your investment for deduction</div>
@@ -12,8 +12,7 @@
 <form [formGroup]="sectionForm">
     <div formArrayName="itemRows">
         <!-- Check the correct way to iterate your form array -->
-        <div *ngFor="let itemrow of sectionForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
-
+        <div *ngFor="let itemrow of sectionForm.controls.itemRows.controls; let i=index" [formGroupName]="i">            
             <div class="form-group margin-top15">
                 <label class="control-label col-sm-6" style="text-align:left">{{itemrow.get('deductionText').value}}</label>
                 <div class="col-sm-2">
@@ -31,7 +30,7 @@
             </div>
         </div>
     </div>
-    <button (click)="onSubmit(sectionForm)">submit new </button>
+    <button (click)="calculateTax(sectionForm)">submit new </button>
 </form>
 
 <div class="form-group margin-top15">
