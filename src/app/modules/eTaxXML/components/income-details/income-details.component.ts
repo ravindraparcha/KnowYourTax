@@ -68,7 +68,7 @@ export class IncomeDetailsComponent implements OnInit {
     }
     updateTotalDeductions(sum: number) {
         this.incomeDetailsModel.totalDeductionSum = sum;
-        //this.calculateTaxableIncome();
+        
     }
     // calculateTaxableIncome(){
     //     this.incomeDetailsModel.totalTaxableIncome =         

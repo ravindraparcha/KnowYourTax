@@ -7,7 +7,7 @@
                         <span style="font-size:small;" >SALARY / PENSION</span> 
                         <span>&nbsp; = </span>
                         <span style="font-size:large;">{{incomeDetailsModel.salaryPensionSum | indianCurrency }}</span>
-                        <span style="font-size:large;">Net total income {{incomeDetailsModel.totalTaxableIncome | indianCurrency }}</span>
+                        <!-- <span style="font-size:large;">Net total income {{incomeDetailsModel.totalTaxableIncome | indianCurrency }}</span> -->
                     </div>
                 </a>
             </h4>
@@ -19,7 +19,7 @@
                     <div class="col-sm-3">
                         <input type="number" novalidate class="form-control" (ngModelChange)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary"
                             #salary="ngModel" name="salary" />
-                        <div class="border-left-info">Excluding all allowances,perquisites and profit in liew of salary</div>
+                        <div class="border-left-info">Excluding all allowances,perquisites and profit in lieu of salary</div>
                     </div>
                     <label class="control-label col-sm-2 text-left">Allowance not exempt</label>
                     <div class="col-sm-3">
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="form-group margin-top15" style="margin-left:22px;">
-                    <div class="border-left-info col-sm-5">Note:Maximum loss from House property that can be set-off is {{_configuration.allowedHousePropertyLoss
+                    <div class="border-left-info col-sm-4">Note:Maximum loss from House property that can be set-off is {{_configuration.allowedHousePropertyLoss
                         | indianCurrency}}</div>
                 </div>
                 <div class="form-group">
@@ -152,7 +152,7 @@
             </div>
         <div id="deductionCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="deductionHeading">
             <div class="panel-body">
-                <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>
+                <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>                
             </div>
         </div>
     </div>

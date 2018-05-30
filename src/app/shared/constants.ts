@@ -104,7 +104,7 @@ export class Configuration {
 
         { "name": "80C_12", "text": "LIC/Life insurance company pension for tax benefit" }, //Actual section = 80CCC comes under 80C
 
-        { "name": "80C_13", "text": "Government notified Pension Scheme/NPS(10% of salary)" }, //Actual section = 80CCD1 comes under 80C
+        { "name": "80C_13", "text": "Government notified Pension Scheme/NPS" }, //Actual section = 80CCD1 comes under 80C
         { "name": "80CCD1B", "text": "Self employed contribution to government notificed scheme(NPS)" }, //Actual section = 80CCD1B, limit 50000 (Employees have savings Rs. 1,50,000 under 80C excluding NPS Deductions, Then the Employee can show their NPS  Deductions, under 80 CCD(1B), which is over the 1,50,000 Limit) so now limit 2lakhs
         { "name": "80CCD2", "text": "Employer's contribution to Pension scheme(10% of salary)" }, //Actual section = 80CCD2 10% of total income (total of salary/pension)
 
@@ -145,154 +145,165 @@ export class Configuration {
 
     ];
 
-    public masterDeductionList = [
-        { "sectionName": "80C", "limit": 150000 },
-        { "sectionName": "80D_1", "limit": 25000 },
-        { "sectionName": "80D_2", "limit": 30000 },
-        { "sectionName": "80D_3", "limit": 25000 },
-        { "sectionName": "80D_4", "limit": 30000 },
-        { "sectionName": "80D_5", "limit": 50000 },
-        { "sectionName": "80D_6", "limit": 55000 },
-        { "sectionName": "80D_7", "limit": 60000 },
-        { "sectionName": "80DD_1", "limit": 75000 },
-        { "sectionName": "80DD_2", "limit": 125000 },
-        { "sectionName": "80DDB_1", "limit": 40000 },
-        { "sectionName": "80DDB_2", "limit": 40000 },
-        { "sectionName": "80DDB_3", "limit": 60000 },
-        { "sectionName": "80CCG", "limit": -1 },
-        { "sectionName": "80E", "limit": -1 },
-        { "sectionName": "80EE", "limit": 50000 },
-        { "sectionName": "80G", "limit": 2000 },
-        { "sectionName": "80GG", "limit": 60000 },
-        { "sectionName": "80GGA", "limit": 10000 },
-        { "sectionName": "80GGC", "limit": -1 },
-        { "sectionName": "80QQB", "limit": 300000 },
-        { "sectionName": "80RRB", "limit": 300000 },
-        { "sectionName": "TTA", "limit": 10000 },
-        { "sectionName": "80U_1", "limit": 75000 },
-        { "sectionName": "80U_2", "limit": 125000 }
+    // public masterDeductionList = [
+    //     { "sectionName": "80C", "limit": 150000 },
+    //     { "sectionName": "80D_1", "limit": 25000 },
+    //     { "sectionName": "80D_2", "limit": 30000 },
+    //     { "sectionName": "80D_3", "limit": 25000 },
+    //     { "sectionName": "80D_4", "limit": 30000 },
+    //     { "sectionName": "80D_5", "limit": 50000 },
+    //     { "sectionName": "80D_6", "limit": 55000 },
+    //     { "sectionName": "80D_7", "limit": 60000 },
+    //     { "sectionName": "80DD_1", "limit": 75000 },
+    //     { "sectionName": "80DD_2", "limit": 125000 },
+    //     { "sectionName": "80DDB_1", "limit": 40000 },
+    //     { "sectionName": "80DDB_2", "limit": 40000 },
+    //     { "sectionName": "80DDB_3", "limit": 60000 },
+    //     { "sectionName": "80CCG", "limit": -1 },
+    //     { "sectionName": "80E", "limit": -1 },
+    //     { "sectionName": "80EE", "limit": 50000 },
+    //     { "sectionName": "80G", "limit": 2000 },
+    //     { "sectionName": "80GG", "limit": 60000 },
+    //     { "sectionName": "80GGA", "limit": 10000 },
+    //     { "sectionName": "80GGC", "limit": -1 },
+    //     { "sectionName": "80QQB", "limit": 300000 },
+    //     { "sectionName": "80RRB", "limit": 300000 },
+    //     { "sectionName": "TTA", "limit": 10000 },
+    //     { "sectionName": "80U_1", "limit": 75000 },
+    //     { "sectionName": "80U_2", "limit": 125000 }
 
-    ];
+    // ];
 
     public masterSec = [
         {
-            name: "80C",
-            limit: 150000,
-            options: [
-                { name: "80C_1", limit: 0 }, { name: "80C_2", limit: 0 }, { name: "80C_3", limit: 0 }, { name: "80C_4", limit: 0 },
-                { name: "80C_5", limit: 0 }, { name: "80C_6", limit: 0 }, , { name: "80C_7", limit: 0 }, { name: "80C_8", limit: 0 },
-                { name: "80C_9", limit: 0 }, { name: "80C_10", limit: 0 }, , { name: "80C_11", limit: 0 }, { name: "80C_12", limit: 0 },
-                { name: "80C_13", limit: 0 }
-            ]
-        },
-        {
-            name: "80CCD1B",
-            limit: 50000,
-            options: []
-        },
-        {
-            name: "80CCD2",
-            limit: 10,
-            options: []
-        },
+            ayYear: '2018-2019',
+            sections: [
+                {
+                    name: "80C",
+                    limit: 150000,
+                    options: [
+                        { name: "80C_1", limit: 0 }, { name: "80C_2", limit: 0 }, { name: "80C_3", limit: 0 }, { name: "80C_4", limit: 0 },
+                        { name: "80C_5", limit: 0 }, { name: "80C_6", limit: 0 }, , { name: "80C_7", limit: 0 }, { name: "80C_8", limit: 0 },
+                        { name: "80C_9", limit: 0 }, { name: "80C_10", limit: 0 }, , { name: "80C_11", limit: 0 }, { name: "80C_12", limit: 0 },
+                        { name: "80C_13", limit: 0 }
+                    ]
+                },
+                {
+                    name: "80CCD1B",
+                    limit: 50000,
+                    options: []
+                },
+                {
+                    name: "80CCD2",
+                    limit: 10,
+                    options: []
+                },
 
-        {
-            name: "80D",
-            limit: 0,
-            options: [
-                { name: "80D_1", limit: 25000 }, { name: "80D_2", limit: 30000 }, { name: "80D_3", limit: 25000 }, { name: "80D_4", limit: 30000 },
-                { name: "80D_5", limit: 50000 }, { name: "80D_6", limit: 55000 }, { name: "80D_7", limit: 60000 },
+                {
+                    name: "80D",
+                    limit: 0,
+                    options: [
+                        { name: "80D_1", limit: 25000 }, { name: "80D_2", limit: 30000 }, { name: "80D_3", limit: 25000 }, { name: "80D_4", limit: 30000 },
+                        { name: "80D_5", limit: 50000 }, { name: "80D_6", limit: 55000 }, { name: "80D_7", limit: 60000 },
+                    ]
+                },
+                {
+                    name: "80DD",
+                    limit: 0,
+                    options: [
+                        { name: "80DD_1", limit: 75000 }, { name: "80DD_2", limit: 125000 }
+                    ]
+                },
+                {
+                    name: "80DDB",
+                    limit: 0,
+                    options: [
+                        { name: "80DDB_1", limit: 40000 }, { name: "80DDB_2", limit: 40000 }, { name: "80DDB_2", limit: 60000 }
+                    ]
+                },
+                {
+                    name: "80CCG",
+                    limit: -1,
+                    options: []
+                },
+                {
+                    name: "80E",
+                    limit: -1,
+                    options: []
+                },
+                {
+                    name: "80EE",
+                    limit: 50000,
+                    options: []
+                },
+                {
+                    name: "80G",
+                    limit: 2000,
+                    options: []
+                },
+                {
+                    name: "80GG",
+                    limit: 60000,
+                    options: []
+                },
+                {
+                    name: "80GGA",
+                    limit: 10000,
+                    options: []
+                },
+                {
+                    name: "80GGC",
+                    limit: -1,
+                    options: []
+                },
+                {
+                    name: "80QQB",
+                    limit: 300000,
+                    options: []
+                },
+                {
+                    name: "80RRB",
+                    limit: 300000,
+                    options: []
+                },
+                {
+                    name: "TTA",
+                    limit: 10000,
+                    options: []
+                },
+                {
+                    name: "80U",
+                    limit: 10000,
+                    options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]
+                }
             ]
-        },
-        {
-            name: "80DD",
-            limit: 0,
-            options: [
-                { name: "80DD_1", limit: 75000 }, { name: "80DD_2", limit: 125000 }
-            ]
-        },
-        {
-            name: "80DDB",
-            limit: 0,
-            options: [
-                { name: "80DDB_1", limit: 40000 }, { name: "80DDB_2", limit: 40000 }, { name: "80DDB_2", limit: 60000 }
-            ]
-        },
-        {
-            name: "80CCG",
-            limit: -1,
-            options: []
-        },
-        {
-            name: "80E",
-            limit: -1,
-            options: []
-        },
-        {
-            name: "80EE",
-            limit: 50000,
-            options: []
-        },
-        {
-            name: "80G",
-            limit: 2000,
-            options: []
-        },
-        {
-            name: "80GG",
-            limit: 60000,
-            options: []
-        },
-        {
-            name: "80GGA",
-            limit: 10000,
-            options: []
-        },
-        {
-            name: "80GGC",
-            limit: -1,
-            options: []
-        },
-        {
-            name: "80QQB",
-            limit: 300000,
-            options: []
-        },
-        {
-            name: "80RRB",
-            limit: 300000,
-            options: []
-        },
-        {
-            name: "TTA",
-            limit: 10000,
-            options: []
-        },
-        {
-            name: "80U",
-            limit: 10000,
-            options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]
-        }
-    ];
+        }];
 
     public slabs = [
         {
-            min: 250000,
-            max: 500000,
-            rate: 5
-        },
-        {
-            min: 500000,
-            max: 1000000,
-            rate: 20
-        },
-        {
-            min: 1000000,
-            max: 5000000,
-            rate: 30
-        }
-    ];
-//income tax calculation input ends here
+            cess: 3,
+            rebateLimit: 350000,
+            rebateAmount: 2500,
+            ayYear: '2018-2019',
+            slabLimits: [
+                {
+                    min: 250000,
+                    max: 500000,
+                    rate: 5
+                },
+                {
+                    min: 500000,
+                    max: 1000000,
+                    rate: 20
+                },
+                {
+                    min: 1000000,
+                    max: 5000000,
+                    rate: 30
+                }
+            ]
+        }];
+    //income tax calculation input ends here
 
     public incomeNatureList = [
         { "value": "10(5)", "text": "Section 10(5)-Leave Travel Allowance" },

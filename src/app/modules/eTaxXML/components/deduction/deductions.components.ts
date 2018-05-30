@@ -36,19 +36,7 @@ export class DeductionsComponent implements OnInit {
         let currentDate = new Date();
         let sections;
         this.assessmentYear = currentDate.getFullYear() + "-" + (currentDate.getFullYear() + 1);
-
-        //Get all sections on page load
-        //assessmentyearid=0, default category = 1(Male)
-        // this._calcService.getSections<any[]>(0, 1, this.assessmentYear)
-        //     .subscribe((data: any[]) => sections = data,
-        //         (error) => {
-        //             this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
-        //             this._slimLoader.stopLoading();
-        //         },
-        //         () => {
-        //             this._slimLoader.completeLoading();
-        //             this.getSectionsArray(sections);
-        //         });
+ 
         this.getSectionsArray(this._configuration.deductionList);
         this.sectionForm = this._fb.group({
             itemRows: this._fb.array([this.initialiseNewRow('', 0, '', '')]) // here
@@ -114,19 +102,25 @@ export class DeductionsComponent implements OnInit {
         return sum;
     }
     calculateTax(formData: any) {
-        debugger;
-        // let deductions = formData.value.itemRows;
-        // let sum = 0;
-        // for (let deduction of deductions) {
-        //     sum += deduction.deductionValue;
-        // }
+         
         let deductionList = this.getSectionWithAmount(formData.value.itemRows);
         let deductionApplicable = 0;
         for (let deduction of deductionList)
             deductionApplicable += deduction.amount;
 
-        this.calculateTaxPerSlab((this.grossTotalIncome - deductionApplicable));
+        //calculate rebate amount
+        let slabList=this._configuration.slabs;
+        let slabs;
+        for(let data of slabList) {
+            if(data.ayYear==this.getAssessmentYear()) {
+                slabs= data.slabLimits;
+                break;
+            }
+        }
 
+        let slabResults ={};
+        slabResults = this.calculateTaxPerSlab((this.grossTotalIncome - deductionApplicable));
+        console.log(slabResults);
         // //prepare data to send to server for tax calculation 
         // let calculatorInputs = new CalculatorInputs();
 
@@ -171,12 +165,25 @@ export class DeductionsComponent implements OnInit {
 
     }
 
+    private getAssessmentYear() : string {
+        let currentDate = new Date();
+        let nextDate = new Date(currentDate.getFullYear()+1,currentDate.getMonth()+1,currentDate.getDate());
+        return (currentDate.getFullYear()+"-"+nextDate.getFullYear());
+    }
     private getSectionWithAmount(deductions) {
-        let masterData = this._configuration.masterSec;
+        let masterDataList = this._configuration.masterSec;
         let deductionSum = 0
         let limitCrossed = true;
         let usrSections = [];
         let optionSum = 0;
+      
+        let masterData;
+        for(let data of masterDataList) {
+            if(data.ayYear==this.getAssessmentYear()) {
+                masterData=data.sections;
+                break;
+            }
+        } 
         for (let msData of masterData) {
             deductionSum = 0;
             optionSum = 0;
@@ -184,7 +191,10 @@ export class DeductionsComponent implements OnInit {
                 if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
                     //check if section has options but options don't have limits e.g. 80C
                     if (msData.limit > 0) {
-
+                        //set limit to percentage amount
+                        if(msData.limit<=100) {
+                            msData.limit=this.grossTotalIncome * msData.limit/100;
+                        }
                         if (msData.options.length > 0)
                             deductionSum += usrDeduction.deductionValue;
                         //check if section has no option and has limit
@@ -219,35 +229,44 @@ export class DeductionsComponent implements OnInit {
         return usrSections;
     }
 
-    private calculateTaxPerSlab(netTotalIncome: number) {
+    private calculateTaxPerSlab(netTotalIncome: number)  {
 
         let tax = 0;
         let slabResults = [];
         let slabTax = 0;
-
-        for (let slab of this._configuration.slabs) {
+        let slabList=this._configuration.slabs;
+        let slabs;
+        for(let data of slabList) {
+            if(data.ayYear==this.getAssessmentYear()) {
+                slabs= data.slabLimits;
+                break;
+            }
+        }
+        for (let slab of slabs) {
             slabTax = 0;
             let slabResult = new SlabResult();
             //first slab has exemption			 
             if (netTotalIncome >= slab.max) {
-                slabTax = ((slab.max - slab.min) * slab.rate) / 100;
+                slabTax = Math.ceil(((slab.max - slab.min) * slab.rate) / 100);
             }
             else if (netTotalIncome >= slab.min) {
-                slabTax = ((netTotalIncome - slab.min) * slab.rate) / 100;
+                slabTax = Math.ceil(((netTotalIncome - slab.min) * slab.rate) / 100);
             }
 
             slabResult.min = slab.min;
             slabResult.max = slab.max;
             slabResult.taxableAmount = slab.max - slab.min;
             slabResult.tax = slabTax;
-            slabResult.cessTax = slabTax * 3 / 100;
+            slabResult.cessTax = Math.ceil(slabTax * 3 / 100);
             slabResult.totalTax = slabResult.tax + slabResult.cessTax;
             slabResults.push(slabResult);
         }
         for (let i = 0; i < slabResults.length; i++)
             tax += slabResults[i].totalTax;
-        console.log(slabResults);
-        console.log(tax);
+        
+        return slabResults;
+        // console.log(slabResults);
+        // console.log(tax);
     }
 
     private getSectionName(usrSectionName) {

@@ -11,7 +11,7 @@ export class IncomeDetailsModel
     public rent : number;
     public taxPaidToLocalAuthority : number;
     public annualValue : number=0;
-    public annualValuePercentageAmount : number;
+    public annualValuePercentageAmount : number =0;
     public interestOnBorrowedCapital : number;
     public incomeFromOtherSources: number;
     public grossTotalIncome : number;
