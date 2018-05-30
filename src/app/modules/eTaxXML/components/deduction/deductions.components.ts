@@ -104,6 +104,7 @@ export class DeductionsComponent implements OnInit {
     calculateTax(formData: any) {
          
         let deductionList = this.getSectionWithAmount(formData.value.itemRows);
+        console.log(deductionList);
         let deductionApplicable = 0;
         for (let deduction of deductionList)
             deductionApplicable += deduction.amount;
@@ -175,8 +176,8 @@ export class DeductionsComponent implements OnInit {
         let deductionSum = 0
         let limitCrossed = true;
         let usrSections = [];
-        let optionSum = 0;
-      
+        let enteredAmount =0;
+        let sectionOptionIndex=0;
         let masterData;
         for(let data of masterDataList) {
             if(data.ayYear==this.getAssessmentYear()) {
@@ -186,35 +187,47 @@ export class DeductionsComponent implements OnInit {
         } 
         for (let msData of masterData) {
             deductionSum = 0;
-            optionSum = 0;
+            enteredAmount=0;
+            sectionOptionIndex=0;
             for (let usrDeduction of deductions) {
                 if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
+                    let index = usrDeduction.deductionSection.indexOf("_");
+                    if(index>0) {
+                        sectionOptionIndex = usrDeduction.deductionSection.substring(index+1);
+                    }  
                     //check if section has options but options don't have limits e.g. 80C
                     if (msData.limit > 0) {
                         //set limit to percentage amount
-                        if(msData.limit<=100) {
-                            msData.limit=this.grossTotalIncome * msData.limit/100;
+                        if(msData.limit<=100 && msData.limit!=-1)  {
+                            let percentageAmt = this.grossTotalIncome * msData.limit/100;
+                            msData.limit=percentageAmt;
+                            enteredAmount = percentageAmt;
                         }
-                        if (msData.options.length > 0)
+                        if (msData.options.length > 0) {
                             deductionSum += usrDeduction.deductionValue;
+                            enteredAmount += usrDeduction.deductionValue;                            
+                        }
                         //check if section has no option and has limit
                         else if (msData.options.length == 0) {
                             deductionSum = usrDeduction.deductionValue;
-                            if (deductionSum > msData.limit) {
-                                deductionSum = msData.limit;
-                            }
+                            enteredAmount = usrDeduction.deductionValue;
+                            if (deductionSum > msData.limit && msData.parent=="") {
+                                deductionSum = msData.limit;                                
+                            }                            
                         }
                         if (deductionSum >= msData.limit)
                             deductionSum = msData.limit;
                     }
                     else if(msData.limit==-1) {
                         deductionSum = usrDeduction.deductionValue;
+                        enteredAmount= usrDeduction.deductionValue;
                     }
                     //check options with its limit
                     else if (msData.limit == 0) {
                         for (let p = 0; p < msData.options.length; p++) {
                             if (msData.options[p].name == usrDeduction.deductionSection) {
                                 deductionSum += usrDeduction.deductionValue;
+                                enteredAmount = usrDeduction.deductionValue;
                                 if (deductionSum > msData.options[p].limit) {
                                     deductionSum = msData.options[p].limit;
                                 }
@@ -224,11 +237,32 @@ export class DeductionsComponent implements OnInit {
                     }
                 }
             }
-            usrSections.push({ name: msData.name, amount: deductionSum });
+            usrSections.push({ name: msData.name, limit: deductionSum, enteredAmount : enteredAmount,optionIndex:sectionOptionIndex });
         }
+
+        //80CCC comes under section 80C but is different section
+        let sec80CEnteredAmt=0;        
+        for (let msData of masterData) { 
+            if(msData.parent!=="") {
+                if(msData.parent=="80C") {
+                    for(let usrSec of usrSections) {
+                        if(usrSec.name==msData.parent) {
+                            sec80CEnteredAmt=usrSec.enteredAmount; 
+                        }
+                        else if(usrSec.name=="80CCC") {
+                            let difference = msData.limit - sec80CEnteredAmt;
+                            if(difference<usrSec.enteredAmount)
+                                usrSec.enteredAmount=difference;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+         
         return usrSections;
     }
-
+ 
     private calculateTaxPerSlab(netTotalIncome: number)  {
 
         let tax = 0;

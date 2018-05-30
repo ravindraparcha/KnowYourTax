@@ -35,6 +35,7 @@ export class XmlGeneratorService {
 
             else if (element.infoType === "verification")
                 this.addVerificationNode(element.data);
+                
             else if (element.infoType === "80g")
                 this.add80GNode(element.data);
 

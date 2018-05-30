@@ -1,5 +1,5 @@
 <div class="form-group margin-top15">
-    <div class="col-sm-11">        
+    <div class="col-sm-10">        
         <ng-select id="selectedSection" #selectedSection="ngModel" (change)="onDeductionChange()" name="selectedSection" placeholder="Select your investment for deduction"
             [(ngModel)]="selectedSectionValue">
             <ng-option *ngFor="let deduction of deductionList" [value]="deduction.name">{{deduction.text}}

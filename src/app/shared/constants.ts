@@ -100,11 +100,11 @@ export class Configuration {
         { "name": "80C_8", "text": "Principal repayment of Home Loan" },
         { "name": "80C_9", "text": "NPS(National Pension System)" },
         { "name": "80C_10", "text": "Life Insurance Premium" },
-        { "name": "80C_11", "text": "Sukanya Samriddhi Account Deposit Scheme" },
+        { "name": "80C_11", "text": "Sukanya Samriddhi Account Deposit Scheme" },        
+        { "name": "80C_12", "text": "Government notified Pension Scheme/NPS" }, //Actual section = 80CCD1 comes under 80C
 
-        { "name": "80C_12", "text": "LIC/Life insurance company pension for tax benefit" }, //Actual section = 80CCC comes under 80C
+        { "name": "80CCC", "text": "LIC/Life insurance company pension for tax benefit" }, //Actual section = 80CCC comes under 80C
 
-        { "name": "80C_13", "text": "Government notified Pension Scheme/NPS" }, //Actual section = 80CCD1 comes under 80C
         { "name": "80CCD1B", "text": "Self employed contribution to government notificed scheme(NPS)" }, //Actual section = 80CCD1B, limit 50000 (Employees have savings Rs. 1,50,000 under 80C excluding NPS Deductions, Then the Employee can show their NPS  Deductions, under 80 CCD(1B), which is over the 1,50,000 Limit) so now limit 2lakhs
         { "name": "80CCD2", "text": "Employer's contribution to Pension scheme(10% of salary)" }, //Actual section = 80CCD2 10% of total income (total of salary/pension)
 
@@ -181,6 +181,7 @@ export class Configuration {
                 {
                     name: "80C",
                     limit: 150000,
+                    parent : "",
                     options: [
                         { name: "80C_1", limit: 0 }, { name: "80C_2", limit: 0 }, { name: "80C_3", limit: 0 }, { name: "80C_4", limit: 0 },
                         { name: "80C_5", limit: 0 }, { name: "80C_6", limit: 0 }, , { name: "80C_7", limit: 0 }, { name: "80C_8", limit: 0 },
@@ -189,19 +190,28 @@ export class Configuration {
                     ]
                 },
                 {
+                    name: "80CCC",
+                    limit: 150000,  // check with parent if amount found, subtract it
+                    options: [],
+                    parent : "80C"
+                },
+                {
                     name: "80CCD1B",
                     limit: 50000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80CCD2",
                     limit: 10,
+                    parent : "",
                     options: []
                 },
 
                 {
                     name: "80D",
                     limit: 0,
+                    parent : "",
                     options: [
                         { name: "80D_1", limit: 25000 }, { name: "80D_2", limit: 30000 }, { name: "80D_3", limit: 25000 }, { name: "80D_4", limit: 30000 },
                         { name: "80D_5", limit: 50000 }, { name: "80D_6", limit: 55000 }, { name: "80D_7", limit: 60000 },
@@ -210,6 +220,7 @@ export class Configuration {
                 {
                     name: "80DD",
                     limit: 0,
+                    parent : "",
                     options: [
                         { name: "80DD_1", limit: 75000 }, { name: "80DD_2", limit: 125000 }
                     ]
@@ -217,6 +228,7 @@ export class Configuration {
                 {
                     name: "80DDB",
                     limit: 0,
+                    parent : "",
                     options: [
                         { name: "80DDB_1", limit: 40000 }, { name: "80DDB_2", limit: 40000 }, { name: "80DDB_2", limit: 60000 }
                     ]
@@ -224,11 +236,13 @@ export class Configuration {
                 {
                     name: "80CCG",
                     limit: -1,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80E",
                     limit: -1,
+                    parent : "",
                     options: []
                 },
                 {
@@ -239,41 +253,49 @@ export class Configuration {
                 {
                     name: "80G",
                     limit: 2000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80GG",
                     limit: 60000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80GGA",
                     limit: 10000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80GGC",
                     limit: -1,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80QQB",
                     limit: 300000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80RRB",
                     limit: 300000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "TTA",
                     limit: 10000,
+                    parent : "",
                     options: []
                 },
                 {
                     name: "80U",
                     limit: 10000,
+                    parent : "",
                     options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]
                 }
             ]
