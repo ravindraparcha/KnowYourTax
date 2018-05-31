@@ -21,9 +21,15 @@ export class SlabResult {
 }
 
 export class IncomeTaxModel {
- public userTaxModel :any[];
- public systemTaxModel : any[];
+ public userTaxModel :TaxModel[];
+ public systemTaxModel : TaxModel[];
  public taxComputationModel : TaxComputationModel;
+}
+
+export class TaxModel {
+    public name : string;
+    public amount : number;
+    public option : number;
 }
 
 export class TaxComputationModel {

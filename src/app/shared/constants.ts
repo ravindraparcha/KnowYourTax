@@ -191,7 +191,7 @@ export class Configuration {
                 },
                 {
                     name: "80CCC",
-                    limit: 150000,  // check with parent if amount found, subtract it
+                    limit: 0,  // check with parent if amount found, subtract it
                     options: [],
                     parent : "80C"
                 },
@@ -248,6 +248,7 @@ export class Configuration {
                 {
                     name: "80EE",
                     limit: 50000,
+                    parent : "",
                     options: []
                 },
                 {
