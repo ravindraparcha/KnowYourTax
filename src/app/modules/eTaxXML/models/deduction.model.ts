@@ -1,13 +1,7 @@
 export class DeductionModel {
-    public text :string;
-    public amount : number;
-    public section : string;
-    constructor(text:string,amount:number,section){
-        this.text=text;
-        this.amount = amount;
-        this.section=section;
-    }
-    
+     public relief: number;
+     public dueDate : string;
+     public filingDate : string;    
 }
 
 export class SlabResult {

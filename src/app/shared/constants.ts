@@ -203,7 +203,7 @@ export class Configuration {
                 },
                 {
                     name: "80CCD2",
-                    limit: 10,
+                    limit: 10.0,
                     parent : "",
                     options: []
                 },

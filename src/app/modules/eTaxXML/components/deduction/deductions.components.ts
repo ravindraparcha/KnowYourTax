@@ -7,6 +7,8 @@ import { slimLoaderBarService } from '../../../../shared/services/slimLoaderBarS
 
 import { CalculatorService } from '../../../../services/calculator.service';
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
+import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
+
 
 
 
@@ -21,13 +23,18 @@ export class DeductionsComponent implements OnInit {
     public selectedSectionValue;
     public deductionList = [];
     public sectionForm;
-    //private assessmentYear;
+
     public calculationResult = {};
     public taxComputationModel: TaxComputationModel;
     public incomeTaxModel: IncomeTaxModel;
-
+    public deductionModel: DeductionModel;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
+
+    myOptions: INgxMyDpOptions = {
+        dateFormat: this._configuration.dateTimeFormat,
+        //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
+    };
 
     constructor(private _configuration: Configuration, private _fb: FormBuilder,
         private _calcService: CalculatorService, private toastr: ToastsManager, vcr: ViewContainerRef,
@@ -54,6 +61,8 @@ export class DeductionsComponent implements OnInit {
         this.incomeTaxModel = new IncomeTaxModel();
         this.incomeTaxModel.userTaxModel = [];
         this.incomeTaxModel.systemTaxModel = [];
+        this.deductionModel = new DeductionModel();
+
     }
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
@@ -98,6 +107,24 @@ export class DeductionsComponent implements OnInit {
         this.onCalculateDeductionSum.emit(sum);
     }
 
+    onDueDateChanged(event: IMyDateModel) {
+        // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
+        if (event.date.day != 0) {
+            this.deductionModel.dueDate = event.jsdate.toString();  //event.date.day + "/" + event.date.month + "/" + event.date.year;            
+        }
+        else {
+            this.deductionModel.dueDate = "";
+        }
+    }
+    onFilingDateChanged(event: IMyDateModel) {
+        // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
+        if (event.date.day != 0) {
+            this.deductionModel.filingDate = event.jsdate.toString();  //event.date.day + "/" + event.date.month + "/" + event.date.year;            
+        }
+        else {
+            this.deductionModel.filingDate = "";
+        }
+    }
     onDeductionChangeCalculateSum(formData: any) {
         let sum = this.calculateDeduction(formData.value.itemRows);
         this.onCalculateDeductionSum.emit(sum);
@@ -120,7 +147,6 @@ export class DeductionsComponent implements OnInit {
             this.incomeTaxModel.userTaxModel.push({ name: deduction.name, amount: deduction.enteredAmount, option: deduction.optionIndex });
             this.incomeTaxModel.systemTaxModel.push({ name: deduction.name, amount: deduction.limit, option: 0 });
         }
-        //console.log(deductionList);
         let deductionApplicable = 0;
         for (let deduction of deductionList) {
             if (deduction.parent != "") {
@@ -148,15 +174,49 @@ export class DeductionsComponent implements OnInit {
                 break;
             }
         }
-
+        //Total income - as per excel
         let netTaxableIncome = this.grossTotalIncome - deductionApplicable;
-        if (netTaxableIncome <= slabData.rebateLimit)
-            this.taxComputationModel.rebateAmt = slabData.rebateAmount;
 
-
-
-        let slabResults = {};
+        let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
+
+        let totalTax=0;
+        this.taxComputationModel.cessTax=0;
+        for (let result of slabResults) {
+            totalTax += result.tax;
+            this.taxComputationModel.cessTax+=result.cessTax;
+        }
+         
+        //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
+        //referece:- https://cleartax.in/s/income-tax-rebate-us-87a
+        if (totalTax <= slabData.rebateAmount)
+            this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
+        else 
+            this.taxComputationModel.taxPayableAfterRebate=totalTax;
+        
+        this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
+        this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
+
+
+        //Calculate interest rate 234 start
+        let dueDt = this.deductionModel.dueDate["jsdate"];
+        let filingDt = this.deductionModel.filingDate["jsdate"];
+        if (dueDt > filingDt)
+            this.taxComputationModel.interest234A = 0;
+        else {
+            let diffDate: number;
+            diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
+            let days = Math.ceil(diffDate / (1000 * 3600 * 24));
+            if(days>0) {
+                let months = Math.ceil(days /(365.25 / 12));
+                let amtTax234 = this.taxComputationModel.balanceTaxAfterRelief - (this.taxComputationModel.balanceTaxAfterRelief % 100);
+                this.taxComputationModel.interest234A =  ((months * 1) * amtTax234) / 100;
+            }
+
+        }
+        //Calculate interest rate 234 end
+
+
         console.log(slabResults);
         //console.log(this.taxComputationModel);
         // //prepare data to send to server for tax calculation 
@@ -210,7 +270,7 @@ export class DeductionsComponent implements OnInit {
     }
     private getSectionWithLimitAndAmount(deductions) {
 
-        let dSum = 0;        
+        let dSum = 0;
         let masterDataList = this._configuration.masterSec;
         let usrSections = [];
         let enteredAmount = 0;
@@ -226,7 +286,7 @@ export class DeductionsComponent implements OnInit {
         for (let msData of masterData) {
             dSum = 0;
             sectionOptionIndex = 0;
-            enteredAmount=0;
+            enteredAmount = 0;
             for (let usrDeduction of deductions) {
                 if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
                     if (msData.limit > 0) {
@@ -245,7 +305,7 @@ export class DeductionsComponent implements OnInit {
                             else {
                                 dSum += usrDeduction.deductionValue;
                                 enteredAmount += usrDeduction.deductionValue;
-                            }                         
+                            }
                         }
                     }
                     else if (msData.limit == 0) {
@@ -275,13 +335,13 @@ export class DeductionsComponent implements OnInit {
                     else if (msData.limit == -1) {
                         dSum += usrDeduction.deductionValue;
                         //msData.limit = dSum;
-                        enteredAmount=dSum;
+                        enteredAmount = dSum;
                     }
 
                 }
 
             }
-            usrSections.push({ name: msData.name, limit: dSum, enteredAmount: enteredAmount, optionIndex: sectionOptionIndex, parent: msData.parent });           
+            usrSections.push({ name: msData.name, limit: dSum, enteredAmount: enteredAmount, optionIndex: sectionOptionIndex, parent: msData.parent });
         }
         for (let usrSection of usrSections) {
             if (usrSection.parent !== "") {
@@ -306,100 +366,9 @@ export class DeductionsComponent implements OnInit {
                     }
                 }
             }
-        }       
+        }
         return usrSections;
     }
-    // private getSectionWithLimitAndAmount(deductions) {
-    //     let masterDataList = this._configuration.masterSec;
-    //     let deductionSum = 0
-    //     let limitCrossed = true;
-    //     let usrSections = [];
-    //     let enteredAmount = 0;
-    //     let sectionOptionIndex = 0;
-    //     let masterData;
-    //     for (let data of masterDataList) {
-    //         if (data.ayYear == this.getAssessmentYear()) {
-    //             masterData = data.sections;
-    //             break;
-    //         }
-    //     }
-    //     for (let msData of masterData) {
-    //         deductionSum = 0;
-    //         enteredAmount = 0;
-    //         sectionOptionIndex = 0;
-    //         for (let usrDeduction of deductions) {
-    //             if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
-
-    //                 //check if section has options but options don't have limits e.g. 80C
-    //                 if (msData.limit > 0) {
-    //                     //set limit to percentage amount
-    //                     if (msData.limit <= 100 && msData.limit != -1) {
-    //                         let percentageAmt = this.grossTotalIncome * msData.limit / 100;
-    //                         msData.limit = percentageAmt;
-    //                         enteredAmount = percentageAmt;
-    //                     }
-    //                     if (msData.options.length > 0) {
-    //                         deductionSum += usrDeduction.deductionValue;
-    //                         enteredAmount += usrDeduction.deductionValue;
-    //                     }
-    //                     //check if section has no option and has limit
-    //                     else if (msData.options.length == 0) {
-    //                         deductionSum = usrDeduction.deductionValue;
-    //                         enteredAmount = usrDeduction.deductionValue;
-    //                         if (deductionSum > msData.limit && msData.parent == "") {
-    //                             deductionSum = msData.limit;
-    //                         }
-    //                     }
-    //                     if (deductionSum >= msData.limit)
-    //                         deductionSum = msData.limit;
-    //                 }
-    //                 else if (msData.limit == -1) {
-    //                     deductionSum = usrDeduction.deductionValue;
-    //                     enteredAmount = usrDeduction.deductionValue;
-    //                 }
-    //                 //check options with its limit
-    //                 else if (msData.limit == 0) {
-    //                     for (let p = 0; p < msData.options.length; p++) {
-    //                         if (msData.options[p].name == usrDeduction.deductionSection) {
-    //                             deductionSum += usrDeduction.deductionValue;
-    //                             enteredAmount = usrDeduction.deductionValue;
-    //                             if (deductionSum > msData.options[p].limit) {
-    //                                 deductionSum = msData.options[p].limit;
-    //                             }
-
-    //                         }
-    //                         let index = usrDeduction.deductionSection.indexOf("_");
-    //                         if (index > 0) {
-    //                             sectionOptionIndex = usrDeduction.deductionSection.substring(index + 1);
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         usrSections.push({ name: msData.name, limit: deductionSum, enteredAmount: enteredAmount, optionIndex: sectionOptionIndex, parent: msData.parent });
-    //     }
-
-    //     //80CCC comes under section 80C but is different section
-    //     let enteredAmt = 0;
-    //     for (let msData of masterData) {
-    //         if (msData.parent !== "") {
-    //             for (let usrSec of usrSections) {
-    //                 if (usrSec.name == msData.parent) {
-    //                     enteredAmt = usrSec.enteredAmount;
-    //                 }
-    //                 else if (usrSec.name == msData.name) {
-    //                     let difference = msData.limit - enteredAmt;
-    //                     if (difference > 0 && difference < usrSec.enteredAmount)
-    //                         usrSec.limit = difference;
-    //                     else
-    //                         usrSec.limit = 0;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     return usrSections;
-    // }
 
     private calculateTaxPerSlab(netTotalIncome: number) {
 
