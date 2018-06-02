@@ -35,8 +35,7 @@ export class eTaxXMLComponent {//implements OnInit {
     public personalInfoData = new PersonalInfoModel();
     public taxDeducted;
     private parseJson;
-    private xmlDataArray = [];
-    public advanceTaxPaid=[];
+    private xmlDataArray = [];   
     public advanceTaxPaidModels;
     
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration, private _xmlGeneratorService: XmlGeneratorService) { }
@@ -99,6 +98,7 @@ export class eTaxXMLComponent {//implements OnInit {
     }
 
     private getDeductionAtSource(arr: any[]): TaxDeductedSalaryModel[] {
+        let advanceTaxPaid=[];
         let taxDeductedSalaryModels = [];
         let taxDeductedSalaryModel;
         let financialYearStart = new Date(new Date().getFullYear() - 1, 3, 1);
@@ -121,11 +121,11 @@ export class eTaxXMLComponent {//implements OnInit {
                 taxPaidDate = new Date(year,this.getMonthFromString(month),day);
                 if(taxPaidDate>financialYearStart && taxPaidDate<=financialYearEnd) {
                     let advanceTaxModel = new AdvanceTaxModel(taxPaidDate,parseInt(elmnt[8]));
-                    this.advanceTaxPaid.push(advanceTaxModel);
+                    advanceTaxPaid.push(advanceTaxModel);
                 }
             });             
         }); 
-        this.advanceTaxPaidModels = this.advanceTaxPaid;
+        this.advanceTaxPaidModels = advanceTaxPaid;
         return taxDeductedSalaryModels;
     }
     private getMonthFromString(mon) {

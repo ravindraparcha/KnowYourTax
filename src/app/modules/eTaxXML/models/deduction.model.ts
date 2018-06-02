@@ -1,8 +1,8 @@
 export class DeductionModel {
     public relief: number=0;
     public advanceTax: number = 0;
-    public dueDate: string;
-    public filingDate: string;
+    public dueDate: string="";
+    public filingDate: string="";
 }
 
 export class AdvanceTaxModel {

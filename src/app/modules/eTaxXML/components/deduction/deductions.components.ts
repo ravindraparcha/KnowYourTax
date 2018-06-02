@@ -219,83 +219,159 @@ export class DeductionsComponent implements OnInit {
         let dueDt = this.deductionModel.dueDate["jsdate"];
         let filingDt = this.deductionModel.filingDate["jsdate"];
 
+        if (dueDt == undefined || filingDt == undefined) {
+            console.log("tax:-" + this.taxComputationModel.balanceTaxAfterRelief);
+            return;
+        }
+        let diffDate: number;
+        let days = 0;
+        let taxAfterTDS = this.taxComputationModel.balanceTaxAfterRelief - this.deductionModel.advanceTax;
+        //section  234A
         if (filingDt > dueDt) {
-            let diffDate: number;
-            diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
-            let days = Math.ceil(diffDate / (1000 * 3600 * 24));
-
+            diffDate = Math.abs(filingDt.getTime() - dueDt.getTime() + 1);
+            days = Math.ceil(diffDate / (1000 * 3600 * 24));
             if (days > 0) {
                 let months = Math.ceil(days / (365.25 / 12));
-                let amtTax234 = this.taxComputationModel.balanceTaxAfterRelief - (this.taxComputationModel.balanceTaxAfterRelief % 100);
-                this.taxComputationModel.interest234A = ((months * 1) * amtTax234) / 100;
+                taxAfterTDS = taxAfterTDS - taxAfterTDS % 100;
+                this.taxComputationModel.interest234A = ((months * 1) * taxAfterTDS) / 100;
+            }
+        }
+        else
+            this.taxComputationModel.interest234A = 0;
 
-                //Section 234B
-                // Your tax liability after reducing TDS for the financial year is more than Rs 10,000 and you did not pay any advance tax.
-                // OR
-                // You paid advance tax but advance tax paid is less than 90% of ‘assessed tax’In any one of the cases, interest under section 234B shall be applicable.Interest is calculated @ 1% on Assessed Tax less Advance Tax.Part of a month is rounded off to a full month.
-                let taxAfterTDS = this.taxComputationModel.balanceTaxAfterRelief - this.deductionModel.advanceTax;
-                let partOfTax = (this.taxComputationModel.balanceTaxAfterRelief * 90 / 100);
+        //Section 234B is directly calculated from april to that month date
+        //Section 234B calculation 
+        //tax is always calculated from April 
+        let taxCalculateDate = new Date(new Date().getFullYear(), 3, 1);
+        diffDate = Math.abs(filingDt.getTime() - taxCalculateDate.getTime() + 1);
+        days = Math.ceil(diffDate / (1000 * 3600 * 24));
+        if (days > 0) {
 
-                if ((taxAfterTDS > this._configuration.taxLiability) || partOfTax > this.deductionModel.advanceTax) {
-                    taxAfterTDS = taxAfterTDS - taxAfterTDS % 100;
-                    this.taxComputationModel.interest234B = ((months * 1) * taxAfterTDS) / 100;
-                }
-                //section 234C
-                //https://cleartax.in/s/interest-imposed-by-income-tax-department-under-section-234c
-                if (dueDt.getFullYear() == filingDt.getFullYear() && taxAfterTDS > this._configuration.taxLiability) {
-                    let mntArray = [3, 6, 9, 12];
-                    let taxPercentageArr = [15, 45, 75, 100];
+            let months = Math.ceil(days / (365.25 / 12));
+            let partOfTax = (this.taxComputationModel.balanceTaxAfterRelief * 90 / 100);
 
-                    for (let i = 0; i < mntArray.length; i++) {
-                        // let fDate = new Date(filingDt.getFullYear()-1,mntArray[i],15);
-                        // let lDate = new Date(filingDt.getFullYear()-1,mntArray[i],15);
-                        let fDate = new Date(filingDt.getFullYear() - 1, 0, 15);
-                        fDate.setMonth(mntArray[i] - 1);
-                        let lDate = new Date(filingDt.getFullYear() - 1, 0, 15);
-                        lDate.setMonth(mntArray[i] + 2);
-                        let tax = this.taxComputationModel.balanceTaxAfterRelief * taxPercentageArr[i] / 100;
-                        for (let j = 0; j < this.advanceTaxModels.length; j++) {
-                            let advanceTaxDeposited = 0;
-                            let d = new Date(this.advanceTaxModels[j].transactionDate);
-                            if (d >= fDate && d <= lDate)
-                                advanceTaxDeposited += this.advanceTaxModels[j].amount;
-                            if (advanceTaxDeposited > 0 && advanceTaxDeposited < tax) {
-                                let diffDate: number;
-                                diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
-                                let days = Math.ceil(diffDate / (1000 * 3600 * 24));
-                                if (days > 0) {
-                                    let months = Math.ceil(days / (365.25 / 12));
-                                    let balanceAdvanceTax = (tax - advanceTaxDeposited) - (tax - advanceTaxDeposited) % 100;
-                                    this.taxComputationModel.interest234C += ((months * 1) * balanceAdvanceTax) / 100;
-                                }
+            if ((taxAfterTDS > this._configuration.taxLiability) || partOfTax > this.deductionModel.advanceTax) {
+                taxAfterTDS = taxAfterTDS - taxAfterTDS % 100;
+                this.taxComputationModel.interest234B = ((months * 1) * taxAfterTDS) / 100;
+            }
+        }
+        //section 234C
+        //https://cleartax.in/s/interest-imposed-by-income-tax-department-under-section-234c
+        if (this.taxComputationModel.balanceTaxAfterRelief > this._configuration.taxLiability) {
+            let mntArray = [3, 6, 9, 12];
+            let taxPercentageArr = [15, 45, 75, 100];
+            let quarterLastDate ;
+            for (let i = 0; i < mntArray.length; i++) {
+                let fDate = new Date(filingDt.getFullYear() - 1, 0, 15);
+                fDate.setMonth(mntArray[i] - 1);
+                let lDate = new Date(filingDt.getFullYear() - 1, 0, 15);
+                lDate.setMonth(mntArray[i] + 2);
+                if(lDate >= filingDt)
+                    break;
+                let tax =this.taxComputationModel.balanceTaxAfterRelief- this.taxComputationModel.balanceTaxAfterRelief % 100;
+                tax = tax * taxPercentageArr[i] / 100;
+                if (this.advanceTaxModels !== undefined && this.advanceTaxModels.length > 0) {
+                    for (let j = 0; j < this.advanceTaxModels.length; j++) {
+                        let advanceTaxDeposited = 0;
+                        let d = new Date(this.advanceTaxModels[j].transactionDate);
+                        if (d >= fDate && d <= lDate)
+                            advanceTaxDeposited += this.advanceTaxModels[j].amount;
+                        if (advanceTaxDeposited > 0 && advanceTaxDeposited < tax) {
+                            let diffDate: number;
+                            diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
+                            let days = Math.ceil(diffDate / (1000 * 3600 * 24));
+                            if (days > 0) {
+                                let months = Math.ceil(days / (365.25 / 12));
+                                let balanceAdvanceTax = (tax - advanceTaxDeposited) - (tax - advanceTaxDeposited) % 100;
+                                this.taxComputationModel.interest234C += ((months * 1) * balanceAdvanceTax) / 100;
                             }
                         }
                     }
                 }
+                else {
+                    let months = Math.ceil(days / (365.25 / 12));                    
+                    this.taxComputationModel.interest234C += ((months * 1) * tax) / 100;
+                }
             }
         }
+
+        // if (filingDt > dueDt) {
+        //     let diffDate: number;
+        //     diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
+        //     let days = Math.ceil(diffDate / (1000 * 3600 * 24));
+
+        //     if (days > 0) {
+        //         let months = Math.ceil(days / (365.25 / 12));
+        //         let amtTax234 = this.taxComputationModel.balanceTaxAfterRelief - (this.taxComputationModel.balanceTaxAfterRelief % 100);
+        //         this.taxComputationModel.interest234A = ((months * 1) * amtTax234) / 100;
+
+        //         //Section 234B
+        //         // Your tax liability after reducing TDS for the financial year is more than Rs 10,000 and you did not pay any advance tax.
+        //         // OR
+        //         // You paid advance tax but advance tax paid is less than 90% of ‘assessed tax’In any one of the cases, interest under section 234B shall be applicable.Interest is calculated @ 1% on Assessed Tax less Advance Tax.Part of a month is rounded off to a full month.
+        //         let taxAfterTDS = this.taxComputationModel.balanceTaxAfterRelief - this.deductionModel.advanceTax;
+        //         let partOfTax = (this.taxComputationModel.balanceTaxAfterRelief * 90 / 100);
+
+        //         if ((taxAfterTDS > this._configuration.taxLiability) || partOfTax > this.deductionModel.advanceTax) {
+        //             taxAfterTDS = taxAfterTDS - taxAfterTDS % 100;
+        //             this.taxComputationModel.interest234B = ((months * 1) * taxAfterTDS) / 100;
+        //         }
+        //         //section 234C
+        //         //https://cleartax.in/s/interest-imposed-by-income-tax-department-under-section-234c
+        //         if (dueDt.getFullYear() == filingDt.getFullYear() && taxAfterTDS > this._configuration.taxLiability) {
+        //             let mntArray = [3, 6, 9, 12];
+        //             let taxPercentageArr = [15, 45, 75, 100];
+
+        //             for (let i = 0; i < mntArray.length; i++) {
+        //                 let fDate = new Date(filingDt.getFullYear() - 1, 0, 15);
+        //                 fDate.setMonth(mntArray[i] - 1);
+        //                 let lDate = new Date(filingDt.getFullYear() - 1, 0, 15);
+        //                 lDate.setMonth(mntArray[i] + 2);
+        //                 let tax = this.taxComputationModel.balanceTaxAfterRelief * taxPercentageArr[i] / 100;
+        //                 for (let j = 0; j < this.advanceTaxModels.length; j++) {
+        //                     let advanceTaxDeposited = 0;
+        //                     let d = new Date(this.advanceTaxModels[j].transactionDate);
+        //                     if (d >= fDate && d <= lDate)
+        //                         advanceTaxDeposited += this.advanceTaxModels[j].amount;
+        //                     if (advanceTaxDeposited > 0 && advanceTaxDeposited < tax) {
+        //                         let diffDate: number;
+        //                         diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
+        //                         let days = Math.ceil(diffDate / (1000 * 3600 * 24));
+        //                         if (days > 0) {
+        //                             let months = Math.ceil(days / (365.25 / 12));
+        //                             let balanceAdvanceTax = (tax - advanceTaxDeposited) - (tax - advanceTaxDeposited) % 100;
+        //                             this.taxComputationModel.interest234C += ((months * 1) * balanceAdvanceTax) / 100;
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         //Section 234F
         //(a)five thousand rupees, if the return is furnished on or before the 31st day of December of the assessment year;
         //(b)ten thousand rupees in any other case:
         //https://www.hrblock.in/guides/section-234f-notice/
-        if(this.grossTotalIncome>this._configuration.sec234FTotalIncomeLimit) {
+        if (this.grossTotalIncome > this._configuration.sec234FTotalIncomeLimit) {
             let currntDate = new Date();
-            let strtDate = new Date(currntDate.getFullYear(),7,1); //1 august
-            let endDate = new Date(currntDate.getFullYear(),11,31); //31 december
-            if(strtDate<=filingDt && filingDt<=endDate)
-                this.taxComputationModel.feeUnder234F=5000;
-            else 
-                this.taxComputationModel.feeUnder234F=10000;
+            let strtDate = new Date(currntDate.getFullYear(), 7, 1); //1 august
+            let endDate = new Date(currntDate.getFullYear(), 11, 31); //31 december
+            if (strtDate <= filingDt && filingDt <= endDate)
+                this.taxComputationModel.feeUnder234F = 5000;
+            else if (filingDt > endDate)
+                this.taxComputationModel.feeUnder234F = 10000;
         }
         else {
-            this.taxComputationModel.feeUnder234F=1000;
-        } 
+            this.taxComputationModel.feeUnder234F = 1000;
+        }
 
         //Calculate interest rate 234 end
-        console.log(this.taxComputationModel.interest234A);
-        console.log(this.taxComputationModel.interest234B);
-        console.log(this.taxComputationModel.interest234C);
-        console.log(this.taxComputationModel.feeUnder234F);
+        console.log("tax:-" + this.taxComputationModel.balanceTaxAfterRelief);
+        console.log("234A " + this.taxComputationModel.interest234A);
+        console.log("234B " + this.taxComputationModel.interest234B);
+        console.log("234C " + this.taxComputationModel.interest234C);
+        console.log("234F " + this.taxComputationModel.feeUnder234F);
+        alert("234A " + this.taxComputationModel.interest234A + " 234B " + this.taxComputationModel.interest234B + " 234C" + this.taxComputationModel.interest234C);
         //Calculate interest rate 234 end
 
 
