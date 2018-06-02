@@ -9,7 +9,7 @@ import {SharedXMLService} from '../../shared/sharedXMLService';
 declare var $: any;
 
 @Component({
-    selector: 'tax-deducted',
+    selector: 'tax-deducted-collected',
     templateUrl: './tax-deducted-collected.component.html'
 })
 
@@ -32,7 +32,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
 
     public taxCollectedModels = [];
     public newTaxCollectedModel;
-
+    
     constructor(private _configuration: Configuration,private _sharedXMLService :SharedXMLService) { }
 
     myOptions: INgxMyDpOptions = {
@@ -40,8 +40,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
     };
 
     @Input()
-    set taxDeducted(taxDeductedModels:TaxDeductedSalaryModel[]) {        
-        //this.newTaxDeductedSalaryModel = new TaxDeductedSalaryModel("", "", "", 0, 0);   
+    set taxDeducted(taxDeductedModels:TaxDeductedSalaryModel[]) {               
         if(taxDeductedModels!=undefined) {
             for(let i=0;i<taxDeductedModels.length;i++)
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);

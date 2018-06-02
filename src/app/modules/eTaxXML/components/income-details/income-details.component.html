@@ -152,7 +152,7 @@
             </div>
         <div id="deductionCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="deductionHeading">
             <div class="panel-body">
-                <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>                
+                <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" [advanceTaxAlreadyPaid]="advanceTaxAlreadyPaid" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>                
             </div>
         </div>
     </div>

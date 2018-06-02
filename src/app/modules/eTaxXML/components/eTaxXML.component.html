@@ -59,10 +59,10 @@
                             <personal-info [personalInfoData]="personalInfoData"></personal-info>
                         </div>
                         <div id="incomeDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
-                            <income-details></income-details>
+                            <income-details  [advanceTaxPaid]="advanceTaxPaidModels"></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
-                            <tax-deducted [taxDeducted]="taxDeducted"></tax-deducted>
+                            <tax-deducted-collected [taxDeducted]="taxDeducted"></tax-deducted-collected>
                         </div>
                         <div id="taxPaidVerification" class="tab-pane fade " style="padding: 0 5px 0 5px">
                             <tax-paid-verification></tax-paid-verification>

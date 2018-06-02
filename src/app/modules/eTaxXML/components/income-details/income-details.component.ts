@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
 
@@ -13,7 +13,12 @@ export class IncomeDetailsComponent implements OnInit {
    
     public incomeDetailsModel: IncomeDetailsModel;
     constructor(public _configuration: Configuration) { }
-
+    public advanceTaxAlreadyPaid;
+    @Input()
+    set advanceTaxPaid(advanceTaxModel : any[]) {             
+        this.advanceTaxAlreadyPaid = advanceTaxModel;
+    }
+    
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
         $('.panel-collapse').on('show.bs.collapse', function () {           

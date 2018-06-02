@@ -29,7 +29,21 @@ export class DeductionsComponent implements OnInit {
     public incomeTaxModel: IncomeTaxModel;
     public deductionModel: DeductionModel;
     @Input() grossTotalIncome: number;
+
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
+
+    @Input()
+    set advanceTaxAlreadyPaid(taxModel: any[]) {
+        
+        if (this.deductionModel === undefined)
+            this.deductionModel = new DeductionModel();
+        if (taxModel !== undefined) {
+            for (let i = 0; i < taxModel.length; i++) {
+                this.deductionModel.advanceTax += taxModel[i].amount;
+            }
+        }
+
+    }
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
@@ -61,7 +75,8 @@ export class DeductionsComponent implements OnInit {
         this.incomeTaxModel = new IncomeTaxModel();
         this.incomeTaxModel.userTaxModel = [];
         this.incomeTaxModel.systemTaxModel = [];
-        this.deductionModel = new DeductionModel();
+        if (this.deductionModel == undefined)
+            this.deductionModel = new DeductionModel();
 
     }
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
@@ -180,20 +195,20 @@ export class DeductionsComponent implements OnInit {
         let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
 
-        let totalTax=0;
-        this.taxComputationModel.cessTax=0;
+        let totalTax = 0;
+        this.taxComputationModel.cessTax = 0;
         for (let result of slabResults) {
             totalTax += result.tax;
-            this.taxComputationModel.cessTax+=result.cessTax;
+            this.taxComputationModel.cessTax += result.cessTax;
         }
-         
+
         //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
         //referece:- https://cleartax.in/s/income-tax-rebate-us-87a
         if (totalTax <= slabData.rebateAmount)
             this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
-        else 
-            this.taxComputationModel.taxPayableAfterRebate=totalTax;
-        
+        else
+            this.taxComputationModel.taxPayableAfterRebate = totalTax;
+
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
 
@@ -201,16 +216,45 @@ export class DeductionsComponent implements OnInit {
         //Calculate interest rate 234 start
         let dueDt = this.deductionModel.dueDate["jsdate"];
         let filingDt = this.deductionModel.filingDate["jsdate"];
-        if (dueDt > filingDt)
-            this.taxComputationModel.interest234A = 0;
-        else {
+
+        if (filingDt > dueDt) {
             let diffDate: number;
             diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
             let days = Math.ceil(diffDate / (1000 * 3600 * 24));
-            if(days>0) {
-                let months = Math.ceil(days /(365.25 / 12));
+
+            if (days > 0) {
+                let months = Math.ceil(days / (365.25 / 12));
                 let amtTax234 = this.taxComputationModel.balanceTaxAfterRelief - (this.taxComputationModel.balanceTaxAfterRelief % 100);
-                this.taxComputationModel.interest234A =  ((months * 1) * amtTax234) / 100;
+                this.taxComputationModel.interest234A = ((months * 1) * amtTax234) / 100;
+
+                //Section 234B
+                // Your tax liability after reducing TDS for the financial year is more than Rs 10,000 and you did not pay any advance tax.
+                // OR
+                // You paid advance tax but advance tax paid is less than 90% of ‘assessed tax’In any one of the cases, interest under section 234B shall be applicable.Interest is calculated @ 1% on Assessed Tax less Advance Tax.Part of a month is rounded off to a full month.
+                let taxAfterTDS = this.taxComputationModel.balanceTaxAfterRelief - this.deductionModel.advanceTax;
+                let partOfTax = (this.taxComputationModel.balanceTaxAfterRelief * 90 / 100);
+
+                if ((taxAfterTDS > this._configuration.taxLiability) || partOfTax > this.deductionModel.advanceTax) {
+                    taxAfterTDS = taxAfterTDS - taxAfterTDS % 100;
+                    this.taxComputationModel.interest234B = ((months * 1) * taxAfterTDS) / 100;
+                }
+                //section 234C
+                //https://cleartax.in/s/interest-imposed-by-income-tax-department-under-section-234c
+                if (dueDt.getFullYear() == filingDt.getFullYear() && taxAfterTDS > this._configuration.taxLiability) {
+                    let taxPayablePerMonth = this.taxComputationModel.balanceTaxAfterRelief / 12;
+                    let sec234CStartDate = new Date(filingDt.getFullYear(), 2, 15);
+                    let firstTaxDate = new Date(filingDt.getFullYear(), sec234CStartDate.getMonth() + 3, 15);
+                    let firstTax = 0, secondTax = 0, thirdTax = 0, fourthTax = 0;
+
+                    // if(filingDt>firstTaxDate) 
+                    //     firstTax=taxPayablePerMonth
+
+
+                }
+                //(a)five thousand rupees, if the return is furnished on or before the 31st day of December of the assessment year;
+                //(b)ten thousand rupees in any other case:
+
+
             }
 
         }

@@ -84,8 +84,9 @@ export class Configuration {
 
     public annualValuePercentage: number = 30;
     public allowedHousePropertyLoss: number = 200000;
-    public dueDateForFiling: string = "31/07/" + new Date().getFullYear(); //dd/mm//yyyy format
-    public section234BEndDate: string = "31/03/" + new Date().getFullYear();
+    // public dueDateForFiling: string = "31/07/" + new Date().getFullYear(); //dd/mm//yyyy format
+    // public section234BEndDate: string = "31/03/" + new Date().getFullYear();
+    public taxLiability =10000;
 
     //Need to get list of deductions from server for assessment year
     //income tax calculation input starts here
