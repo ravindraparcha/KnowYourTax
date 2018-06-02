@@ -71,9 +71,7 @@ export class eTaxXMLComponent {//implements OnInit {
 
                 }
             });
-        }
-        debugger;
-        //console.log($this);
+        }       
     }
 
     private getPersonalInformationModel(arr: any[]): PersonalInfoModel {
