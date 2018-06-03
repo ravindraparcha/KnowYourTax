@@ -70,6 +70,7 @@
         <!-- Check the correct way to iterate your form array -->
         <div *ngFor="let itemrow of sectionForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
             <div class="form-group margin-top15">
+                <label class="control-label col-sm-2"></label>
                 <label class="control-label col-sm-6" style="text-align:left">{{itemrow.get('deductionText').value}}</label>
                 <div class="col-sm-2">
                     <div class="input-group">

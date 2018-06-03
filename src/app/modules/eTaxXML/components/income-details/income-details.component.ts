@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
+import {DeductionsComponent} from '../deduction/deductions.components';
 
 declare var $: any;
 
@@ -14,6 +15,8 @@ export class IncomeDetailsComponent implements OnInit {
     public incomeDetailsModel: IncomeDetailsModel;
     constructor(public _configuration: Configuration) { }
     public advanceTaxAlreadyPaid;
+    @ViewChild(DeductionsComponent) _deductionsComponent: DeductionsComponent;
+    
     @Input()
     set advanceTaxPaid(advanceTaxModel : any[]) {             
         this.advanceTaxAlreadyPaid = advanceTaxModel;

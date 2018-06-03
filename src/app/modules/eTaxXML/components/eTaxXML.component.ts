@@ -137,6 +137,7 @@ export class eTaxXMLComponent {//implements OnInit {
         return -1;
     }
     generateXML() {
+        debugger;
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.createSectionArray('incomeDetails', this._incomeDetailsComponent.incomeDetailsModel);
