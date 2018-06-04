@@ -194,24 +194,24 @@ export class XmlGeneratorService {
 
         this.xmlWriter.endElement();
         let incomeTaxModel = incomeDetail.incomeTaxModel;
-        this.addUserDeductionNode(incomeTaxModel.userTaxModel, incomeTaxModel.totalUsrDeductions);
-        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel, incomeTaxModel.totalSysDeductions);
+        this.addUserDeductionNode(incomeTaxModel.userTaxModel);
+        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel);
         this.addTaxComputationNode(incomeTaxModel.taxComputationModel);
     }
 
-    private addUserDeductionNode(userDeductions, totalDeductions) {
+    private addUserDeductionNode(userDeductions) {
         this.xmlWriter.startElement("ITRForm:UsrDeductUndChapVIA");
-        this.addDeductionNode(userDeductions, totalDeductions,true);
+        this.addDeductionNode(userDeductions,true);
         this.xmlWriter.endElement();
     }
 
-    private addSysCalculatedDeductionNode(sysDeductions, totalDeductions) {
+    private addSysCalculatedDeductionNode(sysDeductions) {
         this.xmlWriter.startElement("ITRForm:DeductUndChapVIA");
-        this.addDeductionNode(sysDeductions, totalDeductions,false);
+        this.addDeductionNode(sysDeductions,false);
         this.xmlWriter.endElement();
     }
 
-    private addDeductionNode(deductions, totalDeductions, isUsrNode: boolean) {
+    private addDeductionNode(deductions, isUsrNode: boolean) {
         let total: number = 0;
         deductions.forEach(element => {
             total += element.amount;
