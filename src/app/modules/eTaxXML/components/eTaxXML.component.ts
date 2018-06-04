@@ -4,6 +4,7 @@ import { PersonalInfoModel } from '../models/personal-info.model';
 import {AdvanceTaxModel} from '../models/deduction.model';
 import { Configuration } from '../../../shared/constants';
 import { TaxDeductedSalaryModel } from '../models/tax-deducted-collected.model';
+import {IncomeData} from '../models/income-details.model';
 import { XmlGeneratorService } from '../services/xml-generator-service';
 
 import { PersonalInfoComponent } from '../components/personal-info/personal-info.component';
@@ -37,6 +38,7 @@ export class eTaxXMLComponent {//implements OnInit {
     private parseJson;
     private xmlDataArray = [];   
     public advanceTaxPaidModels;
+    public incomeData : IncomeData;
     
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration, private _xmlGeneratorService: XmlGeneratorService) { }
 
@@ -129,8 +131,7 @@ export class eTaxXMLComponent {//implements OnInit {
         return taxDeductedSalaryModels;
     }
     private getMonthFromString(mon) {
-
-        var d = Date.parse(mon + "1, 1900");
+        let d = Date.parse(mon + "1, 1900");
         if (!isNaN(d)) {
             return new Date(d).getMonth();
         }
@@ -140,7 +141,10 @@ export class eTaxXMLComponent {//implements OnInit {
         debugger;
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
-        this.createSectionArray('incomeDetails', this._incomeDetailsComponent.incomeDetailsModel);
+        this.incomeData = new IncomeData();
+        this.incomeData.incomeDetailsModel=this._incomeDetailsComponent.incomeDetailsModel;
+        this.incomeData.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.incomeTaxModel;
+        this.createSectionArray('incomeDetails', this.incomeData);
         this.createSectionArray('taxPaid', this._taxPaidVerificationComponent.taxPaidModel);
         this.createSectionArray('taxCollectedDeducted', this._taxDeductedCollectedComponent.taxCollectedDeductedModel);
         this.createSectionArray('verification', this._taxPaidVerificationComponent.taxPaidModel.verificationModel);

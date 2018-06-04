@@ -32,6 +32,10 @@ export class IncomeDetailsModel
     public totTaxPlusIntrstPay:number;
     public netTax : number;
     public relief :  number;
-    public totalDeductionSum : number=0;
+    public totalDeductionSum : number=0;    
+}
 
+export class IncomeData {
+    public incomeDetailsModel = {};
+    public incomeTaxModel ={};
 }

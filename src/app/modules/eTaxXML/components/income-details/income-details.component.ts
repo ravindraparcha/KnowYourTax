@@ -15,14 +15,14 @@ export class IncomeDetailsComponent implements OnInit {
     public incomeDetailsModel: IncomeDetailsModel;
     constructor(public _configuration: Configuration) { }
     public advanceTaxAlreadyPaid;
-    @ViewChild(DeductionsComponent) _deductionsComponent: DeductionsComponent;
+    @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
     
     @Input()
     set advanceTaxPaid(advanceTaxModel : any[]) {             
         this.advanceTaxAlreadyPaid = advanceTaxModel;
     }
     
-    ngOnInit() {
+    ngOnInit() {       
         this.incomeDetailsModel = new IncomeDetailsModel();
         $('.panel-collapse').on('show.bs.collapse', function () {           
             $(this).siblings('.panel-heading-custom').addClass('active');
@@ -30,8 +30,7 @@ export class IncomeDetailsComponent implements OnInit {
         
           $('.panel-collapse').on('hide.bs.collapse', function () {             
             $(this).siblings('.panel-heading-custom').removeClass('active');
-          });
-        
+          });        
     }
 
     calculateSalaryPensionSum() {

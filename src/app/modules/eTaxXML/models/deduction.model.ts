@@ -27,6 +27,8 @@ export class SlabResult {
 export class IncomeTaxModel {
     public userTaxModel: TaxModel[];
     public systemTaxModel: TaxModel[];
+    public totalUsrDeductions: number= 0;
+    public totalSysDeductions : number =0;
     public taxComputationModel: TaxComputationModel;
 }
 
@@ -37,7 +39,7 @@ export class TaxModel {
 }
 
 export class TaxComputationModel {
-    public totalDeductions: number= 0;
+   
     public totalIncome: number= 0;
     public taxPayableOnTotalIncome: number= 0;
     public rebateAmt: number= 0;

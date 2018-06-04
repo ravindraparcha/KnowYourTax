@@ -35,7 +35,7 @@ export class XmlGeneratorService {
 
             else if (element.infoType === "verification")
                 this.addVerificationNode(element.data);
-                
+
             else if (element.infoType === "80g")
                 this.add80GNode(element.data);
 
@@ -161,7 +161,8 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
     }
 
-    private addIncomeDeductionNode(incomeDetails) {
+    private addIncomeDeductionNode(incomeDetail) {
+        let incomeDetails = incomeDetail.incomeDetailsModel;
         this.xmlWriter.startElement("ITRForm:ITR1_IncomeDeductions");
 
         if (incomeDetails.salary !== undefined && incomeDetails.salary !== null)
@@ -192,71 +193,89 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:GrossTotIncome", incomeDetails.grossTotalIncome);
 
         this.xmlWriter.endElement();
-
+        let incomeTaxModel = incomeDetail.incomeTaxModel;
+        this.addUserDeductionNode(incomeTaxModel.userTaxModel, incomeTaxModel.totalUsrDeductions);
+        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel, incomeTaxModel.totalSysDeductions);
+        this.addTaxComputationNode(incomeTaxModel.taxComputationModel);
     }
 
-    private addUserDeductionNode(userDeductions) {
+    private addUserDeductionNode(userDeductions, totalDeductions) {
         this.xmlWriter.startElement("ITRForm:UsrDeductUndChapVIA");
-        this.addDeductionNode(userDeductions);
+        this.addDeductionNode(userDeductions, totalDeductions,true);
         this.xmlWriter.endElement();
     }
 
-    private addSysCalculatedDeductionNode(sysDeductions) {
+    private addSysCalculatedDeductionNode(sysDeductions, totalDeductions) {
         this.xmlWriter.startElement("ITRForm:DeductUndChapVIA");
-        this.addDeductionNode(sysDeductions);
+        this.addDeductionNode(sysDeductions, totalDeductions,false);
         this.xmlWriter.endElement();
     }
 
-    private addDeductionNode(deductions) {
-        if (deductions.section80C !== undefined && deductions.section80C !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80C", deductions.section80C);
-        if (deductions.section80CCC !== undefined && deductions.section80CCC !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80CCC", deductions.section80CCC);
-        if (deductions.section80CCDEmployeeOrSE !== undefined && deductions.section80CCDEmployeeOrSE !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80CCDEmployeeOrSE", deductions.section80CCDEmployeeOrSE);
-        if (deductions.section80CCD1B !== undefined && deductions.section80CCD1B !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80CCD1B", deductions.section80CCD1B);
-        if (deductions.section80CCDEmployer !== undefined && deductions.section80CCDEmployer !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80CCDEmployer", deductions.section80CCDEmployer);
-        if (deductions.section80DUsrType !== undefined && deductions.section80DUsrType !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80DUsrType", deductions.section80DUsrType);
-        if (deductions.section80D !== undefined && deductions.section80D !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80D", deductions.section80D);
-        if (deductions.section80DDUsrType !== undefined && deductions.section80DDUsrType !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80DDUsrType", deductions.section80DDUsrType);
-        if (deductions.section80DD !== undefined && deductions.section80DD !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80DD", deductions.section80DD);
-        if (deductions.section80DDBUsrType !== undefined && deductions.section80DDBUsrType !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80DDBUsrType", deductions.section80DDBUsrType);
-        if (deductions.section80DDB !== undefined && deductions.section80DDB !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80DDB", deductions.section80DDB);
-        if (deductions.section80E !== undefined && deductions.section80E !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80E", deductions.section80E);
-        if (deductions.section80EE !== undefined && deductions.section80EE !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80EE", deductions.section80EE);
-        if (deductions.section80G !== undefined && deductions.section80G !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80G", deductions.section80G);
-        if (deductions.section80GG !== undefined && deductions.section80GG !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80GG", deductions.section80GG);
-        if (deductions.section80GGA !== undefined && deductions.section80GGA !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80GGA", deductions.section80GGA);
-        if (deductions.section80GGC !== undefined && deductions.section80GGC !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80GGC", deductions.section80GGC);
-        if (deductions.section80UUsrType !== undefined && deductions.section80UUsrType !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80UUsrType", deductions.section80UUsrType);
-        if (deductions.section80U !== undefined && deductions.section80U !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80U", deductions.section80U);
-        if (deductions.section80RRB !== undefined && deductions.section80RRB !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80RRB", deductions.section80RRB);
-        if (deductions.section80QQB !== undefined && deductions.section80QQB !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80QQB", deductions.section80QQB);
-        if (deductions.section80CCG !== undefined && deductions.section80CCG !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80CCG", deductions.section80CCG);
-        if (deductions.section80TTA !== undefined && deductions.section80TTA !== null)
-            this.xmlWriter.writeElement("ITRForm:Section80TTA", deductions.section80TTA);
-        if (deductions.totalChapVIADeductions !== undefined && deductions.totalChapVIADeductions !== null)
-            this.xmlWriter.writeElement("ITRForm:TotalChapVIADeductions", deductions.totalChapVIADeductions);
+    private addDeductionNode(deductions, totalDeductions, isUsrNode: boolean) {
+        let total: number = 0;
+        deductions.forEach(element => {
+            total += element.amount;
+            if (element.name == "80C")
+                this.xmlWriter.writeElement("ITRForm:Section80C", element.amount);
+            else if (element.name == "80CCC")
+                this.xmlWriter.writeElement("ITRForm:Section80CCC", element.amount);
+            else if (element.name == "80CCD1")
+                this.xmlWriter.writeElement("ITRForm:Section80CCDEmployeeOrSE", element.amount);
+            else if (element.name == "80C")
+                this.xmlWriter.writeElement("ITRForm:Section80CCD1B", element.amount);
+            else if (element.name == "80CCD2")
+                this.xmlWriter.writeElement("ITRForm:Section80CCDEmployer", element.amount);
+            else if (element.name == "80D") {
+                if (isUsrNode)
+                    this.xmlWriter.writeElement("ITRForm:Section80DUsrType", element.option);
+                this.xmlWriter.writeElement("ITRForm:Section80D", element.amount);
+            }
 
+            else if (element.name == "80DD") {
+                if (isUsrNode)
+                    this.xmlWriter.writeElement("ITRForm:Section80DDUsrType", element.option);
+                this.xmlWriter.writeElement("ITRForm:Section80DD", element.amount);
+
+            }
+            else if (element.name == "80DDB") {
+                if (isUsrNode)
+                    this.xmlWriter.writeElement("ITRForm:ITRForm:Section80DDBUsrType", element.option);
+                this.xmlWriter.writeElement("ITRForm:Section80DDB", element.amount);
+
+            }
+            else if (element.name == "80E")
+                this.xmlWriter.writeElement("ITRForm:Section80E", element.amount);
+            else if (element.name == "80EE")
+                this.xmlWriter.writeElement("ITRForm:Section80EE", element.amount);
+            else if (element.name == "80G")
+                this.xmlWriter.writeElement("ITRForm:Section80G", element.amount);
+
+            else if (element.name == "80GG")
+                this.xmlWriter.writeElement("ITRForm:Section80GG", element.amount);
+            else if (element.name == "80GGA")
+                this.xmlWriter.writeElement("ITRForm:Section80GGA", element.amount);
+            else if (element.name == "80GGC")
+                this.xmlWriter.writeElement("ITRForm:Section80GGC", element.amount);
+
+
+            else if (element.name == "80U") {
+                if (isUsrNode)
+                    this.xmlWriter.writeElement("ITRForm:Section80UUsrType", element.option);
+                this.xmlWriter.writeElement("ITRForm:Section80U", element.amount);
+            }
+
+            else if (element.name == "80RRB")
+                this.xmlWriter.writeElement("ITRForm:Section80RRB", element.amount);
+
+            else if (element.name == "80QQB")
+                this.xmlWriter.writeElement("ITRForm:Section80QQB", element.amount);
+
+            else if (element.name == "80CCG")
+                this.xmlWriter.writeElement("ITRForm:Section80CCG", element.amount);
+            else if (element.name == "80TTA")
+                this.xmlWriter.writeElement("ITRForm:Section80TTA", element.amount);
+        });
+        this.xmlWriter.writeElement("ITRForm:TotalChapVIADeductions", total);   
 
         //         <ITRForm:Section80C>50000</ITRForm:Section80C>
         // <ITRForm:Section80CCC>1000</ITRForm:Section80CCC>
@@ -558,9 +577,9 @@ export class XmlGeneratorService {
             section80g.donation50DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation100DeductionWithQualifyingLimit.length == 0 &&
             section80g.donation50DeductionWithQualifyingLimit.length == 0
-        ) {return ;}
-        this.donationAmt=0;
-        this.eligibleAmt=0;
+        ) { return; }
+        this.donationAmt = 0;
+        this.eligibleAmt = 0;
         if (section80g.donation100DeductionWithoutQualifyingLimit.length > 0 ||
             section80g.donation50DeductionWithoutQualifyingLimit.length > 0 ||
             section80g.donation100DeductionWithQualifyingLimit.length > 0 ||
