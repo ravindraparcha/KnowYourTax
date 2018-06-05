@@ -26,9 +26,7 @@ export class SlabResult {
 
 export class IncomeTaxModel {
     public userTaxModel: TaxModel[];
-    public systemTaxModel: TaxModel[];
-    public totalUsrDeductions: number= 0;
-    public totalSysDeductions : number =0;
+    public systemTaxModel: TaxModel[];    
     public taxComputationModel: TaxComputationModel;
 }
 

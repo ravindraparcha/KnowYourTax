@@ -26,6 +26,8 @@ export class DeductionsComponent implements OnInit {
     public incomeTaxModel: IncomeTaxModel;
     public deductionModel: DeductionModel;
     public advanceTaxModels: AdvanceTaxModel[];
+    public usrDeductionSum: number;
+    public sysDeductionSum: number;
     @Input() grossTotalIncome: number;
 
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
@@ -160,13 +162,14 @@ export class DeductionsComponent implements OnInit {
         console.log(deductionList);
         this.incomeTaxModel.userTaxModel = [];
         this.incomeTaxModel.systemTaxModel = [];
-        let usrDeductions:number=0;
-        let sysDeductions:number=0;
+
+        this.usrDeductionSum = 0;
+        this.sysDeductionSum = 0;
         for (let deduction of deductionList) {
             this.incomeTaxModel.userTaxModel.push({ name: deduction.name, amount: deduction.enteredAmount, option: deduction.optionIndex });
             this.incomeTaxModel.systemTaxModel.push({ name: deduction.name, amount: deduction.limit, option: 0 });
-            usrDeductions+=deduction.enteredAmount;
-            sysDeductions+=deduction.limit;
+            this.usrDeductionSum += deduction.enteredAmount;
+            this.sysDeductionSum += deduction.limit;
         }
         let deductionApplicable = 0;
         for (let deduction of deductionList) {
@@ -215,8 +218,7 @@ export class DeductionsComponent implements OnInit {
         else
             this.taxComputationModel.taxPayableAfterRebate = totalTax;
 
-        this.incomeTaxModel.totalUsrDeductions = usrDeductions;
-        this.incomeTaxModel.totalSysDeductions = sysDeductions;
+
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
 
@@ -350,7 +352,7 @@ export class DeductionsComponent implements OnInit {
                 this.taxComputationModel.feeUnder234F = 1000;
             }
 
-        } 
+        }
         this.taxComputationModel.totalInterestPayable = this.taxComputationModel.interest234A + this.taxComputationModel.interest234B + this.taxComputationModel.interest234C + this.taxComputationModel.feeUnder234F;
         this.taxComputationModel.totalTaxFeeInterest = this.taxComputationModel.balanceTaxAfterRelief + this.taxComputationModel.totalInterestPayable;
 
@@ -491,41 +493,41 @@ export class DeductionsComponent implements OnInit {
             usrSections.push({ name: msData.name, limit: dSum, enteredAmount: enteredAmount, optionIndex: sectionOptionIndex, parent: msData.parent });
         }
 
-        for(let msDt of masterData) {
-            if(msDt.parent!=="")
-                this.updateSectionLimit(masterData,usrSections,msDt.parent);
+        for (let msDt of masterData) {
+            if (msDt.parent !== "")
+                this.updateSectionLimit(masterData, usrSections, msDt.parent);
         }
         //this.updateSectionLimit(masterData,usrSections,"80C");
-        
+
         return usrSections;
     }
 
-    private updateSectionLimit(masterData: any[],usrSections: any[], parentSectionName:string) {
+    private updateSectionLimit(masterData: any[], usrSections: any[], parentSectionName: string) {
         let balanceAmount = 0;
-		for (let msData of masterData) {
-			balanceAmount= msData.limit;
-			if(msData.name==parentSectionName) {
-                let parentAmount=0;
-				//finding entered value 
-				for(let usrSection of usrSections) {
-					if(usrSection.name==parentSectionName) { 
-						parentAmount=usrSection.enteredAmount;
-						balanceAmount = msData.limit - parentAmount;
-					}
-					if(usrSection.parent==parentSectionName) {
-						if(usrSection.enteredAmount>balanceAmount) {
-							usrSection.enteredAmount=balanceAmount;
-							usrSection.limit=balanceAmount;
-							balanceAmount=0;
-						}
-						else {
-							usrSection.limit= usrSection.enteredAmount;
-							balanceAmount = balanceAmount-usrSection.enteredAmount;												
-						}
-					}					
-				}
-			}
-		}
+        for (let msData of masterData) {
+            balanceAmount = msData.limit;
+            if (msData.name == parentSectionName) {
+                let parentAmount = 0;
+                //finding entered value 
+                for (let usrSection of usrSections) {
+                    if (usrSection.name == parentSectionName) {
+                        parentAmount = usrSection.enteredAmount;
+                        balanceAmount = msData.limit - parentAmount;
+                    }
+                    if (usrSection.parent == parentSectionName) {
+                        if (usrSection.enteredAmount > balanceAmount) {
+                            usrSection.enteredAmount = balanceAmount;
+                            usrSection.limit = balanceAmount;
+                            balanceAmount = 0;
+                        }
+                        else {
+                            usrSection.limit = usrSection.enteredAmount;
+                            balanceAmount = balanceAmount - usrSection.enteredAmount;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private calculateTaxPerSlab(netTotalIncome: number) {
@@ -614,6 +616,10 @@ export class DeductionsComponent implements OnInit {
         sections.forEach(element => {
             this.deductionList.push({ "name": element.name, "text": element.text });
         });
+    }
+
+    public showCalculation() {
+        $('#deductionModel').modal('show');
     }
 
 }

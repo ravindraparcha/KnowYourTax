@@ -304,3 +304,15 @@ th{
 .btn{
     border-radius:0;
 }
+
+.fixHeaderTable thead tr{
+    display:block;
+}
+.fixHeaderTable th,table td{
+    width:200px;
+}
+.fixHeaderTable  tbody{
+  display:block;
+  height:200px;
+  overflow:auto;
+}
