@@ -35,7 +35,7 @@
                                 />
                             </td>
                             <td>
-                                <input [(ngModel)]="taxDeductedSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedSalaryModel.taxDeducted}}"
+                                <input [(ngModel)]="taxDeductedSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedSalaryModel.taxDeducted}}" (change)="calculateTaxDeductedAmount()"
                                 />
                             </td>
                             <td>
@@ -112,7 +112,7 @@
                                         </select>
                             </td>
                             <td>
-                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.taxDeducted}}"
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.taxDeducted}}"  (change)="calculateTaxDeductedAmount()"
                                 />
                             </td>
                             <td>
@@ -198,7 +198,7 @@
                                         </select>
                             </td>
                             <td>
-                                <input [(ngModel)]="taxDeductedUnder26QCModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.taxDeducted}}"
+                                <input [(ngModel)]="taxDeductedUnder26QCModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.taxDeducted}}" (change)="calculateTaxDeductedAmount()"
                                 />
                             </td>
                             <td>

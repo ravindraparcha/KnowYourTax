@@ -16,10 +16,11 @@ import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service
 import {XmlGeneratorService} from '../eTaxXML/services/xml-generator-service';
 import {SharedXMLService} from '../eTaxXML/shared/sharedXMLService';
 import {TaxCalculatorService} from '../eTaxXML/services/tax-calculator.service';
+import {SharedTaxService} from './shared/sharedTaxService';
 
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
-    providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,TaxCalculatorService],
+    providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,TaxCalculatorService,SharedTaxService],
     declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent],
     exports : [eTaxXMLComponent]
 })

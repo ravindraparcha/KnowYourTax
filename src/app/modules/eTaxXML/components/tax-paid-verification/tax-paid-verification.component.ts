@@ -4,7 +4,8 @@ import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationMode
 import { Configuration } from '../../../../shared/constants';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import {SharedXMLService} from '../../shared/sharedXMLService';
-
+import { SharedTaxService } from '../../shared/sharedTaxService';
+import { Subscription } from 'rxjs/Rx';
 declare var $: any;
 @Component({
     selector: 'tax-paid-verification',
@@ -24,12 +25,13 @@ export class TaxPaidVerificationComponent implements OnInit {
     public accountDetailModel;
 
     public incomeNatureList = [];
+    private _subscription : Subscription;
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
     };
 
-    constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService) { }
+    constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService, private _sharedTaxService : SharedTaxService) { }
     ngOnInit() {
 
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -48,6 +50,11 @@ export class TaxPaidVerificationComponent implements OnInit {
         this.taxPaidModel.otherExemptionModels = [];
         this.taxPaidModel.otherAccountDetails = [];
         this.taxPaidModel.verificationModel=this.verificationModel;
+
+        debugger;
+        
+        this._subscription = this._sharedTaxService.getTDSAmount()
+        .subscribe(item => this.taxPaidModel.totalAdvanceTaxPaid=item);         
     }
     addNewOtherExemption() {
         this.newOtherExemptionModel = new OtherExemptionModel("", 0, "");

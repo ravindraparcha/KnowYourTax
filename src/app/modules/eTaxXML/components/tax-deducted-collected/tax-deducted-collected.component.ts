@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from "@angular/core";
 
-import {TaxCollectedDeductedModel,TaxDeductedSalaryModel,TaxDeductedOtherThanSalaryModel,TaxDeductedUnder26QCModel,AdvanceTaxSelfAssessmentTaxModel,TaxCollectedModel} from '../../models/tax-deducted-collected.model';
+import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
 
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { Configuration } from '../../../../shared/constants';
-import {SharedXMLService} from '../../shared/sharedXMLService';
+import { SharedXMLService } from '../../shared/sharedXMLService';
+import { SharedTaxService } from '../../shared/sharedTaxService';
 
 declare var $: any;
 
@@ -14,7 +15,7 @@ declare var $: any;
 })
 
 export class TaxDeductedCollectedComponent implements OnInit {
-    public taxCollectedDeductedModel : TaxCollectedDeductedModel;
+    public taxCollectedDeductedModel: TaxCollectedDeductedModel;
     public taxDeductedSalaryModels = [];
     public newTaxDeductedSalaryModel;
 
@@ -32,20 +33,20 @@ export class TaxDeductedCollectedComponent implements OnInit {
 
     public taxCollectedModels = [];
     public newTaxCollectedModel;
-    
-    constructor(private _configuration: Configuration,private _sharedXMLService :SharedXMLService) { }
+
+
+    constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService, private _sharedTaxService: SharedTaxService) { }
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
     };
 
     @Input()
-    set taxDeducted(taxDeductedModels:TaxDeductedSalaryModel[]) {               
-        if(taxDeductedModels!=undefined) {
-            for(let i=0;i<taxDeductedModels.length;i++)
+    set taxDeducted(taxDeductedModels: TaxDeductedSalaryModel[]) {
+        if (taxDeductedModels != undefined) {
+            for (let i = 0; i < taxDeductedModels.length; i++)
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
         }
-        
     }
     ngOnInit() {
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -60,11 +61,12 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.taxDeductionTenantYearList = [{ "key": previousYear, "value": previousYear }];
 
         this.taxCollectedDeductedModel = new TaxCollectedDeductedModel();
-        this.taxCollectedDeductedModel.taxCollectedModels=[];
-        this.taxCollectedDeductedModel.taxDeductedSalaryModels=[];
-        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels =[];
-        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels=[];
-        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels=[];
+        this.taxCollectedDeductedModel.taxCollectedModels = [];
+        this.taxCollectedDeductedModel.taxDeductedSalaryModels = [];
+        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = [];
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = [];
+        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = [];
+        //this._sharedTaxService.currentTotalAdvancetaxPaid.subscribe(tax=>this.taxPaidModel.totalAdvanceTaxPaid = this.taxPaidModel.totalAdvanceTaxPaid);
     }
     private getTaxCollectionDeductionYearList() {
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
@@ -85,12 +87,27 @@ export class TaxDeductedCollectedComponent implements OnInit {
     }
 
     addNewTaxDeductedSalary() {
+        debugger;
         this.newTaxDeductedSalaryModel = new TaxDeductedSalaryModel("", "", "", 0, 0);
         this.taxDeductedSalaryModels.push(this.newTaxDeductedSalaryModel);
-        this.taxCollectedDeductedModel.taxDeductedSalaryModels=this.taxDeductedSalaryModels;
+        this.taxCollectedDeductedModel.taxDeductedSalaryModels = this.taxDeductedSalaryModels;
+        this.calculateTaxDeductedAmount();
     }
     deleteTaxDeductedSalaryItem(index: number) {
-        this.deleteItemFromArray(this.taxDeductedSalaryModels, index)
+        debugger;
+        this.deleteItemFromArray(this.taxDeductedSalaryModels, index);
+        this.calculateTaxDeductedAmount();
+    }
+    private calculateTaxDeductedAmount() {
+        let tdsSum = 0;
+        for (let taxDeductedSalaryModel of this.taxCollectedDeductedModel.taxDeductedSalaryModels)
+            tdsSum += taxDeductedSalaryModel.taxDeducted;
+        for (let taxDeductedOtherThanSalaryModel of this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels)
+            tdsSum += taxDeductedOtherThanSalaryModel.taxDeducted;
+        for (let taxDeductedUnder26QCModel of this.taxCollectedDeductedModel.taxDeductedUnder26QCModels)
+            tdsSum += taxDeductedUnder26QCModel.taxDeducted;
+
+        this._sharedTaxService.changeTDSAmount(tdsSum);
     }
     onSubmit() {
         console.log(this.taxDeductedSalaryModels);
@@ -103,51 +120,68 @@ export class TaxDeductedCollectedComponent implements OnInit {
     addNewTaxDeductedOtherThanSalary() {
         this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)
         this.taxDeductedOtherThanSalaryModels.push(this.newTaxDeductedOtherThanSalaryModel);
-        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels=this.taxDeductedOtherThanSalaryModels;
+        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = this.taxDeductedOtherThanSalaryModels;
+        this.calculateTaxDeductedAmount();
     }
     deleteTaxDeductedOtherThanSalaryItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedOtherThanSalaryModels, index);
+        this.calculateTaxDeductedAmount();
     }
+     
 
     addNewTaxDeductedUnder26QC() {
         this.newTaxDeductedUnder26QCModel = new TaxDeductedUnder26QCModel("", "", 0, 0, 0);
         this.taxDeductedUnder26QCModels.push(this.newTaxDeductedUnder26QCModel);
-        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels=this.taxDeductedUnder26QCModels;
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;
+        this.calculateTaxDeductedAmount();
     }
     deleteTaxDeductedUnder26QCItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedUnder26QCModels, index);
+        this.calculateTaxDeductedAmount();
     }
-
+     
     addNewAdvanceTaxSelfAssessmentTax() {
         this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", 0, "");
         this.advanceTaxSelfAssessmentTaxModels.push(this.newAdvanceTaxSelfAssessmentTaxModel);
-        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels=this.advanceTaxSelfAssessmentTaxModels;
+        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = this.advanceTaxSelfAssessmentTaxModels;
     }
     deleteAdvanceTaxSelfAssessmentTaxItem(index: number) {
         this.deleteItemFromArray(this.advanceTaxSelfAssessmentTaxModels, index);
+    }
+    private calculateAdvanceTaxSelfAssessmentTax() {
+        let sum = 0;
+        for (let advanceTaxSelfAssessmentTaxModel of this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels)
+            sum += advanceTaxSelfAssessmentTaxModel.taxPaid;
+        this._sharedTaxService.changeTotalAdvanceTaxPaid(sum);
     }
 
     addNewTaxCollection() {
         this.newTaxCollectedModel = new TaxCollectedModel("", "", 0, 0);
         this.taxCollectedModels.push(this.newTaxCollectedModel);
-        this.taxCollectedDeductedModel.taxCollectedModels=this.taxCollectedModels;
+        this.taxCollectedDeductedModel.taxCollectedModels = this.taxCollectedModels;
     }
 
     deleteTaxCollectionItem(index: number) {
         this.deleteItemFromArray(this.taxCollectedModels, index);
     }
 
+    private calculateTaxCollection() {
+        let sum = 0;
+        for (let taxCollectedModel of this.taxCollectedDeductedModel.taxCollectedModels)
+            sum += taxCollectedModel.taxCollected;
+        this._sharedTaxService.changeTotalTCSClaimed(sum);
+    }
     deleteItemFromArray(itemArray: any[], index: number) {
         itemArray.splice(index, 1);
     }
     onDepositDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml="";
+            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = "";
         }
     }
 }
