@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, OnInit } from "@angular/core";
 import { Form26ASParserService } from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
-import {AdvanceTaxModel} from '../models/deduction.model';
+import {AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel} from '../models/deduction.model';
 import { Configuration } from '../../../shared/constants';
 import { TaxDeductedSalaryModel } from '../models/tax-deducted-collected.model';
 import {IncomeData} from '../models/income-details.model';
@@ -20,7 +20,7 @@ declare var $: any;
     selector: 'eTaxXML',
     templateUrl: './eTaxXML.component.html'
 })
-export class eTaxXMLComponent {//implements OnInit {
+export class eTaxXMLComponent implements OnInit {
     cars = [
         { "id": 1, "name": "Mahindra", "disabled": true },
         { "id": 2, "name": "Mahindra", "disabled": false }
@@ -39,12 +39,16 @@ export class eTaxXMLComponent {//implements OnInit {
     private xmlDataArray = [];   
     public advanceTaxPaidModels;
     public incomeData : IncomeData;
-    
+    public usrTaxModel;
+    public incomeTaxModel : IncomeTaxModel;
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration, private _xmlGeneratorService: XmlGeneratorService) { }
 
-    // ngOnInit() {
-    //     this.advanceTaxPaid=[];
-    // }
+    ngOnInit() {
+        this.incomeTaxModel = new IncomeTaxModel();
+        this.incomeTaxModel.userTaxModel = [];
+        this.incomeTaxModel.systemTaxModel = [];
+        this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
+    }
 
     onFileSelection(event: EventTarget) {
         let $this = this;
@@ -138,7 +142,7 @@ export class eTaxXMLComponent {//implements OnInit {
         return -1;
     }
     generateXML() {
-        debugger;
+         
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();
@@ -153,6 +157,12 @@ export class eTaxXMLComponent {//implements OnInit {
     }
     private createSectionArray(infoType: string, data: any) {
         this.xmlDataArray.push({ "infoType": infoType, data: data });
+    }
+    calculateTax() {
+        this.incomeTaxModel.usrDeductionSum=0;
+        this.incomeTaxModel.sysDeductionSum=0;
+        this.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();   
+        $('#deductionModel').modal('show');
     }
 
 }

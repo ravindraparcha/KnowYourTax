@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
 import {DeductionsComponent} from '../deduction/deductions.components';
@@ -16,7 +16,7 @@ export class IncomeDetailsComponent implements OnInit {
     constructor(public _configuration: Configuration) { }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
-    
+    //@Output() outputCalculateTax : EventEmitter<any> = new EventEmitter<any>();
     @Input()
     set advanceTaxPaid(advanceTaxModel : any[]) {             
         this.advanceTaxAlreadyPaid = advanceTaxModel;

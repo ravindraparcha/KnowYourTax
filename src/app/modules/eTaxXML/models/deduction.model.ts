@@ -28,6 +28,8 @@ export class IncomeTaxModel {
     public userTaxModel: TaxModel[];
     public systemTaxModel: TaxModel[];    
     public taxComputationModel: TaxComputationModel;
+    public usrDeductionSum: number;
+    public sysDeductionSum: number;
 }
 
 export class TaxModel {

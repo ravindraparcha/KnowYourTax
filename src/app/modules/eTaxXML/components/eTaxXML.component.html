@@ -1,3 +1,4 @@
+
 <!-- Modal -->
 <div class="modal fade" id="form26ASModel" role="dialog">
     <div class="modal-dialog">
@@ -23,9 +24,110 @@
     </div>
 </div>
 <!-- End modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="deductionModel" role="dialog">
+    <div class="modal-dialog">     
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title" style="color:black;">Calculation Result</h5>
+            </div>
+            <div class="modal-body">
+                <label class="control-label col-sm-1" style="padding-left: 0;padding-bottom: 4px;font-weight: bold;">Investment</label>
+                <table class="table table-striped table-bordered fixHeaderTable">
+                    <thead style="background-color:#f0f0f0;">
+                        <tr>
+                            <th style="width:33.1%" >Section</th>
+                            <th style="width:32.1%">Entered Amount</th>
+                            <th>Calculated Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let usrTaxModel of incomeTaxModel.userTaxModel; let i = index">
+                            <td>{{usrTaxModel.name}}</td>
+                            <td>{{usrTaxModel.amount | indianCurrency}}</td>
+                            <td>{{incomeTaxModel.systemTaxModel[i].amount | indianCurrency }}</td>
+                        </tr>
+                        <tr style="font-weight: bold;">
+                            <td>Total</td>
+                            <td>{{incomeTaxModel.usrDeductionSum | indianCurrency }}</td>
+                            <td>{{incomeTaxModel.sysDeductionSum | indianCurrency }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <label class="control-label col-sm-3" style="padding-bottom: 4px;font-weight: bold;text-align: left;margin-top:-25px;">Tax calculation</label>
+            <div style="position: relative;padding: 0 15px 15px 15px;">
+                <table class="table table-striped table-bordered">
+                    <thead style="background-color:#f0f0f0;">
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Income Tax</td>
+                            <td>{{incomeTaxModel.taxComputationModel.taxPayableOnTotalIncome | indianCurrency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Education Cess</td>
+                            <td>{{incomeTaxModel.taxComputationModel.taxPayableOnTotalIncome | indianCurrency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr style="font-style: italic;">
+                            <td>Tax payable</td>
+                            <td>&nbsp;</td>
+                            <td>{{incomeTaxModel.taxComputationModel.totalTaxAndCess | indianCurrency}}</td>
+                        </tr>
+                        <tr>
+                            <td>Interest 234A</td>
+                            <td>{{incomeTaxModel.taxComputationModel.interest234A | indianCurrency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Interest 234B</td>
+                            <td>{{incomeTaxModel.taxComputationModel.interest234B | indianCurrency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Interest 234C</td>
+                            <td>{{incomeTaxModel.taxComputationModel.interest234C | indianCurrency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Fee under 234F</td>
+                            <td>{{incomeTaxModel.taxComputationModel.feeUnder234F | indianCurrency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr style="font-style: italic;">
+                            <td>Interest payable</td>
+                            <td>&nbsp;</td>
+                            <td>{{incomeTaxModel.taxComputationModel.totalInterestPayable | indianCurrency}}</td>
+                        </tr>
+                        <tr style="font-weight: bold;">
+                            <td>Total tax payable</td>
+                            <td>&nbsp;</td>
+                            <td>{{incomeTaxModel.taxComputationModel.totalTaxFeeInterest | indianCurrency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="modal-footer" style="border-top:0;padding-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End modal -->
+
 <form #calcFrm="ngForm">
-    <div class="container margin-top15 margin-top65 margin-bottom70">         
-        <button (click)="generateXML()">Generate xml</button>
+    <div class="container margin-top15 margin-top65 margin-bottom70">       
         <div class="row">
             <div class="panel panel-default border-radius border-box">
                 <div class="panel-heading">Generate e-filing Tax XML </div>
@@ -35,7 +137,16 @@
                         sources(interest etc.) and having total income upto Rs. 50 lakhs.
                     </div>
                     <div style="padding:5px 5px 2px 5px">
-                        <a data-toggle="tab" href="#personInfo" data-toggle="modal" data-target="#form26ASModel">Click here to upload text formatted Form 26AS to pre-fill information </a>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                    <a data-toggle="tab" href="#personInfo" data-toggle="modal" data-target="#form26ASModel">Click here to upload text formatted Form 26AS to pre-fill information </a>
+                            </div>
+                            <div class="col-xs-4" style="text-align: right">
+                                <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
+                                <button class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                            </div>
+                        </div>
+                        
                     </div>
                     <ul class="nav nav-tabs" style="margin-top:5px;padding-left:1px;">
                         <li class="active">
@@ -59,7 +170,7 @@
                             <personal-info [personalInfoData]="personalInfoData"></personal-info>
                         </div>
                         <div id="incomeDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
-                            <income-details  [advanceTaxPaid]="advanceTaxPaidModels"></income-details>
+                            <income-details [advanceTaxPaid]="advanceTaxPaidModels"></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
                             <tax-deducted-collected [taxDeducted]="taxDeducted"></tax-deducted-collected>

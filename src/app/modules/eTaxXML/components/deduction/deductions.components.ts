@@ -27,10 +27,8 @@ export class DeductionsComponent implements OnInit {
     public incomeTaxModel: IncomeTaxModel;
     public deductionModel: DeductionModel;
     public advanceTaxModels: AdvanceTaxModel[];
-    public usrDeductionSum: number;
-    public sysDeductionSum: number;
-    @Input() grossTotalIncome: number;
 
+    @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
     @Input()
@@ -55,7 +53,7 @@ export class DeductionsComponent implements OnInit {
 
     constructor(private _configuration: Configuration, private _fb: FormBuilder,
         private _calcService: CalculatorService, private toastr: ToastsManager, vcr: ViewContainerRef,
-        private _slimLoader: slimLoaderBarService, private _sharedTaxService : SharedTaxService) {
+        private _slimLoader: slimLoaderBarService, private _sharedTaxService: SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);
     }
 
@@ -81,6 +79,8 @@ export class DeductionsComponent implements OnInit {
         this.incomeTaxModel.taxComputationModel = this.taxComputationModel;
         if (this.deductionModel == undefined)
             this.deductionModel = new DeductionModel();
+
+
 
     }
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
@@ -157,20 +157,23 @@ export class DeductionsComponent implements OnInit {
         return sum;
     }
 
-    calculateTax(formData: any) {
+    calculateTax(): IncomeTaxModel {
 
-        let deductionList = this.getSectionWithLimitAndAmount(formData.value.itemRows);
+        if (this.sectionForm == undefined)
+            return new IncomeTaxModel();
+
+        let deductionList = this.getSectionWithLimitAndAmount(this.sectionForm.value.itemRows);// Data.value.itemRows);
         console.log(deductionList);
         this.incomeTaxModel.userTaxModel = [];
         this.incomeTaxModel.systemTaxModel = [];
 
-        this.usrDeductionSum = 0;
-        this.sysDeductionSum = 0;
+        this.incomeTaxModel.usrDeductionSum = 0;
+        this.incomeTaxModel.sysDeductionSum = 0;
         for (let deduction of deductionList) {
             this.incomeTaxModel.userTaxModel.push({ name: deduction.name, amount: deduction.enteredAmount, option: deduction.optionIndex });
             this.incomeTaxModel.systemTaxModel.push({ name: deduction.name, amount: deduction.limit, option: 0 });
-            this.usrDeductionSum += deduction.enteredAmount;
-            this.sysDeductionSum += deduction.limit;
+            this.incomeTaxModel.usrDeductionSum += deduction.enteredAmount;
+            this.incomeTaxModel.sysDeductionSum += deduction.limit;
         }
         let deductionApplicable = 0;
         for (let deduction of deductionList) {
@@ -214,7 +217,7 @@ export class DeductionsComponent implements OnInit {
 
         //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
         //referece:- https://cleartax.in/s/income-tax-rebate-us-87a
-        if (totalTax <= slabData.rebateAmount && totalTax>0)
+        if (totalTax <= slabData.rebateAmount && totalTax > 0)
             this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
         else
             this.taxComputationModel.taxPayableAfterRebate = totalTax;
@@ -357,60 +360,11 @@ export class DeductionsComponent implements OnInit {
         this.taxComputationModel.totalInterestPayable = this.taxComputationModel.interest234A + this.taxComputationModel.interest234B + this.taxComputationModel.interest234C + this.taxComputationModel.feeUnder234F;
         this.taxComputationModel.totalTaxFeeInterest = this.taxComputationModel.balanceTaxAfterRelief + this.taxComputationModel.totalInterestPayable;
         this._sharedTaxService.changeTotalTaxAmount(this.taxComputationModel.totalTaxFeeInterest);
-        //Calculate interest rate 234 end
-        // console.log("tax:-" + this.taxComputationModel.balanceTaxAfterRelief);
-        // console.log("234A " + this.taxComputationModel.interest234A);
-        // console.log("234B " + this.taxComputationModel.interest234B);
-        // console.log("234C " + this.taxComputationModel.interest234C);
-        // console.log("234F " + this.taxComputationModel.feeUnder234F);
-        // alert("234A " + this.taxComputationModel.interest234A + " 234B " + this.taxComputationModel.interest234B + " 234C" + this.taxComputationModel.interest234C);
-        //Calculate interest rate 234 end
-
 
         console.log(slabResults);
-        //console.log(this.taxComputationModel);
-        // //prepare data to send to server for tax calculation 
-        // let calculatorInputs = new CalculatorInputs();
-
-        // calculatorInputs.Category = 1;//default Male as of now
-        // calculatorInputs.OtherSourceIncome = 0;
-        // calculatorInputs.SalaryIncome = 0;
-        // calculatorInputs.GrossTaxableSalary = this.grossTotalIncome; //(isNaN(this.calcModel.SalaryIncome) ? 0 : this.calcModel.SalaryIncome) + (isNaN(this.calcModel.OtherSourceIncome) ? 0 : this.calcModel.OtherSourceIncome);
-        // calculatorInputs.OtherDeductions = 0;//(isNaN(model.OtherDeductions) == true || model.OtherDeductions == null) ? 0 : model.OtherDeductions;
-        // calculatorInputs.YearRange = this.assessmentYear;
-        // calculatorInputs.DueDateEfiling = this._configuration.dueDateForFiling;
-        // calculatorInputs.Section234BEndDate = this._configuration.section234BEndDate;
-        // let date = new Date();
-        // let month=date.getMonth()+1;
-        // let monthStr;
-        // if((date.getMonth()+1)<10){
-        //     monthStr="0"+month;
-        //     //monthStr="09";
-        // }
-        // else {
-        //     monthStr=month;
-        // }
-
-        // calculatorInputs.CurrentDate = date.getDate() + "/"+monthStr+"/"+date.getFullYear();
-        // calculatorInputs.SectionValues = [];
-        // for (let i = 0; i < deductions.length; i++) {
-        //     calculatorInputs.SectionValues.push({ "SectionName": deductions[i].deductionSection, "Amount": deductions[i].deductionValue, "ParentSection": deductions[i].parent });
-        // }
-
-        // this._calcService.calculateTax<any>(calculatorInputs)
-        //     .subscribe((data: any) => this.calculationResult = data,
-        //         (error) => {
-        //             this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
-        //             //this.calcModel.calculateTaxLoader = false;
-        //             this._slimLoader.stopLoading();
-        //         },
-        //         () => {
-        //             //this.calcModel.calculateTaxLoader = false;
-        //             this._slimLoader.completeLoading();
-        //             console.log(this.calculationResult);
-        //             //$("html, body").animate({ scrollTop: $(document).height() }, 1000);                    
-        //         });
-
+        this.taxComputationModel = this.taxComputationModel;
+        return this.incomeTaxModel;
+        //this.showCalculation();         
     }
 
     private getAssessmentYear(): string {
@@ -449,8 +403,10 @@ export class DeductionsComponent implements OnInit {
                         }
                         if (msData.options.length > 0) {
                             if (usrDeduction.deductionValue > msData.limit) {
-                                dSum += msData.limit;
-                                enteredAmount += msData.limit;
+                                //dSum += msData.limit;
+                                //enteredAmount += msData.limit;
+                                enteredAmount = usrDeduction.deductionValue;
+                                dSum=msData.limit;
                             }
                             else {
                                 dSum += usrDeduction.deductionValue;
@@ -505,25 +461,40 @@ export class DeductionsComponent implements OnInit {
 
     private updateSectionLimit(masterData: any[], usrSections: any[], parentSectionName: string) {
         let balanceAmount = 0;
+        let parentWithMaxLimit =false;
         for (let msData of masterData) {
             balanceAmount = msData.limit;
             if (msData.name == parentSectionName) {
                 let parentAmount = 0;
+                parentWithMaxLimit=false;
                 //finding entered value 
                 for (let usrSection of usrSections) {
+                    // if(parentWithMaxLimit) {                        
+                    //     usrSection.limit =0;
+                    //     continue;
+                    // }
                     if (usrSection.name == parentSectionName) {
                         parentAmount = usrSection.enteredAmount;
-                        balanceAmount = msData.limit - parentAmount;
+                        //if (parentAmount > msData.limit) {
+                        //   parentWithMaxLimit=true;                           
+                        // }
+                        // else
+                        if(parentAmount < msData.limit)                            
+                            balanceAmount = msData.limit - parentAmount;
+                        else 
+                            balanceAmount=0;
                     }
                     if (usrSection.parent == parentSectionName) {
                         if (usrSection.enteredAmount > balanceAmount) {
-                            usrSection.enteredAmount = balanceAmount;
+                            //usrSection.enteredAmount = balanceAmount;
                             usrSection.limit = balanceAmount;
                             balanceAmount = 0;
                         }
                         else {
-                            usrSection.limit = usrSection.enteredAmount;
-                            balanceAmount = balanceAmount - usrSection.enteredAmount;
+                            
+                                usrSection.limit = usrSection.enteredAmount;
+                                balanceAmount = balanceAmount - usrSection.enteredAmount;
+                           
                         }
                     }
                 }
@@ -617,10 +588,6 @@ export class DeductionsComponent implements OnInit {
         sections.forEach(element => {
             this.deductionList.push({ "name": element.name, "text": element.text });
         });
-    }
-
-    public showCalculation() {
-        $('#deductionModel').modal('show');
     }
 
 }
