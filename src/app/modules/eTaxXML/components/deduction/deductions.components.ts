@@ -8,6 +8,7 @@ import { slimLoaderBarService } from '../../../../shared/services/slimLoaderBarS
 import { CalculatorService } from '../../../../services/calculator.service';
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
+import { SharedTaxService } from '../../shared/sharedTaxService';
 
 declare var $: any;
 
@@ -54,7 +55,7 @@ export class DeductionsComponent implements OnInit {
 
     constructor(private _configuration: Configuration, private _fb: FormBuilder,
         private _calcService: CalculatorService, private toastr: ToastsManager, vcr: ViewContainerRef,
-        private _slimLoader: slimLoaderBarService) {
+        private _slimLoader: slimLoaderBarService, private _sharedTaxService : SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);
     }
 
@@ -213,7 +214,7 @@ export class DeductionsComponent implements OnInit {
 
         //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
         //referece:- https://cleartax.in/s/income-tax-rebate-us-87a
-        if (totalTax <= slabData.rebateAmount)
+        if (totalTax <= slabData.rebateAmount && totalTax>0)
             this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
         else
             this.taxComputationModel.taxPayableAfterRebate = totalTax;
@@ -224,13 +225,13 @@ export class DeductionsComponent implements OnInit {
 
 
         //Calculate interest rate 234 start
-        if (this.taxComputationModel.balanceTaxAfterRelief < this._configuration.taxLiability) {
-            this.taxComputationModel.feeUnder234F = 0;
-            this.taxComputationModel.interest234A = 0;
-            this.taxComputationModel.interest234B = 0;
-            this.taxComputationModel.interest234C = 0;
-            return;
-        }
+        // if (this.taxComputationModel.balanceTaxAfterRelief < this._configuration.taxLiability) {
+        //     this.taxComputationModel.feeUnder234F = 0;
+        //     this.taxComputationModel.interest234A = 0;
+        //     this.taxComputationModel.interest234B = 0;
+        //     this.taxComputationModel.interest234C = 0;
+        //     //return;
+        // }
         this.taxComputationModel.feeUnder234F = 0;
         this.taxComputationModel.interest234A = 0;
         this.taxComputationModel.interest234B = 0;
@@ -355,7 +356,7 @@ export class DeductionsComponent implements OnInit {
         }
         this.taxComputationModel.totalInterestPayable = this.taxComputationModel.interest234A + this.taxComputationModel.interest234B + this.taxComputationModel.interest234C + this.taxComputationModel.feeUnder234F;
         this.taxComputationModel.totalTaxFeeInterest = this.taxComputationModel.balanceTaxAfterRelief + this.taxComputationModel.totalInterestPayable;
-
+        this._sharedTaxService.changeTotalTaxAmount(this.taxComputationModel.totalTaxFeeInterest);
         //Calculate interest rate 234 end
         // console.log("tax:-" + this.taxComputationModel.balanceTaxAfterRelief);
         // console.log("234A " + this.taxComputationModel.interest234A);

@@ -64,12 +64,15 @@ export class TaxDeductedUnder26QCModel{
             this.amountClaimedThisYear=amountClaimedThisYear;
     }
 };
+
+
 export class AdvanceTaxSelfAssessmentTaxModel {
     public BSRCode: string;
     public challanSerialNumber: string;
     public taxPaid: number;
     public depositDate : string;
     public depositDateXml : string="";
+    public selectedTaxType : string="0";
     constructor(bsrCode: string, challan: string, taxPaid: number,depositDate : string) {
         this.BSRCode = bsrCode;
         this.challanSerialNumber = challan;

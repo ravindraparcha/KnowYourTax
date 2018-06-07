@@ -26,6 +26,7 @@ export class TaxPaidVerificationComponent implements OnInit {
 
     public incomeNatureList = [];
     private _subscription : Subscription;
+    private totalTaxInterest : number=0;
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
@@ -50,11 +51,15 @@ export class TaxPaidVerificationComponent implements OnInit {
         this.taxPaidModel.otherExemptionModels = [];
         this.taxPaidModel.otherAccountDetails = [];
         this.taxPaidModel.verificationModel=this.verificationModel;
-
-        debugger;
-        
-        this._subscription = this._sharedTaxService.getTDSAmount()
-        .subscribe(item => this.taxPaidModel.totalAdvanceTaxPaid=item);         
+ 
+        this._subscription = this._sharedTaxService.getTDSAmount().subscribe(item => this.taxPaidModel.totalTDSClaimed=item);
+        this._subscription=this._sharedTaxService.getTCSAmount().subscribe(item=>this.taxPaidModel.totalTCSClaimed=item);
+        this._subscription = this._sharedTaxService.getSelfAssessmentAmount().subscribe(item => this.taxPaidModel.totalSelfAssessmentTaxPaid=item);
+        this._subscription = this._sharedTaxService.getAdvanceTaxAmount().subscribe(item => this.taxPaidModel.totalAdvanceTaxPaid=item);
+        this._subscription = this._sharedTaxService.getTotalTaxAmount().subscribe(item=>this.totalTaxInterest=item);
+        this._subscription = this._sharedTaxService.getTotalTDSTCS().subscribe(item=>this.taxPaidModel.totalTaxesPaid=item);
+        this._subscription=this._sharedTaxService.getAmountPayable().subscribe(item=>this.taxPaidModel.amountPayable=item);
+        this._subscription=this._sharedTaxService.getRefund().subscribe(item=>this.taxPaidModel.refund=item);
     }
     addNewOtherExemption() {
         this.newOtherExemptionModel = new OtherExemptionModel("", 0, "");

@@ -1,25 +1,57 @@
 <div class="form-group margin-top15">
-    <label class="control-label col-sm-4 text-left">Total advance tax paid</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.totalAdvanceTaxPaid}}</label>
-    <label class="control-label col-sm-4 text-left">Total TDS paid</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.totalTDSClaimed}}</label>
+        <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <table class="table table-striped table-bordered">
+            <thead style="background-color:#f0f0f0;">
+                <tr>
+                    <th>Tax</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Total advance tax paid</td>
+                    <td>{{taxPaidModel.totalAdvanceTaxPaid | indianCurrency }}</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Total TDS paid</td>
+                    <td>{{taxPaidModel.totalTDSClaimed | indianCurrency}}</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Total TCS claimed</td>
+                    <td>{{taxPaidModel.totalTCSClaimed | indianCurrency}}</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Total self assessment tax paid</td>
+                    <td>{{taxPaidModel.totalSelfAssessmentTaxPaid | indianCurrency}}</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr style="font-style: italic;">
+                    <td>Total taxes paid</td>
+                    <td>&nbsp;</td>
+                    <td>{{taxPaidModel.totalTaxesPaid | indianCurrency}}</td>
+                </tr>
+                <tr style="font-weight: bold;">
+                    <td>Amount payable</td>
+                    <td>&nbsp;</td>
+                    <td>{{taxPaidModel.amountPayable | indianCurrency}}</td>                   
+                </tr>
+                <tr style="font-weight: bold;">
+                    <td>Refund</td>
+                    <td>&nbsp;</td>
+                    <td>{{taxPaidModel.refund | indianCurrency}}</td>                   
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-2"></div>
 </div>
-<div class="form-group margin-top15">
-    <label class="control-label col-sm-4 text-left">Total TCS claimed</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.totalTCSClaimed}}</label>
-    <label class="control-label col-sm-4 text-left">Total self assessment tax paid</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.totalSelfAssessmentTaxPaid}}</label>
-</div>
-<div class="form-group margin-top15">
-    <label class="control-label col-sm-4 text-left">Total taxes paid</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.totalTaxesPaid}}</label>
-    <label class="control-label col-sm-4 text-left">Amount payable (Tax calculated - deduction)</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.totalTaxesPaid}}</label>
-</div>
-<div class="form-group margin-top15">
-    <label class="control-label col-sm-4 text-left">Refund(deduction - Tax calculated)</label>
-    <label class="control-label col-sm-2 text-left">{{taxPaidModel.refund}}</label>
-</div>
+
 
 <div class="panel-group margin-top15" id="taxPaidVerificationAccordion" role="tablist" aria-multiselectable="true">
     <div class="panel-custom panel-default-custom">

@@ -35,8 +35,8 @@
                                 />
                             </td>
                             <td>
-                                <input [(ngModel)]="taxDeductedSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedSalaryModel.taxDeducted}}" (change)="calculateTaxDeductedAmount()"
-                                />
+                                <input [(ngModel)]="taxDeductedSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedSalaryModel.taxDeducted}}"
+                                    (change)="calculateTaxDeductedAmount()" />
                             </td>
                             <td>
                                 <span class="input-group-btn">
@@ -50,7 +50,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td>&nbsp;</td>                           
+                            <td>&nbsp;</td>
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" (click)="addNewTaxDeductedSalary()">
@@ -68,7 +68,8 @@
     <div class="panel-custom panel-default-custom">
         <div class="panel-heading-custom" role="tab" id="tds2Heading" style="font-size:15px;">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse"  class="collapsed" data-parent="#accordion" href="#tds2Collapse" aria-expanded="false" aria-controls="tds2Collapse">
+                <a role="button" data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#tds2Collapse" aria-expanded="false"
+                    aria-controls="tds2Collapse">
                     <div style="font-size:15px;">Details of tax deducted at source from income
                         <span style="color:red">OTHER THAN salary</span> (as per
                         <span style="color:red">FORM 16 A</span> issued by Deductor(s))</div>
@@ -104,23 +105,24 @@
                                 />
                             </td>
                             <td>
-                                    <select id="selectedOtherThanSalaryYear" #selectedOtherThanSalaryYear="ngModel" required [ngClass]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear>0? 'valid': 'invalid'" class="form-control"
-                                            [(ngModel)]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear" name="selectedOtherThanSalaryYear">
-                                            <option selected="selected" value="0">Select</option>
-                                            <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
-                                                {{year.value}}
-                                        </select>
+                                <select id="selectedOtherThanSalaryYear" #selectedOtherThanSalaryYear="ngModel" required [ngClass]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear>0? 'valid': 'invalid'"
+                                    class="form-control" [(ngModel)]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear"
+                                    name="selectedOtherThanSalaryYear">
+                                    <option selected="selected" value="0">Select</option>
+                                    <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
+                                        {{year.value}}
+                                </select>
                             </td>
                             <td>
-                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.taxDeducted}}"  (change)="calculateTaxDeductedAmount()"
-                                />
+                                <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.taxDeducted}}"
+                                    (change)="calculateTaxDeductedAmount()" />
                             </td>
                             <td>
                                 <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.amountClaimedThisYear}}"
                                 />
                             </td>
 
-                          
+
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default removeIcon" type="button" (click)="deleteTaxDeductedOtherThanSalaryItem(i)">
@@ -136,7 +138,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            
+
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" (click)="addNewTaxDeductedOtherThanSalary()">
@@ -154,9 +156,10 @@
     <div class="panel-custom panel-default-custom">
         <div class="panel-heading-custom" role="tab" id="tds3Heading" style="font-size:15px;">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" class="collapsed"  data-parent="#accordion" href="#tds3Collapse" aria-expanded="false" aria-controls="tds3Collapse">
-                    <div style="font-size:15px;">Details of tax deducted at source (as per 
-                        <span style="color:red">26QC</span> 
+                <a role="button" data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#tds3Collapse" aria-expanded="false"
+                    aria-controls="tds3Collapse">
+                    <div style="font-size:15px;">Details of tax deducted at source (as per
+                        <span style="color:red">26QC</span>
                         furnished by deductor(s))</div>
                 </a>
             </h4>
@@ -190,23 +193,24 @@
                                 />
                             </td>
                             <td>
-                                    <select id="selectedTenantDeductionYear" #selectedTenantDeductionYear="ngModel" required [ngClass]="taxDeductedUnder26QCModel.selectedTenantDeductionYear>0? 'valid': 'invalid'" class="form-control"
-                                            [(ngModel)]="taxDeductedUnder26QCModel.selectedTenantDeductionYear" name="selectedTenantDeductionYear">
-                                            <option selected="selected" value="0">Select</option>
-                                            <option [ngValue]="year.key" *ngFor="let year of taxDeductionTenantYearList">
-                                                {{year.value}}
-                                        </select>
+                                <select id="selectedTenantDeductionYear" #selectedTenantDeductionYear="ngModel" required [ngClass]="taxDeductedUnder26QCModel.selectedTenantDeductionYear>0? 'valid': 'invalid'"
+                                    class="form-control" [(ngModel)]="taxDeductedUnder26QCModel.selectedTenantDeductionYear"
+                                    name="selectedTenantDeductionYear">
+                                    <option selected="selected" value="0">Select</option>
+                                    <option [ngValue]="year.key" *ngFor="let year of taxDeductionTenantYearList">
+                                        {{year.value}}
+                                </select>
                             </td>
                             <td>
-                                <input [(ngModel)]="taxDeductedUnder26QCModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.taxDeducted}}" (change)="calculateTaxDeductedAmount()"
-                                />
+                                <input [(ngModel)]="taxDeductedUnder26QCModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.taxDeducted}}"
+                                    (change)="calculateTaxDeductedAmount()" />
                             </td>
                             <td>
                                 <input [(ngModel)]="taxDeductedUnder26QCModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.amountClaimedThisYear}}"
                                 />
                             </td>
 
-                          
+
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default removeIcon" type="button" (click)="deleteTaxDeductedUnder26QCItem(i)">
@@ -222,7 +226,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            
+
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" (click)="addNewTaxDeductedUnder26QC()">
@@ -251,9 +255,10 @@
                     <thead>
                         <tr>
                             <th>BSR code</th>
-                            <th>Date of deposit</th>
+                            <th style="width:20%">Date of deposit</th>
                             <th>Challan serial number</th>
-                            <th>Tax paid</th>                            
+                            <th>Tax type</th>
+                            <th style="width:20%">Tax paid</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -265,9 +270,10 @@
                             </td>
                             <td>
                                 <div class="input-group">
-                                    <input class="form-control" required readonly [ngClass]="advanceTaxSelfAssessmentTaxModel.depositDate.length? 'valid': 'invalid'" style="float:none;border-radius: 0;"
-                                        placeholder="Select a date" ngx-mydatepicker name="mydepositDatedate"  [options]="myOptions" #dd="ngx-mydatepicker"
-                                        (dateChanged)="onDepositDateChanged($event)" />
+                                    <input class="form-control" required readonly [ngClass]="advanceTaxSelfAssessmentTaxModel.depositDate.length? 'valid': 'invalid'"
+                                        style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="mydepositDatedate"
+                                        [options]="myOptions" #dd="ngx-mydatepicker" (dateChanged)="onDepositDateChanged($event)"
+                                    />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dd.clearDate()">
                                             <i class="glyphicon glyphicon-remove"></i>
@@ -282,13 +288,21 @@
                                 <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.challanSerialNumber" class="form-control" type="number" name="{{advanceTaxSelfAssessmentTaxModel.challanSerialNumber}}"
                                 />
                             </td>
-                             
                             <td>
-                                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.taxPaid" class="form-control" type="number" name="{{advanceTaxSelfAssessmentTaxModel.taxPaid}}"
+                                <select id="selectedTaxType" #selectedTaxType="ngModel" required [ngClass]="advanceTaxSelfAssessmentTaxModel.selectedTaxType!='0'? 'valid': 'invalid'"
+                                    class="form-control" (change)="calculateAdvanceTaxSelfAssessmentTax()" [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType"
+                                    name="selectedTaxType">
+                                    <option selected="selected" value="0">Select</option>
+                                    <option [ngValue]="type.value" *ngFor="let type of taxTypeList">
+                                        {{type.text}}
+                                </select>
+                            </td>
+
+                            <td>
+                                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0' ? 0 : advanceTaxSelfAssessmentTaxModel.taxPaid" class="form-control" type="number" name="{{advanceTaxSelfAssessmentTaxModel.taxPaid}}"
+                                    (change)="calculateAdvanceTaxSelfAssessmentTax()" [disabled]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0'"
                                 />
                             </td>
-                             
-                          
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default removeIcon" type="button" (click)="deleteAdvanceTaxSelfAssessmentTaxItem(i)">
@@ -301,7 +315,8 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td>&nbsp;</td>                            
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" (click)="addNewAdvanceTaxSelfAssessmentTax()">
@@ -319,8 +334,10 @@
     <div class="panel-custom panel-default-custom">
         <div class="panel-heading-custom" role="tab" id="tds5Heading" style="font-size:15px;">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" class="collapsed"  data-parent="#accordion" href="#tds5Collapse" aria-expanded="false" aria-controls="tds5Collapse">
-                    <div style="font-size:15px;">Details of tax collected at source (<span style="color:red"> as per FORM 27D</span> issued by the collector(s))</div>
+                <a role="button" data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#tds5Collapse" aria-expanded="false"
+                    aria-controls="tds5Collapse">
+                    <div style="font-size:15px;">Details of tax collected at source (
+                        <span style="color:red"> as per FORM 27D</span> issued by the collector(s))</div>
                 </a>
             </h4>
         </div>
@@ -332,9 +349,9 @@
                             <th>Collector's tax collection a/c number</th>
                             <th>Collector name</th>
                             <th>Amount subject to colleection</th>
-                            <th style="width: 12%">Tax collection year</th>  
-                            <th>Tax collected</th>                            
-                            <th>Amount claimed this year out of tax collected</th>  
+                            <th style="width: 12%">Tax collection year</th>
+                            <th>Tax collected</th>
+                            <th>Amount claimed this year out of tax collected</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -345,31 +362,30 @@
                                 />
                             </td>
                             <td>
-                                <input [(ngModel)]="taxCollectedModel.name" class="form-control" type="text" name="{{taxCollectedModel.name}}"
-                                />
+                                <input [(ngModel)]="taxCollectedModel.name" class="form-control" type="text" name="{{taxCollectedModel.name}}" />
                             </td>
                             <td>
                                 <input [(ngModel)]="taxCollectedModel.amountForTaxDeduction" class="form-control" type="number" name="{{taxCollectedModel.amountForTaxDeduction}}"
                                 />
                             </td>
                             <td>
-                                    <select id="selectedTaxCollectionYear" #selectedTaxCollectionYear="ngModel" required [ngClass]="taxCollectedModel.selectedTaxCollectionYear>0? 'valid': 'invalid'" class="form-control"
-                                            [(ngModel)]="taxCollectedModel.selectedTaxCollectionYear" name="selectedTaxCollectionYear">
-                                            <option selected="selected" value="0">Select</option>
-                                            <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
-                                                {{year.value}}
-                                        </select>
+                                <select id="selectedTaxCollectionYear" #selectedTaxCollectionYear="ngModel" required [ngClass]="taxCollectedModel.selectedTaxCollectionYear>0? 'valid': 'invalid'"
+                                    class="form-control" [(ngModel)]="taxCollectedModel.selectedTaxCollectionYear" name="selectedTaxCollectionYear">
+                                    <option selected="selected" value="0">Select</option>
+                                    <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
+                                        {{year.value}}
+                                </select>
                             </td>
                             <td>
                                 <input [(ngModel)]="taxCollectedModel.taxCollected" class="form-control" type="number" name="{{taxCollectedModel.taxCollected}}"
-                                />
+                                    (change)="calculateTaxCollection()" />
                             </td>
                             <td>
                                 <input [(ngModel)]="taxCollectedModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxCollectedModel.amountClaimedThisYear}}"
                                 />
                             </td>
 
-                          
+
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default removeIcon" type="button" (click)="deleteTaxCollectionItem(i)">
@@ -385,7 +401,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            
+
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" (click)="addNewTaxCollection()">
