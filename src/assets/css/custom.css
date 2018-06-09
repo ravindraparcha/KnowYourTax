@@ -249,6 +249,15 @@ code {
     background-color: #fff8ed;
     font-style:italic;
 }
+.border-left-error{    
+    border-left: 2px solid red;
+    border-radius: 3px;
+    padding-left: 4px;
+    margin-top: 2px;
+    background-color: #ff00000f;
+    font-style:italic;
+    color:red;
+}
 .removeIcon{
     padding: 6px 13px;
     color:#e82323;

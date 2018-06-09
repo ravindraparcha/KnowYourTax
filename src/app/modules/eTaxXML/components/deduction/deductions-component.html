@@ -8,17 +8,6 @@
         />
         <div class="border-left-info">Please ensure to submit Form 10E</div>
     </div>
-    <label class="control-label col-sm-2 text-left">Advance tax paid</label>
-    <div class="col-sm-3">
-
-        <input type="number" novalidate class="form-control" [(ngModel)]="deductionModel.advanceTax" #advanceTax="ngModel" name="advanceTax"
-        />
-        <div class="border-left-info">Check IT computation sheet received from employeer</div>
-    </div>
-
-</div>
-<div class="form-group margin-top15">
-
     <label class="control-label col-sm-2 text-left">Due date of submission of return</label>
     <div class="col-sm-3">
         <div class="input-group">
@@ -35,7 +24,16 @@
             </span>
         </div>
     </div>
+   <!-- <label class="control-label col-sm-2 text-left">Advance tax paid</label>
+     <div class="col-sm-3">
 
+        <input type="number" novalidate class="form-control" [(ngModel)]="deductionModel.advanceTax" #advanceTax="ngModel" name="advanceTax"
+        />
+        <div class="border-left-info">Check IT computation sheet received from employeer</div>
+    </div> -->
+
+</div>
+<div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Actual date of return submission</label>
     <div class="col-sm-3">
         <div class="input-group">
@@ -90,36 +88,3 @@
         </div>
     </div>  
 </form>
-
-<!-- <div class="form-group margin-top15">
-    <label class="control-label col-sm-2 text-left">&nbsp;</label>
-    <div class="col-sm-3">
-            <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
-        <button type="button" class="btn btn-default" (click)="showCalculation()">Show Calculation</button>
-    </div>
-</div> -->
-<!-- <div class="form-group margin-top15">
-    <div class="col-sm-11">
-        <label>{{taxComputationModel.totalTaxFeeInterest | indianCurrency}}</label>
-        <label>Total income after deduction {{calculationResult.TaxableSalaryAfterDeduction}} </label>
-        <br/>
-        <label>Rebate {{calculationResult.Rebate}}</label>
-        <br/>
-        <label>Tax payable after rebate {{calculationResult.TaxAfterRebate}}</label>
-        <br/>
-        <label>Cess on taxable salary {{calculationResult.CessOnTotal}}</label>
-        <br/>
-        <label>total tax including cess {{calculationResult.TaxIncludingCess }}</label>
-        <br/>
-        <label>Relief u/s 89(1) {{calculationResult.ReliefAmount}}</label>
-        <br/>
-        <label>Balance Tax</label>
-        <br/>
-        <label>234A {{calculationResult.Interest234A}}</label>
-        <br/>
-        <label>Total interest payable(234A+234B+234C+Fee u/s 234F) {{calculationResult.TotalInterestPayable}}</label>
-        <br/>
-        <label>Total tax+Fee+interest {{calculationResult.TotalTaxPayable}}</label>
-        <br/>
-    </div>
-</div> -->

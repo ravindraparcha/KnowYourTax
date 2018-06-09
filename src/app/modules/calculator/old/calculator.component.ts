@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewContainerRef, ElementRef } from '@angular/core';
 //import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../shared/models/calculatorModel";
 //import { AssessmentYearsModel } from '../../shared/models/assessmentYearsModel';
-import { CalculatorService } from '../../services/calculator.service';
-import { slimLoaderBarService } from '../../shared/services/slimLoaderBarService';
+import { CalculatorService } from '../../../services/calculator.service';
+import { slimLoaderBarService } from '../../../shared/services/slimLoaderBarService';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Configuration } from '../../shared/constants';
+import { Configuration } from '../../../shared/constants';
 import { debug } from 'util';
 
  
