@@ -9,7 +9,7 @@ import { CalculatorService } from '../../../../services/calculator.service';
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { SharedTaxService } from '../../shared/sharedTaxService';
-
+import { Subscription } from 'rxjs/Rx';
 declare var $: any;
 
 @Component({
@@ -27,6 +27,9 @@ export class DeductionsComponent implements OnInit {
     public incomeTaxModel: IncomeTaxModel;
     public deductionModel: DeductionModel;
     public advanceTaxModels: AdvanceTaxModel[];
+    public selfAssessmentAdvanceTax: any[];
+    private _subscription: Subscription;
+    private _returnFiledSection: number;
 
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
@@ -80,8 +83,8 @@ export class DeductionsComponent implements OnInit {
         if (this.deductionModel == undefined)
             this.deductionModel = new DeductionModel();
 
-
-
+        this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
+        this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);
     }
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
@@ -158,6 +161,8 @@ export class DeductionsComponent implements OnInit {
     }
 
     calculateTax(): IncomeTaxModel {
+
+        this.createAdvanceTaxModelArray(this.selfAssessmentAdvanceTax);
 
         if (this.sectionForm == undefined)
             return new IncomeTaxModel();
@@ -342,19 +347,35 @@ export class DeductionsComponent implements OnInit {
             //Section 234F
             //(a)five thousand rupees, if the return is furnished on or before the 31st day of December of the assessment year;
             //(b)ten thousand rupees in any other case:
-            //https://www.hrblock.in/guides/section-234f-notice/
-            if (this.grossTotalIncome > this._configuration.sec234FTotalIncomeLimit) {
-                let currntDate = new Date();
-                let strtDate = new Date(currntDate.getFullYear(), 7, 1); //1 august
-                let endDate = new Date(currntDate.getFullYear(), 11, 31); //31 december
-                if (strtDate <= filingDt && filingDt <= endDate)
-                    this.taxComputationModel.feeUnder234F = 5000;
-                else if (filingDt > endDate)
-                    this.taxComputationModel.feeUnder234F = 10000;
+            //https://incometaxindia.gov.in/Acts/Finance%20Acts/2017/102120000000064631.htm
+            //iff its under 139
+            if (this._returnFiledSection == 17) {
+                let lastDate = new Date(new Date().getFullYear(), 11, 31);
+                if (this.grossTotalIncome > this._configuration.sec234FTotalIncomeLimit) {
+                    if (lastDate > filingDt)
+                        this.taxComputationModel.feeUnder234F = 5000;
+                    else
+                        this.taxComputationModel.feeUnder234F = 10000;
+
+                }
+                else {
+                    if (lastDate > filingDt)
+                        this.taxComputationModel.feeUnder234F = 1000;
+                }
             }
-            else {
-                this.taxComputationModel.feeUnder234F = 1000;
-            }
+
+            // if (this.grossTotalIncome > this._configuration.sec234FTotalIncomeLimit) {
+            //     let currntDate = new Date();
+            //     let strtDate = new Date(currntDate.getFullYear(), 7, 1); //1 august
+            //     let endDate = new Date(currntDate.getFullYear(), 11, 31); //31 december
+            //     if (strtDate <= filingDt && filingDt <= endDate)
+            //         this.taxComputationModel.feeUnder234F = 5000;
+            //     else if (filingDt > endDate)
+            //         this.taxComputationModel.feeUnder234F = 10000;
+            // }
+            // else {
+            //     this.taxComputationModel.feeUnder234F = 1000;
+            // }
 
         }
         this.taxComputationModel.totalInterestPayable = this.taxComputationModel.interest234A + this.taxComputationModel.interest234B + this.taxComputationModel.interest234C + this.taxComputationModel.feeUnder234F;
@@ -367,6 +388,32 @@ export class DeductionsComponent implements OnInit {
         //this.showCalculation();         
     }
 
+    private createAdvanceTaxModelArray(selfAssmntAdvnceTaxArr) {
+        if (selfAssmntAdvnceTaxArr === undefined)
+            return;
+        let advanceTaxModel;
+        let month: number, year: number, date: number;
+        let monthStr: string, dateStr: string;
+        for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
+            date = selfAssmntAdvnceTx.depositDate.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 1));
+            month = selfAssmntAdvnceTx.depositDate.substring(this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 2));
+            year = selfAssmntAdvnceTx.depositDate.substr(this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 2) + 1);
+            if (month < 10)
+                monthStr = "0" + month;
+            else
+                monthStr = month.toString();
+            if (date < 10)
+                dateStr = "0" + date;
+            else
+                dateStr = date.toString();
+
+            advanceTaxModel = new AdvanceTaxModel((dateStr + '/' + monthStr + '/' + year), selfAssmntAdvnceTx.taxPaid);
+            this.advanceTaxModels.push(advanceTaxModel);
+        }
+    }
+    private getPosition(source, toSearch, indexNumber): number {
+        return source.split(toSearch, indexNumber).join(toSearch).length;
+    }
     private getAssessmentYear(): string {
         let currentDate = new Date();
         let nextDate = new Date(currentDate.getFullYear() + 1, currentDate.getMonth() + 1, currentDate.getDate());
@@ -406,7 +453,7 @@ export class DeductionsComponent implements OnInit {
                                 //dSum += msData.limit;
                                 //enteredAmount += msData.limit;
                                 enteredAmount = usrDeduction.deductionValue;
-                                dSum=msData.limit;
+                                dSum = msData.limit;
                             }
                             else {
                                 dSum += usrDeduction.deductionValue;
@@ -461,28 +508,20 @@ export class DeductionsComponent implements OnInit {
 
     private updateSectionLimit(masterData: any[], usrSections: any[], parentSectionName: string) {
         let balanceAmount = 0;
-        let parentWithMaxLimit =false;
+        let parentWithMaxLimit = false;
         for (let msData of masterData) {
             balanceAmount = msData.limit;
             if (msData.name == parentSectionName) {
                 let parentAmount = 0;
-                parentWithMaxLimit=false;
+                parentWithMaxLimit = false;
                 //finding entered value 
                 for (let usrSection of usrSections) {
-                    // if(parentWithMaxLimit) {                        
-                    //     usrSection.limit =0;
-                    //     continue;
-                    // }
                     if (usrSection.name == parentSectionName) {
                         parentAmount = usrSection.enteredAmount;
-                        //if (parentAmount > msData.limit) {
-                        //   parentWithMaxLimit=true;                           
-                        // }
-                        // else
-                        if(parentAmount < msData.limit)                            
+                        if (parentAmount < msData.limit)
                             balanceAmount = msData.limit - parentAmount;
-                        else 
-                            balanceAmount=0;
+                        else
+                            balanceAmount = 0;
                     }
                     if (usrSection.parent == parentSectionName) {
                         if (usrSection.enteredAmount > balanceAmount) {
@@ -491,10 +530,9 @@ export class DeductionsComponent implements OnInit {
                             balanceAmount = 0;
                         }
                         else {
-                            
-                                usrSection.limit = usrSection.enteredAmount;
-                                balanceAmount = balanceAmount - usrSection.enteredAmount;
-                           
+
+                            usrSection.limit = usrSection.enteredAmount;
+                            balanceAmount = balanceAmount - usrSection.enteredAmount;
                         }
                     }
                 }
@@ -572,18 +610,6 @@ export class DeductionsComponent implements OnInit {
         }
     }
 
-    // private getSectionsArray(sections: any[]) {
-    //     sections.forEach(element => {
-    //         if (element.HasOption) {
-    //             for (let i = 0; i < element.SectionOptions.length; i++) {
-    //                 this.deductionList.push({ "value": element.Name + "_" + (i + 1), "text": element.SectionOptions[i].Name, "section": element.Name });
-    //             }
-    //         }
-    //         else {
-    //             this.deductionList.push({ "value": element.Name, "text": element.Description,"section": element.Name  });
-    //         }
-    //     });        
-    // }
     private getSectionsArray(sections: any[]) {
         sections.forEach(element => {
             this.deductionList.push({ "name": element.name, "text": element.text });

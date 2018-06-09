@@ -128,7 +128,7 @@
     <label class="control-label col-sm-2 text-left">Return filed</label>
     <div class="col-sm-3">
         <select id="returnFiledSection" #returnFiledSection="ngModel" required [ngClass]="personalInfo.selectedReturnFiledSection>0? 'valid': 'invalid'"
-            class="form-control" [(ngModel)]="personalInfo.selectedReturnFiledSection" name="returnFiledSection">
+            class="form-control" [(ngModel)]="personalInfo.selectedReturnFiledSection" name="returnFiledSection" (change)="changeReturnFileSection()">
             <option selected="selected" value="0">Select</option>
             <option [ngValue]="st.returnFileValue" *ngFor="let st of _configuration.returnFiledList">
                 {{st.returnFileText}}

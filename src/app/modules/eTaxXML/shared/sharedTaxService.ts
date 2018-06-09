@@ -12,7 +12,8 @@ export class SharedTaxService {
     @Output() totalTax: EventEmitter<number> = new EventEmitter();
     @Output() amountPayable: EventEmitter<number> = new EventEmitter();
     @Output() refund: EventEmitter<number> = new EventEmitter();
- 
+    @Output() selfAssessmentAdvanceTax : EventEmitter<any> = new EventEmitter();
+    @Output() returnFiledSection : EventEmitter<number> = new EventEmitter();
     private tds = 0;
     private tcs = 0;
     private selfAssessment = 0;
@@ -77,7 +78,19 @@ export class SharedTaxService {
     public getAmountPayable() {
         return this.amountPayable;
     }
+    public changeSelfAssessmentAdvanceTax(selfAssessmentAdvanceTax) {
+        this.selfAssessmentAdvanceTax.emit(selfAssessmentAdvanceTax);
+    }
+    public getSelfAssessmentAdvanceTax() {
+        return this.selfAssessmentAdvanceTax;
+    }
 
+    public changeReturnFiledSection(returnFiledSec) {
+        this.returnFiledSection.emit(returnFiledSec);
+    }
+    public getReturnFiledSection() {
+        return this.returnFiledSection;
+    }
     private changeRefund() {
         return this.refund.emit(this.getDifference(false));
 

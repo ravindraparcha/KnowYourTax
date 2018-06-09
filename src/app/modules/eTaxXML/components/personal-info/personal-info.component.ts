@@ -4,6 +4,7 @@ import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { Configuration } from '../../../../shared/constants';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import {SharedXMLService} from '../../shared/sharedXMLService';
+import {SharedTaxService} from '../../shared/sharedTaxService';
 
 @Component({
     selector: 'personal-info',
@@ -30,6 +31,7 @@ export class PersonalInfoComponent implements OnInit {
 
     public personalInfo: PersonalInfoModel;
     private file: File;
+    private _subscription : Subscription;
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
         disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
@@ -39,7 +41,9 @@ export class PersonalInfoComponent implements OnInit {
         openSelectorTopOfInput: true
     };
 
-    constructor(private cd: ChangeDetectorRef, public _configuration: Configuration, private _sharedXMLService:SharedXMLService) { }
+    constructor(private cd: ChangeDetectorRef, 
+        public _configuration: Configuration, private _sharedXMLService:SharedXMLService,
+        private _sharedTaxService : SharedTaxService) { }
 
     // when old value does not match with new value during expression evaluation for child component
     // angular throws ExpressionChangedAfterItHasBeenCheckedError error. 
@@ -49,7 +53,7 @@ export class PersonalInfoComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.initialisePersonalModelObject();
+        this.initialisePersonalModelObject();                
     }
     initialisePersonalModelObject() {
         this.personalInfo = new PersonalInfoModel();
@@ -96,6 +100,9 @@ export class PersonalInfoComponent implements OnInit {
             this.personalInfo.filedAgainstNotice = "";
             this.personalInfo.filedAgainstNoticeXml = "";
         }
+    }
+    changeReturnFileSection() {
+        this._sharedTaxService.changeReturnFiledSection(this.personalInfo.selectedReturnFiledSection);
     }
    
 
