@@ -19,8 +19,7 @@ export class SharedTaxService {
     private selfAssessment = 0;
     private advanceTax = 0;
     private totalTaxSum = 0;
-    constructor() { }
-
+     
     public changeTDSAmount(taxAmount: number) {
         this.tds = taxAmount;
         this.changeTotalTDSTCS();

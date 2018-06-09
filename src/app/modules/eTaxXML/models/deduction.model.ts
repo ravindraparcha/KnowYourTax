@@ -8,9 +8,11 @@ export class DeductionModel {
 export class AdvanceTaxModel {
     public transactionDate: string;
     public amount: number=0;
-    constructor(transactionDate: string, amount: number) {
+    public isAdvanceTax : boolean;
+    constructor(transactionDate: string, amount: number,isAdvanceTx:boolean=false) {
         this.amount = amount;
         this.transactionDate = transactionDate;
+        this.isAdvanceTax=isAdvanceTx;
     }
 }
 

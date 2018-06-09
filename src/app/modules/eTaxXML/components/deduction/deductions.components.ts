@@ -30,19 +30,20 @@ export class DeductionsComponent implements OnInit {
     public selfAssessmentAdvanceTax: any[];
     private _subscription: Subscription;
     private _returnFiledSection: number;
-
+    private selfAssessmentTaxPaid:number=0;
+    private advanceTaxForm26AS : number=0;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
     @Input()
     set advanceTaxAlreadyPaid(taxModel: any[]) {
-
+        this.advanceTaxModels=[];        
         if (this.deductionModel === undefined)
-            this.deductionModel = new DeductionModel();
-        this.deductionModel.advanceTax = 0;
+            this.deductionModel = new DeductionModel();       
         if (taxModel !== undefined) {
+            this.advanceTaxForm26AS = 0;
             for (let i = 0; i < taxModel.length; i++) {
-                this.deductionModel.advanceTax += taxModel[i].amount;
+                this.advanceTaxForm26AS += taxModel[i].amount;
             }
             this.advanceTaxModels = taxModel;
         }
@@ -82,6 +83,8 @@ export class DeductionsComponent implements OnInit {
         this.incomeTaxModel.taxComputationModel = this.taxComputationModel;
         if (this.deductionModel == undefined)
             this.deductionModel = new DeductionModel();
+        this.advanceTaxModels=[];
+        this.deductionModel.advanceTax = 0;
 
         this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
         this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);
@@ -163,6 +166,8 @@ export class DeductionsComponent implements OnInit {
     calculateTax(): IncomeTaxModel {
 
         this.createAdvanceTaxModelArray(this.selfAssessmentAdvanceTax);
+
+        this.deductionModel.advanceTax =this.advanceTaxForm26AS + this.selfAssessmentTaxPaid;
 
         if (this.sectionForm == undefined)
             return new IncomeTaxModel();
@@ -391,23 +396,19 @@ export class DeductionsComponent implements OnInit {
     private createAdvanceTaxModelArray(selfAssmntAdvnceTaxArr) {
         if (selfAssmntAdvnceTaxArr === undefined)
             return;
+        this.advanceTaxModels = this.advanceTaxModels.filter(x=>x.isAdvanceTax!=true);
         let advanceTaxModel;
         let month: number, year: number, date: number;
-        let monthStr: string, dateStr: string;
+        this.selfAssessmentTaxPaid=0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
             date = selfAssmntAdvnceTx.depositDate.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 1));
             month = selfAssmntAdvnceTx.depositDate.substring(this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 2));
             year = selfAssmntAdvnceTx.depositDate.substr(this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 2) + 1);
-            if (month < 10)
-                monthStr = "0" + month;
-            else
-                monthStr = month.toString();
-            if (date < 10)
-                dateStr = "0" + date;
-            else
-                dateStr = date.toString();
-
-            advanceTaxModel = new AdvanceTaxModel((dateStr + '/' + monthStr + '/' + year), selfAssmntAdvnceTx.taxPaid);
+            this.selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
+            //decrease month by 1 
+            month-=1;
+            let dateObj = new Date(year,month,date);
+            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), selfAssmntAdvnceTx.taxPaid,true);
             this.advanceTaxModels.push(advanceTaxModel);
         }
     }

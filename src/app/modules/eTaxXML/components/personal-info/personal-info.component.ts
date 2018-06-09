@@ -31,7 +31,7 @@ export class PersonalInfoComponent implements OnInit {
 
     public personalInfo: PersonalInfoModel;
     private file: File;
-    private _subscription : Subscription;
+     
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
         disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
