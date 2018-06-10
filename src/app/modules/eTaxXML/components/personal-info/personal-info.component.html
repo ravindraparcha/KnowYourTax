@@ -59,7 +59,7 @@
     <label class="control-label col-sm-2 text-left">Date of birth</label>
     <div class="col-sm-3">
         <div class="input-group">
-            <input class="form-control" required readonly [ngClass]="personalInfo.birthDate.length? 'valid': 'invalid'" style="float:none;border-radius: 0;"
+            <input class="form-control" required readonly [ngClass]="(personalInfo.birthDate!==null && personalInfo.birthDate.length>0 )? 'valid': 'invalid'" style="float:none;border-radius: 0;"
                 placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="personalInfo.birthDate" [options]="myOptions"
                 #dp="ngx-mydatepicker" (dateChanged)="onBirthDateChanged($event)" />
             <span class="input-group-btn">
@@ -104,7 +104,8 @@
     </div>
     <label class="control-label col-sm-2 text-left">Pin Code</label>
     <div class="col-sm-3">
-        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.zipCode" #zipCode="ngModel" name="zipCode" />
+        <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.zipCode" #zipCode="ngModel" name="zipCode" PinCodeValidator />
+        <div class="border-left-error" *ngIf="zipCode.errors && zipCode.errors.pinCodeError">{{zipCode.errors.pinCodeError.errorMsg}}</div>
     </div>
 </div>
 
@@ -112,13 +113,14 @@
     <label class="control-label col-sm-2 text-left">Email Address</label>
     <div class="col-sm-3">
         <input type="text" required novalidate [ngClass]="email.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.email" EmailValidator
-            #email="ngModel" name="email" [email]/>
+            #email="ngModel" name="email"/>
         <div class="border-left-error" *ngIf="email.errors && email.errors.emailError">{{email.errors.emailError.errorMsg}}</div>
     </div>
     <label class="control-label col-sm-2 text-left">Mobile Number</label>
     <div class="col-sm-3">
-        <input type="text" required [ngClass]="mobileNo.valid? 'valid': 'invalid'" novalidate class="form-control" [(ngModel)]="personalInfo.mobileNo"
-            #mobileNo="ngModel" name="mobileNo" />
+        <input type="text" required nonvalidate [ngClass]="mobileNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.mobileNo"
+            #mobileNo="ngModel" name="mobileNo" MobileNoValidator />
+            <div class="border-left-error" *ngIf="mobileNo.errors && mobileNo.errors.mobileNoError">{{mobileNo.errors.mobileNoError.errorMsg}}</div>
     </div>
 </div>
 
@@ -147,7 +149,7 @@
     <label class="control-label col-sm-2 text-left">Governed by Portuguese Civil Code (section 5A)</label>
     <div class="col-sm-3">
         <select id="governedByPortugueseCivil" #governedByPortugueseCivil="ngModel" required [ngClass]="(personalInfo.selectedGovernedByPortugueseCivil!='0' && personalInfo.selectedGovernedByPortugueseCivil!='') ? 'valid': 'invalid'"
-            class="form-control" [(ngModel)]="personalInfo.selectedGovernedByPortugueseCivil" name="governedByPortugueseCivil">
+            class="form-control" [(ngModel)]="personalInfo.selectedGovernedByPortugueseCivil" name="governedByPortugueseCivil" (change)="onChangeGovernedByPortuguesesCivil()" >
             <option selected="selected" value="0">Select</option>
             <option [ngValue]="st.value" *ngFor="let st of _configuration.yesNoList">
                 {{st.text}}
@@ -156,15 +158,16 @@
     <label class="control-label col-sm-2 text-left">If yes, spouse PAN number</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.spousePanNo" #spousePanNo="ngModel" name="spousePanNo"
-        />
+        PanCardValidator [disabled]="personalInfo.selectedGovernedByPortugueseCivil!='Y'" />
+        <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.panNoError">{{spousePanNo.errors.panNoError.errorMsg}}</div>
     </div>
 </div>
 
 <div class="form-group margin-top15">
-    <label class="control-label  col-sm-2 text-left">Original/Revised Return</label>
+    <label class="control-label  col-sm-2 text-left">Return Type</label>
     <div class="col-sm-3">
         <select id="originalRevisedFile" #originalRevisedFile="ngModel" required [ngClass]="(personalInfo.selectedOriginalRevisedFile!='0' &&  personalInfo.selectedOriginalRevisedFile!='')? 'valid': 'invalid'"
-            class="form-control" [(ngModel)]="personalInfo.selectedOriginalRevisedFile" name="originalRevisedFile">
+            class="form-control" [(ngModel)]="personalInfo.selectedOriginalRevisedFile" name="originalRevisedFile" (change)="onChangeOrginalRevisedFile()" >
             <option selected="selected" value="0">Select</option>
             <option [ngValue]="st.value" *ngFor="let st of _configuration.originalRevisedList">
                 {{st.text}}
@@ -193,14 +196,16 @@
     <label class="control-label col-sm-2 text-left">Receipt Number</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.receiptNumber" #receiptNumber="ngModel" name="receiptNumber"
-        />
+        ReceiptNumberValidator />
         <div class="border-left-info">If revised/defective, enter receipt number of original form</div>
+        <div class="border-left-error" *ngIf="receiptNumber.errors && receiptNumber.errors.receiptNumberError">{{receiptNumber.errors.receiptNumberError.errorMsg}}</div>
     </div>
     <label class="control-label col-sm-2 text-left">Notice Number</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.noticeNumber" #noticeNumber="ngModel" name="noticeNumber"
-        />
+        NoticeNumberValidator [disabled]="this.personalInfo.selectedOriginalRevisedFile=='R'"/>
         <div class="border-left-info">Original Return filed was defective and a notice is issued to the assessee to file fresh return u/s 139(9)</div>
+        <div class="border-left-error" *ngIf="noticeNumber.errors && noticeNumber.errors.noticeNumberError">{{noticeNumber.errors.noticeNumberError.errorMsg}}</div>
     </div>
 </div>
 <div class="form-group margin-top15">

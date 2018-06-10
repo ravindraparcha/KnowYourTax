@@ -7,7 +7,7 @@ export class PersonalInfoModel {
     public aadharEnrollmentId: string;
     public flatDoorBlockNo: string;
     public premisesBldgVillage: string;
-    public birthDate: string;
+    public birthDate: string="";
     public birthDateXml:string;
     public roadStreetPostOffice: string;
     public areaLocality: string;

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserModule} from '@angular/platform-browser';
+import { ToastrModule } from 'ngx-toastr';
 
 import {eTaxXMLComponent} from '../eTaxXML/components/eTaxXML.component';
 import {PersonalInfoComponent} from '../eTaxXML/components/personal-info/personal-info.component';
@@ -23,15 +26,23 @@ import {NameValidatorDirective} from '../../shared/validators/NameValidationDire
 import {AadharCardValidatorDirective} from '../../shared/validators/AadharCardDirective';
 import {PanCardValidatorDirective} from '../../shared/validators/PanCardDirective';
 import {AadharCardEnrollmentIdValidatorDirective} from '../../shared/validators/AadharCardEnrollmentIdDirective';
+import {MobileNoValidatorDirective} from '../../shared/validators/MobileNumberDirective';
+import {PinCodeValidatorDirective} from '../../shared/validators/PinCodeDirective';
+import {ReceiptNumberValidatorDirective} from '../../shared/validators/ReceiptNumberDirective';
+import {NoticeNumberValidatorDirective} from '../../shared/validators/NoticeNumberDirective';
 //Validator ends
 @NgModule({
-    imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
+    imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,
+              NgxMyDatePickerModule.forRoot(),sharedModule,
+            BrowserModule,BrowserAnimationsModule,ToastrModule.forRoot({timeOut: 1000,
+                positionClass: 'toast-center'})],
     providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,
                  TaxCalculatorService,SharedTaxService],
     declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,
                     DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
-                    AadharCardEnrollmentIdValidatorDirective],
+                    AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
+                    NoticeNumberValidatorDirective],
     exports : [eTaxXMLComponent]
 })
 

@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^5.2.10",
+    "@angular/animations": "^5.2.11",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
@@ -31,6 +31,7 @@
     "ng2-slim-loading-bar": "^4.0.0",
     "ng2-toastr": "^4.1.2",
     "ngx-mydatepicker": "^2.4.5",
+    "ngx-toastr": "^8.8.0",
     "rxjs": "^5.5.6",
     "save": "^2.3.2",
     "xml-writer": "^1.7.0",

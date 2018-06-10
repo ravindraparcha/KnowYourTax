@@ -13,7 +13,7 @@ import { NG_VALIDATORS,  Validator, AbstractControl } from "@angular/forms";
 
 export class EmailValidatorDirective implements Validator {   
     validate(c: AbstractControl) {
-        if(c.value==null)
+        if(c.value==null || c.value=="")
             return null;
         var pattern = /[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}/;
         if (pattern.test(c.value))

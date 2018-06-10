@@ -13,7 +13,7 @@ import { NG_VALIDATORS, Validator, AbstractControl } from "@angular/forms";
 
 export class AadharCardValidatorDirective implements Validator {
     validate(c: AbstractControl) {
-        if (c.value == null)
+        if (c.value == null || c.value=="")
             return null;
         let aadharError = {
             aadharError: {

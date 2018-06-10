@@ -13,7 +13,7 @@ import { NG_VALIDATORS,  Validator, AbstractControl } from "@angular/forms";
 
 export class PanCardValidatorDirective implements Validator {   
     validate(c: AbstractControl) {       
-        if(c.value==null)
+        if(c.value==null || c.value=="")
             return null;
         var pattern = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
         if (pattern.test(c.value))
