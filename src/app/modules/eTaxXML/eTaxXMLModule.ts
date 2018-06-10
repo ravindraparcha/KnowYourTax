@@ -17,14 +17,21 @@ import {XmlGeneratorService} from '../eTaxXML/services/xml-generator-service';
 import {SharedXMLService} from '../eTaxXML/shared/sharedXMLService';
 import {TaxCalculatorService} from '../eTaxXML/services/tax-calculator.service';
 import {SharedTaxService} from './shared/sharedTaxService';
+//Validator starts
 import {EmailValidatorDirective} from '../../shared/validators/EmailValidatorDirective';
+import {NameValidatorDirective} from '../../shared/validators/NameValidationDirective';
+import {AadharCardValidatorDirective} from '../../shared/validators/AadharCardDirective';
+import {PanCardValidatorDirective} from '../../shared/validators/PanCardDirective';
+import {AadharCardEnrollmentIdValidatorDirective} from '../../shared/validators/AadharCardEnrollmentIdDirective';
+//Validator ends
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule.forRoot(),sharedModule],
     providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,
                  TaxCalculatorService,SharedTaxService],
     declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,
                     DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
-                    EmailValidatorDirective],
+                    EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
+                    AadharCardEnrollmentIdValidatorDirective],
     exports : [eTaxXMLComponent]
 })
 

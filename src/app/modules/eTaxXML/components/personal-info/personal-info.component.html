@@ -2,38 +2,44 @@
     <label class="control-label col-sm-2 text-left">First Name</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.firstName" #firstName="ngModel" name="firstName"
-        />
+        NameValidator />
+        <div class="border-left-error" *ngIf="firstName.errors && firstName.errors.nameError">{{firstName.errors.nameError.errorMsg}}</div>
     </div>
     <label class="control-label col-sm-2 text-left">Middle Name</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.middleName" #middleName="ngModel" name="middleName"
-        />
+        NameValidator />
+        <div class="border-left-error" *ngIf="middleName.errors && middleName.errors.nameError">{{middleName.errors.nameError.errorMsg}}</div>
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Last Name</label>
     <div class="col-sm-3">
         <input type="text" required novalidate [ngClass]="lastName.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.lastName"
-            #lastName="ngModel" name="lastName" />
+            #lastName="ngModel" name="lastName"  NameValidator />
+            <div class="border-left-error" *ngIf="lastName.errors && lastName.errors.nameError">{{lastName.errors.nameError.errorMsg}}</div>
     </div>
     <label class="control-label col-sm-2 text-left">PAN number</label>
     <div class="col-sm-3">
         <input type="text" required novalidate [ngClass]="panNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.panNo"
-            #panNo="ngModel" name="panNo" />
+            #panNo="ngModel" name="panNo" PanCardValidator />
+            <div class="border-left-error" *ngIf="panNo.errors && panNo.errors.panNoError">{{panNo.errors.panNoError.errorMsg}}</div>
     </div>
 </div>
 <div class="form-group margin-top15">
     <label class="control-label col-sm-2 text-left">Aadhar card </label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharCardNo" #aadharCardNo="ngModel" name="aadharCardNo"
-        />
+        AadharCardValidator />
         <div class="border-left-info">Aadhar card linked with PAN number in e-Filling portal </div>
+        <div class="border-left-error" *ngIf="aadharCardNo.errors && aadharCardNo.errors.aadharError">{{aadharCardNo.errors.aadharError.errorMsg}}</div>
     </div>
     <label class="control-label col-sm-2 text-left">Aadhar card enrollment Id</label>
     <div class="col-sm-3">
         <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.aadharEnrollmentId" #aadharEnrollmentId="ngModel"
-            name="aadharEnrollmentId" />
+            name="aadharEnrollmentId" AadharCardEnrollmentIdValidator />
         <div class="border-left-info">If aadhar card not allotted, you can give aadhar card enrollmentId</div>
+        <div class="border-left-error" *ngIf="aadharEnrollmentId.errors && aadharEnrollmentId.errors.aadharEnrollmentIdError">{{aadharEnrollmentId.errors.aadharEnrollmentIdError.errorMsg}}</div>
     </div>
 </div>
 <div class="form-group margin-top15">
