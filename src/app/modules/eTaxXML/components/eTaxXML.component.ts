@@ -1,4 +1,6 @@
 import { Component, Input, ViewChild, OnInit } from "@angular/core";
+import { ToastrService } from 'ngx-toastr';
+ 
 import { Form26ASParserService } from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
 import {AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel} from '../models/deduction.model';
@@ -12,7 +14,7 @@ import { IncomeDetailsComponent } from '../components/income-details/income-deta
 import { TaxPaidVerificationComponent } from '../components/tax-paid-verification/tax-paid-verification.component';
 import { TaxDeductedCollectedComponent } from '../components/tax-deducted-collected/tax-deducted-collected.component';
 import { Donation80GComponent } from '../components/donation-80G/donation.80G.component';
-import { element } from "protractor";
+
 
 declare var $: any;
 
@@ -21,11 +23,8 @@ declare var $: any;
     templateUrl: './eTaxXML.component.html'
 })
 export class eTaxXMLComponent implements OnInit {
-    cars = [
-        { "id": 1, "name": "Mahindra", "disabled": true },
-        { "id": 2, "name": "Mahindra", "disabled": false }
-    ];
-
+    
+    
     //child component object for xml generation
     @ViewChild(PersonalInfoComponent) _personalInfoComponent: PersonalInfoComponent;
     @ViewChild(IncomeDetailsComponent) _incomeDetailsComponent: IncomeDetailsComponent;
@@ -41,7 +40,8 @@ export class eTaxXMLComponent implements OnInit {
     public incomeData : IncomeData;
     public usrTaxModel;
     public incomeTaxModel : IncomeTaxModel;
-    constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration, private _xmlGeneratorService: XmlGeneratorService) { }
+    constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration, 
+        private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService) { }
 
     ngOnInit() {
         this.incomeTaxModel = new IncomeTaxModel();
@@ -141,9 +141,16 @@ export class eTaxXMLComponent implements OnInit {
         }
         return -1;
     }
+    private isPersonalInfoFrmValid:boolean;
     generateXML() {
-         
-        this.xmlDataArray = [];
+        
+        //validate child component
+        this.validatePersonalInfoComponent();
+        if(!this.isPersonalInfoFrmValid)  {
+            this._toastr.error("Please correct <b>Personal Information</b> tab data to proceed further",'Error',this._configuration.CustomToastOptions);
+            return;
+        }
+         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();
         this.incomeData.incomeDetailsModel=this._incomeDetailsComponent.incomeDetailsModel;
@@ -163,6 +170,14 @@ export class eTaxXMLComponent implements OnInit {
         this.incomeTaxModel.sysDeductionSum=0;
         this.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();   
         $('#deductionModel').modal('show');
+    }
+    
+    //this method will be emitted from child component i.e. ParentInfoComponent
+    private isPersonalInfoComponentValid(isFormValid:  boolean) {
+        this.isPersonalInfoFrmValid = isFormValid;
+    }
+    validatePersonalInfoComponent() {        
+        this._personalInfoComponent.validatePersonalInfoComponentForm();                     
     }
 
 }

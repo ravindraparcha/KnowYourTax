@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
-import {DeductionsComponent} from '../deduction/deductions.components';
+import { DeductionsComponent } from '../deduction/deductions.components';
+import { Form } from '@angular/forms';
 
 declare var $: any;
 
@@ -11,28 +12,28 @@ declare var $: any;
 })
 
 export class IncomeDetailsComponent implements OnInit {
-   
+
     public incomeDetailsModel: IncomeDetailsModel;
     constructor(public _configuration: Configuration) { }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
     //@Output() outputCalculateTax : EventEmitter<any> = new EventEmitter<any>();
     @Input()
-    set advanceTaxPaid(advanceTaxModel : any[]) {             
+    set advanceTaxPaid(advanceTaxModel: any[]) {
         this.advanceTaxAlreadyPaid = advanceTaxModel;
     }
-    
-    ngOnInit() {       
-        this.incomeDetailsModel = new IncomeDetailsModel();
-        $('.panel-collapse').on('show.bs.collapse', function () {           
-            $(this).siblings('.panel-heading-custom').addClass('active');
-          });
-        
-          $('.panel-collapse').on('hide.bs.collapse', function () {             
-            $(this).siblings('.panel-heading-custom').removeClass('active');
-          });        
-    }
 
+    ngOnInit() {
+        this.incomeDetailsModel = new IncomeDetailsModel();
+        $('.panel-collapse').on('show.bs.collapse', function () {
+            $(this).siblings('.panel-heading-custom').addClass('active');
+        });
+
+        $('.panel-collapse').on('hide.bs.collapse', function () {
+            $(this).siblings('.panel-heading-custom').removeClass('active');
+        });
+    }
+     
     calculateSalaryPensionSum() {
         this.incomeDetailsModel.salaryPensionSum =
             (isNaN(this.incomeDetailsModel.allowance) ? 0 : this.incomeDetailsModel.allowance) -
@@ -75,11 +76,8 @@ export class IncomeDetailsComponent implements OnInit {
     }
     updateTotalDeductions(sum: number) {
         this.incomeDetailsModel.totalDeductionSum = sum;
-        
-    }
-    // calculateTaxableIncome(){
-    //     this.incomeDetailsModel.totalTaxableIncome =         
-    //     this.incomeDetailsModel.grossTotalIncome - this.incomeDetailsModel.totalDeductionSum;
-    // }
 
+    }
+ 
+     
 }

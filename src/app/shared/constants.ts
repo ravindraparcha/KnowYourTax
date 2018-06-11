@@ -3,8 +3,8 @@ import { environment } from '../../environments/environment'
 @Injectable()
 export class Configuration {
     public ServerWithApiUrl: string = environment.apiUrl;
-    public CustomOptions = {
-        positionClass: 'toast-top-center', newestOnTop: true, showCloseButton: true, toastLife: 2000
+    public CustomToastOptions = {
+        positionClass: 'toast-top-center', newestOnTop: true, closeButton: true, timeOut: 4000,enableHtml:true
     }
     public ErrorOccurred = "Some error occurred. Try refreshing page or contact administrator";
 

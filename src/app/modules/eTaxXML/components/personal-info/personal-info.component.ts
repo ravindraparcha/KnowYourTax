@@ -1,17 +1,16 @@
-import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { Configuration } from '../../../../shared/constants';
 import { PersonalInfoModel } from '../../models/personal-info.model';
-import {SharedXMLService} from '../../shared/sharedXMLService';
-import {SharedTaxService} from '../../shared/sharedTaxService';
+import { SharedXMLService } from '../../shared/sharedXMLService';
+import { SharedTaxService } from '../../shared/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'personal-info',
-    templateUrl: './personal-info.component.html'    
+    templateUrl: './personal-info.component.html'
 })
 export class PersonalInfoComponent implements OnInit {
-
 
     @Input()
     set personalInfoData(personalInfoData: PersonalInfoModel) {
@@ -30,8 +29,9 @@ export class PersonalInfoComponent implements OnInit {
     }
 
     public personalInfo: PersonalInfoModel;
-    private file: File;
-     
+    @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @ViewChild('personalInfoFrm') personalInfoForm;
+
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
         disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
@@ -41,20 +41,20 @@ export class PersonalInfoComponent implements OnInit {
         openSelectorTopOfInput: true
     };
 
-    constructor(private cd: ChangeDetectorRef, 
-        public _configuration: Configuration, private _sharedXMLService:SharedXMLService,
-        private _sharedTaxService : SharedTaxService, private toastr: ToastrService) {                      
-         }
+    constructor(private cd: ChangeDetectorRef,
+        public _configuration: Configuration, private _sharedXMLService: SharedXMLService,
+        private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
+    }
 
     // when old value does not match with new value during expression evaluation for child component
     // angular throws ExpressionChangedAfterItHasBeenCheckedError error. 
     // To resolve this issue, run detectChanges method in ngAfterViewInit() to update the values
     ngAfterViewInit() {
-        this.cd.detectChanges();        
+        this.cd.detectChanges();
     }
 
-    ngOnInit() {        
-        this.initialisePersonalModelObject();                      
+    ngOnInit() {
+        this.initialisePersonalModelObject();
     }
     initialisePersonalModelObject() {
         this.personalInfo = new PersonalInfoModel();
@@ -68,23 +68,23 @@ export class PersonalInfoComponent implements OnInit {
         this.personalInfo.filedAgainstNotice = "";
         this.personalInfo.premisesBldgVillage = "";
         this.personalInfo.country = "91";
-        
+
     }
-    onBirthDateChanged(event: IMyDateModel) {        
+    onBirthDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.birthDateXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+            this.personalInfo.birthDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.personalInfo.birthDate = "";
-            this.personalInfo.birthDateXml = "";             
+            this.personalInfo.birthDateXml = "";
         }
     }
     onOriginalFilingReturnDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filingOriginalReturnDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.filingOriginalReturnDateXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");            
+            this.personalInfo.filingOriginalReturnDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.personalInfo.filingOriginalReturnDate = "";
@@ -95,7 +95,7 @@ export class PersonalInfoComponent implements OnInit {
     onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filedAgainstNotice = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.filedAgainstNoticeXml = this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+            this.personalInfo.filedAgainstNoticeXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.personalInfo.filedAgainstNotice = "";
@@ -106,28 +106,35 @@ export class PersonalInfoComponent implements OnInit {
         this.onChangeReturnFileSectionReturnType();
         this._sharedTaxService.changeReturnFiledSection(this.personalInfo.selectedReturnFiledSection);
     }
-    onChangeGovernedByPortuguesesCivil() {                 
-        if(this.personalInfo.selectedGovernedByPortugueseCivil!='Y')
-            this.personalInfo.spousePanNo="";
+    onChangeGovernedByPortuguesesCivil() {
+        if (this.personalInfo.selectedGovernedByPortugueseCivil != 'Y')
+            this.personalInfo.spousePanNo = "";
     }
     onChangeOrginalRevisedFile() {
         this.onChangeReturnFileSectionReturnType();
     }
 
     private onChangeReturnFileSectionReturnType() {
-        if(this.personalInfo.selectedReturnFiledSection!=17 && this.personalInfo.selectedReturnFiledSection!=0 && this.personalInfo.selectedOriginalRevisedFile=="R") {
-            this.toastr.warning("Return type cannot be revised if return not filed under section 139(5)","Warning",
-            {
-                positionClass: 'toast-top-full-width',closeButton: true, timeOut: 5000,progressBar:true,progressAnimation:'decreasing'
-            });
-            this.personalInfo.selectedOriginalRevisedFile="O";   
-            this.personalInfo.selectedReturnFiledSection=0;         
+        if (this.personalInfo.selectedReturnFiledSection != 17 && this.personalInfo.selectedReturnFiledSection != 0 && this.personalInfo.selectedOriginalRevisedFile == "R") {
+            this._toastr.warning("Return type cannot be revised if return not filed under section 139(5)", "Warning",this._configuration.CustomToastOptions);
+                // {
+                //     positionClass: 'toast-top-full-width', closeButton: true, timeOut: 5000, progressBar: true, progressAnimation: 'decreasing'
+                // });
+            this.personalInfo.selectedOriginalRevisedFile = "O";
+            this.personalInfo.selectedReturnFiledSection = 0;
         }
-        if(this.personalInfo.selectedOriginalRevisedFile=="R") {
-            this.personalInfo.noticeNumber="";
+        if (this.personalInfo.selectedOriginalRevisedFile == "R") {
+            this.personalInfo.noticeNumber = "";
             this.personalInfo.filedAgainstNotice = "";
             this.personalInfo.filedAgainstNoticeXml = "";
         }
     }
-     
+
+    public validatePersonalInfoComponentForm() {
+        if (this.personalInfoForm.valid)  
+            this.isPersonalInfoComponentValid.emit(true);
+        else 
+            this.isPersonalInfoComponentValid.emit(false);         
+    }
+
 }

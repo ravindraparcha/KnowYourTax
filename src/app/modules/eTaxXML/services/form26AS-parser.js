@@ -96,7 +96,7 @@ parseForm26AS.extractInfoPartWise =function(lines,delimiter) {
                     }
                 }
             }
-            console.log(parts);     
+            //console.log(parts);     
             return parts;
         };
         var extractLineData = function(data,delimiter) {

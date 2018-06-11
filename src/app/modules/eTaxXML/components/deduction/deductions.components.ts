@@ -173,7 +173,7 @@ export class DeductionsComponent implements OnInit {
             return new IncomeTaxModel();
 
         let deductionList = this.getSectionWithLimitAndAmount(this.sectionForm.value.itemRows);// Data.value.itemRows);
-        console.log(deductionList);
+        //console.log(deductionList);
         this.incomeTaxModel.userTaxModel = [];
         this.incomeTaxModel.systemTaxModel = [];
 
@@ -387,7 +387,7 @@ export class DeductionsComponent implements OnInit {
         this.taxComputationModel.totalTaxFeeInterest = this.taxComputationModel.balanceTaxAfterRelief + this.taxComputationModel.totalInterestPayable;
         this._sharedTaxService.changeTotalTaxAmount(this.taxComputationModel.totalTaxFeeInterest);
 
-        console.log(slabResults);
+        //console.log(slabResults);
         this.taxComputationModel = this.taxComputationModel;
         return this.incomeTaxModel;
         //this.showCalculation();         
@@ -577,7 +577,7 @@ export class DeductionsComponent implements OnInit {
         }
         for (let i = 0; i < slabResults.length; i++)
             tax += slabResults[i].totalTax;
-        console.log(tax);
+        //console.log(tax);
         return slabResults;
         // console.log(slabResults);
 

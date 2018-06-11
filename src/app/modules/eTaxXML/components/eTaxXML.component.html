@@ -167,7 +167,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="personInfo" class="tab-pane fade in active" style="padding: 0 5px 0 5px">
-                            <personal-info [personalInfoData]="personalInfoData"></personal-info>
+                            <personal-info [personalInfoData]="personalInfoData" (isPersonalInfoComponentValid)="isPersonalInfoComponentValid($event)"></personal-info>
                         </div>
                         <div id="incomeDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
                             <income-details [advanceTaxPaid]="advanceTaxPaidModels"></income-details>
