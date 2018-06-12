@@ -43,7 +43,7 @@ export class CalculatorComponent implements OnInit {
             .subscribe((data: any[]) => this.calcModel.AssessmentYearsModels = data,
              (error) => {                                    
                     this.calcModel.ayLoader = false;                         
-                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);                    
+                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomToastOptions);                    
                     this._slimLoader.stopLoading();
                 },
                 () => {                   
@@ -85,7 +85,7 @@ export class CalculatorComponent implements OnInit {
         this._calcService.calculateTax<any>(calculatorInputs)
             .subscribe((data: any) => this.calcModel.CalculationResult = data, 
                   (error) => {                    
-                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
+                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomToastOptions);
                     this.calcModel.calculateTaxLoader = false;
                     this._slimLoader.stopLoading();
                 },
@@ -134,7 +134,7 @@ export class CalculatorComponent implements OnInit {
             .subscribe((data: any[]) => this.calcModel.Sections = data,
                 (error) => {
                     this.calcModel.sectionLoader = false;                    
-                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomOptions);
+                    this.toastr.error(this._configuration.ErrorOccurred, "Error", this._configuration.CustomToastOptions);
                     this._slimLoader.stopLoading();
                 },
                 () => {
@@ -149,11 +149,11 @@ export class CalculatorComponent implements OnInit {
 
     validateFormData(category: number,assementYearId:number) {
         if (category==undefined ||  category == 0) { 
-            this.toastr.warning("Please choose 'who you are'", "Warning", this._configuration.CustomOptions);
+            this.toastr.warning("Please choose 'who you are'", "Warning", this._configuration.CustomToastOptions);
             return false;
         }
         else if (assementYearId == undefined || assementYearId == 0){
-            this.toastr.warning("Please choose 'Assessment year'", "Warning", this._configuration.CustomOptions);
+            this.toastr.warning("Please choose 'Assessment year'", "Warning", this._configuration.CustomToastOptions);
             return false;
         }
         return true;

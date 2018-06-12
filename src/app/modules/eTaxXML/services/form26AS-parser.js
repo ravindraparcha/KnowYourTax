@@ -13,8 +13,7 @@ parseForm26AS.extractInfoPartWise =function(lines,delimiter) {
             var lineCountForNextSection = 2;
             var header;
             var partNumber=0;
-            for (var i = 2; i < noOfLines; i++) {
-                
+            for (var i = 2; i < noOfLines; i++) {                
                 lineData = lines[i];
                 if (lineData.length == 0)
                     blankLineCounter++;

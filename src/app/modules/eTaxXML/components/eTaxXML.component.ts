@@ -147,7 +147,7 @@ export class eTaxXMLComponent implements OnInit {
         //validate child component
         this.validatePersonalInfoComponent();
         if(!this.isPersonalInfoFrmValid)  {
-            this._toastr.error("Please correct <b>Personal Information</b> tab data to proceed further",'Error',this._configuration.CustomToastOptions);
+            this._toastr.error("<b>Personal Information</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
             return;
         }
          this.xmlDataArray = [];

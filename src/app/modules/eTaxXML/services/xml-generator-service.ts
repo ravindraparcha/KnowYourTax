@@ -235,13 +235,11 @@ export class XmlGeneratorService {
                 if (isUsrNode)
                     this.xmlWriter.writeElement("ITRForm:Section80DDUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80DD", element.amount);
-
             }
             else if (element.name == "80DDB") {
                 if (isUsrNode)
                     this.xmlWriter.writeElement("ITRForm:ITRForm:Section80DDBUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80DDB", element.amount);
-
             }
             else if (element.name == "80E")
                 this.xmlWriter.writeElement("ITRForm:Section80E", element.amount);
@@ -275,32 +273,7 @@ export class XmlGeneratorService {
             else if (element.name == "80TTA")
                 this.xmlWriter.writeElement("ITRForm:Section80TTA", element.amount);
         });
-        this.xmlWriter.writeElement("ITRForm:TotalChapVIADeductions", total);   
-
-        //         <ITRForm:Section80C>50000</ITRForm:Section80C>
-        // <ITRForm:Section80CCC>1000</ITRForm:Section80CCC>
-        // <ITRForm:Section80CCDEmployeeOrSE>2000</ITRForm:Section80CCDEmployeeOrSE>
-        // <ITRForm:Section80CCD1B>3000</ITRForm:Section80CCD1B>
-        // <ITRForm:Section80CCDEmployer>4000</ITRForm:Section80CCDEmployer>
-        // <ITRForm:Section80DUsrType>1</ITRForm:Section80DUsrType>
-        // <ITRForm:Section80D>6000</ITRForm:Section80D>
-        // <ITRForm:Section80DDUsrType>1</ITRForm:Section80DDUsrType>
-        // <ITRForm:Section80DD>7000</ITRForm:Section80DD>
-        // <ITRForm:Section80DDBUsrType>1</ITRForm:Section80DDBUsrType>
-        // <ITRForm:Section80DDB>8000</ITRForm:Section80DDB>
-        // <ITRForm:Section80E>10000</ITRForm:Section80E>
-        // <ITRForm:Section80EE>11000</ITRForm:Section80EE>
-        // <ITRForm:Section80G>0</ITRForm:Section80G>
-        // <ITRForm:Section80GG>8000</ITRForm:Section80GG>
-        // <ITRForm:Section80GGA>9000</ITRForm:Section80GGA>
-        // <ITRForm:Section80GGC>10000</ITRForm:Section80GGC>
-        // <ITRForm:Section80UUsrType>1</ITRForm:Section80UUsrType>
-        // <ITRForm:Section80U>64230</ITRForm:Section80U>
-        // <ITRForm:Section80RRB>3333</ITRForm:Section80RRB>
-        // <ITRForm:Section80QQB>11000</ITRForm:Section80QQB>
-        // <ITRForm:Section80CCG>5000</ITRForm:Section80CCG>
-        // <ITRForm:Section80TTA>11111</ITRForm:Section80TTA>
-        // <ITRForm:TotalChapVIADeductions>223674</ITRForm:TotalChapVIADeductions>
+        this.xmlWriter.writeElement("ITRForm:TotalChapVIADeductions", total);    
     }
 
     private addTaxComputationNode(incomeDetails) {
@@ -381,7 +354,6 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
         this.xmlWriter.writeElement("ITRForm:BalTaxPayable", taxPaid.amountPayable == undefined ? 0 : taxPaid.amountPayable);
         this.xmlWriter.endElement();
-
     }
 
     private addRefundNode(taxPaid) {

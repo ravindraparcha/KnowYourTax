@@ -79,7 +79,7 @@ export class Configuration {
     ];
     public housePropertyType = [
         { "value": "S", "text": "Self Occupied" },
-        { "value": "L", "text": "Let Out" }
+        { "value": "L", "text": "Given on rent" }
     ];
 
     public annualValuePercentage: number = 30;

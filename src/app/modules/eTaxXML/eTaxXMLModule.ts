@@ -18,7 +18,7 @@ import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.
 import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service';
 import {XmlGeneratorService} from '../eTaxXML/services/xml-generator-service';
 import {SharedXMLService} from '../eTaxXML/shared/sharedXMLService';
-import {TaxCalculatorService} from '../eTaxXML/services/tax-calculator.service';
+
 import {SharedTaxService} from './shared/sharedTaxService';
 //Validator starts
 import {EmailValidatorDirective} from '../../shared/validators/EmailValidatorDirective';
@@ -37,7 +37,7 @@ import {NoticeNumberValidatorDirective} from '../../shared/validators/NoticeNumb
             BrowserModule,BrowserAnimationsModule,ToastrModule.forRoot({timeOut: 1000,
                 positionClass: 'toast-center'})],
     providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,
-                 TaxCalculatorService,SharedTaxService],
+                 SharedTaxService],
     declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,
                     DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,

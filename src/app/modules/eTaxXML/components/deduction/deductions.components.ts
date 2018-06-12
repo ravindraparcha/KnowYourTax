@@ -254,9 +254,17 @@ export class DeductionsComponent implements OnInit {
         this.taxComputationModel.reliefUnder89 = this.deductionModel.relief;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.taxComputationModel.reliefUnder89;
 
-
-        let dueDt = this.deductionModel.dueDate["jsdate"];
-        let filingDt = this.deductionModel.filingDate["jsdate"];
+        let dueDt ;
+        let filingDt;
+        if(this.deductionModel.filingDate==null || this.deductionModel.dueDate) {
+            dueDt = undefined;
+            filingDt = undefined;
+        }
+        else {
+            dueDt = this.deductionModel.dueDate["jsdate"];
+            filingDt = this.deductionModel.filingDate["jsdate"];
+        }
+        
 
         if (dueDt != undefined && filingDt != undefined) {
             let diffDate: number;
