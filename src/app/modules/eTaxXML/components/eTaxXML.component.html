@@ -173,7 +173,7 @@
                             <income-details [advanceTaxPaid]="advanceTaxPaidModels"></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
-                            <tax-deducted-collected [taxDeducted]="taxDeducted"></tax-deducted-collected>
+                            <tax-deducted-collected [taxDeducted]="taxDeducted" (isTaxDeductedCollectedComponentValid)="isTaxDeductedCollectedComponentValid($event)"></tax-deducted-collected>
                         </div>
                         <div id="taxPaidVerification" class="tab-pane fade " style="padding: 0 5px 0 5px">
                             <tax-paid-verification></tax-paid-verification>

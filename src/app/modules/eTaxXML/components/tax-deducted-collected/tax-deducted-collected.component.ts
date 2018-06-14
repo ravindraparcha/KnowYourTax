@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter } from "@angular/core";
 
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
 
@@ -35,8 +35,9 @@ export class TaxDeductedCollectedComponent implements OnInit {
     private newTaxCollectedModel;
 
     public taxTypeList = [];
-
-    constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService, private _sharedTaxService: SharedTaxService) { }
+    @Output() isTaxDeductedCollectedComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @ViewChild('taxDeductedCollectedFrm') taxDeductedCollectedFrm;
+    constructor(private cd: ChangeDetectorRef,private _configuration: Configuration, private _sharedXMLService: SharedXMLService, private _sharedTaxService: SharedTaxService) { }
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
@@ -48,6 +49,9 @@ export class TaxDeductedCollectedComponent implements OnInit {
             for (let i = 0; i < taxDeductedModels.length; i++)
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
         }
+    }
+    ngAfterViewInit() {
+        this.cd.detectChanges();
     }
     ngOnInit() {
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -100,6 +104,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.deleteItemFromArray(this.taxDeductedSalaryModels, index);
         this.calculateTaxDeductedAmount();
     }
+   
     private calculateTaxDeductedAmount() {
         let tdsSum = 0;
         for (let taxDeductedSalaryModel of this.taxCollectedDeductedModel.taxDeductedSalaryModels)
@@ -190,5 +195,11 @@ export class TaxDeductedCollectedComponent implements OnInit {
             this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
             this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = "";
         }
+    }
+    public validateTaxDeductedCollectedComponentForm() {       
+        if (this.taxDeductedCollectedFrm.valid)  
+            this.isTaxDeductedCollectedComponentValid.emit(true);
+        else 
+            this.isTaxDeductedCollectedComponentValid.emit(false);         
     }
 }

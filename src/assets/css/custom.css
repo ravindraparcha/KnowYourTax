@@ -28,7 +28,7 @@ text-align: right;
 }
 .footer{
     /* box-shadow: 13px 1px 20px 2px #888888; */
-    box-shadow: 15px 6px 17px 4px #888888;
+    box-shadow: 3px 5px 8px 4px #88888859;
     position: absolute;
     text-align: center;
      
@@ -37,6 +37,7 @@ text-align: right;
     font-size: 11px;
     font-weight: 600;
     text-align: center;
+    background-color:#fcfcfc;
 }
  
 .footer a {
@@ -329,3 +330,4 @@ th{
 .toast-container.toast-top-center .toast, .toast-container.toast-bottom-center .toast {
     width: 50%;    
 }
+ 

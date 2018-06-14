@@ -142,9 +142,15 @@ export class eTaxXMLComponent implements OnInit {
         return -1;
     }
     private isPersonalInfoFrmValid:boolean;
+    private isTaxDeductedCollectedFrmValid:boolean;
     generateXML() {
         
         //validate child component
+        this.validateTaxDeductedCollectedComponent();
+        if(!this.isTaxDeductedCollectedFrmValid)  {
+            this._toastr.error("<b>Tax Details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+            return;
+        }
         this.validatePersonalInfoComponent();
         if(!this.isPersonalInfoFrmValid)  {
             this._toastr.error("<b>Personal Information</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
@@ -179,5 +185,14 @@ export class eTaxXMLComponent implements OnInit {
     validatePersonalInfoComponent() {        
         this._personalInfoComponent.validatePersonalInfoComponentForm();                     
     }
+    //this method will be emitted from child component i.e. ParentInfoComponent
+    private isTaxDeductedCollectedComponentValid(isFormValid:  boolean) {
+        this.isTaxDeductedCollectedFrmValid = isFormValid;
+    }
+    validateTaxDeductedCollectedComponent() {        
+        this._taxDeductedCollectedComponent.validateTaxDeductedCollectedComponentForm();              
+    }
+
+     
 
 }
