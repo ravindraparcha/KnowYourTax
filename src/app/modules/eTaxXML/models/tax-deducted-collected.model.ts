@@ -10,7 +10,7 @@ export class TaxCollectedModel {
     public taxCollectionAccountNo: string;
     public name: string;
     public amountForTaxDeduction: number;
-    public selectedTaxCollectionYear: number;
+    public selectedTaxCollectionYear: number=null;
     public taxCollected: number;
     public amountClaimedThisYear: number;
     constructor(taxCollectionAcNo: string, name: string, taxCollected: number, amountClaimedThisYear: number) {
@@ -27,7 +27,7 @@ export class TaxDeductedOtherThanSalaryModel{
     public taxDeducted :number;
     public amountClaimedThisYear : number;
     public yearList : any[];
-    public selectedOtherThanSalaryYear : number;
+    public selectedOtherThanSalaryYear : number=null;
     constructor(tan:string,name:string,amountForTaxDeduction:number,taxDeducted:number,amountClaimed:number) {
         this.TAN=tan;
         this.name=name;
@@ -52,7 +52,7 @@ export class TaxDeductedUnder26QCModel{
     public PAN:string;
     public name:string;
     public amountForTaxDeduction:number;
-    public selectedTenantDeductionYear: number;
+    public selectedTenantDeductionYear: number=null;
     public taxDeducted:number;
     public amountClaimedThisYear :number;
 
@@ -72,7 +72,7 @@ export class AdvanceTaxSelfAssessmentTaxModel {
     public taxPaid: number;
     public depositDate : string;
     public depositDateXml : string="";
-    public selectedTaxType : string="0";
+    public selectedTaxType : string=null;
     constructor(bsrCode: string, challan: string, taxPaid: number,depositDate : string) {
         this.BSRCode = bsrCode;
         this.challanSerialNumber = challan;

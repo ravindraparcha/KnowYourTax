@@ -31,6 +31,7 @@ import {PinCodeValidatorDirective} from '../../shared/validators/PinCodeDirectiv
 import {ReceiptNumberValidatorDirective} from '../../shared/validators/ReceiptNumberDirective';
 import {NoticeNumberValidatorDirective} from '../../shared/validators/NoticeNumberDirective';
 import {CompareTwoNumbersValidatorDirective} from '../../shared/validators/CompareTwoNumbersDirective';
+import {RequiredValidatorDirective} from '../../shared/validators/RequiredDirective';
 //Validator ends
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,
@@ -43,7 +44,7 @@ import {CompareTwoNumbersValidatorDirective} from '../../shared/validators/Compa
                     DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
                     AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
-                    NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective],
+                    NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective],
     exports : [eTaxXMLComponent]
 })
 

@@ -7,7 +7,7 @@ export class IncomeDetailsModel
     public deductionUS16 : number ;
     public salaryPensionSum : number  =0;
     public housePropertySum : number =0;
-    public selectedHousePropertyType : string="0";
+    public selectedHousePropertyType : string=null;
     public rent : number;
     public taxPaidToLocalAuthority : number;
     public annualValue : number=0;

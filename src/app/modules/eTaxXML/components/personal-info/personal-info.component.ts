@@ -59,12 +59,12 @@ export class PersonalInfoComponent implements OnInit {
     initialisePersonalModelObject() {
         this.personalInfo = new PersonalInfoModel();
         this.personalInfo.birthDate = "";
-        this.personalInfo.selectedState = "0";
-        this.personalInfo.selectedEmployerCategory = "0";
-        this.personalInfo.selectedReturnFiledSection = 0;
-        this.personalInfo.filingOriginalReturnDate = "";
-        this.personalInfo.selectedGovernedByPortugueseCivil = "0";
-        this.personalInfo.selectedOriginalRevisedFile = "0";
+        //this.personalInfo.selectedState = "";
+        // this.personalInfo.selectedEmployerCategory = "";
+        //this.personalInfo.selectedReturnFiledSection = 0;
+        //this.personalInfo.filingOriginalReturnDate = "";
+        //this.personalInfo.selectedGovernedByPortugueseCivil = "";
+        //this.personalInfo.selectedOriginalRevisedFile = "";
         this.personalInfo.filedAgainstNotice = "";
         this.personalInfo.premisesBldgVillage = "";
         this.personalInfo.country = "91";
@@ -121,7 +121,7 @@ export class PersonalInfoComponent implements OnInit {
                 //     positionClass: 'toast-top-full-width', closeButton: true, timeOut: 5000, progressBar: true, progressAnimation: 'decreasing'
                 // });
             this.personalInfo.selectedOriginalRevisedFile = "O";
-            this.personalInfo.selectedReturnFiledSection = 0;
+            this.personalInfo.selectedReturnFiledSection = null;
         }
         if (this.personalInfo.selectedOriginalRevisedFile == "R") {
             this.personalInfo.noticeNumber = "";

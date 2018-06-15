@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angu
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { Configuration } from '../../../../shared/constants';
 import { DeductionsComponent } from '../deduction/deductions.components';
-import { Form } from '@angular/forms';
+ 
 
 declare var $: any;
 
@@ -22,6 +22,9 @@ export class IncomeDetailsComponent implements OnInit {
     set advanceTaxPaid(advanceTaxModel: any[]) {
         this.advanceTaxAlreadyPaid = advanceTaxModel;
     }
+
+    @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @ViewChild('incomeDetailsForm') incomeDetailsForm;
 
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
@@ -76,8 +79,13 @@ export class IncomeDetailsComponent implements OnInit {
     }
     updateTotalDeductions(sum: number) {
         this.incomeDetailsModel.totalDeductionSum = sum;
-
     }
  
+    public validateIncomeDetailsComponentForm() {       
+        if (this.incomeDetailsForm.valid)  
+            this.isIncomeDetailsComponentValid.emit(true);
+        else 
+            this.isIncomeDetailsComponentValid.emit(false);         
+    }
      
 }

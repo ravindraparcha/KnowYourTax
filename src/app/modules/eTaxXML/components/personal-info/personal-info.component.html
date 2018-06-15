@@ -46,7 +46,7 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Flat/Door/Block Number</label>
         <div class="col-sm-3">
-            <input type="text" required name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate class="form-control"
+            <input type="text" required novalidate  name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate class="form-control"
                 [(ngModel)]="personalInfo.flatDoorBlockNo" #flatDoorBlockNo="ngModel" />
         </div>
         <label class="control-label col-sm-2 text-left">Premises/Building/Village</label>
@@ -60,8 +60,8 @@
         <label class="control-label col-sm-2 text-left">Date of birth</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input class="form-control" required readonly [ngClass]="(personalInfo.birthDate!==null && personalInfo.birthDate.length>0 )? 'valid': 'invalid'"
-                    style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="personalInfo.birthDate"
+                <input class="form-control" required readonly [ngClass]="personalInfo.birthDate ? 'valid': 'invalid'"
+                    style="float:none;border-radius: 0;" [(ngModel)]="model" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="personalInfo.birthDate"
                     [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onBirthDateChanged($event)" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dp.clearDate()">
@@ -83,12 +83,12 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Area/Locality</label>
         <div class="col-sm-3">
-            <input type="text" required [ngClass]="areaLocality.valid? 'valid': 'invalid'" novalidate class="form-control" [(ngModel)]="personalInfo.areaLocality"
+            <input type="text" required nonvalidate  [ngClass]="areaLocality.valid? 'valid': 'invalid'" novalidate class="form-control" [(ngModel)]="personalInfo.areaLocality"
                 #areaLocality="ngModel" name="areaLocality" />
         </div>
         <label class="control-label col-sm-2 text-left">Town/City/District</label>
         <div class="col-sm-3">
-            <input type="text" required novalidate [ngClass]="townCityDistrict.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.townCityDistrict"
+            <input type="text" required  novalidate [ngClass]="townCityDistrict.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.townCityDistrict"
                 #townCityDistrict="ngModel" name="townCityDistrict" />
         </div>
     </div>
@@ -96,9 +96,9 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">State</label>
         <div class="col-sm-3">
-            <select id="state" #state="ngModel" required [ngClass]="personalInfo.selectedState > '0' ? 'valid': 'invalid'" class="form-control"
+            <select id="state" #state="ngModel" required [ngClass]="personalInfo.selectedState !=null ? 'valid': 'invalid'" class="form-control"
                 [(ngModel)]="personalInfo.selectedState" name="state">
-                <option selected="selected" value="0">Select</option>
+                <option [ngValue]=null>Select</option>
                 <option [ngValue]="st.stateCode" *ngFor="let st of _configuration.stateList">
                     {{st.state}}
             </select>
@@ -114,13 +114,13 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Email Address</label>
         <div class="col-sm-3">
-            <input type="text" required novalidate [ngClass]="email.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.email"
+            <input type="text" required novalidate  [ngClass]="email.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.email"
                 EmailValidator #email="ngModel" name="email" />
             <div class="border-left-error" *ngIf="email.errors && email.errors.emailError">{{email.errors.emailError.errorMsg}}</div>
         </div>
         <label class="control-label col-sm-2 text-left">Mobile Number</label>
         <div class="col-sm-3">
-            <input type="text" required nonvalidate [ngClass]="mobileNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.mobileNo"
+            <input type="text" required  nonvalidate [ngClass]="mobileNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.mobileNo"
                 #mobileNo="ngModel" name="mobileNo" MobileNoValidator />
             <div class="border-left-error" *ngIf="mobileNo.errors && mobileNo.errors.mobileNoError">{{mobileNo.errors.mobileNoError.errorMsg}}</div>
         </div>
@@ -129,18 +129,18 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Employer Category</label>
         <div class="col-sm-3">
-            <select id="employerCategory" #employerCategory="ngModel" required [ngClass]="personalInfo.selectedEmployerCategory!='0'? 'valid': 'invalid'"
-                class="form-control" [(ngModel)]="personalInfo.selectedEmployerCategory" name="employerCategory">
-                <option selected="selected" value="0">Select</option>
+            <select id="employerCategory" #employerCategory="ngModel" required [ngClass]="personalInfo.selectedEmployerCategory!=null? 'valid': 'invalid'"
+                class="form-control" [(ngModel)]="personalInfo.selectedEmployerCategory" name="employerCategory">                
+                <option [ngValue]=null>Select</option>
                 <option [ngValue]="st.empCatValue" *ngFor="let st of _configuration.employerCategoryList">
                     {{st.empCatText}}
             </select>
         </div>
         <label class="control-label col-sm-2 text-left">Return filed</label>
         <div class="col-sm-3">
-            <select id="returnFiledSection" #returnFiledSection="ngModel" required [ngClass]="personalInfo.selectedReturnFiledSection>0? 'valid': 'invalid'"
+            <select id="returnFiledSection" #returnFiledSection="ngModel" required [ngClass]="personalInfo.selectedReturnFiledSection!=null? 'valid': 'invalid'"
                 class="form-control" [(ngModel)]="personalInfo.selectedReturnFiledSection" name="returnFiledSection" (change)="changeReturnFileSection()">
-                <option selected="selected" value="0">Select</option>
+                <option [ngValue]=null>Select</option>
                 <option [ngValue]="st.returnFileValue" *ngFor="let st of _configuration.returnFiledList">
                     {{st.returnFileText}}
             </select>
@@ -150,13 +150,13 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Governed by Portuguese Civil Code (section 5A)</label>
         <div class="col-sm-3">
-            <select id="governedByPortugueseCivil" #governedByPortugueseCivil="ngModel" required [ngClass]="(personalInfo.selectedGovernedByPortugueseCivil!='0' && personalInfo.selectedGovernedByPortugueseCivil!='') ? 'valid': 'invalid'"
+            <select id="governedByPortugueseCivil" #governedByPortugueseCivil="ngModel" required [ngClass]="(personalInfo.selectedGovernedByPortugueseCivil!=null && personalInfo.selectedGovernedByPortugueseCivil!='') ? 'valid': 'invalid'"
                 class="form-control" [(ngModel)]="personalInfo.selectedGovernedByPortugueseCivil" name="governedByPortugueseCivil"
-                (change)="onChangeGovernedByPortuguesesCivil()">
-                <option selected="selected" value="0">Select</option>
+                (change)="onChangeGovernedByPortuguesesCivil()">   
+                <option [ngValue]=null>Select</option>             
                 <option [ngValue]="st.value" *ngFor="let st of _configuration.yesNoList">
                     {{st.text}}
-            </select>
+            </select>            
         </div>
         <label class="control-label col-sm-2 text-left">If yes, spouse PAN number</label>
         <div class="col-sm-3">
@@ -169,9 +169,9 @@
     <div class="form-group margin-top15">
         <label class="control-label  col-sm-2 text-left">Return Type</label>
         <div class="col-sm-3">
-            <select id="originalRevisedFile" #originalRevisedFile="ngModel" required [ngClass]="(personalInfo.selectedOriginalRevisedFile!='0' &&  personalInfo.selectedOriginalRevisedFile!='')? 'valid': 'invalid'"
+            <select id="originalRevisedFile" #originalRevisedFile="ngModel" required [ngClass]="(personalInfo.selectedOriginalRevisedFile!=null &&  personalInfo.selectedOriginalRevisedFile!='')? 'valid': 'invalid'"
                 class="form-control" [(ngModel)]="personalInfo.selectedOriginalRevisedFile" name="originalRevisedFile" (change)="onChangeOrginalRevisedFile()">
-                <option selected="selected" value="0">Select</option>
+                <option [ngValue]=null>Select</option>
                 <option [ngValue]="st.value" *ngFor="let st of _configuration.originalRevisedList">
                     {{st.text}}
             </select>
@@ -180,7 +180,7 @@
         <div class="col-sm-3">
             <div class="input-group">
                 <input class="form-control" readonly style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="originalReturnDate"
-                    [(ngModel)]="personalInfo.filingOriginalReturnDate" [options]="myOptions" #originalReturnDatePicker="ngx-mydatepicker"
+                    [(ngModel)]="personalInfo.filingOriginalReturnDate"  [(ngModel)]="model" [options]="myOptions" #originalReturnDatePicker="ngx-mydatepicker"
                     (dateChanged)="onOriginalFilingReturnDateChanged($event)" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="originalReturnDatePicker.clearDate()">
@@ -216,7 +216,7 @@
         <div class="col-sm-3">
             <div class="input-group">
                 <input class="form-control" readonly style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="filedAgainstNoticeDate"
-                    [(ngModel)]="personalInfo.filedAgainstNotice" [options]="filedAgainstNoticeOptions" #filedAgainstNoticeDatePicker="ngx-mydatepicker"
+                    [(ngModel)]="personalInfo.filedAgainstNotice" [(ngModel)]="model" [options]="filedAgainstNoticeOptions" #filedAgainstNoticeDatePicker="ngx-mydatepicker"
                     (dateChanged)="onfiledAgainstNoticeDateChanged($event)" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="filedAgainstNoticeDatePicker.clearDate()">

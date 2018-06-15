@@ -143,20 +143,28 @@ export class eTaxXMLComponent implements OnInit {
     }
     private isPersonalInfoFrmValid:boolean;
     private isTaxDeductedCollectedFrmValid:boolean;
+    private isIncomeDetailsFrmValid:boolean;
     generateXML() {
         
         //validate child component
-        this.validateTaxDeductedCollectedComponent();
-        if(!this.isTaxDeductedCollectedFrmValid)  {
-            this._toastr.error("<b>Tax Details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //this.validateTaxDeductedCollectedComponent();
+        // if(!this.isTaxDeductedCollectedFrmValid)  {
+        //     this._toastr.error("<b>Tax Details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //     return;
+        // }
+        // this.validatePersonalInfoComponent();
+        // if(!this.isPersonalInfoFrmValid)  {
+        //     this._toastr.error("<b>Personal Information</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //     return;
+        // }
+
+        this.validateIncomeDetailsComponent();
+        if(!this.isIncomeDetailsFrmValid)  {
+            this._toastr.error("<b>Income details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
             return;
         }
-        this.validatePersonalInfoComponent();
-        if(!this.isPersonalInfoFrmValid)  {
-            this._toastr.error("<b>Personal Information</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
-            return;
-        }
-         this.xmlDataArray = [];
+
+        this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();
         this.incomeData.incomeDetailsModel=this._incomeDetailsComponent.incomeDetailsModel;
@@ -185,12 +193,19 @@ export class eTaxXMLComponent implements OnInit {
     validatePersonalInfoComponent() {        
         this._personalInfoComponent.validatePersonalInfoComponentForm();                     
     }
-    //this method will be emitted from child component i.e. ParentInfoComponent
+    //this method will be emitted from child component i.e. TaxDeductedCollectedComponent
     private isTaxDeductedCollectedComponentValid(isFormValid:  boolean) {
         this.isTaxDeductedCollectedFrmValid = isFormValid;
     }
     validateTaxDeductedCollectedComponent() {        
         this._taxDeductedCollectedComponent.validateTaxDeductedCollectedComponentForm();              
+    }
+     //this method will be emitted from child component i.e. IncomeDetailsComponent
+     private isIncomeDetailsComponentValid(isFormValid:  boolean) {
+        this.isIncomeDetailsFrmValid = isFormValid;
+    }
+    validateIncomeDetailsComponent() {        
+        this._incomeDetailsComponent.validateIncomeDetailsComponentForm();
     }
 
      

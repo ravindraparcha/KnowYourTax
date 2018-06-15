@@ -81,9 +81,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="border-left-error" *ngIf="(taxDeductedSalaryModelTaxDeducted || taxDeductedSalaryModelIncomeChargeable) && (taxDeductedSalaryModelTaxDeducted.errors || taxDeductedSalaryModelIncomeChargeable.errors)">Income from</div>         -->
-
-
+        
         <div class="panel-custom panel-default-custom">
             <div class="panel-heading-custom" role="tab" id="tds2Heading" style="font-size:15px;">
                 <h4 class="panel-title">
@@ -112,32 +110,37 @@
                         <tbody>
                             <tr *ngFor="let taxDeductedOtherThanSalaryModel of taxDeductedOtherThanSalaryModels; let i = index">
                                 <td>
-                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.TAN" class="form-control" type="text" name="{{taxDeductedOtherThanSalaryModel.TAN}}"
+                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.TAN" class="form-control" type="text"  #taxDeductedOtherThanSalaryModelTAN="ngModel" name="taxDeductedOtherThanSalaryModelTAN_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.name" class="form-control" type="text" name="{{taxDeductedOtherThanSalaryModel.name}}"
+                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.name" class="form-control" #taxDeductedOtherThanSalaryModelName="ngModel" type="text" name="taxDeductedOtherThanSalaryModelName_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountForTaxDeduction" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.amountForTaxDeduction}}"
+                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountForTaxDeduction" #taxDeductedOtherThanSalaryModelAmountForTaxDeduction="ngModel" class="form-control" type="number" name="taxDeductedOtherThanSalaryModelAmountForTaxDeduction_{{i}}"
                                     />
                                 </td>
                                 <td>
                                     <select id="selectedOtherThanSalaryYear" #selectedOtherThanSalaryYear="ngModel" required [ngClass]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear>0? 'valid': 'invalid'"
                                         class="form-control" [(ngModel)]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear"
-                                        name="selectedOtherThanSalaryYear">
-                                        <option selected="selected" value="0">Select</option>
+                                        name="selectedOtherThanSalaryYear"> 
+                                        <option [ngValue]=null>Select</option>                                       
                                         <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
                                             {{year.value}}
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.taxDeducted}}"
-                                        (change)="calculateTaxDeductedAmount()" />
+                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.taxDeducted" class="form-control" type="number" #taxDeductedOtherThanSalaryModelTaxDeducted="ngModel"  name="taxDeductedOtherThanSalaryModelTaxDeducted_{{i}}"
+                                        (change)="calculateTaxDeductedAmount()" 
+                                        CompareTwoNumbersValidator otherValue="{{taxDeductedOtherThanSalaryModel.amountClaimedThisYear}},false"
+                                        [ngStyle]="{ 'border-color': (taxDeductedOtherThanSalaryModelTaxDeducted && taxDeductedOtherThanSalaryModelTaxDeducted.errors ?'red':none)}"
+                                        />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxDeductedOtherThanSalaryModel.amountClaimedThisYear}}"
+                                    <input [(ngModel)]="taxDeductedOtherThanSalaryModel.amountClaimedThisYear" class="form-control" type="number" #taxDeductedOtherThanSalaryModelAmountClaimedThisYear="ngModel" name="taxDeductedOtherThanSalaryModelAmountClaimedThisYear_{{i}}"
+                                    CompareTwoNumbersValidator otherValue="{{taxDeductedOtherThanSalaryModel.taxDeducted}},true"
+                                            [ngStyle]="{ 'border-color': (taxDeductedOtherThanSalaryModelAmountClaimedThisYear && taxDeductedOtherThanSalaryModelAmountClaimedThisYear.errors ?'red':none)}"
                                     />
                                 </td>
 
@@ -168,7 +171,7 @@
                             </tr>
                             <tr>
                                     <td colspan="7">
-                                        <div class="border-left-info">Note: Amount claimed this year out of tax deducted should be less than or equal to Income chargeable under salary</div>
+                                        <div class="border-left-info">Note: Amount claimed this year out of tax deducted should be less than or equal to Tax deducted</div>
                                     </td>                                
                                 </tr>
                         </tbody>
@@ -205,32 +208,37 @@
                         <tbody>
                             <tr *ngFor="let taxDeductedUnder26QCModel of taxDeductedUnder26QCModels; let i = index">
                                 <td>
-                                    <input [(ngModel)]="taxDeductedUnder26QCModel.PAN" class="form-control" type="text" name="{{taxDeductedUnder26QCModel.PAN}}"
+                                    <input [(ngModel)]="taxDeductedUnder26QCModel.PAN" class="form-control" type="text" #taxDeductedUnder26QCModelPAN="ngModel"  name="taxDeductedUnder26QCModelPAN_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedUnder26QCModel.name" class="form-control" type="text" name="{{taxDeductedUnder26QCModel.name}}"
+                                    <input [(ngModel)]="taxDeductedUnder26QCModel.name" class="form-control" type="text" #taxDeductedUnder26QCModelName="ngModel" name="taxDeductedUnder26QCModelName_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedUnder26QCModel.amountForTaxDeduction" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.amountForTaxDeduction}}"
+                                    <input [(ngModel)]="taxDeductedUnder26QCModel.amountForTaxDeduction" class="form-control" type="number" #taxDeductedUnder26QCModelAmountForTaxDeduction="ngModel" name="taxDeductedUnder26QCModelAmountForTaxDeduction_{{i}}"
                                     />
                                 </td>
                                 <td>
                                     <select id="selectedTenantDeductionYear" #selectedTenantDeductionYear="ngModel" required [ngClass]="taxDeductedUnder26QCModel.selectedTenantDeductionYear>0? 'valid': 'invalid'"
                                         class="form-control" [(ngModel)]="taxDeductedUnder26QCModel.selectedTenantDeductionYear"
                                         name="selectedTenantDeductionYear">
-                                        <option selected="selected" value="0">Select</option>
+                                        <option [ngValue]=null>Select</option>
                                         <option [ngValue]="year.key" *ngFor="let year of taxDeductionTenantYearList">
                                             {{year.value}}
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedUnder26QCModel.taxDeducted" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.taxDeducted}}"
-                                        (change)="calculateTaxDeductedAmount()" />
+                                    <input [(ngModel)]="taxDeductedUnder26QCModel.taxDeducted" class="form-control" type="number" #taxDeductedUnder26QCModelTaxDeducted="ngModel" name="taxDeductedUnder26QCModelTaxDeducted_{{i}}"
+                                        (change)="calculateTaxDeductedAmount()" 
+                                        CompareTwoNumbersValidator otherValue="{{taxDeductedUnder26QCModel.amountClaimedThisYear}},false"
+                                        [ngStyle]="{ 'border-color': (taxDeductedUnder26QCModelTaxDeducted && taxDeductedUnder26QCModelTaxDeducted.errors ?'red':none)}"
+                                        />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxDeductedUnder26QCModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxDeductedUnder26QCModel.amountClaimedThisYear}}"
+                                    <input [(ngModel)]="taxDeductedUnder26QCModel.amountClaimedThisYear" class="form-control" type="number" #taxDeductedUnder26QCModelAmountClaimedThisYear="ngModel" name="taxDeductedUnder26QCModelAmountClaimedThisYear_{{i}}"
+                                    CompareTwoNumbersValidator otherValue="{{taxDeductedUnder26QCModel.taxDeducted}},true"
+                                    [ngStyle]="{ 'border-color': (taxDeductedUnder26QCModelAmountClaimedThisYear && taxDeductedUnder26QCModelAmountClaimedThisYear.errors ?'red':none)}"
                                     />
                                 </td>
 
@@ -261,7 +269,7 @@
                             </tr>
                             <tr>
                                     <td colspan="7">
-                                        <div class="border-left-info">Note: Amount claimed this year out of tax deducted should be less than or equal to Income chargeable under salary</div>
+                                        <div class="border-left-info">Note: Amount claimed this year out of tax deducted should be less than or equal to Tax deducted</div>
                                     </td>                                
                                 </tr>
                         </tbody>
@@ -294,13 +302,13 @@
                         <tbody>
                             <tr *ngFor="let advanceTaxSelfAssessmentTaxModel of advanceTaxSelfAssessmentTaxModels; let i = index">
                                 <td>
-                                    <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.BSRCode" class="form-control" type="text" name="{{advanceTaxSelfAssessmentTaxModel.BSRCode}}"
+                                    <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.BSRCode" class="form-control" type="text" #advanceTaxSelfAssessmentTaxModelBSRCode="ngModel" name="advanceTaxSelfAssessmentTaxModelBSRCode_{{i}}"
                                     />
                                 </td>
                                 <td>
                                     <div class="input-group">
                                         <input class="form-control" required readonly [ngClass]="advanceTaxSelfAssessmentTaxModel.depositDate.length? 'valid': 'invalid'"
-                                            style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker
+                                            style="float:none;border-radius: 0;" [(ngModel)]="model" placeholder="Select a date" ngx-mydatepicker
                                             name="mydepositDatedate" [options]="myOptions" #dd="ngx-mydatepicker" (dateChanged)="onDepositDateChanged($event)"
                                         />
                                         <span class="input-group-btn">
@@ -314,14 +322,14 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.challanSerialNumber" class="form-control" type="number" name="{{advanceTaxSelfAssessmentTaxModel.challanSerialNumber}}"
+                                    <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.challanSerialNumber" class="form-control" type="number" #advanceTaxSelfAssessmentTaxModelChallanSerialNumber="ngModel" name="advanceTaxSelfAssessmentTaxModelChallanSerialNumber_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <select id="selectedTaxType" #selectedTaxType="ngModel" required [ngClass]="advanceTaxSelfAssessmentTaxModel.selectedTaxType!='0'? 'valid': 'invalid'"
+                                    <select id="selectedTaxType" #selectedTaxType="ngModel" required [ngClass]="advanceTaxSelfAssessmentTaxModel.selectedTaxType!=null? 'valid': 'invalid'"
                                         class="form-control" (change)="calculateAdvanceTaxSelfAssessmentTax()" [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType"
-                                        name="selectedTaxType">
-                                        <option selected="selected" value="0">Select</option>
+                                        name="selectedTaxType"> 
+                                        <option [ngValue]=null>Select</option>                                      
                                         <option [ngValue]="type.value" *ngFor="let type of taxTypeList">
                                             {{type.text}}
                                     </select>
@@ -329,7 +337,7 @@
 
                                 <td>
                                     <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0' ? 0 : advanceTaxSelfAssessmentTaxModel.taxPaid"
-                                        class="form-control" type="number" name="{{advanceTaxSelfAssessmentTaxModel.taxPaid}}"
+                                        class="form-control" type="number" #advanceTaxSelfAssessmentTaxModelTaxPaid="ngModel" name="advanceTaxSelfAssessmentTaxModelTaxPaid_{{i}}"
                                         (change)="calculateAdvanceTaxSelfAssessmentTax()" [disabled]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0'"
                                     />
                                 </td>
@@ -388,30 +396,35 @@
                         <tbody>
                             <tr *ngFor="let taxCollectedModel of taxCollectedModels; let i = index">
                                 <td>
-                                    <input [(ngModel)]="taxCollectedModel.taxCollectionAccountNo" class="form-control" type="text" name="{{taxCollectedModel.taxCollectionAccountNo}}"
+                                    <input [(ngModel)]="taxCollectedModel.taxCollectionAccountNo" class="form-control" type="text" #taxCollectedModelTaxCollectionAccountNo="ngModel" name="taxCollectedModelTaxCollectionAccountNo_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxCollectedModel.name" class="form-control" type="text" name="{{taxCollectedModel.name}}" />
+                                    <input [(ngModel)]="taxCollectedModel.name" class="form-control" type="text" #taxCollectedModelName="ngModel" name="taxCollectedModelName_{{i}}" />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxCollectedModel.amountForTaxDeduction" class="form-control" type="number" name="{{taxCollectedModel.amountForTaxDeduction}}"
+                                    <input [(ngModel)]="taxCollectedModel.amountForTaxDeduction" class="form-control" type="number" #taxCollectedModelAmountForTaxDeduction="ngModel" name="taxCollectedModelAmountForTaxDeduction_{{i}}"
                                     />
                                 </td>
                                 <td>
-                                    <select id="selectedTaxCollectionYear" #selectedTaxCollectionYear="ngModel" required [ngClass]="taxCollectedModel.selectedTaxCollectionYear>0? 'valid': 'invalid'"
+                                    <select id="selectedTaxCollectionYear"  #selectedTaxCollectionYear="ngModel" required [ngClass]="taxCollectedModel.selectedTaxCollectionYear>0? 'valid': 'invalid'"
                                         class="form-control" [(ngModel)]="taxCollectedModel.selectedTaxCollectionYear" name="selectedTaxCollectionYear">
-                                        <option selected="selected" value="0">Select</option>
+                                        <option [ngValue]=null>Select</option>
                                         <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
                                             {{year.value}}
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxCollectedModel.taxCollected" class="form-control" type="number" name="{{taxCollectedModel.taxCollected}}"
-                                        (change)="calculateTaxCollection()" />
+                                    <input [(ngModel)]="taxCollectedModel.taxCollected" class="form-control" type="number" #taxCollectedModelTaxCollected="ngModel" name="taxCollectedModelTaxCollected_{{i}}"
+                                        (change)="calculateTaxCollection()"
+                                        CompareTwoNumbersValidator otherValue="{{taxCollectedModel.amountClaimedThisYear}},false"
+                                        [ngStyle]="{ 'border-color': (taxCollectedModelTaxCollected && taxCollectedModelTaxCollected.errors ?'red':none)}"
+                                         />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="taxCollectedModel.amountClaimedThisYear" class="form-control" type="number" name="{{taxCollectedModel.amountClaimedThisYear}}"
+                                    <input [(ngModel)]="taxCollectedModel.amountClaimedThisYear" class="form-control" type="number" #taxCollectedModelAmountClaimedThisYear="ngModel" name="taxCollectedModelAmountClaimedThisYear_{{i}}"
+                                    CompareTwoNumbersValidator otherValue="{{taxCollectedModel.taxCollected}},true"
+                                    [ngStyle]="{ 'border-color': (taxCollectedModelAmountClaimedThisYear && taxCollectedModelAmountClaimedThisYear.errors ?'red':none)}"
                                     />
                                 </td>
 
@@ -442,7 +455,7 @@
                             </tr>
                             <tr>
                                     <td colspan="7">
-                                        <div class="border-left-info">Note: Amount claimed this year out of tax deducted should be less than or equal to Income chargeable under salary</div>
+                                        <div class="border-left-info">Note: Amount claimed this year out of tax deducted should be less than or equal to Tax collected</div>
                                     </td>                                
                                 </tr>
                         </tbody>
@@ -450,8 +463,5 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </form>

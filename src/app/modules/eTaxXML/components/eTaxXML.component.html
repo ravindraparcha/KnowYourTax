@@ -170,7 +170,7 @@
                             <personal-info [personalInfoData]="personalInfoData" (isPersonalInfoComponentValid)="isPersonalInfoComponentValid($event)"></personal-info>
                         </div>
                         <div id="incomeDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
-                            <income-details [advanceTaxPaid]="advanceTaxPaidModels"></income-details>
+                            <income-details [advanceTaxPaid]="advanceTaxPaidModels" (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
                             <tax-deducted-collected [taxDeducted]="taxDeducted" (isTaxDeductedCollectedComponentValid)="isTaxDeductedCollectedComponentValid($event)"></tax-deducted-collected>
