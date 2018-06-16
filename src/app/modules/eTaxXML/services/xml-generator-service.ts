@@ -382,13 +382,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.endElement();
             }
         }
-        this.xmlWriter.endElement();
-        //         ITRForm:AddtnlBankDetails>
-        // <ITRForm:IFSCCode>KKBK0000960</ITRForm:IFSCCode>
-        // <ITRForm:BankName>KOTAK MAHINDRA BANK LIMITED</ITRForm:BankName>
-        // <ITRForm:BankAccountNo>5411448108</ITRForm:BankAccountNo>
-        // </ITRForm:AddtnlBankDetails>
-
+        this.xmlWriter.endElement();        
     }
 
     private addTaxDeductedCollected(taxDeductedCollected) {
