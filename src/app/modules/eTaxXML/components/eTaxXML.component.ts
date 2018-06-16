@@ -145,28 +145,34 @@ export class eTaxXMLComponent implements OnInit {
     private isTaxDeductedCollectedFrmValid: boolean;
     private isIncomeDetailsFrmValid: boolean;
     private isTaxPaidVerificationFrmValid: boolean;
+    private isDeduction80GComponentValid: boolean;
     generateXML() {
 
         //validate child component
         //this.validateTaxDeductedCollectedComponent();
         // if(!this.isTaxDeductedCollectedFrmValid)  {
-        //     this._toastr.error("<b>Tax Details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //     this._toastr.error(this.getTabErrorMessage('Tax Details'),'Error',this._configuration.CustomToastOptions);
         //     return;
         // }
         // this.validatePersonalInfoComponent();
         // if(!this.isPersonalInfoFrmValid)  {
-        //     this._toastr.error("<b>Personal Information</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //     this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
         //     return;
         // }
 
         // this.validateIncomeDetailsComponent();
         // if(!this.isIncomeDetailsFrmValid)  {
-        //     this._toastr.error("<b>Income details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //     this._toastr.error(this.getTabErrorMessage('Income details'),'Error',this._configuration.CustomToastOptions);
         //     return;
         // }
-        this.validateTaxPaidVerificationComponent();
-        if (!this.isTaxPaidVerificationFrmValid) {
-            this._toastr.error("<b>Tax paid and verification</b> tab data is invalid. Please correct and proceed further", 'Error', this._configuration.CustomToastOptions);
+        // this.validateTaxPaidVerificationComponent();
+        // if (!this.isTaxPaidVerificationFrmValid) {
+        //     this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
+        //     return;
+        // }
+        this.validateDeduction80GComponent();
+        if (!this.isDeduction80GComponentValid) {
+            this._toastr.error(this.getTabErrorMessage('80G details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.xmlDataArray = [];
@@ -181,6 +187,11 @@ export class eTaxXMLComponent implements OnInit {
         this.createSectionArray('80g', this._donation80GComponent.donation80G);
         this._xmlGeneratorService.generateXML(this.xmlDataArray);
     }
+
+    private getTabErrorMessage(tabName: string) {
+        return "<b>"+tabName+"</b> tab data is invalid. Please correct and proceed further";
+    }
+
     private createSectionArray(infoType: string, data: any) {
         this.xmlDataArray.push({ "infoType": infoType, data: data });
     }
@@ -217,6 +228,15 @@ export class eTaxXMLComponent implements OnInit {
     }
     validateTaxPaidVerificationComponent() {
         this._taxPaidVerificationComponent.validateTaxPaidVerificationComponentForm();
+    }
+
+    private isDonation80GComponentValid(isFormValid: boolean) {
+        
+        this.isDeduction80GComponentValid = isFormValid;
+    }
+    validateDeduction80GComponent() {
+    
+        this._donation80GComponent.validateDonation80GComponentForm();
     }
 
 

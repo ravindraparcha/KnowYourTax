@@ -1,4 +1,4 @@
-import  {Component, OnInit} from '@angular/core';
+import  {Component, OnInit, Output, ViewChild, EventEmitter} from '@angular/core';
 import { Donation80G,DonationDeduction } from '../../models/donation-80G.model';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { Configuration } from '../../../../shared/constants';
@@ -25,9 +25,11 @@ export class Donation80GComponent implements OnInit {
     public donation50DeductionWithQualifyingLimitModels=[];
     public newDonation50DeductionWithQualifyingLimitModel;
 
+    @Output() isDonation80GComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @ViewChild('donation80GForm') donation80GForm;
     
     constructor(public configuration : Configuration){}
-
+     
     ngOnInit() {
         this.donation80G = new Donation80G();
         this.donation80G.donation100DeductionWithoutQualifyingLimit=[];
@@ -37,16 +39,16 @@ export class Donation80GComponent implements OnInit {
     }
 
     addNewDonation100DeductionWithoutQualifyingLimit() {
-        this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
+        this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0);
         this.donation100DeductionWithoutQualifyingLimitModels.push(this.newDonation100DeductionWithoutQualifyingLimitModel);
-        this.donation80G.donation100DeductionWithoutQualifyingLimit = this.donation100DeductionWithoutQualifyingLimitModels;
+        this.donation80G.donation100DeductionWithoutQualifyingLimit = this.donation100DeductionWithoutQualifyingLimitModels;        
     }
     deleteDonation100DeductionWithoutQualifyingLimitItem(index: number) {
         this.donation100DeductionWithoutQualifyingLimitModels.splice(index,1);
     }
 
     addNewDonation50DeductionWithoutQualifyingLimit() {
-        this.newDonation50DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
+        this.newDonation50DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0);
         this.donation50DeductionWithoutQualifyingLimitModels.push(this.newDonation50DeductionWithoutQualifyingLimitModel);
         this.donation80G.donation50DeductionWithoutQualifyingLimit = this.donation50DeductionWithoutQualifyingLimitModels;
     }
@@ -54,7 +56,7 @@ export class Donation80GComponent implements OnInit {
         this.donation50DeductionWithoutQualifyingLimitModels.splice(index,1);
     }
     addNewDonation100DeductionWithQualifyingLimit() {
-        this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
+        this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0);
         this.donation100DeductionWithQualifyingLimitModels.push(this.newDonation100DeductionWithoutQualifyingLimitModel);
         this.donation80G.donation100DeductionWithQualifyingLimit = this.donation100DeductionWithQualifyingLimitModels;
     }    
@@ -63,7 +65,7 @@ export class Donation80GComponent implements OnInit {
     }
 
     addNewDonation50DeductionWithQualifyingLimit() {
-        this.newDonation50DeductionWithQualifyingLimitModel = new DonationDeduction("","","","",0,"",0,0);
+        this.newDonation50DeductionWithQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0);
         this.donation50DeductionWithQualifyingLimitModels.push(this.newDonation50DeductionWithQualifyingLimitModel);
         this.donation80G.donation50DeductionWithQualifyingLimit=this.donation50DeductionWithQualifyingLimitModels;
     }
@@ -75,5 +77,12 @@ export class Donation80GComponent implements OnInit {
         console.log(this.donation50DeductionWithoutQualifyingLimitModels);
         console.log(this.donation100DeductionWithQualifyingLimitModels);
         console.log(this.donation50DeductionWithQualifyingLimitModels);
+    }
+    public validateDonation80GComponentForm() {
+       
+        if (this.donation80GForm.valid)  
+            this.isDonation80GComponentValid.emit(true);
+        else 
+            this.isDonation80GComponentValid.emit(false);         
     }
 }

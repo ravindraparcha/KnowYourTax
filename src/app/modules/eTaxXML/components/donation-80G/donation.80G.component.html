@@ -1,4 +1,6 @@
 <div class="panel-group margin-top15" id="accordion" role="tablist" aria-multiselectable="true">
+
+<form #donation80GForm = "ngForm">
     <div class="panel-custom panel-default-custom">
         <div class="panel-heading-custom" role="tab" id="g801Heading">
             <h4 class="panel-title">
@@ -20,51 +22,48 @@
                             <th>State</th>
                             <th>Pincode</th>
                             <th>Donee's PAN</th>
-                            <th>Donation amount</th>
-                            <th>Eligible donation amount</th>
+                            <th>Donation amount</th>                             
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let donation100DeductionWithoutQualifyingLimitModel of donation100DeductionWithoutQualifyingLimitModels; let i = index">
                             <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.doneeName" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.doneeName}}"
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.doneeName" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelDoneeName="ngModel" name="donation100DeductionWithoutQualifyingLimitModelDoneeName_{{i}}"
                                 />
                             </td>
                             <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.address" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.address}}"
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.address" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelAddress="ngModel" name="donation100DeductionWithoutQualifyingLimitModelAddress_{{i}}"
                                 />
                             </td>
                             <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.cityTownDistrict" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.cityTownDistrict}}"
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.cityTownDistrict" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelCityTownDistrict="ngModel" name="donation100DeductionWithoutQualifyingLimitModelCityTownDistrict_{{i}}"
                                 />
                             </td>
                             <td>
                                 <select id="selectedStateCode100WithoutQualifying" #selectedStateCode100WithoutQualifying="ngModel" required [ngClass]="donation100DeductionWithoutQualifyingLimitModel.selectedStateCode>0? 'valid': 'invalid'"
                                     class="form-control" [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.selectedStateCode"
-                                    name="selectedStateCode100WithoutQualifying">
-                                    <option selected="selected" value="0">Select</option>
+                                    name="selectedStateCode100WithoutQualifying" [ngModel]="ngModel">
+                                    <option [ngValue]=null>Select</option>
                                     <option [ngValue]="st.stateCode" *ngFor="let st of configuration.stateList">
                                         {{st.state}}
                                 </select>
                             </td>
                             <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.pinCode}}"
-                                />
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="number" #donation100DeductionWithoutQualifyingLimitModelPinCode="ngModel" name="donation100DeductionWithoutQualifyingLimitModelPinCode_{{i}}"
+                                PinCodeValidator />
+                                <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelPinCode.errors && donation100DeductionWithoutQualifyingLimitModelPinCode.errors.pinCodeError">{{donation100DeductionWithoutQualifyingLimitModelPinCode.errors.pinCodeError.errorMsg}}</div>
                             </td>
                             <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.PAN" class="form-control" type="text" name="{{donation100DeductionWithoutQualifyingLimitModel.PAN}}"
-                                />
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.PAN" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelPAN="ngModel" name="donation100DeductionWithoutQualifyingLimitModelPAN_{{i}}"
+                                PanCardValidator />
+                                <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelPAN.errors && donation100DeductionWithoutQualifyingLimitModelPAN.errors.panNoError">{{donation100DeductionWithoutQualifyingLimitModelPAN.errors.panNoError.errorMsg}}</div>
                             </td>
                             <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="number" name="{{donation100DeductionWithoutQualifyingLimitModel.donationAmount}}"
+                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="number" #donation100DeductionWithoutQualifyingLimitModelDonationAmount="ngModel" name="donation100DeductionWithoutQualifyingLimitModelDonationAmount_{{i}}"
                                 />
                             </td>
-                            <td>
-                                <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="number"
-                                    name="{{donation100DeductionWithoutQualifyingLimitModel.eligibleDonationAmount}}" />
-                            </td>
-
+                            
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation100DeductionWithoutQualifyingLimitItem(i)">
@@ -81,7 +80,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                             <td>&nbsp;</td>   
+                       
                             <td>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" (click)="addNewDonation100DeductionWithoutQualifyingLimit()">
@@ -96,8 +95,7 @@
         </div>
     </div>
 
-
-    <div class="panel-custom panel-default-custom">
+    <!-- <div class="panel-custom panel-default-custom">
         <div class="panel-heading-custom" role="tab" id="g802Heading">
             <h4 class="panel-title">
                 <a role="button"  class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#g802Collapse" aria-expanded="false" aria-controls="g802Collapse">
@@ -192,9 +190,9 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="panel-custom panel-default-custom">
+    <!-- <div class="panel-custom panel-default-custom">
             <div class="panel-heading-custom" role="tab" id="g803Heading">
                 <h4 class="panel-title">
                     <a role="button"  class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#g803Collapse" aria-expanded="false" aria-controls="g803Collapse">
@@ -289,10 +287,9 @@
                     </table>
                 </div>
             </div>
-        </div>
+    </div> -->
 
-
-        <div class="panel-custom panel-default-custom">
+    <!-- <div class="panel-custom panel-default-custom">
                 <div class="panel-heading-custom" role="tab" id="g804Heading">
                     <h4 class="panel-title">
                         <a role="button"  class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#g804Collapse" aria-expanded="false" aria-controls="g804Collapse">
@@ -387,6 +384,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-
+    </div> -->
+</form>
 </div>

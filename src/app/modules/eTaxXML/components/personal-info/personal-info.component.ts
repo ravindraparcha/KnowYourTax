@@ -32,6 +32,11 @@ export class PersonalInfoComponent implements OnInit {
     @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('personalInfoFrm') personalInfoForm;
 
+    public isReceiptNumber: boolean = true;
+    public isFilingDate: boolean = true;
+    public isNoticeNumber: boolean = true;
+    public isNoticeDate: boolean = true;
+
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
         disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
@@ -105,6 +110,43 @@ export class PersonalInfoComponent implements OnInit {
     changeReturnFileSection() {
         this.onChangeReturnFileSectionReturnType();
         this._sharedTaxService.changeReturnFiledSection(this.personalInfo.selectedReturnFiledSection);
+
+        this.isReceiptNumber = true;
+        this.isFilingDate = true;
+        this.isNoticeNumber = true;
+        this.isNoticeDate = true;
+        if (this.personalInfo.selectedReturnFiledSection == 11) {
+            this.isReceiptNumber = false;
+            this.isFilingDate = false;
+            this.isNoticeNumber = false;
+            this.isNoticeDate = false;
+        }
+        else if (this.personalInfo.selectedReturnFiledSection == 12) {
+            this.isReceiptNumber = false;
+            this.isFilingDate = false;
+            this.isNoticeNumber = false;
+            this.isNoticeDate = false;
+        }
+        else if (this.personalInfo.selectedReturnFiledSection == 13 || this.personalInfo.selectedReturnFiledSection == 14
+            || this.personalInfo.selectedReturnFiledSection == 15 || this.personalInfo.selectedReturnFiledSection == 16) {
+            this.isReceiptNumber = false;
+            this.isFilingDate = false;
+            this.isNoticeNumber = false;
+            this.isNoticeDate = true;
+        }
+        else if (this.personalInfo.selectedReturnFiledSection == 17) {
+            this.isReceiptNumber = true;
+            this.isFilingDate = true;
+            this.isNoticeNumber = false;
+            this.isNoticeDate = false;
+        }
+        else if (this.personalInfo.selectedReturnFiledSection == 20) {
+            this.isReceiptNumber = false;
+            this.isFilingDate = false;
+            this.isNoticeNumber = false;
+            this.isNoticeDate = false;
+        }
+
     }
     onChangeGovernedByPortuguesesCivil() {
         if (this.personalInfo.selectedGovernedByPortugueseCivil != 'Y')
@@ -116,10 +158,10 @@ export class PersonalInfoComponent implements OnInit {
 
     private onChangeReturnFileSectionReturnType() {
         if (this.personalInfo.selectedReturnFiledSection != 17 && this.personalInfo.selectedReturnFiledSection != 0 && this.personalInfo.selectedOriginalRevisedFile == "R") {
-            this._toastr.warning("Return type cannot be revised if return not filed under section 139(5)", "Warning",this._configuration.CustomToastOptions);
-                // {
-                //     positionClass: 'toast-top-full-width', closeButton: true, timeOut: 5000, progressBar: true, progressAnimation: 'decreasing'
-                // });
+            this._toastr.warning("Return type cannot be revised if return not filed under section 139(5)", "Warning", this._configuration.CustomToastOptions);
+            // {
+            //     positionClass: 'toast-top-full-width', closeButton: true, timeOut: 5000, progressBar: true, progressAnimation: 'decreasing'
+            // });
             this.personalInfo.selectedOriginalRevisedFile = "O";
             this.personalInfo.selectedReturnFiledSection = null;
         }
@@ -131,10 +173,10 @@ export class PersonalInfoComponent implements OnInit {
     }
 
     public validatePersonalInfoComponentForm() {
-        if (this.personalInfoForm.valid)  
+        if (this.personalInfoForm.valid)
             this.isPersonalInfoComponentValid.emit(true);
-        else 
-            this.isPersonalInfoComponentValid.emit(false);         
+        else
+            this.isPersonalInfoComponentValid.emit(false);
     }
 
 }
