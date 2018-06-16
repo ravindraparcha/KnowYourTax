@@ -74,7 +74,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:SWCreatedBy", "KnowYourTax");
         this.xmlWriter.writeElement("ITRForm:XMLCreatedBy", "KnowYourTax");
         this.xmlWriter.writeElement("ITRForm:XMLCreationDate", dateString);
-        this.xmlWriter.writeElement("ITRForm:IntermediaryCity", "Delhi");
+        this.xmlWriter.writeElement("ITRForm:IntermediaryCity", "DELHI");
         this.xmlWriter.endElement();
     }
     private addITR1() {
@@ -91,43 +91,43 @@ export class XmlGeneratorService {
         this.xmlWriter.startElement("ITRForm:PersonalInfo");
         this.xmlWriter.startElement("ITRForm:AssesseeName");
         if (personalInfo.firstName !== undefined && personalInfo.firstName !== "")
-            this.xmlWriter.writeElement("ITRForm:FirstName", personalInfo.firstName);
+            this.xmlWriter.writeElement("ITRForm:FirstName", personalInfo.firstName.toUpperCase( ));
         if (personalInfo.middleName !== undefined && personalInfo.middleName !== "")
-            this.xmlWriter.writeElement("ITRForm:MiddleName", personalInfo.middleName);
+            this.xmlWriter.writeElement("ITRForm:MiddleName", personalInfo.middleName.toUpperCase( ));
         if (personalInfo.lastName !== undefined && personalInfo.lastName !== "")
-            this.xmlWriter.writeElement("ITRForm:SurNameOrOrgName", personalInfo.lastName);
+            this.xmlWriter.writeElement("ITRForm:SurNameOrOrgName", personalInfo.lastName.toUpperCase( ));
 
         this.xmlWriter.endElement();
 
         if (personalInfo.panNo !== undefined && personalInfo.panNo !== "")
-            this.xmlWriter.writeElement("ITRForm:PAN", personalInfo.panNo);
+            this.xmlWriter.writeElement("ITRForm:PAN", personalInfo.panNo.toUpperCase( ));
         this.xmlWriter.startElement("ITRForm:Address");
         if (personalInfo.flatDoorBlockNo !== undefined && personalInfo.flatDoorBlockNo !== '')
-            this.xmlWriter.writeElement("ITRForm:ResidenceNo", personalInfo.flatDoorBlockNo);
+            this.xmlWriter.writeElement("ITRForm:ResidenceNo", personalInfo.flatDoorBlockNo.toUpperCase( ));
         if (personalInfo.premisesBldgVillage !== undefined && personalInfo.premisesBldgVillage !== '')
-            this.xmlWriter.writeElement("ITRForm:ResidenceName", personalInfo.premisesBldgVillage);
+            this.xmlWriter.writeElement("ITRForm:ResidenceName", personalInfo.premisesBldgVillage.toUpperCase( ));
         if (personalInfo.roadStreetPostOffice !== undefined && personalInfo.roadStreetPostOffice !== '')
-            this.xmlWriter.writeElement("ITRForm:RoadOrStreet", personalInfo.roadStreetPostOffice);
+            this.xmlWriter.writeElement("ITRForm:RoadOrStreet", personalInfo.roadStreetPostOffice.toUpperCase( ));
         if (personalInfo.areaLocality !== undefined && personalInfo.areaLocality !== '')
-            this.xmlWriter.writeElement("ITRForm:LocalityOrArea", personalInfo.areaLocality);
+            this.xmlWriter.writeElement("ITRForm:LocalityOrArea", personalInfo.areaLocality.toUpperCase( ));
         if (personalInfo.townCityDistrict !== undefined && personalInfo.townCityDistrict !== '')
-            this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", personalInfo.townCityDistrict);
-        if (personalInfo.selectedState !== undefined && personalInfo.selectedState !== '')
-            this.xmlWriter.writeElement("ITRForm:StateCode", personalInfo.selectedState);
+            this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", personalInfo.townCityDistrict.toUpperCase( ));
+        if (personalInfo.selectedState !== null && personalInfo.selectedState !== '')
+            this.xmlWriter.writeElement("ITRForm:StateCode", personalInfo.selectedState.toUpperCase( ));
         if (personalInfo.country !== undefined && personalInfo.country !== '')
-            this.xmlWriter.writeElement("ITRForm:CountryCode", personalInfo.country);
+            this.xmlWriter.writeElement("ITRForm:CountryCode", personalInfo.country.toUpperCase( ));
         if (personalInfo.zipCode !== undefined && personalInfo.zipCode !== '')
             this.xmlWriter.writeElement("ITRForm:PinCode", personalInfo.zipCode);
         if (personalInfo.mobileNo !== undefined && personalInfo.mobileNo !== '')
             this.xmlWriter.writeElement("ITRForm:MobileNo", personalInfo.mobileNo);
         if (personalInfo.email !== undefined && personalInfo.email !== '')
-            this.xmlWriter.writeElement("ITRForm:EmailAddress", personalInfo.email);
+            this.xmlWriter.writeElement("ITRForm:EmailAddress", personalInfo.email.toUpperCase( ));
 
         this.xmlWriter.endElement();
 
         if (personalInfo.birthDateXml !== undefined && personalInfo.birthDateXml !== '')
             this.xmlWriter.writeElement("ITRForm:DOB", personalInfo.birthDateXml);
-        if (personalInfo.selectedEmployerCategory !== undefined && personalInfo.selectedEmployerCategory !== '0')
+        if (personalInfo.selectedEmployerCategory !== null && personalInfo.selectedEmployerCategory !== '0')
             this.xmlWriter.writeElement("ITRForm:EmployerCategory", personalInfo.selectedEmployerCategory);
         if (personalInfo.aadharCardNo !== undefined && personalInfo.aadharCardNo !== '0')
             this.xmlWriter.writeElement("ITRForm:AadhaarCardNo", personalInfo.aadharCardNo);
@@ -141,7 +141,7 @@ export class XmlGeneratorService {
 
         this.xmlWriter.startElement("ITRForm:FilingStatus");
 
-        if (personalInfo.selectedReturnFiledSection !== undefined && personalInfo.selectedReturnFiledSection !== 0)
+        if (personalInfo.selectedReturnFiledSection !== null && personalInfo.selectedReturnFiledSection !== 0)
             this.xmlWriter.writeElement("ITRForm:ReturnFileSec", personalInfo.selectedReturnFiledSection);
         if (personalInfo.receiptNumber !== undefined && personalInfo.receiptNumber !== "")
             this.xmlWriter.writeElement("ITRForm:AckNoOriginalReturn", personalInfo.receiptNumber);
@@ -149,9 +149,9 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:NoticeNo", personalInfo.noticeNumber);
         if (personalInfo.filingOriginalReturnDateXml !== undefined && personalInfo.filingOriginalReturnDateXml !== "")
             this.xmlWriter.writeElement("ITRForm:DefRetOrigRetFiledDate", personalInfo.filingOriginalReturnDateXml);
-        if (personalInfo.selectedOriginalRevisedFile !== undefined && personalInfo.selectedOriginalRevisedFile !== "0")
+        if (personalInfo.selectedOriginalRevisedFile !== null && personalInfo.selectedOriginalRevisedFile !== "0")
             this.xmlWriter.writeElement("ITRForm:ReturnType", personalInfo.selectedOriginalRevisedFile);
-        if (personalInfo.selectedGovernedByPortugueseCivil !== undefined && personalInfo.selectedGovernedByPortugueseCivil !== "0")
+        if (personalInfo.selectedGovernedByPortugueseCivil !== null && personalInfo.selectedGovernedByPortugueseCivil !== "0")
             this.xmlWriter.writeElement("ITRForm:PortugeseCC5A", personalInfo.selectedGovernedByPortugueseCivil);
         if (personalInfo.spousePanNo !== undefined && personalInfo.spousePanNo !== "")
             this.xmlWriter.writeElement("ITRForm:PANOfSpouse", personalInfo.spousePanNo);
@@ -177,8 +177,8 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:DeductionUs16", incomeDetails.deductionUS16);
         if (incomeDetails.salaryPensionSum !== undefined && incomeDetails.salaryPensionSum !== null)
             this.xmlWriter.writeElement("ITRForm:IncomeFromSal", incomeDetails.salaryPensionSum);
-        if (incomeDetails.selectedHousePropertyType !== undefined && incomeDetails.selectedHousePropertyType !== "0")
-            this.xmlWriter.writeElement("ITRForm:TypeOfHP", incomeDetails.selectedHousePropertyType);
+        if (incomeDetails.selectedHousePropertyType !== null && incomeDetails.selectedHousePropertyType !== "0")
+            this.xmlWriter.writeElement("ITRForm:TypeOfHP", incomeDetails.selectedHousePropertyType.toUpperCase( ));
         if (incomeDetails.annualValue !== undefined && incomeDetails.annualValue == null)
             this.xmlWriter.writeElement("ITRForm:AnnualValue", incomeDetails.annualValue);
         if (incomeDetails.annualValuePercentageAmount !== undefined && incomeDetails.annualValuePercentageAmount == null)
@@ -401,8 +401,8 @@ export class XmlGeneratorService {
                 this.xmlWriter.startElement("ITRForm:TDSonSalary");
 
                 this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");
-                this.xmlWriter.writeElement("ITRForm:TAN", deducted.TAN);
-                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", deducted.name);
+                this.xmlWriter.writeElement("ITRForm:TAN", deducted.TAN.toUpperCase());
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", deducted.name.toUpperCase());
                 this.xmlWriter.endElement();
 
                 this.xmlWriter.writeElement("ITRForm:IncChrgSal", deducted.incomeChargeableForDeduction);
@@ -423,8 +423,8 @@ export class XmlGeneratorService {
                 this.xmlWriter.startElement("ITRForm:TDSonOthThanSal");
 
                 this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");
-                this.xmlWriter.writeElement("ITRForm:TAN", deducted.TAN);
-                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", deducted.name);
+                this.xmlWriter.writeElement("ITRForm:TAN", deducted.TAN.toUpperCase());
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", deducted.name.toUpperCase());
                 this.xmlWriter.endElement();
 
                 this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct", deducted.amountForTaxDeduction);
@@ -446,8 +446,8 @@ export class XmlGeneratorService {
             for (let deducted of taxDeductedCollected.taxDeductedUnder26QCModels) {
                 this.xmlWriter.startElement("ITRForm:TDSDetails26QC");
 
-                this.xmlWriter.writeElement("ITRForm:PANofTenant", deducted.PAN);
-                this.xmlWriter.writeElement("ITRForm:NameOfTenant", deducted.name);
+                this.xmlWriter.writeElement("ITRForm:PANofTenant", deducted.PAN.toUpperCase());
+                this.xmlWriter.writeElement("ITRForm:NameOfTenant", deducted.name.toUpperCase());
                 this.xmlWriter.writeElement("ITRForm:AmtForTaxDeduct", deducted.amountForTaxDeduction);
 
                 this.xmlWriter.writeElement("ITRForm:DeductedYr", deducted.selectedTenantDeductionYear);
@@ -470,8 +470,8 @@ export class XmlGeneratorService {
                 this.xmlWriter.startElement("ITRForm:TCS");
 
                 this.xmlWriter.startElement("ITRForm:EmployerOrDeductorOrCollectDetl");
-                this.xmlWriter.writeElement("ITRForm:TAN", collected.taxCollectionAccountNo);
-                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", collected.name);
+                this.xmlWriter.writeElement("ITRForm:TAN", collected.taxCollectionAccountNo.toUpperCase());
+                this.xmlWriter.writeElement("ITRForm:EmployerOrDeductorOrCollecterName", collected.name.toUpperCase());
                 this.xmlWriter.endElement();
 
                 this.xmlWriter.writeElement("ITRForm:AmtTaxCollected", collected.amountForTaxDeduction);
@@ -494,9 +494,9 @@ export class XmlGeneratorService {
             for (let advanceTax of taxDeductedCollected.advanceTaxSelfAssessmentTaxModels) {
                 this.xmlWriter.startElement("ITRForm:TaxPayment");
 
-                this.xmlWriter.writeElement("ITRForm:BSRCode", advanceTax.BSRCode);
+                this.xmlWriter.writeElement("ITRForm:BSRCode", advanceTax.BSRCode.toUpperCase());
                 this.xmlWriter.writeElement("ITRForm:DateDep", advanceTax.depositDateXml);
-                this.xmlWriter.writeElement("ITRForm:SrlNoOfChaln", advanceTax.challanSerialNumber);
+                this.xmlWriter.writeElement("ITRForm:SrlNoOfChaln", advanceTax.challanSerialNumber.toUpperCase());
                 this.xmlWriter.writeElement("ITRForm:Amt", advanceTax.taxPaid);
 
                 this.xmlWriter.endElement();
@@ -578,7 +578,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon100Percent", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += donationAmount.donationAmount;
-        this.eligibleAmt += donationAmount.eligibleAmount;
+        this.eligibleAmt += donationAmount.donationAmount;
     }
     private add80gDonee50PercentWithoutQualifyingLimit(section80g) {
         if (section80g.donation50DeductionWithoutQualifyingLimit.length == 0)
@@ -589,7 +589,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon50Percent", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += donationAmount.donationAmount;
-        this.eligibleAmt += donationAmount.eligibleAmount;
+        this.eligibleAmt +=  donationAmount.donationAmount;
     }
     private add80gDonee100PercentWithQualifyingLimit(section80g) {
         if (section80g.donation100DeductionWithQualifyingLimit.length == 0)
@@ -600,7 +600,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon100PercentApprReqd", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += donationAmount.donationAmount;
-        this.eligibleAmt += donationAmount.eligibleAmount;
+        this.eligibleAmt +=donationAmount.donationAmount;
     }
     private add80gDonee50PercentWithQualifyingLimit(section80g) {
         if (section80g.donation50DeductionWithQualifyingLimit.length == 0)
@@ -611,7 +611,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon50PercentApprReqd", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += donationAmount.donationAmount;
-        this.eligibleAmt += donationAmount.eligibleAmount;
+        this.eligibleAmt += donationAmount.donationAmount;
     }
     private addDoneeNodes(doneeDonations): any {
         let eligibleAmount = 0;
@@ -619,16 +619,16 @@ export class XmlGeneratorService {
         for (let doneeDonation of doneeDonations) {
             this.xmlWriter.startElement("ITRForm:DoneeWithPan");
             if (doneeDonation.doneeName !== undefined && doneeDonation.doneeName != "")
-                this.xmlWriter.writeElement("ITRForm:DoneeWithPanName", doneeDonation.doneeName);
+                this.xmlWriter.writeElement("ITRForm:DoneeWithPanName", doneeDonation.doneeName.toUpperCase());
             if (doneeDonation.PAN !== undefined && doneeDonation.PAN != "")
-                this.xmlWriter.writeElement("ITRForm:DoneePAN", doneeDonation.PAN);
+                this.xmlWriter.writeElement("ITRForm:DoneePAN", doneeDonation.PAN.toUpperCase());
 
             this.xmlWriter.startElement("ITRForm:AddressDetail");
             if (doneeDonation.address !== undefined && doneeDonation.address != "")
-                this.xmlWriter.writeElement("ITRForm:AddrDetail", doneeDonation.address);
+                this.xmlWriter.writeElement("ITRForm:AddrDetail", doneeDonation.address.toUpperCase());
             if (doneeDonation.cityTownDistrict !== undefined && doneeDonation.cityTownDistrict != "")
-                this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", doneeDonation.cityTownDistrict);
-            if (doneeDonation.selectedStateCode !== undefined && doneeDonation.selectedStateCode != "")
+                this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", doneeDonation.cityTownDistrict.toUpperCase());
+            if (doneeDonation.selectedStateCode !== null && doneeDonation.selectedStateCode != "")
                 this.xmlWriter.writeElement("ITRForm:StateCode", doneeDonation.selectedStateCode);
             if (doneeDonation.pinCode !== undefined && doneeDonation.pinCode != "")
                 this.xmlWriter.writeElement("ITRForm:PinCode", doneeDonation.pinCode);
@@ -639,7 +639,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:EligibleDonationAmt", doneeDonation.eligibleDonationAmount);
             this.xmlWriter.endElement();
             donationAmount += doneeDonation.donationAmount;
-            eligibleAmount += doneeDonation.eligibleDonationAmount;
+            eligibleAmount +=doneeDonation.donationAmount;
         }
         return { donationAmount: donationAmount, eligibleAmount: eligibleAmount };
     }
