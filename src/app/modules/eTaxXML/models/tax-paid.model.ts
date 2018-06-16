@@ -42,7 +42,7 @@ export class VerificationModel {
     public PAN:string;
     public capacity:number;
     public place:string;
-    public verficationDate:string;
+    public verficationDate:string=null;
     public verificationDateXml : string;
     public TRPIdentificationNo:string;
     public TRPName:string;

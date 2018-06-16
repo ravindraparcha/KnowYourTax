@@ -1,319 +1,339 @@
-<div class="form-group margin-top15">
+<form #taxPaidVerificationFrm="ngForm">
+    <div class="form-group margin-top15">
         <div class="col-sm-2"></div>
-    <div class="col-sm-8">
-        <table class="table table-striped table-bordered">
-            <thead style="background:linear-gradient(#fafafa, #dadada)">
-                <tr>
-                    <th>Tax</th>
-                    <th>Amount</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Total advance tax paid</td>
-                    <td>{{taxPaidModel.totalAdvanceTaxPaid | indianCurrency }}</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>Total TDS paid</td>
-                    <td>{{taxPaidModel.totalTDSClaimed | indianCurrency}}</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>Total TCS claimed</td>
-                    <td>{{taxPaidModel.totalTCSClaimed | indianCurrency}}</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>Total self assessment tax paid</td>
-                    <td>{{taxPaidModel.totalSelfAssessmentTaxPaid | indianCurrency}}</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr style="font-style: italic;">
-                    <td>Total taxes paid</td>
-                    <td>&nbsp;</td>
-                    <td>{{taxPaidModel.totalTaxesPaid | indianCurrency}}</td>
-                </tr>
-                <tr style="font-weight: bold;">
-                    <td>Amount payable</td>
-                    <td>&nbsp;</td>
-                    <td>{{taxPaidModel.amountPayable | indianCurrency}}</td>                   
-                </tr>
-                <tr style="font-weight: bold;">
-                    <td>Refund</td>
-                    <td>&nbsp;</td>
-                    <td>{{taxPaidModel.refund | indianCurrency}}</td>                   
-                </tr>
+        <div class="col-sm-8">
+            <table class="table table-striped table-bordered">
+                <thead style="background:linear-gradient(#fafafa, #dadada)">
+                    <tr>
+                        <th>Tax</th>
+                        <th>Amount</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total advance tax paid</td>
+                        <td>{{taxPaidModel.totalAdvanceTaxPaid | indianCurrency }}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Total TDS paid</td>
+                        <td>{{taxPaidModel.totalTDSClaimed | indianCurrency}}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Total TCS claimed</td>
+                        <td>{{taxPaidModel.totalTCSClaimed | indianCurrency}}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Total self assessment tax paid</td>
+                        <td>{{taxPaidModel.totalSelfAssessmentTaxPaid | indianCurrency}}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr style="font-style: italic;">
+                        <td>Total taxes paid</td>
+                        <td>&nbsp;</td>
+                        <td>{{taxPaidModel.totalTaxesPaid | indianCurrency}}</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td>Amount payable</td>
+                        <td>&nbsp;</td>
+                        <td>{{taxPaidModel.amountPayable | indianCurrency}}</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td>Refund</td>
+                        <td>&nbsp;</td>
+                        <td>{{taxPaidModel.refund | indianCurrency}}</td>
+                    </tr>
 
-            </tbody>
-        </table>
-    </div>
-    <div class="col-sm-2"></div>
-</div>
-
-
-<div class="panel-group margin-top15" id="taxPaidVerificationAccordion" role="tablist" aria-multiselectable="true">
-    <div class="panel-custom panel-default-custom">
-        <div class="panel-heading-custom" role="tab" id="exemptIncomeHeading">
-            <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#exemptIncomeCollapse" aria-expanded="false"
-                    aria-controls="exemptIncomeCollapse">
-                    <div style="font-size:15px;">
-                        Exempt income (for reporting purposes)
-                    </div>
-                </a>
-            </h4>
+                </tbody>
+            </table>
         </div>
-        <div id="exemptIncomeCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exemptIncomeHeading">
-            <div class="panel-body">
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-2 text-left">Section 10(38) [Exempted long term capital gains]</label>
-                    <div class="col-sm-3">
-                        <input [(ngModel)]="taxPaidModel.exemptedLongTermCapitalGain" class="form-control" type="number" name="{{taxPaidModel.exemptedLongTermCapitalGain}}"
-                        />
-                    </div>
-                    <label class="control-label col-sm-2 text-left">Section 10(34) [Exempted dividend income]</label>
-                    <div class="col-sm-3">
-                        <input [(ngModel)]="taxPaidModel.exemptedDividendIncome" class="form-control" type="number" name="{{taxPaidModel.exemptedDividendIncome}}"
-                        />
-                    </div>
-                </div>
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-2 text-left">Agriculture income</label>
-                    <div class="col-sm-3">
-                        <input [(ngModel)]="taxPaidModel.agricultureIncome" class="form-control" type="number" name="{{taxPaidModel.agricultureIncome}}"
-                        />
-                    </div>
-                </div>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Nature of income</th>
-                            <th>Description if 'Any other' selected</th>
-                            <th>Amount</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let OtherExemptionModel of OtherExemptionModels; let i = index">
-                            <td>
-                                <select id="selectedIncomeNature" #selectedIncomeNature="ngModel" class="form-control" [(ngModel)]="OtherExemptionModel.selectedIncomeNature"
-                                    name="selectedIncomeNature">
-                                    <option selected="selected" value="0">Select</option>
-                                    <option [ngValue]="nature.value" *ngFor="let nature of incomeNatureList">
-                                        {{nature.text}}
-                                </select>
-                            </td>
-                            <td>
-                                <input [(ngModel)]="OtherExemptionModel.descriptionIfAnyOtherSelected" class="form-control" type="text" name="{{OtherExemptionModel.descriptionIfAnyOtherSelected}}"
-                                />
-                            </td>
-                            <td>
-                                <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" type="number" name="{{OtherExemptionModel.amount}}"
-                                />
-                            </td>
+        <div class="col-sm-2"></div>
+    </div>
 
-                            <td>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default removeIcon" type="button" (click)="deleteOtherExemptionItem(i)">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" (click)="addNewOtherExemption()">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+    <div class="panel-group margin-top15" id="taxPaidVerificationAccordion" role="tablist" aria-multiselectable="true">
+        <div class="panel-custom panel-default-custom">
+            <div class="panel-heading-custom" role="tab" id="exemptIncomeHeading">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#exemptIncomeCollapse" aria-expanded="false"
+                        aria-controls="exemptIncomeCollapse">
+                        <div style="font-size:15px;">
+                            Exempt income (for reporting purposes)
+                        </div>
+                    </a>
+                </h4>
+            </div>
+            <div id="exemptIncomeCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exemptIncomeHeading">
+                <div class="panel-body">
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-2 text-left">Section 10(38) [Exempted long term capital gains]</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="taxPaidModel.exemptedLongTermCapitalGain" class="form-control" type="number" #taxPaidModelExemptedLongTermCapitalGain="ngModel"
+                                name="taxPaidModelExemptedLongTermCapitalGain" />
+                        </div>
+                        <label class="control-label col-sm-2 text-left">Section 10(34) [Exempted dividend income]</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="taxPaidModel.exemptedDividendIncome" class="form-control" type="number" #taxPaidModelExemptedDividendIncome="ngModel"
+                                name="taxPaidModelExemptedDividendIncome" />
+                        </div>
+                    </div>
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-2 text-left">Agriculture income</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="taxPaidModel.agricultureIncome" class="form-control" type="number" #taxPaidModelAgricultureIncome="ngModel"
+                                name="taxPaidModelAgricultureIncome" />
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nature of income</th>
+                                <th>Description if 'Any other' selected</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let OtherExemptionModel of OtherExemptionModels; let i = index">
+                                <td>
+                                    <select id="OtherExemptionModelSelectedIncomeNature" #OtherExemptionModelSelectedIncomeNature="ngModel" name="OtherExemptionModelSelectedIncomeNature_{{i}}"
+                                        class="form-control" [(ngModel)]="OtherExemptionModel.selectedIncomeNature" name="OtherExemptionModelSelectedIncomeNature">
+                                        <option selected="selected" value="0">Select</option>
+                                        <option [ngValue]="nature.value" *ngFor="let nature of incomeNatureList">
+                                            {{nature.text}}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="OtherExemptionModel.descriptionIfAnyOtherSelected" class="form-control" type="text" #OtherExemptionModelDescriptionIfAnyOtherSelected="ngModel"
+                                        name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" type="number" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"
+                                    />
+                                </td>
+
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default removeIcon" type="button" (click)="deleteOtherExemptionItem(i)">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" (click)="addNewOtherExemption()">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="panel-custom panel-default-custom">
-        <div class="panel-heading-custom" role="tab" id="otherInformationHeading">
-            <h4 class="panel-title">
-                <a role="button" class="collapsed" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#otherInformationCollapse"
-                    aria-expanded="false" aria-controls="otherInformationCollapse">
-                    <div style="font-size:15px;">
-                        Bank account held in India at any time during previous year (excluding dormant account)
+        <div class="panel-custom panel-default-custom">
+            <div class="panel-heading-custom" role="tab" id="otherInformationHeading">
+                <h4 class="panel-title">
+                    <a role="button" class="collapsed" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#otherInformationCollapse"
+                        aria-expanded="false" aria-controls="otherInformationCollapse">
+                        <div style="font-size:15px;">
+                            Bank account held in India at any time during previous year (excluding dormant account)
+                        </div>
+                    </a>
+                </h4>
+            </div>
+            <div id="otherInformationCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="otherInformationHeading">
+                <div class="panel-body">
+                    Bank account in which refund, if any, shall be credited
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-2 text-left">IFSC code</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="accountDetailModel.ifscCode" novalidate required [ngClass]="accountDetailModel.ifscCode.length>0? 'valid': 'invalid'"
+                                class="form-control" type="text" #accountDetailModelIfscCode="ngModel" name="accountDetailModelIfscCode"
+                                IFSCValidator />
+                            <div class="border-left-error" *ngIf="accountDetailModelIfscCode.errors && accountDetailModelIfscCode.errors.ifscError">{{accountDetailModelIfscCode.errors.ifscError.errorMsg}}</div>
+                        </div>
+                        <label class="control-label col-sm-2 text-left">Bank name</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="accountDetailModel.bankName" novalidate required [ngClass]="accountDetailModel.bankName.length>0? 'valid': 'invalid'"
+                                class="form-control" type="text" #accountDetailModelBankName="ngModel" name="accountDetailModelBankName"
+                                CharacterNumberValidator [validationType]=2/>
+                            <div class="border-left-error" *ngIf="accountDetailModelBankName.errors && accountDetailModelBankName.errors.error">{{accountDetailModelBankName.errors.error.errorMsg}}</div>
+                        </div>
                     </div>
-                </a>
-            </h4>
-        </div>
-        <div id="otherInformationCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="otherInformationHeading">
-            <div class="panel-body">
-                Bank account in which refund, if any, shall be credited
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-2 text-left">IFSC code</label>
-                    <div class="col-sm-3">
-                        <input [(ngModel)]="accountDetailModel.ifscCode" class="form-control" type="text" name="{{accountDetailModel.ifscCode}}"
-                        />
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-2 text-left">Account number</label>
+                        <div class="col-sm-3">
+                            <input [(ngModel)]="accountDetailModel.accountNo" novalidate required [ngClass]="accountDetailModel.accountNo ? 'valid': 'invalid'"
+                                class="form-control" type="number" #accountDetailModelAccountNo="ngModel" name="accountDetailModelAccountNo"
+                            />
+                            <!-- CharacterNumberValidator [validationType]=1 
+                                <div class="border-left-error" *ngIf="accountDetailModelAccountNo.errors && accountDetailModelAccountNo.errors.error">{{accountDetailModelAccountNo.errors.error.errorMsg}}</div> -->
+                        </div>
                     </div>
-                    <label class="control-label col-sm-2 text-left">Bank name</label>
-                    <div class="col-sm-3">
-                        <input [(ngModel)]="accountDetailModel.bankName" class="form-control" type="text" name="{{accountDetailModel.bankName}}"
-                        />
-                    </div>
-                </div>
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-2 text-left">Account number</label>
-                    <div class="col-sm-3">
-                        <input [(ngModel)]="accountDetailModel.accountNo" class="form-control" type="text" name="{{accountDetailModel.accountNo}}"
-                        />
-                    </div>
-                </div>
-                Other bank account details
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>IFSC code</th>
-                            <th>Bank name</th>
-                            <th>Account number</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let otherAccountDetailModel of otherAccountDetailModels; let i = index">
-                            <td>
-                                <input [(ngModel)]="otherAccountDetailModel.ifscCode" class="form-control" type="text" name="{{otherAccountDetailModel.ifscCode}}"
-                                />
-                            </td>
-                            <td>
-                                <input [(ngModel)]="otherAccountDetailModel.bankName" class="form-control" type="text" name="{{otherAccountDetailModel.bankName}}"
-                                />
-                            </td>
-                            <td>
-                                <input [(ngModel)]="otherAccountDetailModel.accountNo" class="form-control" type="number" name="{{otherAccountDetailModel.accountNo}}"
-                                />
-                            </td>
+                    Other bank account details
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>IFSC code</th>
+                                <th>Bank name</th>
+                                <th>Account number</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let otherAccountDetailModel of otherAccountDetailModels; let i = index">
+                                <td>
+                                    <input [(ngModel)]="otherAccountDetailModel.ifscCode" class="form-control" type="text" #otherAccountDetailModelIfscCode="ngModel"
+                                        name="otherAccountDetailModelIfscCode_{{i}}" novalidate required [ngClass]="otherAccountDetailModel.ifscCode.length>0? 'valid': 'invalid'"
+                                        IFSCValidator />
+                                    <div class="border-left-error" *ngIf="otherAccountDetailModelIfscCode.errors && otherAccountDetailModelIfscCode.errors.ifscError">{{otherAccountDetailModelIfscCode.errors.ifscError.errorMsg}}</div>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="otherAccountDetailModel.bankName" class="form-control" type="text" #otherAccountDetailModelBankName="ngModel"
+                                        name="otherAccountDetailModelBankName_{{i}}" novalidate required [ngClass]="otherAccountDetailModel.bankName.length>0? 'valid': 'invalid'"
+                                        CharacterNumberValidator [validationType]=2/>
+                                    <div class="border-left-error" *ngIf="otherAccountDetailModelBankName.errors && otherAccountDetailModelBankName.errors.error">{{otherAccountDetailModelBankName.errors.error.errorMsg}}</div>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="otherAccountDetailModel.accountNo" class="form-control" type="number" #otherAccountDetailModelAccountNo="ngModel"
+                                        name="otherAccountDetailModelAccountNo_{{i}}" novalidate required [ngClass]="otherAccountDetailModel.accountNo ? 'valid': 'invalid'"
+                                    />
+                                </td>
 
-                            <td>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default removeIcon" type="button" (click)="deleteOtherAccountDetailModelItem(i)">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" (click)="addNewOtherAccountDetailModel()">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default removeIcon" type="button" (click)="deleteOtherAccountDetailModelItem(i)">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" (click)="addNewOtherAccountDetailModel()">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <div class="panel-custom panel-default-custom">
-        <div class="panel-heading-custom" role="tab" id="verificationHeading">
-            <h4 class="panel-title">
-                <a role="button" class="collapsed" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#verificationCollapse"
-                    aria-expanded="false" aria-controls="verificationCollapse">
-                    <div style="font-size:15px;">
-                        Verification
-                    </div>
-                </a>
-            </h4>
-        </div>
-        <div id="verificationCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="verificationHeading">
-            <div class="panel-body">
+        <div class="panel-custom panel-default-custom">
+            <div class="panel-heading-custom" role="tab" id="verificationHeading">
+                <h4 class="panel-title">
+                    <a role="button" class="collapsed" data-toggle="collapse" data-parent="#taxPaidVerificationAccordion" href="#verificationCollapse"
+                        aria-expanded="false" aria-controls="verificationCollapse">
+                        <div style="font-size:15px;">
+                            Verification
+                        </div>
+                    </a>
+                </h4>
+            </div>
+            <div id="verificationCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="verificationHeading">
+                <div class="panel-body">
 
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-1">I,</label>
-                    <div class="col-sm-2">
-                        <input [(ngModel)]="verificationModel.fullName" class="form-control" type="text" placeholder="Your name here" name="{{verificationModel.fullName}}"
-                        />
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-1">I,</label>
+                        <div class="col-sm-2">
+                            <input [(ngModel)]="verificationModel.fullName" class="form-control" type="text" placeholder="Your name here" #verificationModelFullName="ngModel"
+                                name="verificationModelFullName" CharacterNumberValidator [validationType]=2/>
+                            <div class="border-left-error" *ngIf="verificationModelFullName.errors && verificationModelFullName.errors.error">{{verificationModelFullName.errors.error.errorMsg}}</div>
+                        </div>
+                        <label class="control-label col-sm-2" style="text-align:left;">son/daughter of</label>
+                        <div class="col-sm-2">
+                            <input [(ngModel)]="verificationModel.sonDaughterOf" class="form-control" type="text" placeholder="Father's name here" #verificationModelSonDaughterOf="ngModel"
+                                name="verificationModelSonDaughterOf" CharacterNumberValidator [validationType]=2/>
+                            <div class="border-left-error" *ngIf="verificationModelSonDaughterOf.errors && verificationModelSonDaughterOf.errors.error">{{verificationModelSonDaughterOf.errors.error.errorMsg}}</div>
+                        </div>
+                        <label class="control-label col-sm-5" style="text-align:left;">solemnly declare that to the best of my knowledge and belief, the </label>
                     </div>
-                    <label class="control-label col-sm-2" style="text-align:left;">son/daughter of</label>
-                    <div class="col-sm-2">
-                        <input [(ngModel)]="verificationModel.sonDaughterOf" class="form-control" type="text" placeholder="Father's name here" name="{{verificationModel.sonDaughterOf}}"
-                        />
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-12" style="text-align:left;">
+                            information given in the return is correct and complete and is in accordance with the provisions of the Income-tax Act, 1961.
+                            I further declare that I am making this in my capacity as
+                        </label>
+                        <div class="col-sm-2">
+                            <input [(ngModel)]="verificationModel.capacity" class="form-control" type="text" placeholder="Capacity" #verificationModelCapacity="ngModel"
+                                name="verificationModelCapacity" />
+                        </div>
+                        <label class="control-label col-sm-7" style="text-align:left;">and I am also competent to make this return and verify it. I am holding permanent account number</label>
+                        <div class="col-sm-2">
+                            <input [(ngModel)]="verificationModel.PAN" class="form-control" type="text" placeholder="Your PAN number" #verificationModelPAN="ngModel"
+                                name="verificationModelPAN" PanCardValidator />
+                            <div class="border-left-error" *ngIf="verificationModelPAN.errors && verificationModelPAN.errors.panNoError">{{verificationModelPAN.errors.panNoError.errorMsg}}</div>
+                        </div>
                     </div>
-                    <label class="control-label col-sm-5" style="text-align:left;">solemnly declare that to the best of my knowledge and belief, the </label>
-                </div>
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-12" style="text-align:left;">
-                        information given in the return is correct and complete and is in accordance with the provisions of the Income-tax Act, 1961.
-                        I further declare that I am making this in my capacity as
-                    </label>
-                    <div class="col-sm-2">
-                        <input [(ngModel)]="verificationModel.capacity" class="form-control" type="text" placeholder="Capacity" name="{{verificationModel.capacity}}"
-                        />
-                    </div>
-                    <label class="control-label col-sm-7" style="text-align:left;">and I am also competent to make this return and verify it. I am holding permanent account number</label>
-                    <div class="col-sm-2">
-                        <input [(ngModel)]="verificationModel.PAN" class="form-control" type="text" placeholder="Your PAN number" name="{{verificationModel.PAN}}"
-                        />
-                    </div>
-                </div>
-                <div class="form-group margin-top15">
-                    <label class="control-label col-sm-1" style="text-align:left;">Place</label>
-                    <div class="col-sm-2">
-                        <input [(ngModel)]="verificationModel.place" class="form-control" type="text" placeholder="Place here" name="{{verificationModel.place}}"
-                        />
-                    </div>
-                    <label class="control-label col-sm-1" style="text-align:left;">Date</label>
-                    <div class="col-sm-3">
-                        <div class="input-group">
-                            <input class="form-control" required readonly [ngClass]="verificationModel.verficationDate.length? 'valid': 'invalid'" style="float:none;border-radius: 0;"
-                                placeholder="Select a date" ngx-mydatepicker name="myVerificationdate" [options]="myOptions"
-                                #vd="ngx-mydatepicker" (dateChanged)="onVerficationDateChanged($event)" />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="vd.clearDate()">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </button>
-                                <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="vd.toggleCalendar()">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </span>
+                    <div class="form-group margin-top15">
+                        <label class="control-label col-sm-1" style="text-align:left;">Place</label>
+                        <div class="col-sm-2">
+                            <input [(ngModel)]="verificationModel.place" class="form-control" type="text" placeholder="Place here" #verificationModelPlace="ngModel"
+                                name="verificationModelPlace" CharacterNumberValidator [validationType]=2/>
+                            <div class="border-left-error" *ngIf="verificationModelPlace.errors && verificationModelPlace.errors.error">{{verificationModelPlace.errors.error.errorMsg}}</div>
+                        </div>
+                        <label class="control-label col-sm-1" style="text-align:left;">Date</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input class="form-control" required readonly [ngClass]="verificationModel.verficationDate? 'valid': 'invalid'" style="float:none;border-radius: 0;"
+                                    placeholder="Select a date" [(ngModel)]="model" ngx-mydatepicker name="myVerificationdate" [options]="myOptions"
+                                    #vd="ngx-mydatepicker" (dateChanged)="onVerficationDateChanged($event)" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="vd.clearDate()">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="vd.toggleCalendar()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<hr/>
-<div class="form-group margin-top15">
-    <label class="control-label col-sm-12 text-left" style="text-align: left;margin-bottom: 10px;">If the return has been prepared by a Tax Return Preparer(TRP) give further details below:</label>
-    <br/>
-    <label class="control-label col-sm-2 text-left" style="text-align: left;">TRP identification number</label>
-    <div class="col-sm-2">
-        <input [(ngModel)]="verificationModel.TRPIdentificationNo" class="form-control" type="text" name="{{verificationModel.TRPIdentificationNo}}"
-        />
-    </div>
-    <label class="control-label col-sm-1 text-left" style="text-align: left;">TRP name</label>
-    <div class="col-sm-2">
-        <input [(ngModel)]="verificationModel.TRPName" class="form-control" type="text" name="{{verificationModel.TRPName}}" />
-    </div>
+    <hr/>
+    <div class="form-group margin-top15">
+        <label class="control-label col-sm-12 text-left" style="text-align: left;margin-bottom: 10px;">If the return has been prepared by a Tax Return Preparer(TRP) give further details below:</label>
+        <br/>
+        <label class="control-label col-sm-2 text-left" style="text-align: left;">TRP identification number</label>
+        <div class="col-sm-2">
+            <input [(ngModel)]="verificationModel.TRPIdentificationNo" class="form-control" type="number" #verificationModelTRPIdentificationNo="ngModel"
+                name="verificationModelTRPIdentificationNo" CountValidator [count]=6 />
+                <div class="border-left-error" *ngIf="verificationModelTRPIdentificationNo.errors && verificationModelTRPIdentificationNo.errors.error">{{verificationModelTRPIdentificationNo.errors.error.errorMsg}}</div>     
+        </div>
+        <label class="control-label col-sm-1 text-left" style="text-align: left;">TRP name</label>
+        <div class="col-sm-2">
+            <input [(ngModel)]="verificationModel.TRPName" class="form-control" type="text" #verificationModelTRPName="ngModel" name="verificationModelTRPName"
+            CharacterNumberValidator  [validationType]=2 />
+                <div class="border-left-error" *ngIf="verificationModelTRPName.errors && verificationModelTRPName.errors.error">{{verificationModelTRPName.errors.error.errorMsg}}</div>
+        </div>
 
-</div>
-<div class="form-group margin-top15">
-    <label class="control-label col-sm-5 text-left" style="text-align: left;">If TRP is entitled for any reimbursment from the Government, amount thereof</label>
-    <div class="col-sm-2">
-        <input [(ngModel)]="verificationModel.TRPReimbursementAmount" class="form-control" type="text" name="{{verificationModel.TRPReimbursementAmount}}"
-        />
     </div>
-</div>
- 
+    <div class="form-group margin-top15">
+        <label class="control-label col-sm-5 text-left" style="text-align: left;">If TRP is entitled for any reimbursment from the Government, amount thereof</label>
+        <div class="col-sm-2">
+            <input [(ngModel)]="verificationModel.TRPReimbursementAmount" class="form-control" type="number" #verificationModelTRPReimbursementAmount="ngModel"
+                name="verificationModelTRPReimbursementAmount" />              
+        </div>
+    </div>
+</form>

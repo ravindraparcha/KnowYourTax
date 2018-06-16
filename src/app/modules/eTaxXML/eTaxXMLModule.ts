@@ -32,6 +32,9 @@ import {ReceiptNumberValidatorDirective} from '../../shared/validators/ReceiptNu
 import {NoticeNumberValidatorDirective} from '../../shared/validators/NoticeNumberDirective';
 import {CompareTwoNumbersValidatorDirective} from '../../shared/validators/CompareTwoNumbersDirective';
 import {RequiredValidatorDirective} from '../../shared/validators/RequiredDirective';
+import {IFSCValidatorDirective} from '../../shared/validators/IFSCDirective';
+import {CharacterNumberValidatorDirective} from '../../shared/validators/CharacterNumberDirective';
+import {CountValidatorDirective} from '../../shared/validators/CountDirective';
 //Validator ends
 @NgModule({
     imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,
@@ -44,7 +47,8 @@ import {RequiredValidatorDirective} from '../../shared/validators/RequiredDirect
                     DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
                     AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
-                    NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective],
+                    NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective,
+                    IFSCValidatorDirective,CharacterNumberValidatorDirective,CountValidatorDirective],
     exports : [eTaxXMLComponent]
 })
 

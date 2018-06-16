@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/core";
 
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
 import { Configuration } from '../../../../shared/constants';
@@ -28,10 +28,15 @@ export class TaxPaidVerificationComponent implements OnInit {
     private _subscription : Subscription;
     private totalTaxInterest : number=0;
 
+    @Output() isTaxPaidVerificationComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @ViewChild('taxPaidVerificationFrm') taxPaidVerificationFrm;
+
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
     };
 
+    
+    
     constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService, private _sharedTaxService : SharedTaxService) { }
     ngOnInit() {
 
@@ -44,7 +49,7 @@ export class TaxPaidVerificationComponent implements OnInit {
         });
 
         this.taxPaidModel = new TaxPaidModel();
-        this.verificationModel = new VerificationModel("","","",0,"","","","",0);
+        this.verificationModel = new VerificationModel("","","",0,"",null,"","",0);
         this.incomeNatureList = this._configuration.incomeNatureList;
         this.accountDetailModel = new AccountDetailModel("", "", "");
         this.taxPaidModel.accountDetail = this.accountDetailModel;
@@ -95,5 +100,12 @@ export class TaxPaidVerificationComponent implements OnInit {
         console.log(this.OtherExemptionModels);
         console.log(this.otherAccountDetailModels);
 
+    }
+    
+    public validateTaxPaidVerificationComponentForm() {
+        if (this.taxPaidVerificationFrm.valid)  
+            this.isTaxPaidVerificationComponentValid.emit(true);
+        else 
+            this.isTaxPaidVerificationComponentValid.emit(false);         
     }
 }

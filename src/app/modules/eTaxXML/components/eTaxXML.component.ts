@@ -1,12 +1,12 @@
 import { Component, Input, ViewChild, OnInit } from "@angular/core";
 import { ToastrService } from 'ngx-toastr';
- 
+
 import { Form26ASParserService } from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
-import {AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel} from '../models/deduction.model';
+import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../models/deduction.model';
 import { Configuration } from '../../../shared/constants';
 import { TaxDeductedSalaryModel } from '../models/tax-deducted-collected.model';
-import {IncomeData} from '../models/income-details.model';
+import { IncomeData } from '../models/income-details.model';
 import { XmlGeneratorService } from '../services/xml-generator-service';
 
 import { PersonalInfoComponent } from '../components/personal-info/personal-info.component';
@@ -23,8 +23,8 @@ declare var $: any;
     templateUrl: './eTaxXML.component.html'
 })
 export class eTaxXMLComponent implements OnInit {
-    
-    
+
+
     //child component object for xml generation
     @ViewChild(PersonalInfoComponent) _personalInfoComponent: PersonalInfoComponent;
     @ViewChild(IncomeDetailsComponent) _incomeDetailsComponent: IncomeDetailsComponent;
@@ -35,12 +35,12 @@ export class eTaxXMLComponent implements OnInit {
     public personalInfoData = new PersonalInfoModel();
     public taxDeducted;
     private parseJson;
-    private xmlDataArray = [];   
+    private xmlDataArray = [];
     public advanceTaxPaidModels;
-    public incomeData : IncomeData;
+    public incomeData: IncomeData;
     public usrTaxModel;
-    public incomeTaxModel : IncomeTaxModel;
-    constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration, 
+    public incomeTaxModel: IncomeTaxModel;
+    constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService) { }
 
     ngOnInit() {
@@ -76,7 +76,7 @@ export class eTaxXMLComponent implements OnInit {
 
                 }
             });
-        }       
+        }
     }
 
     private getPersonalInformationModel(arr: any[]): PersonalInfoModel {
@@ -104,7 +104,7 @@ export class eTaxXMLComponent implements OnInit {
     }
 
     private getDeductionAtSource(arr: any[]): TaxDeductedSalaryModel[] {
-        let advanceTaxPaid=[];
+        let advanceTaxPaid = [];
         let taxDeductedSalaryModels = [];
         let taxDeductedSalaryModel;
         let financialYearStart = new Date(new Date().getFullYear() - 1, 3, 1);
@@ -118,19 +118,19 @@ export class eTaxXMLComponent implements OnInit {
             arrElement.monthWiseArray.forEach(elmnt => {
                 // financial year cycle - April to March. Tax paid after march i.e. 1/04/2017 to 31/03/2018
                 //tax deducted from last year 
-                index=elmnt[2].indexOf('-');
-                day=elmnt[2].substr(0,index);
-                let extracted = elmnt[2].substr(index+1);
+                index = elmnt[2].indexOf('-');
+                day = elmnt[2].substr(0, index);
+                let extracted = elmnt[2].substr(index + 1);
                 index = extracted.indexOf('-');
-                month=elmnt[2].substr(index,extracted.indexOf('-'));
-                year= elmnt[2].substr(elmnt[2].lastIndexOf('-')+1);
-                taxPaidDate = new Date(year,this.getMonthFromString(month),day);
-                if(taxPaidDate>financialYearStart && taxPaidDate<=financialYearEnd) {
-                    let advanceTaxModel = new AdvanceTaxModel(taxPaidDate,parseInt(elmnt[8]));
+                month = elmnt[2].substr(index, extracted.indexOf('-'));
+                year = elmnt[2].substr(elmnt[2].lastIndexOf('-') + 1);
+                taxPaidDate = new Date(year, this.getMonthFromString(month), day);
+                if (taxPaidDate > financialYearStart && taxPaidDate <= financialYearEnd) {
+                    let advanceTaxModel = new AdvanceTaxModel(taxPaidDate, parseInt(elmnt[8]));
                     advanceTaxPaid.push(advanceTaxModel);
                 }
-            });             
-        }); 
+            });
+        });
         this.advanceTaxPaidModels = advanceTaxPaid;
         return taxDeductedSalaryModels;
     }
@@ -141,11 +141,12 @@ export class eTaxXMLComponent implements OnInit {
         }
         return -1;
     }
-    private isPersonalInfoFrmValid:boolean;
-    private isTaxDeductedCollectedFrmValid:boolean;
-    private isIncomeDetailsFrmValid:boolean;
+    private isPersonalInfoFrmValid: boolean;
+    private isTaxDeductedCollectedFrmValid: boolean;
+    private isIncomeDetailsFrmValid: boolean;
+    private isTaxPaidVerificationFrmValid: boolean;
     generateXML() {
-        
+
         //validate child component
         //this.validateTaxDeductedCollectedComponent();
         // if(!this.isTaxDeductedCollectedFrmValid)  {
@@ -158,16 +159,20 @@ export class eTaxXMLComponent implements OnInit {
         //     return;
         // }
 
-        this.validateIncomeDetailsComponent();
-        if(!this.isIncomeDetailsFrmValid)  {
-            this._toastr.error("<b>Income details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        // this.validateIncomeDetailsComponent();
+        // if(!this.isIncomeDetailsFrmValid)  {
+        //     this._toastr.error("<b>Income details</b> tab data is invalid. Please correct and proceed further",'Error',this._configuration.CustomToastOptions);
+        //     return;
+        // }
+        this.validateTaxPaidVerificationComponent();
+        if (!this.isTaxPaidVerificationFrmValid) {
+            this._toastr.error("<b>Tax paid and verification</b> tab data is invalid. Please correct and proceed further", 'Error', this._configuration.CustomToastOptions);
             return;
         }
-
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();
-        this.incomeData.incomeDetailsModel=this._incomeDetailsComponent.incomeDetailsModel;
+        this.incomeData.incomeDetailsModel = this._incomeDetailsComponent.incomeDetailsModel;
         this.incomeData.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.incomeTaxModel;
         this.createSectionArray('incomeDetails', this.incomeData);
         this.createSectionArray('taxPaid', this._taxPaidVerificationComponent.taxPaidModel);
@@ -180,34 +185,39 @@ export class eTaxXMLComponent implements OnInit {
         this.xmlDataArray.push({ "infoType": infoType, data: data });
     }
     calculateTax() {
-        this.incomeTaxModel.usrDeductionSum=0;
-        this.incomeTaxModel.sysDeductionSum=0;
-        this.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();   
+        this.incomeTaxModel.usrDeductionSum = 0;
+        this.incomeTaxModel.sysDeductionSum = 0;
+        this.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
         $('#deductionModel').modal('show');
     }
-    
+
     //this method will be emitted from child component i.e. ParentInfoComponent
-    private isPersonalInfoComponentValid(isFormValid:  boolean) {
+    private isPersonalInfoComponentValid(isFormValid: boolean) {
         this.isPersonalInfoFrmValid = isFormValid;
     }
-    validatePersonalInfoComponent() {        
-        this._personalInfoComponent.validatePersonalInfoComponentForm();                     
+    validatePersonalInfoComponent() {
+        this._personalInfoComponent.validatePersonalInfoComponentForm();
     }
     //this method will be emitted from child component i.e. TaxDeductedCollectedComponent
-    private isTaxDeductedCollectedComponentValid(isFormValid:  boolean) {
+    private isTaxDeductedCollectedComponentValid(isFormValid: boolean) {
         this.isTaxDeductedCollectedFrmValid = isFormValid;
     }
-    validateTaxDeductedCollectedComponent() {        
-        this._taxDeductedCollectedComponent.validateTaxDeductedCollectedComponentForm();              
+    validateTaxDeductedCollectedComponent() {
+        this._taxDeductedCollectedComponent.validateTaxDeductedCollectedComponentForm();
     }
-     //this method will be emitted from child component i.e. IncomeDetailsComponent
-     private isIncomeDetailsComponentValid(isFormValid:  boolean) {
+    //this method will be emitted from child component i.e. IncomeDetailsComponent
+    private isIncomeDetailsComponentValid(isFormValid: boolean) {
         this.isIncomeDetailsFrmValid = isFormValid;
     }
-    validateIncomeDetailsComponent() {        
+    validateIncomeDetailsComponent() {
         this._incomeDetailsComponent.validateIncomeDetailsComponentForm();
     }
+    private isTaxPaidVerificationComponentValid(isFormValid: boolean) {
+        this.isTaxPaidVerificationFrmValid = isFormValid;
+    }
+    validateTaxPaidVerificationComponent() {
+        this._taxPaidVerificationComponent.validateTaxPaidVerificationComponentForm();
+    }
 
-     
 
 }
