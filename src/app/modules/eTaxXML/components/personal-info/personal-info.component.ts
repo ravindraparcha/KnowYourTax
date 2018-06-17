@@ -3,7 +3,7 @@ import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { Configuration } from '../../../../shared/constants';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import { SharedXMLService } from '../../shared/sharedXMLService';
-import { SharedTaxService } from '../../shared/sharedTaxService';
+import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

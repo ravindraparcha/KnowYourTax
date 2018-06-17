@@ -5,7 +5,7 @@ import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThan
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { Configuration } from '../../../../shared/constants';
 import { SharedXMLService } from '../../shared/sharedXMLService';
-import { SharedTaxService } from '../../shared/sharedTaxService';
+import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
 
 declare var $: any;
 

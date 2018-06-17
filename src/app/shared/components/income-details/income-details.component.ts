@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
-import { Configuration } from '../../../../shared/constants';
+import { Configuration } from '../../constants';
 import { DeductionsComponent } from '../deduction/deductions.components';
- 
+import { IncomeTaxModel, TaxComputationModel } from '../../models/deduction.model';
 
 declare var $: any;
 
@@ -14,6 +14,7 @@ declare var $: any;
 export class IncomeDetailsComponent implements OnInit {
 
     public incomeDetailsModel: IncomeDetailsModel;
+    incomeTaxModel: any;
     constructor(public _configuration: Configuration) { }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
@@ -35,6 +36,10 @@ export class IncomeDetailsComponent implements OnInit {
         $('.panel-collapse').on('hide.bs.collapse', function () {
             $(this).siblings('.panel-heading-custom').removeClass('active');
         });
+        this.incomeTaxModel = new IncomeTaxModel();
+        this.incomeTaxModel.userTaxModel = [];
+        this.incomeTaxModel.systemTaxModel = [];
+        this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
     }
      
     calculateSalaryPensionSum() {

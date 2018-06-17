@@ -1,14 +1,13 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
-import { Configuration } from '../../../../shared/constants';
+import { Configuration } from '../../../shared/constants';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { slimLoaderBarService } from '../../../../shared/services/slimLoaderBarService';
-
-import { CalculatorService } from '../../../../services/calculator.service';
+import { slimLoaderBarService } from '../../../shared/services/slimLoaderBarService';
+ 
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import { SharedTaxService } from '../../shared/sharedTaxService';
+import { SharedTaxService } from '../../services/sharedTaxService';
 import { Subscription } from 'rxjs/Rx';
 declare var $: any;
 
@@ -56,7 +55,7 @@ export class DeductionsComponent implements OnInit {
     };
 
     constructor(private _configuration: Configuration, private _fb: FormBuilder,
-        private _calcService: CalculatorService, private toastr: ToastsManager, vcr: ViewContainerRef,
+         private toastr: ToastsManager, vcr: ViewContainerRef,
         private _slimLoader: slimLoaderBarService, private _sharedTaxService: SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);
     }
@@ -510,8 +509,7 @@ export class DeductionsComponent implements OnInit {
             if (msDt.parent !== "")
                 this.updateSectionLimit(masterData, usrSections, msDt.parent);
         }
-        //this.updateSectionLimit(masterData,usrSections,"80C");
-
+         
         return usrSections;
     }
 

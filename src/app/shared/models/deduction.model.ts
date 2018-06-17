@@ -40,8 +40,7 @@ export class TaxModel {
     public option: number;
 }
 
-export class TaxComputationModel {
-   
+export class TaxComputationModel {   
     public totalIncome: number= 0;
     public taxPayableOnTotalIncome: number= 0;
     public rebateAmt: number= 0;

@@ -4,7 +4,7 @@ import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationMode
 import { Configuration } from '../../../../shared/constants';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import {SharedXMLService} from '../../shared/sharedXMLService';
-import { SharedTaxService } from '../../shared/sharedTaxService';
+import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
 import { Subscription } from 'rxjs/Rx';
 declare var $: any;
 @Component({

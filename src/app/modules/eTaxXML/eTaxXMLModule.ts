@@ -9,9 +9,8 @@ import { ToastrModule } from 'ngx-toastr';
 
 import {eTaxXMLComponent} from '../eTaxXML/components/eTaxXML.component';
 import {PersonalInfoComponent} from '../eTaxXML/components/personal-info/personal-info.component';
-import {IncomeDetailsComponent} from '../eTaxXML/components/income-details/income-details.component';
 import {sharedModule} from '../../shared/sharedModule';
-import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
+//import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
 import {TaxDeductedCollectedComponent} from '../eTaxXML/components/tax-deducted-collected/tax-deducted-collected.component';
 import {TaxPaidVerificationComponent} from '../eTaxXML/components/tax-paid-verification/tax-paid-verification.component';
 import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.80G.component';
@@ -19,7 +18,7 @@ import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service
 import {XmlGeneratorService} from '../eTaxXML/services/xml-generator-service';
 import {SharedXMLService} from '../eTaxXML/shared/sharedXMLService';
 
-import {SharedTaxService} from './shared/sharedTaxService';
+import {SharedTaxService} from '../../shared/services/sharedTaxService';
 //Validator starts
 import {EmailValidatorDirective} from '../../shared/validators/EmailValidatorDirective';
 import {NameValidatorDirective} from '../../shared/validators/NameValidationDirective';
@@ -43,8 +42,8 @@ import {CountValidatorDirective} from '../../shared/validators/CountDirective';
                 positionClass: 'toast-center'})],
     providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,
                  SharedTaxService],
-    declarations : [eTaxXMLComponent,PersonalInfoComponent,IncomeDetailsComponent,
-                    DeductionsComponent,TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
+    declarations : [eTaxXMLComponent,PersonalInfoComponent,
+                    TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
                     AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
                     NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective,

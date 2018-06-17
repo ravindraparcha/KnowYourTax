@@ -11,7 +11,8 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
  
 import {CalculatorService} from '../app/services/calculator.service'
-import { CalculatorComponent } from './modules/calculator/old/calculator.component';
+// import { CalculatorComponent } from './modules/calculator/old/calculator.component';
+import {CalculatorComponent} from './modules/calculator/calculator.component';
 import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
 import { Configuration } from "../app/shared/constants";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';

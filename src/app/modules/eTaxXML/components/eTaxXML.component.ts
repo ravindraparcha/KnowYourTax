@@ -3,17 +3,17 @@ import { ToastrService } from 'ngx-toastr';
 
 import { Form26ASParserService } from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
-import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../models/deduction.model';
+import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../../../shared/models/deduction.model';
 import { Configuration } from '../../../shared/constants';
 import { TaxDeductedSalaryModel } from '../models/tax-deducted-collected.model';
-import { IncomeData } from '../models/income-details.model';
+import { IncomeData } from '../../../shared/models/income-details.model';
 import { XmlGeneratorService } from '../services/xml-generator-service';
 
 import { PersonalInfoComponent } from '../components/personal-info/personal-info.component';
-import { IncomeDetailsComponent } from '../components/income-details/income-details.component';
 import { TaxPaidVerificationComponent } from '../components/tax-paid-verification/tax-paid-verification.component';
 import { TaxDeductedCollectedComponent } from '../components/tax-deducted-collected/tax-deducted-collected.component';
 import { Donation80GComponent } from '../components/donation-80G/donation.80G.component';
+import { IncomeDetailsComponent } from "../../../shared/components/income-details/income-details.component";
 
 
 declare var $: any;
@@ -22,7 +22,7 @@ declare var $: any;
     selector: 'eTaxXML',
     templateUrl: './eTaxXML.component.html'
 })
-export class eTaxXMLComponent implements OnInit {
+export class eTaxXMLComponent {//implements OnInit {
 
 
     //child component object for xml generation
@@ -38,17 +38,17 @@ export class eTaxXMLComponent implements OnInit {
     private xmlDataArray = [];
     public advanceTaxPaidModels;
     public incomeData: IncomeData;
-    public usrTaxModel;
-    public incomeTaxModel: IncomeTaxModel;
+    // public usrTaxModel;
+    // public incomeTaxModel: IncomeTaxModel;
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService) { }
 
-    ngOnInit() {
-        this.incomeTaxModel = new IncomeTaxModel();
-        this.incomeTaxModel.userTaxModel = [];
-        this.incomeTaxModel.systemTaxModel = [];
-        this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
-    }
+    // ngOnInit() {
+    //     this.incomeTaxModel = new IncomeTaxModel();
+    //     this.incomeTaxModel.userTaxModel = [];
+    //     this.incomeTaxModel.systemTaxModel = [];
+    //     this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
+    // }
 
     onFileSelection(event: EventTarget) {
         let $this = this;
@@ -195,11 +195,9 @@ export class eTaxXMLComponent implements OnInit {
     private createSectionArray(infoType: string, data: any) {
         this.xmlDataArray.push({ "infoType": infoType, data: data });
     }
-    calculateTax() {
-        this.incomeTaxModel.usrDeductionSum = 0;
-        this.incomeTaxModel.sysDeductionSum = 0;
-        this.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
-        $('#deductionModel').modal('show');
+    calculateTax() {        
+        this._incomeDetailsComponent.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
+        $('#deductionModel').modal('show');       
     }
 
     //this method will be emitted from child component i.e. ParentInfoComponent
