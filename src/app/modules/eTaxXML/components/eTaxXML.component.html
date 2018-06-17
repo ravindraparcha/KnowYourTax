@@ -149,10 +149,8 @@
                         
                     </div>
                     <ul class="nav nav-tabs">
+                        
                         <li class="active">
-                            <a data-toggle="tab" href="#personInfo">Personal Information</a>
-                        </li>
-                        <li>
                             <a data-toggle="tab" href="#incomeDetails">Income details</a>
                         </li>
                         <li>
@@ -164,11 +162,11 @@
                         <li>
                             <a data-toggle="tab" href="#gDetails">80G details</a>
                         </li>
+                        <li >
+                            <a data-toggle="tab" href="#personInfo">Personal Information</a>
+                        </li>
                     </ul>
-                    <div class="tab-content">
-                        <div id="personInfo" class="tab-pane fade in active" style="padding: 0 5px 0 5px">
-                            <personal-info [personalInfoData]="personalInfoData" (isPersonalInfoComponentValid)="isPersonalInfoComponentValid($event)"></personal-info>
-                        </div>
+                    <div class="tab-content">                        
                         <div id="incomeDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
                             <income-details [advanceTaxPaid]="advanceTaxPaidModels" (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
                         </div>
@@ -180,6 +178,9 @@
                         </div>
                         <div id="gDetails" class="tab-pane fade " style="padding: 0 5px 0 5px">
                             <donation-80G (isDonation80GComponentValid)="isDonation80GComponentValid($event)"></donation-80G>
+                        </div>
+                        <div id="personInfo" class="tab-pane fade in active" style="padding: 0 5px 0 5px">
+                            <personal-info [personalInfoData]="personalInfoData" (isPersonalInfoComponentValid)="isPersonalInfoComponentValid($event)"></personal-info>
                         </div>
                     </div>
                     <div style="padding:5px 5px 10px 5px">
