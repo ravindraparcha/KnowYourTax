@@ -330,4 +330,13 @@ th{
 .toast-container.toast-top-center .toast, .toast-container.toast-bottom-center .toast {
     width: 50%;    
 }
- 
+body.modal-open-noscroll
+{
+    margin-right: 0!important;
+    overflow: hidden;
+}
+/* Fix: nav fix header shifted to right on modal popup */
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+padding-right: 17px;
+}
