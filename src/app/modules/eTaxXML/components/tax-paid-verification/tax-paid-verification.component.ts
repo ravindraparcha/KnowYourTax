@@ -23,7 +23,7 @@ export class TaxPaidVerificationComponent implements OnInit {
     public newOtherAccountDetailModel;
 
     public accountDetailModel;
-
+    public model:any;
     public incomeNatureList = [];
     private _subscription : Subscription;
     private totalTaxInterest : number=0;

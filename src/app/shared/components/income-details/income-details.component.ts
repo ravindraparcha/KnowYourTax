@@ -76,10 +76,20 @@ export class IncomeDetailsComponent implements OnInit {
     }
 
     disableEnableHouseProperty() {
+         
         if (this.incomeDetailsModel.selectedHousePropertyType == 'S') {
             this.incomeDetailsModel.rent = 0;
             this.incomeDetailsModel.taxPaidToLocalAuthority = 0;
         }
+        else if(this.incomeDetailsModel.selectedHousePropertyType==null) {
+            this.incomeDetailsModel.rent=0;
+            this.incomeDetailsModel.taxPaidToLocalAuthority=0;
+            this.incomeDetailsModel.annualValue=0;
+            this.incomeDetailsModel.annualValuePercentageAmount=0;
+            this.incomeDetailsModel.interestOnBorrowedCapital=0;    
+            this.incomeDetailsModel.housePropertySum=0;
+        }
+           
         this.calculateAnnualValue();
     }
     updateTotalDeductions(sum: number) {

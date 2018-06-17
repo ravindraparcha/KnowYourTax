@@ -141,38 +141,37 @@ export class eTaxXMLComponent {//implements OnInit {
         }
         return -1;
     }
-    private isPersonalInfoFrmValid: boolean;
-    private isTaxDeductedCollectedFrmValid: boolean;
-    private isIncomeDetailsFrmValid: boolean;
-    private isTaxPaidVerificationFrmValid: boolean;
-    private isDeduction80GComponentValid: boolean;
+    public isPersonalInfoFrmValid: boolean;
+    public isTaxDeductedCollectedFrmValid: boolean;
+    public isIncomeDetailsFrmValid: boolean;
+    public isTaxPaidVerificationFrmValid: boolean;
+    public isDeduction80GComponentValid: boolean;
     generateXML() {
 
         //validate child component
-        //this.validateTaxDeductedCollectedComponent();
-        // if(!this.isTaxDeductedCollectedFrmValid)  {
-        //     this._toastr.error(this.getTabErrorMessage('Tax Details'),'Error',this._configuration.CustomToastOptions);
-        //     return;
-        // }
-        // this.validatePersonalInfoComponent();
-        // if(!this.isPersonalInfoFrmValid)  {
-        //     this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
-        //     return;
-        // }
-
-        // this.validateIncomeDetailsComponent();
-        // if(!this.isIncomeDetailsFrmValid)  {
-        //     this._toastr.error(this.getTabErrorMessage('Income details'),'Error',this._configuration.CustomToastOptions);
-        //     return;
-        // }
-        // this.validateTaxPaidVerificationComponent();
-        // if (!this.isTaxPaidVerificationFrmValid) {
-        //     this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
-        //     return;
-        // }
+        this.validateIncomeDetailsComponent();
+        if(!this.isIncomeDetailsFrmValid)  {
+            this._toastr.error(this.getTabErrorMessage('Income details'),'Error',this._configuration.CustomToastOptions);
+            return;
+        }
+        this.validateTaxDeductedCollectedComponent();
+        if(!this.isTaxDeductedCollectedFrmValid)  {
+            this._toastr.error(this.getTabErrorMessage('Tax Details'),'Error',this._configuration.CustomToastOptions);
+            return;
+        }            
+        this.validateTaxPaidVerificationComponent();
+        if (!this.isTaxPaidVerificationFrmValid) {
+            this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
+            return;
+        }
         this.validateDeduction80GComponent();
         if (!this.isDeduction80GComponentValid) {
             this._toastr.error(this.getTabErrorMessage('80G details'), 'Error', this._configuration.CustomToastOptions);
+            return;
+        }
+        this.validatePersonalInfoComponent();
+        if(!this.isPersonalInfoFrmValid)  {
+            this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
             return;
         }
         this.xmlDataArray = [];
@@ -201,34 +200,34 @@ export class eTaxXMLComponent {//implements OnInit {
     }
 
     //this method will be emitted from child component i.e. ParentInfoComponent
-    private isPersonalInfoComponentValid(isFormValid: boolean) {
+    public isPersonalInfoComponentValid(isFormValid: boolean) {
         this.isPersonalInfoFrmValid = isFormValid;
     }
-    validatePersonalInfoComponent() {
+    private validatePersonalInfoComponent() {
         this._personalInfoComponent.validatePersonalInfoComponentForm();
     }
     //this method will be emitted from child component i.e. TaxDeductedCollectedComponent
-    private isTaxDeductedCollectedComponentValid(isFormValid: boolean) {
+    public isTaxDeductedCollectedComponentValid(isFormValid: boolean) {
         this.isTaxDeductedCollectedFrmValid = isFormValid;
     }
-    validateTaxDeductedCollectedComponent() {
+    private validateTaxDeductedCollectedComponent() {
         this._taxDeductedCollectedComponent.validateTaxDeductedCollectedComponentForm();
     }
     //this method will be emitted from child component i.e. IncomeDetailsComponent
-    private isIncomeDetailsComponentValid(isFormValid: boolean) {
+    public isIncomeDetailsComponentValid(isFormValid: boolean) {
         this.isIncomeDetailsFrmValid = isFormValid;
     }
-    validateIncomeDetailsComponent() {
+    private validateIncomeDetailsComponent() {
         this._incomeDetailsComponent.validateIncomeDetailsComponentForm();
     }
-    private isTaxPaidVerificationComponentValid(isFormValid: boolean) {
+    public isTaxPaidVerificationComponentValid(isFormValid: boolean) {
         this.isTaxPaidVerificationFrmValid = isFormValid;
     }
-    validateTaxPaidVerificationComponent() {
+    private validateTaxPaidVerificationComponent() {
         this._taxPaidVerificationComponent.validateTaxPaidVerificationComponentForm();
     }
 
-    private isDonation80GComponentValid(isFormValid: boolean) {
+    public isDonation80GComponentValid(isFormValid: boolean) {
         
         this.isDeduction80GComponentValid = isFormValid;
     }

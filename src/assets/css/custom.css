@@ -340,3 +340,7 @@ body.modal-open-noscroll
 .modal-open .navbar-fixed-bottom {
 padding-right: 17px;
 }
+ .navbar-nav>li>a:focus  {    
+    background-color: transparent;
+    font-size:16px;
+}

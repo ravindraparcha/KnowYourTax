@@ -8,8 +8,7 @@
                                 <label class="control-label col-xs-7" style="text-align: left;font-size: 16px;">Tax calculator</label>                       
                             
                             <div class="col-xs-5" style="text-align: right">
-                                    <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
-                                    <button class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                                    <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>                                     
                                 </div>
         
                         </div>
@@ -18,7 +17,7 @@
                 </div>
                 <div class="form-horizontal">
                     <div id="incomeDetails" style="padding: 0 5px 0 5px">
-                        <income-details [advanceTaxPaid]="advanceTaxPaidModels" (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
+                        <income-details [advanceTaxPaid]="advanceTaxPaidModels" ></income-details>
                     </div>
 
                     <div style="padding:0 5px 10px 5px">
@@ -27,8 +26,7 @@
                                 &nbsp;
                             </div>
                             <div class="col-xs-5" style="text-align: right">
-                                <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
-                                <button class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                                <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>                               
                             </div>
                         </div>
 

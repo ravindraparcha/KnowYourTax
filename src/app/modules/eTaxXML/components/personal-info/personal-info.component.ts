@@ -35,8 +35,8 @@ export class PersonalInfoComponent implements OnInit {
     public isReceiptNumber: boolean = true;
     public isFilingDate: boolean = true;
     public isNoticeNumber: boolean = true;
-    public isNoticeDate: boolean = true;
-
+    public isNoticeDate: boolean = true;     
+    public model: any;
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
         disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }

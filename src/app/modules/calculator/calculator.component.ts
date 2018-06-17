@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
 import { IncomeDetailsComponent } from "../../shared/components/income-details/income-details.component";
 
 declare var $:any;
@@ -9,9 +9,15 @@ declare var $:any;
 
 })
 export class CalculatorComponent {
+    public advanceTaxPaidModels:any;
+    
+   // @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild(IncomeDetailsComponent) _incomeDetailsComponent: IncomeDetailsComponent;
     calculateTax() {        
         this._incomeDetailsComponent.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
         $('#deductionModel').modal('show');       
+    }
+    public validateIncomeDetailsComponentForm() {                
+        //this.isIncomeDetailsComponentValid.emit(true);            
     }
 }
