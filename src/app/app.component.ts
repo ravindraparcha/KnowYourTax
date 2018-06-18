@@ -1,26 +1,28 @@
 import { Component, ViewContainerRef, OnInit } from '@angular/core';
-declare var $:any;
+
+declare var $: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'//,
   //styleUrls: ['./app.component.css']
 })
-export class AppComponent  implements OnInit {
+export class AppComponent implements OnInit {
   title = 'app';
 
-   
   ngOnInit() {
-    
-    
-
-    $(window).scroll(function () {
-      var stickyNavTop = $('#navbar-header').offset().top;
-      if ($(window).scrollTop() > stickyNavTop) {
-        $('#navbar-header').addClass('fixed');
+    $("document").ready(function () {
+      setTimeout(function () {
+        let navItemClass = window.location.href.substr(window.location.href.indexOf('#') + 2);
+        $('.' + navItemClass).trigger('click');
+      }, 10);
+    });
+    $('.nav li, .homeLink').on('click', function () {      
+      $('.nav li').removeClass('active');
+      if ($(this).attr('href') == '#' || $(this).attr('href')=='#/calculator') {
+        $('.homeLink').addClass('active');
       }
-      else {
-        $('#navbar-header').removeClass('fixed');
-      }
+      else
+        $(this).addClass('active');
     });
   }
 }

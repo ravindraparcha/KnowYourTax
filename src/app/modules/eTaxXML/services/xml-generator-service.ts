@@ -121,7 +121,7 @@ export class XmlGeneratorService {
         if (personalInfo.mobileNo !== undefined && personalInfo.mobileNo !== '')
             this.xmlWriter.writeElement("ITRForm:MobileNo", personalInfo.mobileNo);
         if (personalInfo.email !== undefined && personalInfo.email !== '')
-            this.xmlWriter.writeElement("ITRForm:EmailAddress", personalInfo.email.toUpperCase( ));
+            this.xmlWriter.writeElement("ITRForm:EmailAddress", personalInfo.email);
 
         this.xmlWriter.endElement();
 
@@ -132,7 +132,7 @@ export class XmlGeneratorService {
         if (personalInfo.aadharCardNo !== undefined && personalInfo.aadharCardNo !== '0')
             this.xmlWriter.writeElement("ITRForm:AadhaarCardNo", personalInfo.aadharCardNo);
         if (personalInfo.aadharEnrollmentId !== undefined && personalInfo.aadharEnrollmentId !== '0')
-            this.xmlWriter.writeElement("ITRForm:AadhaarCardNo", personalInfo.aadharEnrollmentId);
+            this.xmlWriter.writeElement("ITRForm:AadhaarEnrolmentId", personalInfo.aadharEnrollmentId);
 
         this.xmlWriter.endElement();
     }

@@ -43,7 +43,8 @@ export class PersonalInfoComponent implements OnInit {
     };
     filedAgainstNoticeOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
-        openSelectorTopOfInput: true
+        openSelectorTopOfInput: true,
+        disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
     };
 
     constructor(private cd: ChangeDetectorRef,

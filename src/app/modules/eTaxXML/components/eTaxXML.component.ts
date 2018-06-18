@@ -149,31 +149,31 @@ export class eTaxXMLComponent {//implements OnInit {
     generateXML() {
 
         //validate child component
-        this.validateIncomeDetailsComponent();
-        if(!this.isIncomeDetailsFrmValid)  {
-            this._toastr.error(this.getTabErrorMessage('Income details'),'Error',this._configuration.CustomToastOptions);
-            return;
-        }
-        this.validateTaxDeductedCollectedComponent();
-        if(!this.isTaxDeductedCollectedFrmValid)  {
-            this._toastr.error(this.getTabErrorMessage('Tax Details'),'Error',this._configuration.CustomToastOptions);
-            return;
-        }            
-        this.validateTaxPaidVerificationComponent();
-        if (!this.isTaxPaidVerificationFrmValid) {
-            this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
-            return;
-        }
-        this.validateDeduction80GComponent();
-        if (!this.isDeduction80GComponentValid) {
-            this._toastr.error(this.getTabErrorMessage('80G details'), 'Error', this._configuration.CustomToastOptions);
-            return;
-        }
-        this.validatePersonalInfoComponent();
-        if(!this.isPersonalInfoFrmValid)  {
-            this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
-            return;
-        }
+        // this.validateIncomeDetailsComponent();
+        // if(!this.isIncomeDetailsFrmValid)  {
+        //     this._toastr.error(this.getTabErrorMessage('Income details'),'Error',this._configuration.CustomToastOptions);
+        //     return;
+        // }
+        // this.validateTaxDeductedCollectedComponent();
+        // if(!this.isTaxDeductedCollectedFrmValid)  {
+        //     this._toastr.error(this.getTabErrorMessage('Tax Details'),'Error',this._configuration.CustomToastOptions);
+        //     return;
+        // }            
+        // this.validateTaxPaidVerificationComponent();
+        // if (!this.isTaxPaidVerificationFrmValid) {
+        //     this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
+        //     return;
+        // }
+        // this.validateDeduction80GComponent();
+        // if (!this.isDeduction80GComponentValid) {
+        //     this._toastr.error(this.getTabErrorMessage('80G details'), 'Error', this._configuration.CustomToastOptions);
+        //     return;
+        // }
+        // this.validatePersonalInfoComponent();
+        // if(!this.isPersonalInfoFrmValid)  {
+        //     this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
+        //     return;
+        // }
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();
@@ -227,12 +227,10 @@ export class eTaxXMLComponent {//implements OnInit {
         this._taxPaidVerificationComponent.validateTaxPaidVerificationComponentForm();
     }
 
-    public isDonation80GComponentValid(isFormValid: boolean) {
-        
+    public isDonation80GComponentValid(isFormValid: boolean) {        
         this.isDeduction80GComponentValid = isFormValid;
     }
-    validateDeduction80GComponent() {
-    
+    validateDeduction80GComponent() {    
         this._donation80GComponent.validateDonation80GComponentForm();
     }
 
