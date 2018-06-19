@@ -3,7 +3,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/cor
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
 import { ConfigurationService } from '../../../../shared/ConfigurationService';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import {SharedXMLService} from '../../shared/sharedXMLService';
+import {FormatDateService} from '../../shared/FormatDateService';
 import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
 import { Subscription } from 'rxjs/Rx';
 declare var $: any;
@@ -37,7 +37,7 @@ export class TaxPaidVerificationComponent implements OnInit {
 
     
     
-    constructor(private _configuration: ConfigurationService, private _sharedXMLService: SharedXMLService, private _sharedTaxService : SharedTaxService) { }
+    constructor(private _configuration: ConfigurationService, private _formatDateService: FormatDateService, private _sharedTaxService : SharedTaxService) { }
     ngOnInit() {
 
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -87,7 +87,7 @@ export class TaxPaidVerificationComponent implements OnInit {
     onVerficationDateChanged(event:IMyDateModel){
         if (event.date.day != 0) {
             this.verificationModel.verficationDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.verificationModel.verificationDateXml =this._sharedXMLService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+            this.verificationModel.verificationDateXml =this._formatDateService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
         }
         else {
             this.verificationModel.verficationDate = "";

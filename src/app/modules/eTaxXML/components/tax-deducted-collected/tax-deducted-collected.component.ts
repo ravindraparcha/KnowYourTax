@@ -4,7 +4,7 @@ import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThan
 
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { ConfigurationService } from '../../../../shared/ConfigurationService';
-import { SharedXMLService } from '../../shared/sharedXMLService';
+import { FormatDateService } from '../../shared/FormatDateService';
 import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
 
 declare var $: any;
@@ -37,7 +37,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
     public taxTypeList = [];
     @Output() isTaxDeductedCollectedComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('taxDeductedCollectedFrm') taxDeductedCollectedFrm;
-    constructor(private cd: ChangeDetectorRef,private _configuration: ConfigurationService, private _sharedXMLService: SharedXMLService, private _sharedTaxService: SharedTaxService) { }
+    constructor(private cd: ChangeDetectorRef,private _configuration: ConfigurationService, private _sharedXMLService: FormatDateService, private _sharedTaxService: SharedTaxService) { }
 
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat

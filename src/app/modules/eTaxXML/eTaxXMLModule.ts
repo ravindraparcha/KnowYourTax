@@ -16,7 +16,7 @@ import {TaxPaidVerificationComponent} from '../eTaxXML/components/tax-paid-verif
 import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.80G.component';
 import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service';
 import {XmlGeneratorService} from '../eTaxXML/services/xml-generator-service';
-import {SharedXMLService} from '../eTaxXML/shared/sharedXMLService';
+import {FormatDateService} from '../eTaxXML/shared/FormatDateService';
 
 import {SharedTaxService} from '../../shared/services/sharedTaxService';
 //Validator starts
@@ -40,7 +40,7 @@ import {CountValidatorDirective} from '../../shared/validators/CountDirective';
               NgxMyDatePickerModule.forRoot(),sharedModule,
             BrowserModule,BrowserAnimationsModule,ToastrModule.forRoot({timeOut: 1000,
                 positionClass: 'toast-center'})],
-    providers : [Form26ASParserService,XmlGeneratorService,SharedXMLService,
+    providers : [Form26ASParserService,XmlGeneratorService,FormatDateService,
                  SharedTaxService],
     declarations : [eTaxXMLComponent,PersonalInfoComponent,
                     TaxDeductedCollectedComponent,TaxPaidVerificationComponent,Donation80GComponent,

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { saveAs } from 'file-saver';
-import { SharedXMLService } from '../shared/sharedXMLService';
+import { FormatDateService } from '../shared/FormatDateService';
 
 
 declare var require: any;
@@ -11,7 +11,7 @@ export class XmlGeneratorService {
     private xmlWriter;
     private xmlDataArray = [];
 
-    constructor(private _sharedXMLService: SharedXMLService) { }
+    constructor(private _formatDateService: FormatDateService) { }
 
     public generateXML(xmlDataArray) {
         this.addPredefinedXmlNodes();
@@ -68,7 +68,7 @@ export class XmlGeneratorService {
     }
     private addFormCreationInfo() {
         let date = new Date();
-        let dateString = this._sharedXMLService.formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear(), "yyyy-mm-dd", "-");
+        let dateString = this._formatDateService.formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear(), "yyyy-mm-dd", "-");
         this.xmlWriter.startElement("ITRForm:CreationInfo");
         this.xmlWriter.writeElement("ITRForm:SWVersionNo", "R1");
         this.xmlWriter.writeElement("ITRForm:SWCreatedBy", "KnowYourTax");

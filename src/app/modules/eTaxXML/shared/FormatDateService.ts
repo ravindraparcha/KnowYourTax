@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { first } from "rxjs/operator/first";
 
 @Injectable()
-export class SharedXMLService {
+export class FormatDateService {
     public formatDate(day: number, month: number, year: number, format: string, delimiter: string) {
       
         let formatDateArr = [];

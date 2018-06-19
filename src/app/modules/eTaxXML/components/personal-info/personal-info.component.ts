@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, View
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ConfigurationService } from '../../../../shared/ConfigurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
-import { SharedXMLService } from '../../shared/sharedXMLService';
+import { FormatDateService } from '../../shared/FormatDateService';
 import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
@@ -48,7 +48,7 @@ export class PersonalInfoComponent implements OnInit {
     };
 
     constructor(private cd: ChangeDetectorRef,
-        public _configuration: ConfigurationService, private _sharedXMLService: SharedXMLService,
+        public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
     }
 
@@ -80,7 +80,7 @@ export class PersonalInfoComponent implements OnInit {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.birthDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
+            this.personalInfo.birthDateXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.personalInfo.birthDate = "";
@@ -90,7 +90,7 @@ export class PersonalInfoComponent implements OnInit {
     onOriginalFilingReturnDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filingOriginalReturnDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.filingOriginalReturnDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
+            this.personalInfo.filingOriginalReturnDateXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.personalInfo.filingOriginalReturnDate = "";
@@ -101,7 +101,7 @@ export class PersonalInfoComponent implements OnInit {
     onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filedAgainstNotice = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.personalInfo.filedAgainstNoticeXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
+            this.personalInfo.filedAgainstNoticeXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.personalInfo.filedAgainstNotice = "";
