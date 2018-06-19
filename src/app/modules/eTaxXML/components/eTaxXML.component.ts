@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Form26ASParserService } from '../services/form26AS-parser-service';
 import { PersonalInfoModel } from '../models/personal-info.model';
 import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../../../shared/models/deduction.model';
-import { Configuration } from '../../../shared/constants';
+import { ConfigurationService } from '../../../shared/ConfigurationService';
 import { TaxDeductedSalaryModel } from '../models/tax-deducted-collected.model';
 import { IncomeData } from '../../../shared/models/income-details.model';
 import { XmlGeneratorService } from '../services/xml-generator-service';
@@ -40,7 +40,7 @@ export class eTaxXMLComponent {//implements OnInit {
     public incomeData: IncomeData;
     // public usrTaxModel;
     // public incomeTaxModel: IncomeTaxModel;
-    constructor(private _form26ASParserService: Form26ASParserService, private _configuration: Configuration,
+    constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService) { }
 
     // ngOnInit() {

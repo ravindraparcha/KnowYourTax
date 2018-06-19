@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { Configuration } from '../../../../shared/constants';
+import { ConfigurationService } from '../../../../shared/ConfigurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import { SharedXMLService } from '../../shared/sharedXMLService';
 import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
@@ -48,7 +48,7 @@ export class PersonalInfoComponent implements OnInit {
     };
 
     constructor(private cd: ChangeDetectorRef,
-        public _configuration: Configuration, private _sharedXMLService: SharedXMLService,
+        public _configuration: ConfigurationService, private _sharedXMLService: SharedXMLService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
     }
 

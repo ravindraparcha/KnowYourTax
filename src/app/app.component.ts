@@ -11,14 +11,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     $("document").ready(function () {
-      setTimeout(function () {
-        let navItemClass = window.location.href.substr(window.location.href.indexOf('#') + 2);
-        $('.' + navItemClass).trigger('click');
+      setTimeout(function () {        
+        $('.' + window.location.href.substr(window.location.href.indexOf('#') + 2)).trigger('click');
       }, 10);
     });
-    $('.nav li, .homeLink').on('click', function () {      
+    $('.nav li, .homeLink, .otherLink').on('click', function () {        
       $('.nav li').removeClass('active');
-      if ($(this).attr('href') == '#' || $(this).attr('href')=='#/calculator') {
+      if($(this).hasClass('otherLink'))
+        return;
+      if ($(this).hasClass('homeLink')) {
         $('.homeLink').addClass('active');
       }
       else

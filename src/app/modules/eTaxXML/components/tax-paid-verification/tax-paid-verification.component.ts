@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/core";
 
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
-import { Configuration } from '../../../../shared/constants';
+import { ConfigurationService } from '../../../../shared/ConfigurationService';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import {SharedXMLService} from '../../shared/sharedXMLService';
 import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
@@ -37,7 +37,7 @@ export class TaxPaidVerificationComponent implements OnInit {
 
     
     
-    constructor(private _configuration: Configuration, private _sharedXMLService: SharedXMLService, private _sharedTaxService : SharedTaxService) { }
+    constructor(private _configuration: ConfigurationService, private _sharedXMLService: SharedXMLService, private _sharedTaxService : SharedTaxService) { }
     ngOnInit() {
 
         $('.panel-collapse').on('show.bs.collapse', function () {

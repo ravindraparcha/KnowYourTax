@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
-import { Configuration } from '../../../shared/constants';
+import { ConfigurationService } from '../../../shared/ConfigurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -54,7 +54,7 @@ export class DeductionsComponent implements OnInit {
         //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
     };
 
-    constructor(private _configuration: Configuration, private _fb: FormBuilder,
+    constructor(private _configuration: ConfigurationService, private _fb: FormBuilder,
          private toastr: ToastsManager, vcr: ViewContainerRef,
         private _slimLoader: slimLoaderBarService, private _sharedTaxService: SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);

@@ -14,7 +14,7 @@ import {CalculatorService} from '../app/services/calculator.service'
 // import { CalculatorComponent } from './modules/calculator/old/calculator.component';
 import {CalculatorComponent} from './modules/calculator/calculator.component';
 import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
-import { Configuration } from "../app/shared/constants";
+import { ConfigurationService } from "../app/shared/ConfigurationService";
 import {slimLoaderBarService} from '../app/shared/services/slimLoaderBarService';
 import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer'; 
 import {eTaxXMLModule}  from './modules/eTaxXML/eTaxXMLModule';
@@ -42,7 +42,7 @@ import {sharedModule} from './shared/sharedModule';
   providers: [
     {provide: LocationStrategy,useClass:HashLocationStrategy},
     HttpClientModule,
-    Configuration,
+    ConfigurationService,
     CalculatorService,
     slimLoaderBarService,
     

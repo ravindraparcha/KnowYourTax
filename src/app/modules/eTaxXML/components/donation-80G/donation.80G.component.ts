@@ -1,7 +1,7 @@
 import  {Component, OnInit, Output, ViewChild, EventEmitter} from '@angular/core';
 import { Donation80G,DonationDeduction } from '../../models/donation-80G.model';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import { Configuration } from '../../../../shared/constants';
+import { ConfigurationService } from '../../../../shared/ConfigurationService';
 
 @Component({
     selector:'donation-80G',
@@ -28,7 +28,7 @@ export class Donation80GComponent implements OnInit {
     @Output() isDonation80GComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('donation80GForm') donation80GForm;
     
-    constructor(public configuration : Configuration){}
+    constructor(public configuration : ConfigurationService){}
      
     ngOnInit() {
         this.donation80G = new Donation80G();

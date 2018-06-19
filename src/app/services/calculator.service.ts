@@ -7,14 +7,14 @@ import { filter, map, catchError } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import {slimLoaderBarService} from '../shared/services/slimLoaderBarService';
-import { Configuration } from "../shared/constants";
+import { ConfigurationService } from "../shared/ConfigurationService";
 
 @Injectable()
 export class CalculatorService {    
    
     private actionUrl: string;
 
-    constructor(private http: HttpClient, private _configuration: Configuration,private _slimLoader : slimLoaderBarService) {        
+    constructor(private http: HttpClient, private _configuration: ConfigurationService,private _slimLoader : slimLoaderBarService) {        
         this.actionUrl = _configuration.ServerWithApiUrl + 'TaxCalculator/';
     }
  

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'
 @Injectable()
-export class Configuration {
+export class ConfigurationService {
     public ServerWithApiUrl: string = environment.apiUrl;
     public CustomToastOptions = {
         positionClass: 'toast-top-center', newestOnTop: true, closeButton: true, timeOut: 4000,enableHtml:true
