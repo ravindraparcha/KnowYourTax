@@ -7,7 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 
-import {eTaxXMLComponent} from '../eTaxXML/components/eTaxXML.component';
+import {eTaxXMLComponent} from '../eTaxXML/eTaxXML.component';
 import {PersonalInfoComponent} from '../eTaxXML/components/personal-info/personal-info.component';
 import {sharedModule} from '../../shared/sharedModule';
 //import {DeductionsComponent} from '../eTaxXML/components/deduction/deductions.components';
