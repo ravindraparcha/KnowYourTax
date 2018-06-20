@@ -4,16 +4,16 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BrowserModule} from '@angular/platform-browser';
-import { ToastrModule } from 'ngx-toastr';
+//import {BrowserModule} from '@angular/platform-browser';
+//import { ToastrModule } from 'ngx-toastr';
 
 import {DeductionsComponent} from './components/deduction/deductions.components';
 import {IncomeDetailsComponent} from './components/income-details/income-details.component';
+import { SharedTaxService } from './services/sharedTaxService';
 @NgModule({
-    imports: [CommonModule,NgSelectModule,FormsModule,ReactiveFormsModule,NgxMyDatePickerModule,BrowserAnimationsModule,
-            BrowserModule,ToastrModule],
-    providers : [],
+    imports: [CommonModule,NgSelectModule,NgxMyDatePickerModule,
+            FormsModule,ReactiveFormsModule],
+    providers : [SharedTaxService],
     declarations : [IndianCurrency,DeductionsComponent,IncomeDetailsComponent],
     exports : [IndianCurrency,DeductionsComponent,IncomeDetailsComponent]
 })

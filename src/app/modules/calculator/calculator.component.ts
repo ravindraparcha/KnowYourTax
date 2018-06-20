@@ -8,10 +8,7 @@ declare var $:any;
     templateUrl: './calculator.component.html'
 
 })
-export class CalculatorComponent {
-    //public advanceTaxPaidModels:any;
-    
-   // @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class CalculatorComponent {   
     @ViewChild(IncomeDetailsComponent) _incomeDetailsComponent: IncomeDetailsComponent;
     calculateTax() {        
         this._incomeDetailsComponent.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
