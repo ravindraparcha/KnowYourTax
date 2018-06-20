@@ -9,7 +9,7 @@ declare var $:any;
 
 })
 export class CalculatorComponent {
-    public advanceTaxPaidModels:any;
+    //public advanceTaxPaidModels:any;
     
    // @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild(IncomeDetailsComponent) _incomeDetailsComponent: IncomeDetailsComponent;

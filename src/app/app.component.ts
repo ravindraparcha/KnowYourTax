@@ -15,8 +15,8 @@ export class AppComponent implements OnInit {
         $('.' + window.location.href.substr(window.location.href.indexOf('#') + 2)).trigger('click');
       }, 10);
     });
-    $('.nav li, .homeLink, .otherLink').on('click', function () {        
-      $('.nav li').removeClass('active');
+    $('.navbar-nav li, .homeLink, .otherLink').on('click', function () {        
+      $('.navbar-nav li').removeClass('active');
       if($(this).hasClass('otherLink'))
         return;
       if ($(this).hasClass('homeLink')) {
