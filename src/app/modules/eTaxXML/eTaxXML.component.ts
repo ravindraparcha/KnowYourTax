@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnInit } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import { ToastrService } from 'ngx-toastr';
 
 import { Form26ASParserService } from './services/form26AS-parser-service';
@@ -38,10 +38,11 @@ export class eTaxXMLComponent {//implements OnInit {
     private xmlDataArray = [];
     public advanceTaxPaidModels;
     public incomeData: IncomeData;
-    // public usrTaxModel;
-    // public incomeTaxModel: IncomeTaxModel;
+
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
-        private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService) { }
+        private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService,
+        ) {}
+   
 
     // ngOnInit() {
     //     this.incomeTaxModel = new IncomeTaxModel();
@@ -188,15 +189,15 @@ export class eTaxXMLComponent {//implements OnInit {
     }
 
     private getTabErrorMessage(tabName: string) {
-        return "<b>"+tabName+"</b> tab data is invalid. Please correct and proceed further";
+        return "<b>" + tabName + "</b> tab data is invalid. Please correct and proceed further";
     }
 
     private createSectionArray(infoType: string, data: any) {
         this.xmlDataArray.push({ "infoType": infoType, data: data });
     }
-    calculateTax() {        
+    calculateTax() {
         this._incomeDetailsComponent.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
-        $('#deductionModel').modal('show');       
+        $('#deductionModel').modal('show');
     }
 
     //this method will be emitted from child component i.e. ParentInfoComponent
@@ -227,10 +228,10 @@ export class eTaxXMLComponent {//implements OnInit {
         this._taxPaidVerificationComponent.validateTaxPaidVerificationComponentForm();
     }
 
-    public isDonation80GComponentValid(isFormValid: boolean) {        
+    public isDonation80GComponentValid(isFormValid: boolean) {
         this.isDeduction80GComponentValid = isFormValid;
     }
-    validateDeduction80GComponent() {    
+    validateDeduction80GComponent() {
         this._donation80GComponent.validateDonation80GComponentForm();
     }
 

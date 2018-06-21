@@ -8,7 +8,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 import {CalculatorService} from '../app/services/calculator.service'
@@ -31,6 +31,7 @@ import {sharedModule} from './shared/sharedModule';
   ],
   imports: [
   //ToastrModule,
+    NgxSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: true }),
