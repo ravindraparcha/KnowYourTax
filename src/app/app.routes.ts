@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
-import { PageNotFoundComponent } from './modules/pageNotFound/pageNotFound.component';
-import { PrivacyPolicyComponent, AboutComponent } from './modules/footer/footer';
+import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
+import { PrivacyPolicyComponent, AboutComponent } from './footer/footer';
 // // <a [routerLink]="['/parcha.net']">Parcha.net</a>
 // // <a [routerLink]="['/privacypolicy']">Privacy Policy</a>
 // // <a [routerLink]="['/privacypolicy']">

@@ -11,13 +11,13 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 
-import {CalculatorService} from '../app/services/calculator.service'
+import {CalculatorService} from '../app/modules/shared/services/calculator.service'
 // import { CalculatorComponent } from './modules/calculator/old/calculator.component';
 //import {CalculatorComponent} from './modules/calculator/calculator.component';
-import {PageNotFoundComponent} from './modules/pageNotFound/pageNotFound.component';
+import {PageNotFoundComponent} from './pageNotFound/pageNotFound.component';
 import { ConfigurationService } from '../app/modules/shared/ConfigurationService';
 import {slimLoaderBarService} from '../app/modules/shared/services/slimLoaderBarService';
-import {PrivacyPolicyComponent,AboutComponent} from './modules/footer/footer'; 
+import {PrivacyPolicyComponent,AboutComponent} from './footer/footer'; 
 import {sharedModule} from  '../app/modules/shared/sharedModule';
 //import { ToastrModule } from 'ngx-toastr';
 

@@ -6,8 +6,8 @@ import 'rxjs/add/observable/throw';
 import { filter, map, catchError } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
-import {slimLoaderBarService} from  '../modules/shared/services/slimLoaderBarService';
-import { ConfigurationService } from "../modules/shared/ConfigurationService";
+import {slimLoaderBarService} from  './slimLoaderBarService';
+import { ConfigurationService } from "../ConfigurationService";
 
 @Injectable()
 export class CalculatorService {    
