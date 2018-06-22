@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { ConfigurationService } from '../../../../shared/ConfigurationService';
+import { ConfigurationService } from '../../../shared/ConfigurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import { FormatDateService } from '../../shared/FormatDateService';
-import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
+import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

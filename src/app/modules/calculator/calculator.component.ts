@@ -1,5 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
-import { IncomeDetailsComponent } from "../../shared/components/income-details/income-details.component";
+import { IncomeDetailsComponent } from "../shared/components/income-details/income-details.component";
 
 declare var $:any;
 

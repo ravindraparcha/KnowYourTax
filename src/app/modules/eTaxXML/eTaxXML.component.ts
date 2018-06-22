@@ -3,17 +3,17 @@ import { ToastrService } from 'ngx-toastr';
 
 import { Form26ASParserService } from './services/form26AS-parser-service';
 import { PersonalInfoModel } from './models/personal-info.model';
-import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from './../../shared/models/deduction.model';
-import { ConfigurationService } from './../../shared/ConfigurationService';
+import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../shared/models/deduction.model'; 
+import { ConfigurationService } from '../shared/ConfigurationService';  
 import { TaxDeductedSalaryModel } from './models/tax-deducted-collected.model';
-import { IncomeData } from './../../shared/models/income-details.model';
+import { IncomeData } from  '../../modules/shared/models/income-details.model';
 import { XmlGeneratorService } from './services/xml-generator-service';
 
 import { PersonalInfoComponent } from './components/personal-info/personal-info.component';
 import { TaxPaidVerificationComponent } from './components/tax-paid-verification/tax-paid-verification.component';
 import { TaxDeductedCollectedComponent } from './components/tax-deducted-collected/tax-deducted-collected.component';
 import { Donation80GComponent } from './components/donation-80G/donation.80G.component';
-import { IncomeDetailsComponent } from "./../../shared/components/income-details/income-details.component";
+import { IncomeDetailsComponent } from  '../shared/components/income-details/income-details.component';
 
 
 declare var $: any;

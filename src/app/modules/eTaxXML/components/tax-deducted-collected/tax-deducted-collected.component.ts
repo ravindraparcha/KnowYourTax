@@ -3,9 +3,9 @@ import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEm
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
 
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import { ConfigurationService } from '../../../../shared/ConfigurationService';
+import { ConfigurationService } from '../../../shared/ConfigurationService';
 import { FormatDateService } from '../../shared/FormatDateService';
-import { SharedTaxService } from '../../../../shared/services/sharedTaxService';
+import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
 
 declare var $: any;
 

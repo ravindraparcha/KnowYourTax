@@ -1,9 +1,9 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
-import { ConfigurationService } from '../../../shared/ConfigurationService';
+import { ConfigurationService } from  '../../../shared/ConfigurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { slimLoaderBarService } from '../../../shared/services/slimLoaderBarService';
+import { slimLoaderBarService } from  '../../../shared/services/slimLoaderBarService';
  
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";

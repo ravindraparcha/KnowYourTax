@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef, OnInit, NgZone, Renderer, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { slimLoaderBarService } from './shared/services/slimLoaderBarService';
+import { slimLoaderBarService } from '../app/modules/shared/services/slimLoaderBarService';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
