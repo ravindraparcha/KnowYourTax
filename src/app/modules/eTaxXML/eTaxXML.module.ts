@@ -19,20 +19,21 @@ import {FormatDateService} from '../eTaxXML/services/FormatDateService';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {SharedTaxService} from '../shared/services/sharedTaxService';
 //Validator starts
-import {EmailValidatorDirective} from  '../shared/validators/EmailValidatorDirective';
-import {NameValidatorDirective} from '../shared/validators/NameValidationDirective';
-import {AadharCardValidatorDirective} from '../shared/validators/AadharCardDirective';
-import {PanCardValidatorDirective} from '../shared/validators/PanCardDirective';
-import {AadharCardEnrollmentIdValidatorDirective} from '../shared/validators/AadharCardEnrollmentIdDirective';
-import {MobileNoValidatorDirective} from '../shared/validators/MobileNumberDirective';
-import {PinCodeValidatorDirective} from '../shared/validators/PinCodeDirective';
-import {ReceiptNumberValidatorDirective} from '../shared/validators/ReceiptNumberDirective';
-import {NoticeNumberValidatorDirective} from '../shared/validators/NoticeNumberDirective';
-import {CompareTwoNumbersValidatorDirective} from '../shared/validators/CompareTwoNumbersDirective';
-import {RequiredValidatorDirective} from '../shared/validators/RequiredDirective';
-import {IFSCValidatorDirective} from '../shared/validators/IFSCDirective';
-import {CharacterNumberValidatorDirective} from '../shared/validators/CharacterNumberDirective';
-import {CountValidatorDirective} from '../shared/validators/CountDirective';
+import {EmailValidatorDirective} from  './validators/EmailValidatorDirective';
+import {NameValidatorDirective} from './validators/NameValidationDirective';
+import {AadharCardValidatorDirective} from './validators/AadharCardDirective';
+import {PanCardValidatorDirective} from './validators/PanCardDirective';
+import {AadharCardEnrollmentIdValidatorDirective} from './validators/AadharCardEnrollmentIdDirective';
+import {MobileNoValidatorDirective} from './validators/MobileNumberDirective';
+import {PinCodeValidatorDirective} from './validators/PinCodeDirective';
+import {ReceiptNumberValidatorDirective} from './validators/ReceiptNumberDirective';
+import {NoticeNumberValidatorDirective} from './validators/NoticeNumberDirective';
+import {CompareTwoNumbersValidatorDirective} from './validators/CompareTwoNumbersDirective';
+import {RequiredValidatorDirective} from './validators/RequiredDirective';
+import {IFSCValidatorDirective} from './validators/IFSCDirective';
+import {CharacterNumberValidatorDirective} from './validators/CharacterNumberDirective';
+import {CountValidatorDirective} from './validators/CountDirective';
+import {DuplicateCheckValidatorDirective} from './validators/DuplicateCheckDirective';
 //Validator ends
 import {eTaxXMLRoutingModule} from './eTaxXML.routing';
 import { CommonModule } from '@angular/common';  
@@ -51,7 +52,7 @@ import { CommonModule } from '@angular/common';
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
                     AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
                     NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective,
-                    IFSCValidatorDirective,CharacterNumberValidatorDirective,CountValidatorDirective],
+                    IFSCValidatorDirective,CharacterNumberValidatorDirective,CountValidatorDirective,DuplicateCheckValidatorDirective],
     exports : [eTaxXMLComponent]
 })
 
