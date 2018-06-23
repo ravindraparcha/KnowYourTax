@@ -173,7 +173,7 @@ export class eTaxXMLComponent {
         this.incomeData = new IncomeData();         
         this.incomeData.incomeDetailsModel = this._incomeDetailsComponent.incomeDetailsModel; 
         //calculate tax     
-        //this._incomeDetailsComponent.deductionsComponent.calculateTax();
+        this._incomeDetailsComponent.deductionsComponent.calculateTax();
         this.incomeData.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.incomeTaxModel;
         this.createSectionArray('incomeDetails', this.incomeData);
         this.createSectionArray('taxPaid', this._taxPaidVerificationComponent.taxPaidModel);

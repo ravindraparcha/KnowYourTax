@@ -292,8 +292,7 @@ export class XmlGeneratorService {
         if (incomeDetails.cessTax !== undefined && incomeDetails.cessTax !== null)
             this.xmlWriter.writeElement("ITRForm:EducationCess", incomeDetails.cessTax);
         if (incomeDetails.totalTaxAndCess !== undefined && incomeDetails.totalTaxAndCess !== null)
-            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxAndCess);
-            debugger;
+            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxAndCess);          
         if (incomeDetails.reliefUnder89 !== undefined && incomeDetails.reliefUnder89 !== null)
             this.xmlWriter.writeElement("ITRForm:Section89", incomeDetails.reliefUnder89);
         if (incomeDetails.balanceTaxAfterRelief !== undefined && incomeDetails.balanceTaxAfterRelief !== null)

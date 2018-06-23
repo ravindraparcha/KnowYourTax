@@ -243,16 +243,16 @@ code {
 }
 
 .border-left-info{    
-    border-left: 2px solid #aa6708;
-    border-radius: 3px;
+    border-left: 2px solid #35bce9;    
+    /* border-radius: 3px; */
     padding-left: 4px;
     margin-top: 2px;
-    background-color: #fff8ed;
+    background-color: #f1fbff;
     font-style:italic;
 }
 .border-left-error{    
     border-left: 2px solid red;
-    border-radius: 3px;
+    /* border-radius: 3px; */
     padding-left: 4px;
     margin-top: 2px;
     background-color: #ff00000f;
