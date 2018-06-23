@@ -98,7 +98,6 @@ export class DeductionsComponent implements OnInit {
         });
     }
     addSection() {
-
         let section = this.selectedSectionValue;
         let duplicateFound = false;
 
@@ -118,7 +117,6 @@ export class DeductionsComponent implements OnInit {
                 return;
             }
         });
-
     }
 
     deleteSection(index: number) {
@@ -264,7 +262,6 @@ export class DeductionsComponent implements OnInit {
             filingDt = this.deductionModel.filingDate["jsdate"];
         }
         
-
         if (dueDt != undefined && filingDt != undefined) {
             let diffDate: number;
             let days = 0;
@@ -514,13 +511,12 @@ export class DeductionsComponent implements OnInit {
     }
 
     private updateSectionLimit(masterData: any[], usrSections: any[], parentSectionName: string) {
-        let balanceAmount = 0;
-        let parentWithMaxLimit = false;
+        debugger;
+        let balanceAmount = 0;       
         for (let msData of masterData) {
             balanceAmount = msData.limit;
             if (msData.name == parentSectionName) {
-                let parentAmount = 0;
-                parentWithMaxLimit = false;
+                let parentAmount = 0;                
                 //finding entered value 
                 for (let usrSection of usrSections) {
                     if (usrSection.name == parentSectionName) {
@@ -540,6 +536,16 @@ export class DeductionsComponent implements OnInit {
 
                             usrSection.limit = usrSection.enteredAmount;
                             balanceAmount = balanceAmount - usrSection.enteredAmount;
+                        }
+                    }
+                    else if(usrSection.name==parentSectionName) {
+                        if (usrSection.enteredAmount > msData.limit) {
+                            //usrSection.enteredAmount = balanceAmount;
+                            usrSection.limit = msData.limit;
+                            
+                        }
+                        else {
+                            usrSection.limit = usrSection.enteredAmount;                           
                         }
                     }
                 }
