@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Form26ASParserService } from './services/form26AS-parser-service';
 import { PersonalInfoModel } from './models/personal-info.model';
 import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../shared/models/deduction.model'; 
-import { ConfigurationService } from '../shared/ConfigurationService';  
+import { ConfigurationService } from '../shared/services/ConfigurationService';  
 import { TaxDeductedSalaryModel } from './models/tax-deducted-collected.model';
 import { IncomeData } from  '../../modules/shared/models/income-details.model';
 import { XmlGeneratorService } from './services/xml-generator-service';
@@ -22,7 +22,7 @@ declare var $: any;
     selector: 'eTaxXML',
     templateUrl: './eTaxXML.component.html'
 })
-export class eTaxXMLComponent {//implements OnInit {
+export class eTaxXMLComponent { 
 
 
     //child component object for xml generation
@@ -42,15 +42,7 @@ export class eTaxXMLComponent {//implements OnInit {
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService,
         ) {}
-   
-
-    // ngOnInit() {
-    //     this.incomeTaxModel = new IncomeTaxModel();
-    //     this.incomeTaxModel.userTaxModel = [];
-    //     this.incomeTaxModel.systemTaxModel = [];
-    //     this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
-    // }
-
+    
     onFileSelection(event: EventTarget) {
         let $this = this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
@@ -178,8 +170,10 @@ export class eTaxXMLComponent {//implements OnInit {
         // }
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
-        this.incomeData = new IncomeData();
-        this.incomeData.incomeDetailsModel = this._incomeDetailsComponent.incomeDetailsModel;
+        this.incomeData = new IncomeData();         
+        this.incomeData.incomeDetailsModel = this._incomeDetailsComponent.incomeDetailsModel; 
+        //calculate tax     
+        //this._incomeDetailsComponent.deductionsComponent.calculateTax();
         this.incomeData.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.incomeTaxModel;
         this.createSectionArray('incomeDetails', this.incomeData);
         this.createSectionArray('taxPaid', this._taxPaidVerificationComponent.taxPaidModel);

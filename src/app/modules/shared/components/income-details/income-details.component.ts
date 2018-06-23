@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
-import { ConfigurationService } from '../../ConfigurationService';
+import { ConfigurationService } from '../../services/ConfigurationService';
 import { DeductionsComponent } from '../deduction/deductions.components';
 import { IncomeTaxModel, TaxComputationModel } from '../../models/deduction.model';
 
@@ -56,8 +56,7 @@ export class IncomeDetailsComponent implements OnInit {
         this.incomeDetailsModel.annualValue =
             isNaN(this.incomeDetailsModel.rent) ? 0 : this.incomeDetailsModel.rent -
                 (isNaN(this.incomeDetailsModel.taxPaidToLocalAuthority) ? 0 : this.incomeDetailsModel.taxPaidToLocalAuthority);
-        this.incomeDetailsModel.annualValuePercentageAmount = (this.incomeDetailsModel.annualValue * this._configuration.annualValuePercentage) / 100;
-
+        this.incomeDetailsModel.annualValuePercentageAmount = (this.incomeDetailsModel.annualValue * this._configuration.annualValuePercentage) / 100;       
     }
 
     calculateIncomeChargeableUnderHouseProperty() {

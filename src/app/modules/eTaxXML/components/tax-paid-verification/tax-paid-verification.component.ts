@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/core";
 
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
-import { ConfigurationService } from '../../../shared/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import {FormatDateService} from '../../services/FormatDateService';
 import { SharedTaxService } from  '../../../shared/services/sharedTaxService';

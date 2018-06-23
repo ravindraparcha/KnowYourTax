@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
-import { ConfigurationService } from  '../../../shared/ConfigurationService';
+import { ConfigurationService } from  '../../../shared/services/ConfigurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -253,7 +253,7 @@ export class DeductionsComponent implements OnInit {
 
         let dueDt ;
         let filingDt;
-        if(this.deductionModel.filingDate==null || this.deductionModel.dueDate) {
+        if(this.deductionModel.filingDate==null || this.deductionModel.dueDate==null) {
             dueDt = undefined;
             filingDt = undefined;
         }
@@ -425,7 +425,6 @@ export class DeductionsComponent implements OnInit {
         return (currentDate.getFullYear() + "-" + nextDate.getFullYear());
     }
     private getSectionWithLimitAndAmount(deductions) {
-
         let dSum = 0;
         let masterDataList = this._configuration.masterSec;
         let usrSections = [];
@@ -446,12 +445,22 @@ export class DeductionsComponent implements OnInit {
             for (let usrDeduction of deductions) {
                 if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
                     if (msData.limit > 0) {
-
+                        
                         //set limit to percentage amount
                         if (msData.limit <= 100 && msData.limit != -1) {
                             let percentageAmt = this.grossTotalIncome * msData.limit / 100;
                             //msData.limit = percentageAmt;
                             enteredAmount = percentageAmt;
+                        }
+                        else if(msData.limit>0 && msData.options.length == 0) {
+                            if (usrDeduction.deductionValue > msData.limit) {                                 
+                                enteredAmount = usrDeduction.deductionValue;
+                                dSum = msData.limit;
+                            }
+                            else {
+                                dSum = usrDeduction.deductionValue;
+                                enteredAmount = usrDeduction.deductionValue;
+                            }
                         }
                         if (msData.options.length > 0) {
                             if (usrDeduction.deductionValue > msData.limit) {
@@ -511,7 +520,7 @@ export class DeductionsComponent implements OnInit {
     }
 
     private updateSectionLimit(masterData: any[], usrSections: any[], parentSectionName: string) {
-        debugger;
+         
         let balanceAmount = 0;       
         for (let msData of masterData) {
             balanceAmount = msData.limit;

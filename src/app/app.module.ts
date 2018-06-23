@@ -15,7 +15,7 @@ import {CalculatorService} from '../app/modules/shared/services/calculator.servi
 // import { CalculatorComponent } from './modules/calculator/old/calculator.component';
 //import {CalculatorComponent} from './modules/calculator/calculator.component';
 import {PageNotFoundComponent} from './pageNotFound/pageNotFound.component';
-import { ConfigurationService } from '../app/modules/shared/ConfigurationService';
+import { ConfigurationService } from '../app/modules/shared/services/ConfigurationService';
 import {slimLoaderBarService} from '../app/modules/shared/services/slimLoaderBarService';
 import {PrivacyPolicyComponent,AboutComponent} from './footer/footer'; 
 import {sharedModule} from  '../app/modules/shared/sharedModule';
