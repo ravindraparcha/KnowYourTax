@@ -14,27 +14,29 @@ import { NG_VALIDATORS, Validator, AbstractControl } from "@angular/forms";
 
 export class CompareTwoNumbersValidatorDirective implements Validator {
     @Input() otherValue: any;
-    public validate(control: AbstractControl) {
+    public validate(control: AbstractControl) {         
+        if (control.value == undefined || control.value == null)
+            return;
         let arr = this.otherValue.split(',');
-        let currentControlValue = control.value;
-        let valueToCompare = arr[0]=="" ? 0 : arr[0];
-         
-        if (arr[1]=='true') {
+        let currentControlValue =parseFloat(control.value);
+        let valueToCompare = arr[0] == "" ? 0 : parseFloat(arr[0]);
+
+        if (arr[1] == 'true') {
             if (currentControlValue > valueToCompare) {
                 return {
                     numberError: {
-                        errorMsg:  valueToCompare + ' should be less than ' + currentControlValue 
+                        errorMsg: valueToCompare + ' should be less than ' + currentControlValue
                     }
                 };
             }
             else
                 return null;
         }
-        else if(arr[1]=='false') {
+        else if (arr[1] == 'false') {
             if (currentControlValue < valueToCompare) {
                 return {
                     numberError: {
-                        errorMsg:  currentControlValue + ' should be less than ' + valueToCompare 
+                        errorMsg: currentControlValue + ' should be less than ' + valueToCompare
                     }
                 };
             }

@@ -62,7 +62,7 @@ export class eTaxXMLComponent {//implements OnInit {
         reader.readAsText(files[0]);
         //hiding the modal popup
         $('#form26ASModel').modal('hide');
-        reader.onload = function () {
+        reader.onload = function () {             
             $this.parseJson = $this._form26ASParserService.parseTextFile(reader.result);
             //convert json to appropriate model 
             $this.parseJson.forEach(element => {
@@ -73,6 +73,7 @@ export class eTaxXMLComponent {//implements OnInit {
                 //PART A - Details of Tax Deducted at Source
                 else if (element.partNumber == 1) {
                     let result = $this.parseJson.cumulatives.filter(x => x.partNumber == 1);
+                    $this.taxDeducted = [];
                     $this.taxDeducted = $this.getDeductionAtSource(result);
 
                 }

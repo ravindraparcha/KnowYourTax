@@ -45,6 +45,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
 
     @Input()
     set taxDeducted(taxDeductedModels: TaxDeductedSalaryModel[]) {
+        this.taxDeductedSalaryModels=[];
         if (taxDeductedModels != undefined) {
             for (let i = 0; i < taxDeductedModels.length; i++)
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
