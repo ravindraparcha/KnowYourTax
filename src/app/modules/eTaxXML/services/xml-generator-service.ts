@@ -9,7 +9,7 @@ declare var require: any;
 export class XmlGeneratorService {
     private xmlWriterRequire;
     private xmlWriter;
-    private agricultureIncome:number;
+    private agricultureIncome: number;
 
     constructor(private _formatDateService: FormatDateService) { }
 
@@ -165,36 +165,63 @@ export class XmlGeneratorService {
         let incomeDetails = incomeDetail.incomeDetailsModel;
         this.xmlWriter.startElement("ITRForm:ITR1_IncomeDeductions");
 
-        if (incomeDetails.salary !== undefined && incomeDetails.salary !== null)
-            this.xmlWriter.writeElement("ITRForm:Salary", incomeDetails.salary);
-        if (incomeDetails.allowance !== undefined && incomeDetails.allowance !== null)
-            this.xmlWriter.writeElement("ITRForm:AlwnsNotExempt", incomeDetails.allowance);
-        if (incomeDetails.perquisites !== undefined && incomeDetails.perquisites !== null)
-            this.xmlWriter.writeElement("ITRForm:PerquisitesValue", incomeDetails.perquisites);
-        if (incomeDetails.profitLieuOfSalary !== undefined && incomeDetails.profitLieuOfSalary !== null)
-            this.xmlWriter.writeElement("ITRForm:ProfitsInSalary", incomeDetails.profitLieuOfSalary);
-        if (incomeDetails.deductionUS16 !== undefined && incomeDetails.deductionUS16 !== null)
-            this.xmlWriter.writeElement("ITRForm:DeductionUs16", incomeDetails.deductionUS16);
-        if (incomeDetails.salaryPensionSum !== undefined && incomeDetails.salaryPensionSum !== null)
-            this.xmlWriter.writeElement("ITRForm:IncomeFromSal", incomeDetails.salaryPensionSum);
+        this.xmlWriter.writeElement("ITRForm:Salary", incomeDetails.salary == undefined ? 0 : incomeDetails.salary);
+        this.xmlWriter.writeElement("ITRForm:AlwnsNotExempt", incomeDetails.allowance == undefined ? 0 : incomeDetails.allowance);
+        this.xmlWriter.writeElement("ITRForm:PerquisitesValue", incomeDetails.perquisites == undefined ? 0 : incomeDetails.perquisites);
+        this.xmlWriter.writeElement("ITRForm:ProfitsInSalary", incomeDetails.profitLieuOfSalary == undefined ? 0 : incomeDetails.profitLieuOfSalary);
+
+        this.xmlWriter.writeElement("ITRForm:DeductionUs16", incomeDetails.deductionUS16 == undefined ? 0 : incomeDetails.deductionUS16);
+
+        this.xmlWriter.writeElement("ITRForm:IncomeFromSal", incomeDetails.salaryPensionSum == undefined ? 0 : incomeDetails.salaryPensionSum);
         if (incomeDetails.selectedHousePropertyType !== null && incomeDetails.selectedHousePropertyType !== "0")
             this.xmlWriter.writeElement("ITRForm:TypeOfHP", incomeDetails.selectedHousePropertyType.toUpperCase());
-        if (incomeDetails.rent !== undefined && incomeDetails.rent !== null)
-            this.xmlWriter.writeElement("ITRForm:GrossRentReceived", incomeDetails.rent);
-        if (incomeDetails.taxPaidToLocalAuthority !== undefined && incomeDetails.taxPaidToLocalAuthority !== null)
-            this.xmlWriter.writeElement("ITRForm:TaxPaidlocalAuth", incomeDetails.taxPaidToLocalAuthority);            
-        if (incomeDetails.annualValue !== undefined && incomeDetails.annualValue !== null)
-            this.xmlWriter.writeElement("ITRForm:AnnualValue", incomeDetails.annualValue);
-        if (incomeDetails.annualValuePercentageAmount !== undefined && incomeDetails.annualValuePercentageAmount !== null)
-            this.xmlWriter.writeElement("ITRForm:StandardDeduction", incomeDetails.annualValuePercentageAmount);
-        if (incomeDetails.interestOnBorrowedCapital !== undefined && incomeDetails.interestOnBorrowedCapital !== null)
-            this.xmlWriter.writeElement("ITRForm:InterestPayable", incomeDetails.interestOnBorrowedCapital);
-        if (incomeDetails.housePropertySum !== undefined && incomeDetails.housePropertySum !== null)
-            this.xmlWriter.writeElement("ITRForm:TotalIncomeOfHP", incomeDetails.housePropertySum);
-        if (incomeDetails.incomeFromOtherSources !== undefined && incomeDetails.incomeFromOtherSources !== null)
-            this.xmlWriter.writeElement("ITRForm:IncomeOthSrc", incomeDetails.incomeFromOtherSources);
-        if (incomeDetails.grossTotalIncome !== undefined && incomeDetails.grossTotalIncome !== null)
-            this.xmlWriter.writeElement("ITRForm:GrossTotIncome", incomeDetails.grossTotalIncome);
+
+        this.xmlWriter.writeElement("ITRForm:GrossRentReceived", incomeDetails.rent == undefined ? 0 : incomeDetails.rent);
+
+        this.xmlWriter.writeElement("ITRForm:TaxPaidlocalAuth", incomeDetails.taxPaidToLocalAuthority == undefined ? 0 : incomeDetails.taxPaidToLocalAuthority);
+
+        this.xmlWriter.writeElement("ITRForm:AnnualValue", incomeDetails.annualValue == undefined ? 0 : incomeDetails.annualValue);
+
+        this.xmlWriter.writeElement("ITRForm:StandardDeduction", incomeDetails.annualValuePercentageAmount == undefined ? 0 : incomeDetails.annualValuePercentageAmount);
+
+        this.xmlWriter.writeElement("ITRForm:InterestPayable", incomeDetails.interestOnBorrowedCapital == undefined ? 0 : incomeDetails.interestOnBorrowedCapital);
+
+        this.xmlWriter.writeElement("ITRForm:TotalIncomeOfHP", incomeDetails.housePropertySum == undefined ? 0 : incomeDetails.housePropertySum);
+
+        this.xmlWriter.writeElement("ITRForm:IncomeOthSrc", incomeDetails.incomeFromOtherSources == undefined ? 0 : incomeDetails.incomeFromOtherSources);
+
+        this.xmlWriter.writeElement("ITRForm:GrossTotIncome", incomeDetails.grossTotalIncome == undefined ? 0 : incomeDetails.grossTotalIncome);
+
+        // if (incomeDetails.salary !== undefined && incomeDetails.salary !== null)
+        //     this.xmlWriter.writeElement("ITRForm:Salary", incomeDetails.salary);
+        // if (incomeDetails.allowance !== undefined && incomeDetails.allowance !== null)
+        //     this.xmlWriter.writeElement("ITRForm:AlwnsNotExempt", incomeDetails.allowance);
+        // if (incomeDetails.perquisites !== undefined && incomeDetails.perquisites !== null)
+        //     this.xmlWriter.writeElement("ITRForm:PerquisitesValue", incomeDetails.perquisites);
+        // if (incomeDetails.profitLieuOfSalary !== undefined && incomeDetails.profitLieuOfSalary !== null)
+        //     this.xmlWriter.writeElement("ITRForm:ProfitsInSalary", incomeDetails.profitLieuOfSalary);
+        // if (incomeDetails.deductionUS16 !== undefined && incomeDetails.deductionUS16 !== null)
+        //     this.xmlWriter.writeElement("ITRForm:DeductionUs16", incomeDetails.deductionUS16);
+        // if (incomeDetails.salaryPensionSum !== undefined && incomeDetails.salaryPensionSum !== null)
+        //     this.xmlWriter.writeElement("ITRForm:IncomeFromSal", incomeDetails.salaryPensionSum);
+        // if (incomeDetails.selectedHousePropertyType !== null && incomeDetails.selectedHousePropertyType !== "0")
+        //     this.xmlWriter.writeElement("ITRForm:TypeOfHP", incomeDetails.selectedHousePropertyType.toUpperCase());
+        // if (incomeDetails.rent !== undefined && incomeDetails.rent !== null)
+        //     this.xmlWriter.writeElement("ITRForm:GrossRentReceived", incomeDetails.rent);
+        // if (incomeDetails.taxPaidToLocalAuthority !== undefined && incomeDetails.taxPaidToLocalAuthority !== null)
+        //     this.xmlWriter.writeElement("ITRForm:TaxPaidlocalAuth", incomeDetails.taxPaidToLocalAuthority);            
+        // if (incomeDetails.annualValue !== undefined && incomeDetails.annualValue !== null)
+        //     this.xmlWriter.writeElement("ITRForm:AnnualValue", incomeDetails.annualValue);
+        // if (incomeDetails.annualValuePercentageAmount !== undefined && incomeDetails.annualValuePercentageAmount !== null)
+        //     this.xmlWriter.writeElement("ITRForm:StandardDeduction", incomeDetails.annualValuePercentageAmount);
+        // if (incomeDetails.interestOnBorrowedCapital !== undefined && incomeDetails.interestOnBorrowedCapital !== null)
+        //     this.xmlWriter.writeElement("ITRForm:InterestPayable", incomeDetails.interestOnBorrowedCapital);
+        // if (incomeDetails.housePropertySum !== undefined && incomeDetails.housePropertySum !== null)
+        //     this.xmlWriter.writeElement("ITRForm:TotalIncomeOfHP", incomeDetails.housePropertySum);
+        // if (incomeDetails.incomeFromOtherSources !== undefined && incomeDetails.incomeFromOtherSources !== null)
+        //     this.xmlWriter.writeElement("ITRForm:IncomeOthSrc", incomeDetails.incomeFromOtherSources);
+        // if (incomeDetails.grossTotalIncome !== undefined && incomeDetails.grossTotalIncome !== null)
+        //     this.xmlWriter.writeElement("ITRForm:GrossTotIncome", incomeDetails.grossTotalIncome);
 
         this.xmlWriter.endElement();
         let incomeTaxModel = incomeDetail.incomeTaxModel;
@@ -225,7 +252,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:Section80CCC", parseInt(element.amount));
             else if (element.name == "80CCD1")
                 this.xmlWriter.writeElement("ITRForm:Section80CCDEmployeeOrSE", parseInt(element.amount));
-            else if (element.name == "80C")
+            else if (element.name == "80CCD1B")
                 this.xmlWriter.writeElement("ITRForm:Section80CCD1B", parseInt(element.amount));
             else if (element.name == "80CCD2")
                 this.xmlWriter.writeElement("ITRForm:Section80CCDEmployer", parseInt(element.amount));
@@ -292,7 +319,7 @@ export class XmlGeneratorService {
         if (incomeDetails.cessTax !== undefined && incomeDetails.cessTax !== null)
             this.xmlWriter.writeElement("ITRForm:EducationCess", incomeDetails.cessTax);
         if (incomeDetails.totalTaxAndCess !== undefined && incomeDetails.totalTaxAndCess !== null)
-            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxAndCess);          
+            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxAndCess);
         if (incomeDetails.reliefUnder89 !== undefined && incomeDetails.reliefUnder89 !== null)
             this.xmlWriter.writeElement("ITRForm:Section89", incomeDetails.reliefUnder89);
         if (incomeDetails.balanceTaxAfterRelief !== undefined && incomeDetails.balanceTaxAfterRelief !== null)
@@ -390,7 +417,7 @@ export class XmlGeneratorService {
     }
 
     private addTaxDeductedCollected(taxDeductedCollected) {
-debugger;
+        
         //Tax deducted on salary
         if (taxDeductedCollected.taxDeductedSalaryModels.length > 0) {
             let deductedSum = 0;
@@ -503,7 +530,7 @@ debugger;
             this.xmlWriter.writeElement("ITRForm:TotalTaxPayments", advanceTaxSum);
             this.xmlWriter.endElement();
         }
-//not sure how will it get set
+        //not sure how will it get set
         this.xmlWriter.writeElement("ITR1FORM:TaxExmpIntInc", this.agricultureIncome);
     }
 
@@ -533,7 +560,7 @@ debugger;
         if (verification.TRPIdentificationNo !== undefined && verification.TRPIdentificationNo !== "")
             this.xmlWriter.writeElement("ITRForm:IdentificationNoOfTRP", verification.TRPIdentificationNo);
         if (verification.TRPName !== undefined && verification.TRPName !== "")
-            this.xmlWriter.writeElement("ITRForm:NameOfTRP", verification.TRPName);
+            this.xmlWriter.writeElement("ITRForm:NameOfTRP", verification.TRPName.toUpperCase());
         if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "")
             this.xmlWriter.writeElement("ITRForm:ReImbFrmGov", verification.TRPReimbursementAmount);
 
@@ -598,8 +625,8 @@ debugger;
         this.xmlWriter.writeElement("ITRForm:TotDon100PercentApprReqd", donationAmount.donationAmount);
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon100PercentApprReqd", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
-        this.donationAmt +=parseInt(donationAmount.donationAmount);
-        this.eligibleAmt +=parseInt(donationAmount.donationAmount);
+        this.donationAmt += parseInt(donationAmount.donationAmount);
+        this.eligibleAmt += parseInt(donationAmount.donationAmount);
     }
     private add80gDonee50PercentWithQualifyingLimit(section80g) {
         if (section80g.donation50DeductionWithQualifyingLimit.length == 0)
@@ -632,7 +659,7 @@ debugger;
             if (doneeDonation.pinCode !== undefined && doneeDonation.pinCode != "")
                 this.xmlWriter.writeElement("ITRForm:PinCode", doneeDonation.pinCode);
             this.xmlWriter.endElement();
-            if (doneeDonation.donationAmount !== undefined && doneeDonation.donationAmount != 0) {                
+            if (doneeDonation.donationAmount !== undefined && doneeDonation.donationAmount != 0) {
                 this.xmlWriter.writeElement("ITRForm:DonationAmt", doneeDonation.donationAmount);
                 this.xmlWriter.writeElement("ITRForm:EligibleDonationAmt", doneeDonation.donationAmount);
             }

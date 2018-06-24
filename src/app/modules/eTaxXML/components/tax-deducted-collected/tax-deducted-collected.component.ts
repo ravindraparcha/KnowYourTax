@@ -127,7 +127,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
     }
 
     addNewTaxDeductedOtherThanSalary() {
-        debugger;
+         
         this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)
         this.taxDeductedOtherThanSalaryModels.push(this.newTaxDeductedOtherThanSalaryModel);
         this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = this.taxDeductedOtherThanSalaryModels;        

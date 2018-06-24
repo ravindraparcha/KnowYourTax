@@ -320,7 +320,7 @@ export class ConfigurationService {
                 },
                 {
                     name: "80U",
-                    limit: 10000,
+                    limit: 0,
                     parent : "",
                     grossLimit : 0,
                     options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]

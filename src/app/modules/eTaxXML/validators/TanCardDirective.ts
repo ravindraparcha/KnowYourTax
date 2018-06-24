@@ -12,8 +12,7 @@ import { NG_VALIDATORS,  Validator, AbstractControl } from "@angular/forms";
 })
 
 export class TanCardValidatorDirective implements Validator {   
-    validate(c: AbstractControl) {   
-        debugger;    
+    validate(c: AbstractControl) {                
         if(c.value==null || c.value=="")
             return null;
         var pattern = /[A-Za-z]{4}[0-9]{5}[A-Za-z]{1}/;

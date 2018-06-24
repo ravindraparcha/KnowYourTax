@@ -417,7 +417,7 @@ export class DeductionsComponent implements OnInit {
         }
     }
     private getPosition(source, toSearch, indexNumber): number {
-        return source.split(toSearch, indexNumber).join(toSearch).length;
+        return source.formatted.split(toSearch, indexNumber).join(toSearch).length;
     }
     private getAssessmentYear(): string {
         let currentDate = new Date();
