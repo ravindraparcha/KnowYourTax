@@ -101,5 +101,9 @@ export class IncomeDetailsComponent implements OnInit {
         else 
             this.isIncomeDetailsComponentValid.emit(false);         
     }
+    public calculateTax() {
+        this.incomeTaxModel = this.deductionsComponent.calculateTax();
+        $('#deductionModel').modal('show');       
+    }
      
 }
