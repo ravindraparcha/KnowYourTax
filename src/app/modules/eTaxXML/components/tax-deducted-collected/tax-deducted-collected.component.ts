@@ -49,7 +49,9 @@ export class TaxDeductedCollectedComponent implements OnInit {
         if (taxDeductedModels != undefined) {
             for (let i = 0; i < taxDeductedModels.length; i++)
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
+            this.taxCollectedDeductedModel.taxDeductedSalaryModels =this.taxDeductedSalaryModels;
         }
+        
     }
     ngAfterViewInit() {
         this.cd.detectChanges();
