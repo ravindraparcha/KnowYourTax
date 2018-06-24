@@ -67,7 +67,8 @@ export class TaxPaidVerificationComponent implements OnInit {
         this._subscription=this._sharedTaxService.getRefund().subscribe(item=>this.taxPaidModel.refund=item);
     }
     addNewOtherExemption() {
-        this.newOtherExemptionModel = new OtherExemptionModel("", 0, "");
+        debugger;
+        this.newOtherExemptionModel = new OtherExemptionModel("", 0);
         this.OtherExemptionModels.push(this.newOtherExemptionModel);
         this.taxPaidModel.otherExemptionModels=this.OtherExemptionModels;
     }

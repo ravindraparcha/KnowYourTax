@@ -9,7 +9,7 @@ declare var require: any;
 export class XmlGeneratorService {
     private xmlWriterRequire;
     private xmlWriter;
-    private xmlDataArray = [];
+    private agricultureIncome:number;
 
     constructor(private _formatDateService: FormatDateService) { }
 
@@ -318,7 +318,7 @@ export class XmlGeneratorService {
     }
 
     private addTaxPaid(taxPaid) {
-
+        this.agricultureIncome = taxPaid.agricultureIncome;
         this.xmlWriter.startElement("ITRForm:TaxPaid");
         this.xmlWriter.startElement("ITRForm:TaxesPaid");
 
@@ -390,7 +390,7 @@ export class XmlGeneratorService {
     }
 
     private addTaxDeductedCollected(taxDeductedCollected) {
-
+debugger;
         //Tax deducted on salary
         if (taxDeductedCollected.taxDeductedSalaryModels.length > 0) {
             let deductedSum = 0;
@@ -504,7 +504,7 @@ export class XmlGeneratorService {
             this.xmlWriter.endElement();
         }
 //not sure how will it get set
-        this.xmlWriter.writeElement("ITR1FORM:TaxExmpIntInc", 0);
+        this.xmlWriter.writeElement("ITR1FORM:TaxExmpIntInc", this.agricultureIncome);
     }
 
     private addVerificationNode(verification) {

@@ -34,6 +34,8 @@ import {IFSCValidatorDirective} from './validators/IFSCDirective';
 import {CharacterNumberValidatorDirective} from './validators/CharacterNumberDirective';
 import {CountValidatorDirective} from './validators/CountDirective';
 import {DuplicateCheckValidatorDirective} from './validators/DuplicateCheckDirective';
+import {NumberLimitValidatorDirective} from './validators/NumberLimitDirective';
+import {TanCardValidatorDirective} from './validators/TanCardDirective';
 //Validator ends
 import {eTaxXMLRoutingModule} from './eTaxXML.routing';
 import { CommonModule } from '@angular/common';  
@@ -52,7 +54,8 @@ import { CommonModule } from '@angular/common';
                     EmailValidatorDirective,NameValidatorDirective,AadharCardValidatorDirective,PanCardValidatorDirective,
                     AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
                     NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective,
-                    IFSCValidatorDirective,CharacterNumberValidatorDirective,CountValidatorDirective,DuplicateCheckValidatorDirective],
+                    IFSCValidatorDirective,CharacterNumberValidatorDirective,CountValidatorDirective,
+                    DuplicateCheckValidatorDirective,NumberLimitValidatorDirective,TanCardValidatorDirective],
     exports : [eTaxXMLComponent]
 })
 

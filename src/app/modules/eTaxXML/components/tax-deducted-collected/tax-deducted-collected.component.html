@@ -28,7 +28,8 @@
                                 <tr *ngFor="let taxDeductedSalaryModel of taxDeductedSalaryModels; let i = index">
                                     <td>
                                         <input [(ngModel)]="taxDeductedSalaryModel.TAN" class="form-control" type="text" #taxDeductedSalaryModelTAN="ngModel" name="taxDeductedSalaryModelTAN_{{i}}"
-                                        />
+                                        TanCardValidator />
+                                        <div class="border-left-error" *ngIf="taxDeductedSalaryModelTAN.errors && taxDeductedSalaryModelTAN.errors.tanNoError">{{taxDeductedSalaryModelTAN.errors.tanNoError.errorMsg}}</div>
                                     </td>
                                     <td>
                                         <input [(ngModel)]="taxDeductedSalaryModel.name" class="form-control" type="text" #taxDeductedSalaryModelName="ngModel" name="taxDeductedSalaryModelName_{{i}}"
@@ -112,9 +113,11 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let taxDeductedOtherThanSalaryModel of taxDeductedOtherThanSalaryModels; let i = index">
-                                    <td>
+                                    <td>                                         
                                         <input [(ngModel)]="taxDeductedOtherThanSalaryModel.TAN" class="form-control" type="text" #taxDeductedOtherThanSalaryModelTAN="ngModel"
-                                            name="taxDeductedOtherThanSalaryModelTAN_{{i}}" />
+                                            name="taxDeductedOtherThanSalaryModelTAN_{{i}}"
+                                            TanCardValidator />
+                                            <div class="border-left-error" *ngIf="taxDeductedOtherThanSalaryModelTAN.errors && taxDeductedOtherThanSalaryModelTAN.errors.tanNoError">{{taxDeductedOtherThanSalaryModelTAN.errors.tanNoError.errorMsg}}</div>
                                     </td>
                                     <td>
                                         <input [(ngModel)]="taxDeductedOtherThanSalaryModel.name" class="form-control" #taxDeductedOtherThanSalaryModelName="ngModel"
@@ -128,7 +131,7 @@
                                     <td>
                                         <select id="selectedOtherThanSalaryYear" #selectedOtherThanSalaryYear="ngModel" required [ngClass]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear>0? 'valid': 'invalid'"
                                             class="form-control" [(ngModel)]="taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear"
-                                            name="selectedOtherThanSalaryYear">
+                                            name="taxDeductedOtherThanSalaryModelSelectedOtherThanSalaryYear_{{i}}">
                                             <option [ngValue]=null>Select</option>
                                             <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
                                                 {{year.value}}
@@ -216,7 +219,9 @@
                                 <tr *ngFor="let taxDeductedUnder26QCModel of taxDeductedUnder26QCModels; let i = index">
                                     <td>
                                         <input [(ngModel)]="taxDeductedUnder26QCModel.PAN" class="form-control" type="text" #taxDeductedUnder26QCModelPAN="ngModel"
-                                            name="taxDeductedUnder26QCModelPAN_{{i}}" />
+                                            name="taxDeductedUnder26QCModelPAN_{{i}}"
+                                            PanCardValidator />
+                                            <div class="border-left-error" *ngIf="taxDeductedUnder26QCModelPAN.errors && taxDeductedUnder26QCModelPAN.errors.panNoError">{{taxDeductedUnder26QCModelPAN.errors.panNoError.errorMsg}}</div>
                                     </td>
                                     <td>
                                         <input [(ngModel)]="taxDeductedUnder26QCModel.name" class="form-control" type="text" #taxDeductedUnder26QCModelName="ngModel"
@@ -229,7 +234,7 @@
                                     <td>
                                         <select id="selectedTenantDeductionYear" #selectedTenantDeductionYear="ngModel" required [ngClass]="taxDeductedUnder26QCModel.selectedTenantDeductionYear>0? 'valid': 'invalid'"
                                             class="form-control" [(ngModel)]="taxDeductedUnder26QCModel.selectedTenantDeductionYear"
-                                            name="selectedTenantDeductionYear">
+                                            name="taxDeductedUnder26QCModelSelectedTenantDeductionYear_{{i}}">
                                             <option [ngValue]=null>Select</option>
                                             <option [ngValue]="year.key" *ngFor="let year of taxDeductionTenantYearList">
                                                 {{year.value}}
@@ -317,10 +322,10 @@
                                             name="advanceTaxSelfAssessmentTaxModelBSRCode_{{i}}" />
                                     </td>
                                     <td>
-                                        <div class="input-group">
-                                            <input class="form-control" required readonly [ngClass]="advanceTaxSelfAssessmentTaxModel.depositDate.length? 'valid': 'invalid'"
-                                                style="float:none;border-radius: 0;" [(ngModel)]="model" placeholder="Select a date"
-                                                ngx-mydatepicker name="mydepositDatedate" [options]="myOptions" #dd="ngx-mydatepicker"
+                                        <div class="input-group">                                           
+                                            <input class="form-control" required readonly [ngClass]="advanceTaxSelfAssessmentTaxModel.depositDate!=''? 'valid': 'invalid'"
+                                                style="float:none;border-radius: 0;" [(ngModel)]="advanceTaxSelfAssessmentTaxModel.depositDate" placeholder="Select a date"
+                                                ngx-mydatepicker name="advanceTaxSelfAssessmentTaxModelMydepositDatedate_{{i}}" [options]="myOptions" #dd="ngx-mydatepicker"
                                                 (dateChanged)="onDepositDateChanged($event)" />
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dd.clearDate()">
@@ -339,7 +344,7 @@
                                     <td>
                                         <select id="selectedTaxType" #selectedTaxType="ngModel" required [ngClass]="advanceTaxSelfAssessmentTaxModel.selectedTaxType!=null? 'valid': 'invalid'"
                                             class="form-control" (change)="calculateAdvanceTaxSelfAssessmentTax()" [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType"
-                                            name="selectedTaxType">
+                                            name="advanceTaxSelfAssessmentTaxModelSelectedTaxType_{{i}}">
                                             <option [ngValue]=null>Select</option>
                                             <option [ngValue]="type.value" *ngFor="let type of taxTypeList">
                                                 {{type.text}}
@@ -409,7 +414,7 @@
                             <tbody>
                                 <tr *ngFor="let taxCollectedModel of taxCollectedModels; let i = index">
                                     <td>
-                                        <input [(ngModel)]="taxCollectedModel.taxCollectionAccountNo" class="form-control" type="text" #taxCollectedModelTaxCollectionAccountNo="ngModel"
+                                        <input [(ngModel)]="taxCollectedModel.taxCollectionAccountNo" class="form-control" type="number" #taxCollectedModelTaxCollectionAccountNo="ngModel"
                                             name="taxCollectedModelTaxCollectionAccountNo_{{i}}" />
                                     </td>
                                     <td>
@@ -422,7 +427,7 @@
                                     </td>
                                     <td>
                                         <select id="selectedTaxCollectionYear" #selectedTaxCollectionYear="ngModel" required [ngClass]="taxCollectedModel.selectedTaxCollectionYear>0? 'valid': 'invalid'"
-                                            class="form-control" [(ngModel)]="taxCollectedModel.selectedTaxCollectionYear" name="selectedTaxCollectionYear">
+                                            class="form-control" [(ngModel)]="taxCollectedModel.selectedTaxCollectionYear" name="taxCollectedModelSelectedTaxCollectionYear_{{i}}">
                                             <option [ngValue]=null>Select</option>
                                             <option [ngValue]="year.key" *ngFor="let year of taxCollectionDeductionYearList">
                                                 {{year.value}}
@@ -479,5 +484,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 </form>

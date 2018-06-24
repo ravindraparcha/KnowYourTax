@@ -84,7 +84,8 @@
                         <label class="control-label col-sm-2 text-left">Agriculture income</label>
                         <div class="col-sm-3">
                             <input [(ngModel)]="taxPaidModel.agricultureIncome" class="form-control" type="number" #taxPaidModelAgricultureIncome="ngModel"
-                                name="taxPaidModelAgricultureIncome" />
+                                name="taxPaidModelAgricultureIncome" NumberLimitValidator maxLimit=5000/>
+                            <div class="border-left-error" *ngIf="taxPaidModelAgricultureIncome.errors && taxPaidModelAgricultureIncome.errors.limitError">{{taxPaidModelAgricultureIncome.errors.limitError.errorMsg}}</div>
                         </div>
                     </div>
                     <table class="table table-striped table-bordered">
@@ -100,19 +101,20 @@
                             <tr *ngFor="let OtherExemptionModel of OtherExemptionModels; let i = index">
                                 <td>
                                     <select id="OtherExemptionModelSelectedIncomeNature" #OtherExemptionModelSelectedIncomeNature="ngModel" name="OtherExemptionModelSelectedIncomeNature_{{i}}"
-                                        class="form-control" [(ngModel)]="OtherExemptionModel.selectedIncomeNature" name="OtherExemptionModelSelectedIncomeNature">
-                                        <option selected="selected" value="0">Select</option>
+                                        class="form-control" [(ngModel)]="OtherExemptionModel.selectedIncomeNature" name="OtherExemptionModelSelectedIncomeNature_{{i}}"
+                                        required [ngClass]="OtherExemptionModel.selectedIncomeNature !=null ? 'valid': 'invalid'">
+                                        <option [ngValue]=null>Select</option>
                                         <option [ngValue]="nature.value" *ngFor="let nature of incomeNatureList">
                                             {{nature.text}}
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="OtherExemptionModel.descriptionIfAnyOtherSelected" class="form-control" type="text" #OtherExemptionModelDescriptionIfAnyOtherSelected="ngModel"
-                                        name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" />
+                                    <input [(ngModel)]="OtherExemptionModel.descriptionIfAnyOtherSelected" required class="form-control" type="text" #OtherExemptionModelDescriptionIfAnyOtherSelected="ngModel"
+                                        name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" [ngClass]="OtherExemptionModel.descriptionIfAnyOtherSelected!=''? 'valid': 'invalid'" />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" type="number" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"
-                                    />
+                                    <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" required type="number" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"
+                                    [ngClass]="OtherExemptionModel.amount? 'valid': 'invalid'"/>
                                 </td>
 
                                 <td>

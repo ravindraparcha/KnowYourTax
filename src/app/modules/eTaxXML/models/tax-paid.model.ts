@@ -15,13 +15,12 @@ export class TaxPaidModel {
     public verificationModel:VerificationModel;
 }
 export class OtherExemptionModel {
-    public selectedIncomeNature: string;
+    public selectedIncomeNature: string=null;
     public descriptionIfAnyOtherSelected: string;
     public amount: number
-    constructor(descriptionIfAnyOtherSelected: string, amount: number,selectedIncomeNature:string) {
+    constructor(descriptionIfAnyOtherSelected: string, amount: number) {
         this.descriptionIfAnyOtherSelected = descriptionIfAnyOtherSelected;
-        this.amount = amount;
-        this.selectedIncomeNature=selectedIncomeNature;
+        this.amount = amount;        
     }
 }
 

@@ -95,8 +95,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         return keyValuePair.reverse();
     }
 
-    addNewTaxDeductedSalary() {
-       
+    addNewTaxDeductedSalary() {       
         this.newTaxDeductedSalaryModel = new TaxDeductedSalaryModel("", "", "", 0, 0);
         this.taxDeductedSalaryModels.push(this.newTaxDeductedSalaryModel);
         this.taxCollectedDeductedModel.taxDeductedSalaryModels = this.taxDeductedSalaryModels;
@@ -128,6 +127,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
     }
 
     addNewTaxDeductedOtherThanSalary() {
+        debugger;
         this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)
         this.taxDeductedOtherThanSalaryModels.push(this.newTaxDeductedOtherThanSalaryModel);
         this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = this.taxDeductedOtherThanSalaryModels;        

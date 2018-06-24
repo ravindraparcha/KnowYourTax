@@ -14,7 +14,7 @@ export class TaxCollectedModel {
     public taxCollected: number;
     public amountClaimedThisYear: number;
     constructor(taxCollectionAcNo: string, name: string, taxCollected: number, amountClaimedThisYear: number) {
-        this.taxCollectionAccountNo = this.taxCollectionAccountNo;
+        this.taxCollectionAccountNo = taxCollectionAcNo;
         this.name = name;
         this.taxCollected = taxCollected;
         this.amountClaimedThisYear = amountClaimedThisYear;
@@ -60,7 +60,7 @@ export class TaxDeductedUnder26QCModel{
             this.PAN=pan;
             this.name=name;
             this.amountForTaxDeduction=amountForTaxDeduction;             
-            this.taxDeducted=this.taxDeducted;
+            this.taxDeducted=taxDeducted;
             this.amountClaimedThisYear=amountClaimedThisYear;
     }
 };
