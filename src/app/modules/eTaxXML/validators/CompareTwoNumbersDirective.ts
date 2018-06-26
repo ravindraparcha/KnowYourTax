@@ -1,4 +1,4 @@
-import { Directive, Input, forwardRef } from "@angular/core";
+import { Directive, Input, forwardRef, Attribute } from "@angular/core";
 import { NG_VALIDATORS, Validator, AbstractControl } from "@angular/forms";
 
 
@@ -13,35 +13,41 @@ import { NG_VALIDATORS, Validator, AbstractControl } from "@angular/forms";
 })
 
 export class CompareTwoNumbersValidatorDirective implements Validator {
-    @Input() otherValue: any;
-    public validate(control: AbstractControl) {         
+    @Input() indexValue: number;     
+    constructor(@Attribute('compareNumber') private _compareNumber: string, @Attribute('flag') private _flag: string) { }
+    public validate(control: AbstractControl) {
+
         if (control.value == undefined || control.value == null)
             return;
-        let arr = this.otherValue.split(',');
-        let currentControlValue =parseFloat(control.value);
-        let valueToCompare = arr[0] == "" ? 0 : parseFloat(arr[0]);
+        let compareCtrl = control.root.get(this._compareNumber + '_' + this.indexValue);
+        
+        if (compareCtrl && compareCtrl.errors != null) {
+            delete compareCtrl.errors["_compareNumber"];
+            compareCtrl.setErrors(null);
+        }
+        if (control.errors != null) {
+            delete control.errors["_compareNumber"];
+            control.setErrors(null);
+        }
 
-        if (arr[1] == 'true') {
-            if (currentControlValue > valueToCompare) {
-                return {
-                    numberError: {
-                        errorMsg: valueToCompare + ' should be less than ' + currentControlValue
+        if(compareCtrl!=null) {
+            if (this._flag === 'true') {
+                if (control.value > compareCtrl.value) {
+                    return {
+                        _compareNumber: false
                     }
-                };
-            }
-            else
-                return null;
-        }
-        else if (arr[1] == 'false') {
-            if (currentControlValue < valueToCompare) {
-                return {
-                    numberError: {
-                        errorMsg: currentControlValue + ' should be less than ' + valueToCompare
+                }
+            }    
+            else if (this._flag === 'false') {
+                if (control.value < compareCtrl.value) {
+                    return {
+                        _compareNumber: false
                     }
-                };
+                }
             }
-            else
-                return null;
         }
+
+        
+        return null;        
     }
 }
