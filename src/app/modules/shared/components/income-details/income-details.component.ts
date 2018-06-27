@@ -3,6 +3,7 @@ import { IncomeDetailsModel } from '../../models/income-details.model';
 import { ConfigurationService } from '../../services/ConfigurationService';
 import { DeductionsComponent } from '../deduction/deductions.components';
 import { IncomeTaxModel, TaxComputationModel } from '../../models/deduction.model';
+import {NgForm} from "@angular/forms";
 
 declare var $: any;
 
@@ -15,7 +16,9 @@ export class IncomeDetailsComponent implements OnInit {
 
     public incomeDetailsModel: IncomeDetailsModel;
     incomeTaxModel: any;
-    constructor(public _configuration: ConfigurationService) { }
+    constructor(public _configuration: ConfigurationService) {
+      
+     }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
     //@Output() outputCalculateTax : EventEmitter<any> = new EventEmitter<any>();
@@ -25,7 +28,12 @@ export class IncomeDetailsComponent implements OnInit {
     }
 
     @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @ViewChild('incomeDetailsForm') incomeDetailsForm;
+    @ViewChild('incomeDetailsForm') form : NgForm;
+
+    canDeactivate() {
+         
+        return true;
+      }
 
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
@@ -96,7 +104,7 @@ export class IncomeDetailsComponent implements OnInit {
     }
  
     public validateIncomeDetailsComponentForm() {       
-        if (this.incomeDetailsForm.valid)  
+        if (this.form.valid)  
             this.isIncomeDetailsComponentValid.emit(true);
         else 
             this.isIncomeDetailsComponentValid.emit(false);         

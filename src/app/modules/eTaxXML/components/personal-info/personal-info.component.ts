@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild,HostListener } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
@@ -6,11 +6,13 @@ import { FormatDateService } from '../../services/FormatDateService';
 import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
+import {NgForm} from "@angular/forms";
+
 @Component({
     selector: 'personal-info',
     templateUrl: './personal-info.component.html'
 })
-export class PersonalInfoComponent implements OnInit {
+export class PersonalInfoComponent  implements OnInit {
 
     @Input()
     set personalInfoData(personalInfoData: PersonalInfoModel) {
@@ -30,7 +32,8 @@ export class PersonalInfoComponent implements OnInit {
 
     public personalInfo: PersonalInfoModel;
     @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @ViewChild('personalInfoFrm') personalInfoForm;
+    //@ViewChild('personalInfoFrm') personalInfoForm;   
+    @ViewChild('personalInfoFrm') form: NgForm;
 
     public isReceiptNumber: boolean = true;
     public isFilingDate: boolean = true;
@@ -50,6 +53,7 @@ export class PersonalInfoComponent implements OnInit {
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
+          
     }
 
     // when old value does not match with new value during expression evaluation for child component
@@ -174,7 +178,8 @@ export class PersonalInfoComponent implements OnInit {
     }
 
     public validatePersonalInfoComponentForm() {
-        if (this.personalInfoForm.valid)
+        //this.personalInfoForm.valueChanges.subscribe(data =>console.log('Form changes', data));
+        if (this.form.valid)
             this.isPersonalInfoComponentValid.emit(true);
         else
             this.isPersonalInfoComponentValid.emit(false);

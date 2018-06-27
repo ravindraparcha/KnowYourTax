@@ -18,7 +18,10 @@ import {PageNotFoundComponent} from './pageNotFound/pageNotFound.component';
 import { ConfigurationService } from '../app/modules/shared/services/ConfigurationService';
 import {slimLoaderBarService} from '../app/modules/shared/services/slimLoaderBarService';
 import {PrivacyPolicyComponent,AboutComponent} from './footer/footer'; 
-import {sharedModule} from  '../app/modules/shared/sharedModule';
+import {sharedModule} from  '../app/modules/shared/sharedModule'; 
+ 
+import {CanDeactivateGuard} from './routeGuard/can-deactivate-guard.service';
+
 //import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -27,7 +30,8 @@ import {sharedModule} from  '../app/modules/shared/sharedModule';
     //CalculatorComponent,
     PageNotFoundComponent,
     PrivacyPolicyComponent,
-    AboutComponent  
+    AboutComponent ,
+   
   ],
   imports: [
   //ToastrModule,
@@ -47,6 +51,8 @@ import {sharedModule} from  '../app/modules/shared/sharedModule';
     ConfigurationService,
     CalculatorService,
     slimLoaderBarService,
+    CanDeactivateGuard,
+  
     
   ],
   bootstrap: [AppComponent],

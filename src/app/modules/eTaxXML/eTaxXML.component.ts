@@ -43,6 +43,10 @@ export class eTaxXMLComponent {
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService,
         ) {}
     
+        canDeactivate() {
+           return true;
+            //return confirm('are you sure you want to navigate?');
+          }
     onFileSelection(event: EventTarget) {
         let $this = this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
@@ -168,6 +172,7 @@ export class eTaxXMLComponent {
         //     this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
         //     return;
         // }
+        
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();         

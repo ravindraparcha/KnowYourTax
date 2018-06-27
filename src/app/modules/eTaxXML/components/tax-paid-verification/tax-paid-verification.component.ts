@@ -103,7 +103,7 @@ export class TaxPaidVerificationComponent implements OnInit {
 
     }
     
-    public validateTaxPaidVerificationComponentForm() {
+    public validateTaxPaidVerificationComponentForm() {         
         if (this.taxPaidVerificationFrm.valid)  
             this.isTaxPaidVerificationComponentValid.emit(true);
         else 

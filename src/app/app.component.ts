@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   private _navigationInterceptor(event: RouterEvent): void {
     this._slimLoaderBarService.completeLoading();
     if (event instanceof NavigationStart) {
-      // We wanna run this function outside of Angular's zone to
+      // Run this function outside of Angular's zone to
       // bypass change detection
       this.ngZone.runOutsideAngular(() => {
         this._slimLoaderBarService.startLoading();
@@ -50,9 +50,7 @@ export class AppComponent implements OnInit {
     }
     if (event instanceof NavigationEnd) {
       this._hideLoadingBar();
-    }
-    // Set loading state to false in both of the below events to
-    // hide the spinner in case a request fails
+    }   
     if (event instanceof NavigationCancel) {
       this._hideLoadingBar();
     }
@@ -62,7 +60,7 @@ export class AppComponent implements OnInit {
   }
 
   private _hideLoadingBar(): void {
-    //We wanna run this function outside of Angular's zone to
+    //Run this function outside of Angular's zone to
     //bypass change detection,
     this.ngZone.runOutsideAngular(() => {
       this._slimLoaderBarService.completeLoading();

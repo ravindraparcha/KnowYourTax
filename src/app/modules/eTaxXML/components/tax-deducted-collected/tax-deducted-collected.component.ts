@@ -200,6 +200,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         }
     }
     public validateTaxDeductedCollectedComponentForm() {       
+        //this.taxDeductedCollectedFrm.valueChanges.subscribe(data =>console.log('Form changes', data));
         if (this.taxDeductedCollectedFrm.valid)  
             this.isTaxDeductedCollectedComponentValid.emit(true);
         else 
