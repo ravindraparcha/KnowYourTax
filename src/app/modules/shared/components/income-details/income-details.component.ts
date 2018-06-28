@@ -30,10 +30,10 @@ export class IncomeDetailsComponent implements OnInit {
     @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('incomeDetailsForm') form : NgForm;
 
-    canDeactivate() {
+    // canDeactivate() {
          
-        return true;
-      }
+    //     return true;
+    //   }
 
     private initialValue:any;
     ngOnInit() {

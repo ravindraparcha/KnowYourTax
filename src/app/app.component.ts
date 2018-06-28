@@ -13,6 +13,10 @@ export class AppComponent implements OnInit {
   @ViewChild('spinnerElement')
   spinnerElement: ElementRef
   ngOnInit() {
+    
+  }
+
+  ngAfterViewInit() {
     $("document").ready(function () {
       setTimeout(function () {
         $('.' + window.location.href.substr(window.location.href.indexOf('#') + 2)).trigger('click');
@@ -29,7 +33,6 @@ export class AppComponent implements OnInit {
         $(this).addClass('active');
     });
   }
-
   constructor(private router: Router,
     private ngZone: NgZone,
     private renderer: Renderer, private _slimLoaderBarService: slimLoaderBarService,private spinner: NgxSpinnerService) {

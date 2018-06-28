@@ -15,7 +15,7 @@ import {TaxPaidVerificationComponent} from '../eTaxXML/components/tax-paid-verif
 import {Donation80GComponent} from '../eTaxXML/components/donation-80G/donation.80G.component';
 import {Form26ASParserService} from '../eTaxXML/services/form26AS-parser-service';
 import {XmlGeneratorService} from '../eTaxXML/services/xml-generator-service';
-import {FormatDateService} from '../eTaxXML/services/FormatDateService';
+import {FormatDateService} from '../eTaxXML/services/formatDateService';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {SharedTaxService} from '../shared/services/sharedTaxService';
 //Validator starts

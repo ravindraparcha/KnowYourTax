@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { saveAs } from 'file-saver';
-import { FormatDateService } from '../services/FormatDateService';
+import { FormatDateService } from '../services/formatDateService';
 
 
 declare var require: any;
