@@ -35,6 +35,7 @@ export class IncomeDetailsComponent implements OnInit {
         return true;
       }
 
+    private initialValue:any;
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -48,6 +49,21 @@ export class IncomeDetailsComponent implements OnInit {
         this.incomeTaxModel.userTaxModel = [];
         this.incomeTaxModel.systemTaxModel = [];
         this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
+
+        //this.initialValue = this.form;        
+        // this.form.valueChanges.subscribe((value: any) => {
+        //     if (this.initialValue!==this.form) {
+        //         console.log('template form dirty - yes: ', value);
+        //     } else {
+        //         console.log('template form dirty - no: ');
+        //     }
+
+        //     // if (this.form.dirty && !this.form.pristine) {
+        //     //     console.log('template form dirty - yes: ', value);
+        //     // } else {
+        //     //     console.log('template form dirty - no: ');
+        //     // }
+        // });
     }
      
     calculateSalaryPensionSum() {

@@ -346,14 +346,13 @@ padding-right: 17px;
 .navbar-default .navbar-nav>.active> a, 
 .navbar-default .navbar-nav>.active> a:focus, 
 .navbar-default .navbar-nav>.active> a:hover {
-    box-shadow: 0px -4px 7px 1px #88888861;
+    box-shadow:0px -4px 7px 1px #322f2f61;
 }
 .nav-tabs {
     /* background: linear-gradient(#f8f8f8, #dddddd);  */
     box-shadow: 0px 10px 3px -11px #88888861;
+} 
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {     
+    border-top: 2px solid #65bcea;
 }
-/* .modal-backdrop {
-    z-index: 1020;
-}
-.modal-backdrop.in { z-index: auto;} */
  
