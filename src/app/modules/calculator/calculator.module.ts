@@ -6,8 +6,7 @@ import {sharedModule} from '../shared/sharedModule';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 @NgModule({
-    imports: [
-      
+    imports: [              
         CalculatorRoutingModule,
         sharedModule,
         FormsModule,
