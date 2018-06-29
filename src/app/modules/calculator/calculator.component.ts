@@ -14,7 +14,5 @@ export class CalculatorComponent {
         this._incomeDetailsComponent.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
         $('#deductionModel').modal('show');       
     }
-    public validateIncomeDetailsComponentForm() {                
-        //this.isIncomeDetailsComponentValid.emit(true);            
-    }
+   
 }
