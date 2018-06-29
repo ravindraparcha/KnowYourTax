@@ -1,0 +1,31 @@
+export class PersonalInfoModel {
+    public firstName: string;
+    public middleName: string;
+    public lastName: string;
+    public panNo: string;
+    public aadharCardNo: number;
+    public aadharEnrollmentId: string;
+    public flatDoorBlockNo: string;
+    public premisesBldgVillage: string;
+    public birthDate: string;
+    public birthDateXml:string;
+    public roadStreetPostOffice: string;
+    public areaLocality: string;
+    public townCityDistrict: string;
+    public selectedState: string=null;
+    public country: string;
+    public zipCode: string;
+    public email: string;
+    public mobileNo: string;
+    public selectedEmployerCategory: string=null;
+    public selectedReturnFiledSection: number=null;
+    public selectedGovernedByPortugueseCivil: string=null;
+    public spousePanNo: string;
+    public selectedOriginalRevisedFile: string=null;
+    public receiptNumber: string;
+    public filingOriginalReturnDate: string;
+    public filingOriginalReturnDateXml : string;
+    public noticeNumber: string;
+    public filedAgainstNotice: string;     
+    public filedAgainstNoticeXml :string;
+}

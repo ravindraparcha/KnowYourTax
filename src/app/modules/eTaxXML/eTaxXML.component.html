@@ -1,0 +1,85 @@
+<!-- Modal -->
+<div class="modal fade" id="form26ASModel" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title" style="color:black;">Upload Form 26AS text file</h5>
+            </div>
+            <div class="modal-body">
+                <label class="col-sm-5 text-left">Upload text file to browser</label>
+                <div class="col-sm-4">
+                    <input name="file" type="file" (change)="onFileSelection($event)" />
+                </div>
+
+            </div>
+            <div class="modal-footer" style="border-top:0;padding-top:20px;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End modal -->
+<form #calcFrm="ngForm">
+    <div class="container margin-top15 margin-top65 margin-bottom70">       
+        <div class="row">
+            <div class="panel panel-default border-radius border-box">
+                <div class="panel-heading">Generate e-filing Tax XML </div>
+                <div class="form-horizontal">
+                    <div style="color:red;padding:0 5px 0 5px;">
+                        For individuals being a resident other than not ordinarily resident having income from salaries, one house property, other
+                        sources(interest etc.) and having total income upto Rs. 50 lakhs.
+                    </div>
+                    <div style="padding:5px 5px 2px 5px">
+                        <div class="row">
+                            <div class="col-xs-7">
+                                    <a data-toggle="tab" href="#personInfo" data-toggle="modal" data-target="#form26ASModel">Upload Form 26AS on your browser</a>
+                            </div>                           
+                            <div class="col-xs-5" style="text-align: right">                                
+                                <button class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <ul class="nav nav-tabs">                        
+                        <li class="active">
+                            <a data-toggle="tab" href="#incomeDetails">Income details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#taxDetails">Tax details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#taxPaidVerification">Tax paid and verification </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#gDetails">80G details</a>
+                        </li>
+                        <li >
+                            <a data-toggle="tab" href="#personInfo">Personal Information</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">                        
+                        <div id="incomeDetails" class="tab-pane fade in active" style="padding: 0 5px 0 5px">
+                            <income-details [advanceTaxPaid]="advanceTaxPaidModels" (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
+                        </div>
+                        <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
+                            <tax-deducted-collected [taxDeducted]="taxDeducted" (isTaxDeductedCollectedComponentValid)="isTaxDeductedCollectedComponentValid($event)"></tax-deducted-collected>
+                        </div>
+                        <div id="taxPaidVerification" class="tab-pane fade " style="padding: 0 5px 0 5px">
+                            <tax-paid-verification (isTaxPaidVerificationComponentValid)="isTaxPaidVerificationComponentValid($event)"></tax-paid-verification>
+                        </div>
+                        <div id="gDetails" class="tab-pane fade " style="padding: 0 5px 0 5px">
+                            <donation-80G (isDonation80GComponentValid)="isDonation80GComponentValid($event)"></donation-80G>
+                        </div>
+                        <div id="personInfo" class="tab-pane fade" style="padding: 0 5px 0 5px">
+                            <personal-info [personalInfoData]="personalInfoData" (isPersonalInfoComponentValid)="isPersonalInfoComponentValid($event)"></personal-info>
+                        </div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

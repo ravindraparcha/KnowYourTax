@@ -1,0 +1,90 @@
+
+
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Relief u/s 89(1)</label>
+    <div class="col-sm-3">
+
+        <input type="number" novalidate class="form-control" [(ngModel)]="deductionModel.relief" #relief="ngModel" name="relief"
+        />
+        <div class="border-left-info">Please ensure to submit Form 10E</div>
+    </div>
+    <label class="control-label col-sm-2 text-left">Due date of submission of return</label>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <input class="form-control" required readonly style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker
+                name="dueDate" [(ngModel)]="deductionModel.dueDate" [options]="myOptions" #dueDateDp="ngx-mydatepicker" (dateChanged)="onDueDateChanged($event)"
+            />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dueDateDp.clearDate()">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="dueDateDp.toggleCalendar()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+   <!-- <label class="control-label col-sm-2 text-left">Advance tax paid</label>
+     <div class="col-sm-3">
+
+        <input type="number" novalidate class="form-control" [(ngModel)]="deductionModel.advanceTax" #advanceTax="ngModel" name="advanceTax"
+        />
+        <div class="border-left-info">Check IT computation sheet received from employeer</div>
+    </div> -->
+
+</div>
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Actual date of return submission</label>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <input class="form-control" required readonly style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker
+                name="mydate" [(ngModel)]="deductionModel.filingDate" [options]="myOptions" #filingDateDp="ngx-mydatepicker"
+                (dateChanged)="onFilingDateChanged($event)" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="filingDateDp.clearDate()">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="filingDateDp.toggleCalendar()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<hr />
+<div class="form-group margin-top15">
+    <label class="control-label col-sm-2 text-left">Choose your investment</label>
+    <div class="col-sm-8">
+        <ng-select id="selectedSection" #selectedSection="ngModel" (change)="onDeductionChange()" name="selectedSection" placeholder="Select your investment for deduction"
+            [(ngModel)]="selectedSectionValue">
+            <ng-option *ngFor="let deduction of deductionList" [value]="deduction.name">{{deduction.text}}
+            </ng-option>
+        </ng-select>
+        <div class="border-left-info">Select or search by typing your investment for deduction</div>
+    </div>
+</div>
+
+<form [formGroup]="sectionForm">
+    <div formArrayName="itemRows">
+        <!-- Check the correct way to iterate your form array -->
+        <div *ngFor="let itemrow of sectionForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+            <div class="form-group margin-top15">
+                <label class="control-label col-sm-2"></label>
+                <label class="control-label col-sm-6" style="text-align:left">{{itemrow.get('deductionText').value}}</label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="number" formControlName="deductionValue" (input)="onDeductionChangeCalculateSum(sectionForm)" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default removeIcon" type="button" (click)="deleteSection(i)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+        </div>
+    </div>  
+</form>
