@@ -37,7 +37,7 @@ text-align: right;
     font-size: 11px;
     font-weight: 600;
     text-align: center;
-    background-color:#fcfcfc;
+    background-color:transparent; 
 }
  
 .footer a {
@@ -346,7 +346,7 @@ padding-right: 17px;
 .navbar-default .navbar-nav>.active> a, 
 .navbar-default .navbar-nav>.active> a:focus, 
 .navbar-default .navbar-nav>.active> a:hover {
-    box-shadow:0px -4px 7px 1px #322f2f61;
+    box-shadow:0px 1px 7px 1px #322f2f61;
 }
 .nav-tabs {
     /* background: linear-gradient(#f8f8f8, #dddddd);  */

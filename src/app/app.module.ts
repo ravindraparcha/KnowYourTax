@@ -43,7 +43,7 @@ import {CanDeactivateGuard} from './routeGuard/can-deactivate-guard.service';
     SlimLoadingBarModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),     
-    sharedModule
+    //sharedModule
   ],
   providers: [
     {provide: LocationStrategy,useClass:HashLocationStrategy},
