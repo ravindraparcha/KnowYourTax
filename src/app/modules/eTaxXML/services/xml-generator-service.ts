@@ -269,7 +269,7 @@ export class XmlGeneratorService {
             }
             else if (element.name == "80DDB") {
                 if (isUsrNode)
-                    this.xmlWriter.writeElement("ITRForm:ITRForm:Section80DDBUsrType", element.option);
+                    this.xmlWriter.writeElement("ITRForm:Section80DDBUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80DDB", parseInt(element.amount));
             }
             else if (element.name == "80E")
@@ -392,7 +392,7 @@ export class XmlGeneratorService {
         if (taxPaid.refund !== undefined && taxPaid.refund !== null)
             this.xmlWriter.writeElement("ITRForm:RefundDue", taxPaid.refund);
 
-        this.xmlWriter.startElement("ITRFORM:PriBankDetails");
+        this.xmlWriter.startElement("ITRForm:PriBankDetails");
         if (taxPaid.accountDetail.ifscCode !== undefined && taxPaid.accountDetail.ifscCode !== null)
             this.xmlWriter.writeElement("ITRForm:IFSCCode", taxPaid.accountDetail.ifscCode);
         if (taxPaid.accountDetail.bankName !== undefined && taxPaid.accountDetail.bankName !== null)
