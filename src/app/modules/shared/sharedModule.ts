@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-//import {BrowserModule} from '@angular/platform-browser';
+
 //import { ToastrModule } from 'ngx-toastr';
 
 import {DeductionsComponent} from './components/deduction/deductions.components';

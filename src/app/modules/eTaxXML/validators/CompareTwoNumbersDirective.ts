@@ -20,7 +20,7 @@ export class CompareTwoNumbersValidatorDirective implements Validator {
         if (control.value == undefined || control.value == null)
             return;
         let compareCtrl = control.root.get(this._compareNumber + '_' + this.indexValue);
-        
+       
         if (compareCtrl && compareCtrl.errors != null) {
             delete compareCtrl.errors["_compareNumber"];
             compareCtrl.setErrors(null);
@@ -32,14 +32,14 @@ export class CompareTwoNumbersValidatorDirective implements Validator {
 
         if(compareCtrl!=null) {
             if (this._flag === 'true') {
-                if (control.value > compareCtrl.value) {
+                if (parseInt(control.value) > parseInt(compareCtrl.value)) {
                     return {
                         _compareNumber: false
                     }
                 }
             }    
             else if (this._flag === 'false') {
-                if (control.value < compareCtrl.value) {
+                if (parseInt(control.value) < parseInt(compareCtrl.value)) {
                     return {
                         _compareNumber: false
                     }

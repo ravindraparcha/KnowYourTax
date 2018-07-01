@@ -16,9 +16,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     public incomeDetailsModel: IncomeDetailsModel;
     incomeTaxModel: any;
-    constructor(public _configuration: ConfigurationService) {
-      
-     }
+    constructor(public _configuration: ConfigurationService) { }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
     //@Output() outputCalculateTax : EventEmitter<any> = new EventEmitter<any>();
@@ -94,8 +92,7 @@ export class IncomeDetailsComponent implements OnInit {
         this.calculateGrossTotal();
     }
     calculateGrossTotal() {
-        this.incomeDetailsModel.grossTotalIncome = this.incomeDetailsModel.salaryPensionSum + this.incomeDetailsModel.housePropertySum + (isNaN(this.incomeDetailsModel.incomeFromOtherSources) ? 0 : this.incomeDetailsModel.incomeFromOtherSources);
-        ///this.calculateTaxableIncome();
+        this.incomeDetailsModel.grossTotalIncome = this.incomeDetailsModel.salaryPensionSum + this.incomeDetailsModel.housePropertySum + (isNaN(this.incomeDetailsModel.incomeFromOtherSources) ? 0 : this.incomeDetailsModel.incomeFromOtherSources);        
     }
 
     disableEnableHouseProperty() {
@@ -124,10 +121,5 @@ export class IncomeDetailsComponent implements OnInit {
             this.isIncomeDetailsComponentValid.emit(true);
         else 
             this.isIncomeDetailsComponentValid.emit(false);         
-    }
-    public calculateTax() {
-        this.incomeTaxModel = this.deductionsComponent.calculateTax();
-        $('#deductionModel').modal('show');       
-    }
-     
+    }    
 }

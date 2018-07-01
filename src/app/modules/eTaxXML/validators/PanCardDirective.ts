@@ -21,7 +21,7 @@ export class PanCardValidatorDirective implements Validator {
         else
             return {
                 panNoError: {
-                    errorMsg : 'Pan card number is invalid'
+                    errorMsg : 'PAN card number is invalid'
                 }
             };
     }

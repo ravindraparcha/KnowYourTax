@@ -320,11 +320,11 @@ th{
     display:block;
 }
 .fixHeaderTable th,table td{
-    width:200px;
+    width:353px;
 }
 .fixHeaderTable  tbody{
   display:block;
-  height:200px;
+  height:353px;
   overflow:auto;
 }
 
