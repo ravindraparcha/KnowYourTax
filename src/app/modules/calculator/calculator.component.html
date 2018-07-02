@@ -93,10 +93,45 @@
                             </table>
                         </div>
                     </div>
+                    <div class='col-sm-12'>
+                        <div class='row'>
+                            <label class="control-label col-sm-3">
+                                <span>Advance tax paid &nbsp; </span> {{totalAdvanceTaxPaid | indianCurrency}}
+                            </label>
+                            <label class="control-label col-sm-3">
+                                <span>Self assessment &nbsp; </span> {{totalSelfAssessmentTaxPaid | indianCurrency}}
+                            </label>
+                            <label class="control-label col-sm-3">
+                                <span>Total tax paid &nbsp; </span> {{totalTaxesPaid | indianCurrency}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class='col-sm-12'>
+                        <div class='row'>
+                            <label class="control-label col-sm-3">
+                                <span>Amount payable &nbsp; </span> {{amountPayable | indianCurrency}}
+                            </label>
+                            <label class="control-label col-sm-3">
+                                <span>Refund&nbsp; </span> {{refund | indianCurrency}}
+                            </label>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer" style="border-top:0;padding-top:0;padding-right:28px">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="modal-footer" style="border-top:0;padding-top:0;padding-right:44px;">
+                <div class='row'>
+                    <div *ngIf="(amountPayable > 0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0)">
+                        <label class="col-sm-6" style='text-align:left;color:red'>You need to pay balance amount:- {{amountPayable | indianCurrency}}</label>
+                    </div>
+
+                    <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund == 0"
+                        style='text-align:left;color:green'>No tax to pay</label>
+                    <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund >0"
+                        style='text-align:left;color:green'>You will get refund for {{refund | indianCurrency}}</label>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div>
             </div>
         </div>
 
@@ -116,28 +151,31 @@
                             </div>
                         </div>
                         <income-details></income-details>
-                        <div class="panel-custom panel-default-custom">
-                            <div class="panel-heading-custom" role="tab" id="tds4SelfAssessmentAdvanceTaxHeading" style="font-size:15px;">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds4Collapse" aria-expanded="true" aria-controls="collapseFour">
-                                        <div style="font-size:15px;">Details of advance tax and self assessment tax</div>
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="tds4Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="tds4SelfAssessmentAdvanceTaxHeading">
-                                <div class="panel-body">
-                                    <self-assessment-advance-tax (advanceTaxSelfAssessmentTaxModelOutput)='getAdvanceTaxSelfAssessmentTaxModelOutput($event)'></self-assessment-advance-tax>
+                        <div class="panel-custom panel-default-custom" style='margin-top:-21px;'>
+                            <div class="panel-custom panel-default-custom">
+                                <div class="panel-heading-custom" role="tab" id="tds4Heading" style="font-size:15px;">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds4Collapse" aria-expanded="false" aria-controls="collapseFour">
+                                            <div style="font-size:15px;">Details of advance tax and self assessment tax</div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="tds4Collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="tds4Heading">
+                                    <div class="panel-body">
+                                        <self-assessment-advance-tax></self-assessment-advance-tax>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
-                        <div class="form-group" style='margin-top:-15px;'>
-                            <div class="col-sm-12" style='text-align: right'>
+                        <div class="form-group">
+                            <div class="col-sm-12" style='text-align: right;margin-top:5px;'>
                                 <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>          
+            </div>
         </div>
     </div>
 </form>
