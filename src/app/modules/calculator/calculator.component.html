@@ -124,7 +124,6 @@
                     <div *ngIf="(amountPayable > 0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0)">
                         <label class="col-sm-6" style='text-align:left;color:red'>You need to pay balance amount:- {{amountPayable | indianCurrency}}</label>
                     </div>
-
                     <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund == 0"
                         style='text-align:left;color:green'>No tax to pay</label>
                     <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund >0"
