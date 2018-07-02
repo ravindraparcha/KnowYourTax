@@ -1,10 +1,10 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
-import { ConfigurationService } from  '../../../shared/services/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { slimLoaderBarService } from  '../../../shared/services/slimLoaderBarService';
- 
+import { slimLoaderBarService } from '../../../shared/services/slimLoaderBarService';
+
 import { CalculatorModel, CalculatorInputs, Section, SectionValue } from "../../models/calculatorModel";
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { SharedTaxService } from '../../services/sharedTaxService';
@@ -29,16 +29,16 @@ export class DeductionsComponent implements OnInit {
     public selfAssessmentAdvanceTax: any[];
     private _subscription: Subscription;
     private _returnFiledSection: number;
-    private selfAssessmentTaxPaid:number=0;
-    private advanceTaxForm26AS : number=0;
+    private selfAssessmentTaxPaid: number = 0;
+    private advanceTaxForm26AS: number = 0;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
     @Input()
     set advanceTaxAlreadyPaid(taxModel: any[]) {
-        this.advanceTaxModels=[];        
+        this.advanceTaxModels = [];
         if (this.deductionModel === undefined)
-            this.deductionModel = new DeductionModel();       
+            this.deductionModel = new DeductionModel();
         if (taxModel !== undefined) {
             this.advanceTaxForm26AS = 0;
             for (let i = 0; i < taxModel.length; i++) {
@@ -55,7 +55,7 @@ export class DeductionsComponent implements OnInit {
     };
 
     constructor(private _configuration: ConfigurationService, private _fb: FormBuilder,
-         private toastr: ToastsManager, vcr: ViewContainerRef,
+        private toastr: ToastsManager, vcr: ViewContainerRef,
         private _slimLoader: slimLoaderBarService, private _sharedTaxService: SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);
     }
@@ -82,7 +82,7 @@ export class DeductionsComponent implements OnInit {
         this.incomeTaxModel.taxComputationModel = this.taxComputationModel;
         if (this.deductionModel == undefined)
             this.deductionModel = new DeductionModel();
-        this.advanceTaxModels=[];
+        this.advanceTaxModels = [];
         this.deductionModel.advanceTax = 0;
 
         this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
@@ -164,7 +164,7 @@ export class DeductionsComponent implements OnInit {
 
         this.createAdvanceTaxModelArray(this.selfAssessmentAdvanceTax);
 
-        this.deductionModel.advanceTax =this.advanceTaxForm26AS + this.selfAssessmentTaxPaid;
+        this.deductionModel.advanceTax = this.advanceTaxForm26AS + this.selfAssessmentTaxPaid;
 
         if (this.sectionForm == undefined)
             return new IncomeTaxModel();
@@ -251,9 +251,9 @@ export class DeductionsComponent implements OnInit {
         this.taxComputationModel.reliefUnder89 = this.deductionModel.relief;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.taxComputationModel.reliefUnder89;
 
-        let dueDt ;
+        let dueDt;
         let filingDt;
-        if(this.deductionModel.filingDate==null || this.deductionModel.dueDate==null) {
+        if (this.deductionModel.filingDate == null || this.deductionModel.dueDate == null) {
             dueDt = undefined;
             filingDt = undefined;
         }
@@ -261,7 +261,7 @@ export class DeductionsComponent implements OnInit {
             dueDt = this.deductionModel.dueDate["jsdate"];
             filingDt = this.deductionModel.filingDate["jsdate"];
         }
-        
+
         if (dueDt != undefined && filingDt != undefined) {
             let diffDate: number;
             let days = 0;
@@ -400,24 +400,29 @@ export class DeductionsComponent implements OnInit {
     private createAdvanceTaxModelArray(selfAssmntAdvnceTaxArr) {
         if (selfAssmntAdvnceTaxArr === undefined)
             return;
-        this.advanceTaxModels = this.advanceTaxModels.filter(x=>x.isAdvanceTax!=true);
+        this.advanceTaxModels = this.advanceTaxModels.filter(x => x.isAdvanceTax != true);
         let advanceTaxModel;
         let month: number, year: number, date: number;
-        this.selfAssessmentTaxPaid=0;
+        this.selfAssessmentTaxPaid = 0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
-            date = selfAssmntAdvnceTx.depositDate.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 1));
-            month = selfAssmntAdvnceTx.depositDate.substring(this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 2));
-            year = selfAssmntAdvnceTx.depositDate.substr(this.getPosition(selfAssmntAdvnceTx.depositDate, "/", 2) + 1);
+            if(selfAssmntAdvnceTx.depositDate==null || selfAssmntAdvnceTx.depositDate=="") {
+                continue;
+            }
+            date = selfAssmntAdvnceTx.depositDate.formatted.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1));
+            month = selfAssmntAdvnceTx.depositDate.formatted.substring(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2));
+            year = selfAssmntAdvnceTx.depositDate.formatted.substr(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2) + 1);
             this.selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
             //decrease month by 1 
-            month-=1;
-            let dateObj = new Date(year,month,date);
-            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), selfAssmntAdvnceTx.taxPaid,true);
+            month -= 1;
+            let dateObj = new Date(year, month, date);
+            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), selfAssmntAdvnceTx.taxPaid, true);
             this.advanceTaxModels.push(advanceTaxModel);
         }
     }
     private getPosition(source, toSearch, indexNumber): number {
-        return source.formatted.split(toSearch, indexNumber).join(toSearch).length;
+        if (source == "")
+            return;
+        return source.split(toSearch, indexNumber).join(toSearch).length;
     }
     private getAssessmentYear(): string {
         let currentDate = new Date();
@@ -445,15 +450,15 @@ export class DeductionsComponent implements OnInit {
             for (let usrDeduction of deductions) {
                 if (msData.name == this.getSectionName(usrDeduction.deductionSection)) {
                     if (msData.limit > 0) {
-                        
+
                         //set limit to percentage amount
                         if (msData.limit <= 100 && msData.limit != -1) {
                             let percentageAmt = this.grossTotalIncome * msData.limit / 100;
                             //msData.limit = percentageAmt;
                             enteredAmount = percentageAmt;
                         }
-                        else if(msData.limit>0 && msData.options.length == 0) {
-                            if (usrDeduction.deductionValue > msData.limit) {                                 
+                        else if (msData.limit > 0 && msData.options.length == 0) {
+                            if (usrDeduction.deductionValue > msData.limit) {
                                 enteredAmount = usrDeduction.deductionValue;
                                 dSum = msData.limit;
                             }
@@ -515,17 +520,17 @@ export class DeductionsComponent implements OnInit {
             if (msDt.parent !== "")
                 this.updateSectionLimit(masterData, usrSections, msDt.parent);
         }
-         
+
         return usrSections;
     }
 
     private updateSectionLimit(masterData: any[], usrSections: any[], parentSectionName: string) {
-         
-        let balanceAmount = 0;       
+
+        let balanceAmount = 0;
         for (let msData of masterData) {
             balanceAmount = msData.limit;
             if (msData.name == parentSectionName) {
-                let parentAmount = 0;                
+                let parentAmount = 0;
                 //finding entered value 
                 for (let usrSection of usrSections) {
                     if (usrSection.name == parentSectionName) {
@@ -547,14 +552,14 @@ export class DeductionsComponent implements OnInit {
                             balanceAmount = balanceAmount - usrSection.enteredAmount;
                         }
                     }
-                    else if(usrSection.name==parentSectionName) {
+                    else if (usrSection.name == parentSectionName) {
                         if (usrSection.enteredAmount > msData.limit) {
                             //usrSection.enteredAmount = balanceAmount;
                             usrSection.limit = msData.limit;
-                            
+
                         }
                         else {
-                            usrSection.limit = usrSection.enteredAmount;                           
+                            usrSection.limit = usrSection.enteredAmount;
                         }
                     }
                 }

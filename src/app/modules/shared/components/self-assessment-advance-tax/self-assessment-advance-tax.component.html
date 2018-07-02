@@ -1,0 +1,77 @@
+<table class="table table-striped table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>BSR code</th>
+            <th style="width:20%">Date of deposit</th>
+            <th>Challan serial number</th>
+            <th>Tax type</th>
+            <th style="width:20%">Tax paid</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let advanceTaxSelfAssessmentTaxModel of advanceTaxSelfAssessmentTaxModels; let i = index">
+            <td>
+                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.BSRCode" class="form-control" type="text" #advanceTaxSelfAssessmentTaxModelBSRCode="ngModel"
+                    name="advanceTaxSelfAssessmentTaxModelBSRCode_{{i}}" />
+            </td>
+            <td>
+                <div class="input-group">
+                    <input class="form-control" required readonly [ngClass]="(advanceTaxSelfAssessmentTaxModel.depositDate!='' && advanceTaxSelfAssessmentTaxModel.depositDate!=null)? 'valid': 'invalid'"
+                        style="float:none;border-radius: 0;" [(ngModel)]="advanceTaxSelfAssessmentTaxModel.depositDate" placeholder="Select a date"
+                        ngx-mydatepicker name="advanceTaxSelfAssessmentTaxModelMydepositDatedate_{{i}}" [options]="myOptions"
+                        #dd="ngx-mydatepicker" (dateChanged)="onDepositDateChanged($event)" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dd.clearDate()">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        <button type="button" class="btn btn-default" style="padding: 6px 13px;border-radius: 0" (click)="dd.toggleCalendar()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </td>
+            <td>
+                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.challanSerialNumber" class="form-control" type="number" #advanceTaxSelfAssessmentTaxModelChallanSerialNumber="ngModel"
+                    name="advanceTaxSelfAssessmentTaxModelChallanSerialNumber_{{i}}" />
+            </td>
+            <td>
+                <select id="selectedTaxType" #selectedTaxType="ngModel" required [ngClass]="advanceTaxSelfAssessmentTaxModel.selectedTaxType!=null? 'valid': 'invalid'"
+                    class="form-control" (change)="calculateAdvanceTaxSelfAssessmentTax()" [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType"
+                    name="advanceTaxSelfAssessmentTaxModelSelectedTaxType_{{i}}">
+                    <option [ngValue]=null>Select</option>
+                    <option [ngValue]="type.value" *ngFor="let type of taxTypeList">
+                        {{type.text}}
+                </select>
+            </td>
+
+            <td>
+                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0' ? 0 : advanceTaxSelfAssessmentTaxModel.taxPaid"
+                    class="form-control" type="number" #advanceTaxSelfAssessmentTaxModelTaxPaid="ngModel" name="advanceTaxSelfAssessmentTaxModelTaxPaid_{{i}}"
+                    (change)="calculateAdvanceTaxSelfAssessmentTax()" [disabled]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0'"
+                />
+            </td>
+            <td>
+                <span class="input-group-btn">
+                    <button class="btn btn-default removeIcon" type="button" (click)="deleteAdvanceTaxSelfAssessmentTaxItem(i)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" (click)="addNewAdvanceTaxSelfAssessmentTax()">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

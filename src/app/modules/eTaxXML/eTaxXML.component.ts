@@ -1,19 +1,21 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild, OnInit } from "@angular/core";
 import { ToastrService } from 'ngx-toastr';
 
 import { Form26ASParserService } from './services/form26AS-parser-service';
 import { PersonalInfoModel } from './models/personal-info.model';
-import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../shared/models/deduction.model'; 
-import { ConfigurationService } from '../shared/services/ConfigurationService';  
+import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../shared/models/deduction.model';
+import { ConfigurationService } from '../shared/services/ConfigurationService';
 import { TaxDeductedSalaryModel } from './models/tax-deducted-collected.model';
-import { IncomeData } from  '../../modules/shared/models/income-details.model';
+import { IncomeData } from '../../modules/shared/models/income-details.model';
 import { XmlGeneratorService } from './services/xml-generator-service';
 
 import { PersonalInfoComponent } from './components/personal-info/personal-info.component';
 import { TaxPaidVerificationComponent } from './components/tax-paid-verification/tax-paid-verification.component';
 import { TaxDeductedCollectedComponent } from './components/tax-deducted-collected/tax-deducted-collected.component';
 import { Donation80GComponent } from './components/donation-80G/donation.80G.component';
-import { IncomeDetailsComponent } from  '../shared/components/income-details/income-details.component';
+import { IncomeDetailsComponent } from '../shared/components/income-details/income-details.component';
+import { SharedTaxService } from '../shared/services/sharedTaxService';
+import { Subscription } from "rxjs";
 
 
 declare var $: any;
@@ -22,7 +24,7 @@ declare var $: any;
     selector: 'eTaxXML',
     templateUrl: './eTaxXML.component.html'
 })
-export class eTaxXMLComponent { 
+export class eTaxXMLComponent implements OnInit {
 
 
     //child component object for xml generation
@@ -38,15 +40,47 @@ export class eTaxXMLComponent {
     private xmlDataArray = [];
     public advanceTaxPaidModels;
     public incomeData: IncomeData;
+    public incomeTaxModel: any;
 
+    public totalTDSClaimed: number = 0;
+    public totalTCSClaimed: number = 0;
+    public totalSelfAssessmentTaxPaid: number = 0;
+    public totalAdvanceTaxPaid: number = 0;
+    public totalTaxInterest: number = 0;
+    public totalTaxesPaid: number = 0;
+    public amountPayable: number = 0;
+    public refund: number = 0;
+
+    public accountDetailModel;
+    public model: any;
+    public incomeNatureList = [];
+    private _subscription: Subscription;
+
+   
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
-        private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService,
-        ) {}
-    
-        canDeactivate() {
-           return true;
-            //return confirm('are you sure you want to navigate?');
-          }
+        private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService, private _sharedTaxService: SharedTaxService
+    ) { }
+
+    canDeactivate() {
+        return true;
+    }
+
+    ngOnInit() {
+        this.incomeTaxModel = new IncomeTaxModel();
+        this.incomeTaxModel.userTaxModel = [];
+        this.incomeTaxModel.systemTaxModel = [];
+        this.incomeTaxModel.taxComputationModel = new TaxComputationModel();
+
+        this._subscription = this._sharedTaxService.getTDSAmount().subscribe(item => this.totalTDSClaimed = item);
+        this._subscription = this._sharedTaxService.getTCSAmount().subscribe(item => this.totalTCSClaimed = item);
+        this._subscription = this._sharedTaxService.getSelfAssessmentAmount().subscribe(item => this.totalSelfAssessmentTaxPaid = item);
+        this._subscription = this._sharedTaxService.getAdvanceTaxAmount().subscribe(item => this.totalAdvanceTaxPaid = item);
+        // this._subscription = this._sharedTaxService.getTotalTaxAmount().subscribe(item => this.totalTaxInterest = item);
+        this._subscription = this._sharedTaxService.getTotalTDSTCS().subscribe(item => this.totalTaxesPaid = item);
+        this._subscription = this._sharedTaxService.getAmountPayable().subscribe(item => this.amountPayable = item);
+        this._subscription = this._sharedTaxService.getRefund().subscribe(item => this.refund = item);
+    }
+
     onFileSelection(event: EventTarget) {
         let $this = this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
@@ -58,7 +92,7 @@ export class eTaxXMLComponent {
         reader.readAsText(files[0]);
         //hiding the modal popup
         $('#form26ASModel').modal('hide');
-        reader.onload = function () {             
+        reader.onload = function () {
             $this.parseJson = $this._form26ASParserService.parseTextFile(reader.result);
             //convert json to appropriate model 
             $this.parseJson.forEach(element => {
@@ -148,15 +182,15 @@ export class eTaxXMLComponent {
 
         //validate child component
         this.validateIncomeDetailsComponent();
-        if(!this.isIncomeDetailsFrmValid)  {
-            this._toastr.error(this.getTabErrorMessage('Income details'),'Error',this._configuration.CustomToastOptions);
+        if (!this.isIncomeDetailsFrmValid) {
+            this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateTaxDeductedCollectedComponent();
-        if(!this.isTaxDeductedCollectedFrmValid)  {
-            this._toastr.error(this.getTabErrorMessage('Tax Details'),'Error',this._configuration.CustomToastOptions);
+        if (!this.isTaxDeductedCollectedFrmValid) {
+            this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
             return;
-        }            
+        }
         this.validateTaxPaidVerificationComponent();
         if (!this.isTaxPaidVerificationFrmValid) {
             this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
@@ -168,15 +202,15 @@ export class eTaxXMLComponent {
             return;
         }
         this.validatePersonalInfoComponent();
-        if(!this.isPersonalInfoFrmValid)  {
-            this._toastr.error(this.getTabErrorMessage('Personal Information'),'Error',this._configuration.CustomToastOptions);
+        if (!this.isPersonalInfoFrmValid) {
+            this._toastr.error(this.getTabErrorMessage('Personal Information'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
-        
+
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
-        this.incomeData = new IncomeData();         
-        this.incomeData.incomeDetailsModel = this._incomeDetailsComponent.incomeDetailsModel; 
+        this.incomeData = new IncomeData();
+        this.incomeData.incomeDetailsModel = this._incomeDetailsComponent.incomeDetailsModel;
         //calculate tax     
         this._incomeDetailsComponent.deductionsComponent.calculateTax();
         this.incomeData.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.incomeTaxModel;
@@ -195,8 +229,9 @@ export class eTaxXMLComponent {
     private createSectionArray(infoType: string, data: any) {
         this.xmlDataArray.push({ "infoType": infoType, data: data });
     }
-    calculateTax() {
+    public calculateTax() {
         this._incomeDetailsComponent.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.calculateTax();
+        this.incomeTaxModel = this._incomeDetailsComponent.incomeTaxModel;
         $('#deductionModel').modal('show');
     }
 
@@ -234,6 +269,5 @@ export class eTaxXMLComponent {
     validateDeduction80GComponent() {
         this._donation80GComponent.validateDonation80GComponentForm();
     }
-
 
 }
