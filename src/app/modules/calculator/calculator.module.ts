@@ -5,6 +5,7 @@ import {CalculatorRoutingModule} from './calculator.routing';
 import {sharedModule} from '../shared/sharedModule';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CommonModule } from '@angular/common';  
+import { FormatDateService } from '../eTaxXML/services/formatDateService';
 @NgModule({
     imports: [              
         CalculatorRoutingModule,
@@ -16,7 +17,8 @@ import { CommonModule } from '@angular/common';
     ],
     declarations: [
         CalculatorComponent
-    ]
+    ],
+    providers : [FormatDateService]
 
 })
 

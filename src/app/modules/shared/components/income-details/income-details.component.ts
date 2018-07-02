@@ -24,6 +24,7 @@ export class IncomeDetailsComponent implements OnInit {
     set advanceTaxPaid(advanceTaxModel: any[]) {
         this.advanceTaxAlreadyPaid = advanceTaxModel;
     }
+    @Input() showAssessmentAdvanceTax: boolean;
 
     @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('incomeDetailsForm') form : NgForm;

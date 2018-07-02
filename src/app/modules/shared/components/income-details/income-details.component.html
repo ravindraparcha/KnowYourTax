@@ -157,6 +157,20 @@
                     <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" [advanceTaxAlreadyPaid]="advanceTaxAlreadyPaid" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>
                 </div>
             </div>
-        </div>
+        </div>         
+        <!-- <div *ngIf='showAssessmentAdvanceTax=="true"' class="panel-custom panel-default-custom">
+            <div class="panel-heading-custom" role="tab" id="tds4SelfAssessmentAdvanceTaxHeading" style="font-size:15px;">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds4Collapse" aria-expanded="true" aria-controls="collapseFour">
+                        <div style="font-size:15px;">Details of advance tax and self assessment tax</div>
+                    </a>
+                </h4>
+            </div>
+            <div id="tds4Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="tds4SelfAssessmentAdvanceTaxHeading">
+                <div class="panel-body">
+                    <self-assessment-advance-tax (advanceTaxSelfAssessmentTaxModelOutput)='getAdvanceTaxSelfAssessmentTaxModelOutput($event)'></self-assessment-advance-tax>
+                </div>
+            </div>
+        </div> -->
     </div>
 </form>

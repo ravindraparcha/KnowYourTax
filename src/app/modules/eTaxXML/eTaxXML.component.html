@@ -129,14 +129,14 @@
 
             <div class="modal-footer" style="border-top:0;padding-top:0;padding-right:28px;">
                 <div class='row'>
-                    <div *ngIf="amountPayable>0; else hideMsg">
+                    <div *ngIf="(amountPayable > 0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0); else hideMsg">
                         <label class="col-sm-6" style='text-align:left;color:red'>Please ready challan for tax payable {{amountPayable | indianCurrency}} for generating xml</label>
                     </div>
                     <ng-template #hideMsg>
                         <label class="col-sm-6">&nbsp;</label>
                     </ng-template>
                     <div class='col-sm-6 '>
-                        <button *ngIf="amountPayable==0" class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                        <button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>

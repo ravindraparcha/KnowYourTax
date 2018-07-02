@@ -94,12 +94,8 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
-            <div class="modal-footer" style="border-top:0;padding-top:0;">
+            <div class="modal-footer" style="border-top:0;padding-top:0;padding-right:28px">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -113,7 +109,6 @@
             <div class="panel panel-default border-radius border-box">
                 <div class="panel-heading">Calculator </div>
                 <div class="form-horizontal">
-
                     <div id="incomeDetails" style="padding: 0 5px 0 5px">
                         <div class="form-group" style='margin-top: 4px;margin-bottom: -10px;'>
                             <div class="col-sm-12" style='text-align: right'>
@@ -121,6 +116,20 @@
                             </div>
                         </div>
                         <income-details></income-details>
+                        <div class="panel-custom panel-default-custom">
+                            <div class="panel-heading-custom" role="tab" id="tds4SelfAssessmentAdvanceTaxHeading" style="font-size:15px;">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds4Collapse" aria-expanded="true" aria-controls="collapseFour">
+                                        <div style="font-size:15px;">Details of advance tax and self assessment tax</div>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="tds4Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="tds4SelfAssessmentAdvanceTaxHeading">
+                                <div class="panel-body">
+                                    <self-assessment-advance-tax (advanceTaxSelfAssessmentTaxModelOutput)='getAdvanceTaxSelfAssessmentTaxModelOutput($event)'></self-assessment-advance-tax>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group" style='margin-top:-15px;'>
                             <div class="col-sm-12" style='text-align: right'>
                                 <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
@@ -128,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>          
         </div>
     </div>
 </form>

@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter } from "@angular/core";
 
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
-
-import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
-import { FormatDateService } from '../../services/formatDateService';
+ 
 import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
 
 declare var $: any;
@@ -27,21 +24,15 @@ export class TaxDeductedCollectedComponent implements OnInit {
 
     public taxCollectionDeductionYearList = [];
     public taxDeductionTenantYearList = [];
-
-    public advanceTaxSelfAssessmentTaxModels = [];
-    private newAdvanceTaxSelfAssessmentTaxModel;
-
+     
     public taxCollectedModels = [];
     private newTaxCollectedModel;
 
-    public taxTypeList = [];
     @Output() isTaxDeductedCollectedComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('taxDeductedCollectedFrm') taxDeductedCollectedFrm;
-    constructor(private cd: ChangeDetectorRef,private _configuration: ConfigurationService, private _sharedXMLService: FormatDateService, private _sharedTaxService: SharedTaxService) { }
+    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService) { }
 
-    myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat
-    };
+    
 
     @Input()
     set taxDeducted(taxDeductedModels: TaxDeductedSalaryModel[]) {
@@ -53,6 +44,10 @@ export class TaxDeductedCollectedComponent implements OnInit {
         }
         
     }
+    public getAdvanceTaxSelfAssessmentTaxModelOutput(output: AdvanceTaxSelfAssessmentTaxModel[]) {
+        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels  = output;
+    }
+
     ngAfterViewInit() {
         this.cd.detectChanges();
     }
@@ -75,7 +70,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = [];
         this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = [];
 
-        this.taxTypeList=[{'value':'SelfAssessmentTax', 'text':'Self Assessment Tax'},{'value':'AdvanceTax','text':'Advance Tax'}];        
+        
     }
     private getTaxCollectionDeductionYearList() {
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
@@ -129,7 +124,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         console.log(this.taxDeductedSalaryModels);
         console.log(this.taxDeductedOtherThanSalaryModels);
         console.log(this.taxDeductedUnder26QCModels);
-        console.log(this.advanceTaxSelfAssessmentTaxModels);
+        console.log(this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels );
         console.log(this.taxCollectedModels);
     }
 
@@ -153,32 +148,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.deleteItemFromArray(this.taxDeductedUnder26QCModels, index);
         this.calculateTaxDeductedAmount();
     }
-     
-    addNewAdvanceTaxSelfAssessmentTax() {
-        this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", 0, "");
-        this.advanceTaxSelfAssessmentTaxModels.push(this.newAdvanceTaxSelfAssessmentTaxModel);
-        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = this.advanceTaxSelfAssessmentTaxModels;
-    }
-    deleteAdvanceTaxSelfAssessmentTaxItem(index: number) {
-        this.deleteItemFromArray(this.advanceTaxSelfAssessmentTaxModels, index);
-        this.calculateAdvanceTaxSelfAssessmentTax();        
-    }
-    public calculateAdvanceTaxSelfAssessmentTax() {
-        let advanceTaxSum = 0;
-        let selfAssessmentSum=0;
-        for (let advanceTaxSelfAssessmentTaxModel of this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels) {
-            if(advanceTaxSelfAssessmentTaxModel.depositDate==null || advanceTaxSelfAssessmentTaxModel.depositDate=='')
-                continue;
-            if(advanceTaxSelfAssessmentTaxModel.selectedTaxType=="SelfAssessmentTax")
-                selfAssessmentSum += advanceTaxSelfAssessmentTaxModel.taxPaid;
-            else if(advanceTaxSelfAssessmentTaxModel.selectedTaxType=="AdvanceTax")
-                advanceTaxSum+= advanceTaxSelfAssessmentTaxModel.taxPaid;
-        }
-        this._sharedTaxService.changeAdvanceTaxAmount(advanceTaxSum);
-        this._sharedTaxService.changeSelfAssessmentAmount(selfAssessmentSum);
-        this._sharedTaxService.changeSelfAssessmentAdvanceTax(this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels);
-    }
-
+      
     addNewTaxCollection() {
         this.newTaxCollectedModel = new TaxCollectedModel("", "", 0, 0);
         this.taxCollectedModels.push(this.newTaxCollectedModel);
@@ -202,16 +172,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
     deleteItemFromArray(itemArray: any[], index: number) {
         itemArray.splice(index, 1);
     }
-    onDepositDateChanged(event: IMyDateModel) {
-        if (event.date.day != 0) {
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
-        }
-        else {
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = "";
-        }
-    }
+    
     public validateTaxDeductedCollectedComponentForm() {       
         //this.taxDeductedCollectedFrm.valueChanges.subscribe(data =>console.log('Form changes', data));
         if (this.taxDeductedCollectedFrm.valid)  
