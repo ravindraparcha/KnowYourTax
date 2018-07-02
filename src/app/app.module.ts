@@ -18,11 +18,9 @@ import {PageNotFoundComponent} from './pageNotFound/pageNotFound.component';
 import { ConfigurationService } from '../app/modules/shared/services/ConfigurationService';
 import {slimLoaderBarService} from '../app/modules/shared/services/slimLoaderBarService';
 import {PrivacyPolicyComponent,AboutComponent} from './footer/footer'; 
-import {sharedModule} from  '../app/modules/shared/sharedModule'; 
  
 import {CanDeactivateGuard} from './routeGuard/can-deactivate-guard.service';
-
-//import { ToastrModule } from 'ngx-toastr';
+ 
 
 @NgModule({
   declarations: [     
@@ -42,8 +40,9 @@ import {CanDeactivateGuard} from './routeGuard/can-deactivate-guard.service';
     HttpClientModule,    
     SlimLoadingBarModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot(),     
-    //sharedModule
+    ToastModule.forRoot(),    
+     
+    
   ],
   providers: [
     {provide: LocationStrategy,useClass:HashLocationStrategy},

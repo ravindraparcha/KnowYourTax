@@ -21,7 +21,7 @@ export class TanCardValidatorDirective implements Validator {
         else
             return {
                 tanNoError: {
-                    errorMsg : 'Tan card number is invalid'
+                    errorMsg : 'TAN card number is invalid'
                 }
             };
     }

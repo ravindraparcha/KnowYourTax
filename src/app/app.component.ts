@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     $("document").ready(function () {
       setTimeout(function () {
         $('.' + window.location.href.substr(window.location.href.indexOf('#') + 2)).trigger('click');
-      }, 10);
+      }, 1000);
     });
     $('.navbar-nav li, .homeLink, .otherLink').on('click', function () {
       $('.navbar-nav li').removeClass('active');
