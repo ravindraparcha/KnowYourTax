@@ -248,8 +248,7 @@ code {
     padding-left: 4px;
     margin-top: 2px;
     background-color: #f1fbff;
-    font-style:italic;
-    border-bottom: 1px solid #35bce9;
+    font-style:italic;    
 }
 .border-left-error{    
     border-left: 2px solid red;
