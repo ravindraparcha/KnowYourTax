@@ -9,12 +9,14 @@ import {DeductionsComponent} from './components/deduction/deductions.components'
 import {IncomeDetailsComponent} from './components/income-details/income-details.component';
 import {SelfAssessmentAdvanceTaxComponent} from './components/self-assessment-advance-tax/self-assessment-advance-tax.component';
 import { SharedTaxService } from './services/sharedTaxService';
+ import { NumberValidatorDirective } from './validators/NumberDirective';
 @NgModule({
     imports: [CommonModule,NgSelectModule,NgxMyDatePickerModule,
             FormsModule,ReactiveFormsModule],
     providers : [SharedTaxService],
-    declarations : [IndianCurrency,DeductionsComponent,IncomeDetailsComponent,SelfAssessmentAdvanceTaxComponent],
-    exports : [IndianCurrency,DeductionsComponent,IncomeDetailsComponent,SelfAssessmentAdvanceTaxComponent]
+    declarations : [IndianCurrency,DeductionsComponent,IncomeDetailsComponent,SelfAssessmentAdvanceTaxComponent,
+                    NumberValidatorDirective],
+    exports : [IndianCurrency,DeductionsComponent,IncomeDetailsComponent,SelfAssessmentAdvanceTaxComponent,NumberValidatorDirective]
 })
  
 

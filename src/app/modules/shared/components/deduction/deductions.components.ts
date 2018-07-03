@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
-import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { slimLoaderBarService } from '../../../shared/services/slimLoaderBarService';
 
@@ -92,7 +92,7 @@ export class DeductionsComponent implements OnInit {
         return this._fb.group({
             // list all your form controls here, which belongs to your form array
             deductionText: [text],
-            deductionValue: [value],
+            deductionValue: [value,Validators],
             deductionSection: [section],
             parent: [parent]
         });

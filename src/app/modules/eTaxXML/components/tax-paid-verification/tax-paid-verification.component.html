@@ -71,21 +71,24 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Section 10(38) [Exempted long term capital gains]</label>
                         <div class="col-sm-3">
-                            <input [(ngModel)]="taxPaidModel.exemptedLongTermCapitalGain" class="form-control" type="number" #taxPaidModelExemptedLongTermCapitalGain="ngModel"
-                                name="taxPaidModelExemptedLongTermCapitalGain" />
+                            <input [(ngModel)]="taxPaidModel.exemptedLongTermCapitalGain" class="form-control" type="text" #taxPaidModelExemptedLongTermCapitalGain="ngModel"
+                                name="taxPaidModelExemptedLongTermCapitalGain" NumberValidator/>
+                                <div class="border-left-error" *ngIf="taxPaidModelExemptedLongTermCapitalGain.errors && taxPaidModelExemptedLongTermCapitalGain.errors.numberError">{{taxPaidModelExemptedLongTermCapitalGain.errors.numberError.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-2 text-left">Section 10(34) [Exempted dividend income]</label>
                         <div class="col-sm-3">
-                            <input [(ngModel)]="taxPaidModel.exemptedDividendIncome" class="form-control" type="number" #taxPaidModelExemptedDividendIncome="ngModel"
-                                name="taxPaidModelExemptedDividendIncome" />
+                            <input [(ngModel)]="taxPaidModel.exemptedDividendIncome" class="form-control" type="text" #taxPaidModelExemptedDividendIncome="ngModel"
+                                name="taxPaidModelExemptedDividendIncome" NumberValidator/>
+                                <div class="border-left-error" *ngIf="taxPaidModelExemptedDividendIncome.errors && taxPaidModelExemptedDividendIncome.errors.numberError">{{taxPaidModelExemptedDividendIncome.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Agriculture income</label>
                         <div class="col-sm-3">
-                            <input [(ngModel)]="taxPaidModel.agricultureIncome" class="form-control" type="number" #taxPaidModelAgricultureIncome="ngModel"
-                                name="taxPaidModelAgricultureIncome" NumberLimitValidator maxLimit=5000/>
+                            <input [(ngModel)]="taxPaidModel.agricultureIncome" class="form-control" type="text" #taxPaidModelAgricultureIncome="ngModel"
+                                name="taxPaidModelAgricultureIncome" NumberLimitValidator maxLimit=5000 NumberValidator/>
                             <div class="border-left-error" *ngIf="taxPaidModelAgricultureIncome.errors && taxPaidModelAgricultureIncome.errors.limitError">{{taxPaidModelAgricultureIncome.errors.limitError.errorMsg}}</div>
+                            <div class="border-left-error" *ngIf="taxPaidModelAgricultureIncome.errors && taxPaidModelAgricultureIncome.errors.numberError">{{taxPaidModelAgricultureIncome.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                     <table class="table table-striped table-bordered">
@@ -113,8 +116,9 @@
                                         name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" [ngClass]="OtherExemptionModel.descriptionIfAnyOtherSelected!=''? 'valid': 'invalid'" />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" required type="number" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"
-                                    [ngClass]="OtherExemptionModel.amount? 'valid': 'invalid'"/>
+                                    <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" required type="text" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"
+                                    [ngClass]="OtherExemptionModel.amount? 'valid': 'invalid'" NumberValidator/>
+                                    <div class="border-left-error" *ngIf="OtherExemptionModelAmount.errors && OtherExemptionModelAmount.errors.numberError">{{OtherExemptionModelAmount.errors.numberError.errorMsg}}</div>
                                 </td>
 
                                 <td>
@@ -177,8 +181,9 @@
                         <label class="control-label col-sm-2 text-left">Account number</label>
                         <div class="col-sm-3">
                             <input [(ngModel)]="accountDetailModel.accountNo" novalidate required [ngClass]="accountDetailModel.accountNo ? 'valid': 'invalid'"
-                                class="form-control" type="number" #accountDetailModelAccountNo="ngModel" name="accountDetailModelAccountNo"
+                                class="form-control" type="text" #accountDetailModelAccountNo="ngModel" name="accountDetailModelAccountNo" NumberValidator
                             />
+                            <div class="border-left-error" *ngIf="accountDetailModelAccountNo.errors && accountDetailModelAccountNo.errors.numberError">{{accountDetailModelAccountNo.errors.numberError.errorMsg}}</div>
                             <!-- CharacterNumberValidator [validationType]=1 
                                 <div class="border-left-error" *ngIf="accountDetailModelAccountNo.errors && accountDetailModelAccountNo.errors.error">{{accountDetailModelAccountNo.errors.error.errorMsg}}</div> -->
                         </div>
@@ -208,9 +213,10 @@
                                     <div class="border-left-error" *ngIf="otherAccountDetailModelBankName.errors && otherAccountDetailModelBankName.errors.error">{{otherAccountDetailModelBankName.errors.error.errorMsg}}</div>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="otherAccountDetailModel.accountNo" class="form-control" type="number" #otherAccountDetailModelAccountNo="ngModel"
-                                        name="otherAccountDetailModelAccountNo_{{i}}" novalidate required [ngClass]="otherAccountDetailModel.accountNo ? 'valid': 'invalid'"
+                                    <input [(ngModel)]="otherAccountDetailModel.accountNo" class="form-control" type="text" #otherAccountDetailModelAccountNo="ngModel"
+                                        name="otherAccountDetailModelAccountNo_{{i}}" novalidate required [ngClass]="otherAccountDetailModel.accountNo ? 'valid': 'invalid'" NumberValidator
                                     />
+                                    <div class="border-left-error" *ngIf="otherAccountDetailModelAccountNo.errors && otherAccountDetailModelAccountNo.errors.numberError">{{otherAccountDetailModelAccountNo.errors.numberError.errorMsg}}</div>
                                 </td>
 
                                 <td>
@@ -275,8 +281,9 @@
                             I further declare that I am making this in my capacity as
                         </label>
                         <div class="col-sm-2">
-                            <input [(ngModel)]="verificationModel.capacity" class="form-control" type="number" placeholder="Capacity" #verificationModelCapacity="ngModel"
-                                name="verificationModelCapacity" />
+                            <input [(ngModel)]="verificationModel.capacity" class="form-control" type="text" placeholder="Capacity" #verificationModelCapacity="ngModel"
+                                name="verificationModelCapacity" NumberValidator/>
+                                <div class="border-left-error" *ngIf="verificationModelCapacity.errors && verificationModelCapacity.errors.numberError">{{verificationModelCapacity.errors.numberError.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-7" style="text-align:left;">and I am also competent to make this return and verify it. I am holding permanent account number</label>
                         <div class="col-sm-2">
@@ -319,9 +326,10 @@
         <br/>
         <label class="control-label col-sm-2 text-left" style="text-align: left;">TRP identification number</label>
         <div class="col-sm-2">
-            <input [(ngModel)]="verificationModel.TRPIdentificationNo" class="form-control" type="number" #verificationModelTRPIdentificationNo="ngModel"
-                name="verificationModelTRPIdentificationNo" CountValidator [count]=6 />
+            <input [(ngModel)]="verificationModel.TRPIdentificationNo" class="form-control" type="text" #verificationModelTRPIdentificationNo="ngModel"
+                name="verificationModelTRPIdentificationNo" CountValidator [count]=6 NumberValidator/>
                 <div class="border-left-error" *ngIf="verificationModelTRPIdentificationNo.errors && verificationModelTRPIdentificationNo.errors.error">{{verificationModelTRPIdentificationNo.errors.error.errorMsg}}</div>     
+                <div class="border-left-error" *ngIf="verificationModelTRPIdentificationNo.errors && verificationModelTRPIdentificationNo.errors.numberError">{{verificationModelTRPIdentificationNo.errors.numberError.errorMsg}}</div>
         </div>
         <label class="control-label col-sm-1 text-left" style="text-align: left;">TRP name</label>
         <div class="col-sm-2">
@@ -334,8 +342,9 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-5 text-left" style="text-align: left;">If TRP is entitled for any reimbursment from the Government, amount thereof</label>
         <div class="col-sm-2">
-            <input [(ngModel)]="verificationModel.TRPReimbursementAmount" class="form-control" type="number" #verificationModelTRPReimbursementAmount="ngModel"
-                name="verificationModelTRPReimbursementAmount" />              
+            <input [(ngModel)]="verificationModel.TRPReimbursementAmount" class="form-control" type="text" #verificationModelTRPReimbursementAmount="ngModel"
+                name="verificationModelTRPReimbursementAmount" NumberValidator/>              
+                <div class="border-left-error" *ngIf="verificationModelTRPReimbursementAmount.errors && verificationModelTRPReimbursementAmount.errors.numberError">{{verificationModelTRPReimbursementAmount.errors.numberError.errorMsg}}</div>
         </div>
     </div>
 </form>

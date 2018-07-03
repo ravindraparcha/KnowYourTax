@@ -32,8 +32,9 @@
                 </div>
             </td>
             <td>
-                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.challanSerialNumber" class="form-control" type="number" #advanceTaxSelfAssessmentTaxModelChallanSerialNumber="ngModel"
-                    name="advanceTaxSelfAssessmentTaxModelChallanSerialNumber_{{i}}" />
+                <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.challanSerialNumber" class="form-control" type="text" #advanceTaxSelfAssessmentTaxModelChallanSerialNumber="ngModel"
+                    name="advanceTaxSelfAssessmentTaxModelChallanSerialNumber_{{i}}" NumberValidator />
+                    <div class="border-left-error" *ngIf="advanceTaxSelfAssessmentTaxModelChallanSerialNumber.errors && advanceTaxSelfAssessmentTaxModelChallanSerialNumber.errors.numberError">{{advanceTaxSelfAssessmentTaxModelChallanSerialNumber.errors.numberError.errorMsg}}</div>
             </td>
             <td>
                 <select id="selectedTaxType" #selectedTaxType="ngModel" required [ngClass]="advanceTaxSelfAssessmentTaxModel.selectedTaxType!=null? 'valid': 'invalid'"
@@ -47,9 +48,9 @@
 
             <td>
                 <input [(ngModel)]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0' ? 0 : advanceTaxSelfAssessmentTaxModel.taxPaid"
-                    class="form-control" type="number" #advanceTaxSelfAssessmentTaxModelTaxPaid="ngModel" name="advanceTaxSelfAssessmentTaxModelTaxPaid_{{i}}"
-                    (change)="calculateAdvanceTaxSelfAssessmentTax()" [disabled]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0'"
-                />
+                    class="form-control" type="text" #advanceTaxSelfAssessmentTaxModelTaxPaid="ngModel" name="advanceTaxSelfAssessmentTaxModelTaxPaid_{{i}}"
+                    (change)="calculateAdvanceTaxSelfAssessmentTax()" [disabled]="advanceTaxSelfAssessmentTaxModel.selectedTaxType=='0'" NumberValidator/>
+                    <div class="border-left-error" *ngIf="advanceTaxSelfAssessmentTaxModelTaxPaid.errors && advanceTaxSelfAssessmentTaxModelTaxPaid.errors.numberError">{{advanceTaxSelfAssessmentTaxModelTaxPaid.errors.numberError.errorMsg}}</div>
             </td>
             <td>
                 <span class="input-group-btn">

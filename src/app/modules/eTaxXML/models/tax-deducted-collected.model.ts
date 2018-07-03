@@ -69,11 +69,11 @@ export class TaxDeductedUnder26QCModel{
 export class AdvanceTaxSelfAssessmentTaxModel {
     public BSRCode: string;
     public challanSerialNumber: string;
-    public taxPaid: number;
+    public taxPaid: string="0";
     public depositDate : string;
     public depositDateXml : string="";
     public selectedTaxType : string=null;
-    constructor(bsrCode: string, challan: string, taxPaid: number,depositDate : string) {
+    constructor(bsrCode: string, challan: string, taxPaid: string,depositDate : string) {
         this.BSRCode = bsrCode;
         this.challanSerialNumber = challan;
         this.taxPaid = taxPaid;

@@ -23,11 +23,11 @@ export class CompareTwoNumbersValidatorDirective implements Validator {
        
         if (compareCtrl && compareCtrl.errors != null) {
             delete compareCtrl.errors["_compareNumber"];
-            compareCtrl.setErrors(null);
+            control.setErrors({"_compareNumber" :null});
         }
         if (control.errors != null) {
             delete control.errors["_compareNumber"];
-            control.setErrors(null);
+            control.setErrors({"_compareNumber" :null});
         }
 
         if(compareCtrl!=null) {

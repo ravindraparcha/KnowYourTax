@@ -29,7 +29,7 @@ export class SelfAssessmentAdvanceTaxComponent  {
         dateFormat: this._configuration.dateTimeFormat
     };
     addNewAdvanceTaxSelfAssessmentTax() {
-        this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", 0, "");
+        this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", "0", "");
         this.advanceTaxSelfAssessmentTaxModels.push(this.newAdvanceTaxSelfAssessmentTaxModel);
         //this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = this.advanceTaxSelfAssessmentTaxModels;
         this.advanceTaxSelfAssessmentTaxModelOutput.emit(this.advanceTaxSelfAssessmentTaxModels);
@@ -40,15 +40,15 @@ export class SelfAssessmentAdvanceTaxComponent  {
         this.advanceTaxSelfAssessmentTaxModelOutput.emit(this.advanceTaxSelfAssessmentTaxModels);
     }
     public calculateAdvanceTaxSelfAssessmentTax() {
-        let advanceTaxSum = 0;
-        let selfAssessmentSum=0;
+        let advanceTaxSum : number = 0;
+        let selfAssessmentSum : number =0;
         for (let advanceTaxSelfAssessmentTaxModel of this.advanceTaxSelfAssessmentTaxModels) {
             if(advanceTaxSelfAssessmentTaxModel.depositDate==null || advanceTaxSelfAssessmentTaxModel.depositDate=='')
                 continue;
             if(advanceTaxSelfAssessmentTaxModel.selectedTaxType=="SelfAssessmentTax")
-                selfAssessmentSum += advanceTaxSelfAssessmentTaxModel.taxPaid;
+                selfAssessmentSum += parseInt(advanceTaxSelfAssessmentTaxModel.taxPaid);
             else if(advanceTaxSelfAssessmentTaxModel.selectedTaxType=="AdvanceTax")
-                advanceTaxSum+= advanceTaxSelfAssessmentTaxModel.taxPaid;
+                advanceTaxSum+= parseInt(advanceTaxSelfAssessmentTaxModel.taxPaid);
         }
         this._sharedTaxService.changeAdvanceTaxAmount(advanceTaxSum);
         this._sharedTaxService.changeSelfAssessmentAmount(selfAssessmentSum);
