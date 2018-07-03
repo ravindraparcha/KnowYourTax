@@ -6,7 +6,6 @@ import { ConfigurationService } from '../../../shared/services/ConfigurationServ
 @Component({
     selector:'donation-80G',
     templateUrl:'./donation.80G.component.html'
-
 })
 
 export class Donation80GComponent implements OnInit {
