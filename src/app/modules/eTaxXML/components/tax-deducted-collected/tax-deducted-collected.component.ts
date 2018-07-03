@@ -102,8 +102,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.calculateTaxDeductedAmount();
     }
    
-    private calculateTaxDeductedAmount() {
-        
+    private calculateTaxDeductedAmount() {        
         let tdsSum = 0;
         for (let taxDeductedSalaryModel of this.taxCollectedDeductedModel.taxDeductedSalaryModels)
             tdsSum += taxDeductedSalaryModel.taxDeducted;
@@ -117,7 +116,6 @@ export class TaxDeductedCollectedComponent implements OnInit {
                 continue;
             tdsSum += taxDeductedUnder26QCModel.amountClaimedThisYear;
         }
-
         this._sharedTaxService.changeTDSAmount(tdsSum);
     }
     onSubmit() {
@@ -128,9 +126,8 @@ export class TaxDeductedCollectedComponent implements OnInit {
         console.log(this.taxCollectedModels);
     }
 
-    addNewTaxDeductedOtherThanSalary() {
-         
-        this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)
+    addNewTaxDeductedOtherThanSalary() {         
+        this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)        
         this.taxDeductedOtherThanSalaryModels.push(this.newTaxDeductedOtherThanSalaryModel);
         this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = this.taxDeductedOtherThanSalaryModels;        
     }

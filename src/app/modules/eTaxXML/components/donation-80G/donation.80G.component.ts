@@ -83,10 +83,5 @@ export class Donation80GComponent implements OnInit {
             this.isDonation80GComponentValid.emit(true);
         else 
             this.isDonation80GComponentValid.emit(false);         
-    }
-
-    public setEligibleAmount(donationElement,eligibleDonationElement,percentage:number) {
-         eligibleDonationElement.value = parseInt(donationElement.value) /percentage;
-    }
-    
+    }     
 }

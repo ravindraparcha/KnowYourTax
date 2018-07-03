@@ -29,8 +29,9 @@ export class CompareTwoNumbersValidatorDirective implements Validator {
             delete control.errors["_compareNumber"];
             control.setErrors({"_compareNumber" :null});
         }
-
+       
         if(compareCtrl!=null) {
+             
             if (this._flag === 'true') {
                 if (parseInt(control.value) > parseInt(compareCtrl.value)) {
                     return {
