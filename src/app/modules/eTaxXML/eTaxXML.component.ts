@@ -186,11 +186,11 @@ export class eTaxXMLComponent implements OnInit {
         //     this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
         //     return;
         // }
-        // this.validateTaxDeductedCollectedComponent();
-        // if (!this.isTaxDeductedCollectedFrmValid) {
-        //     this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
-        //     return;
-        // }
+        this.validateTaxDeductedCollectedComponent();
+        if (!this.isTaxDeductedCollectedFrmValid) {
+            this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
+            return;
+        }
         // this.validateTaxPaidVerificationComponent();
         // if (!this.isTaxPaidVerificationFrmValid) {
         //     this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);

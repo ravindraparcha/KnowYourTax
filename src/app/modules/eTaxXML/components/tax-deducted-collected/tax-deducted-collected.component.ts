@@ -3,7 +3,7 @@ import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEm
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
  
 import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
-
+import {Subscription} from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -28,9 +28,16 @@ export class TaxDeductedCollectedComponent implements OnInit {
     public taxCollectedModels = [];
     private newTaxCollectedModel;
 
+    private usrPanNo:string;
+    private spousePanNo:string;
+    private _subscription : Subscription;
+
     @Output() isTaxDeductedCollectedComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('taxDeductedCollectedFrm') taxDeductedCollectedFrm;
-    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService) { }
+    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService) { 
+        this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this.usrPanNo = item);
+        this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this.spousePanNo = item);
+    }
 
     
 
@@ -171,6 +178,8 @@ export class TaxDeductedCollectedComponent implements OnInit {
     }
     
     public validateTaxDeductedCollectedComponentForm() {       
+        console.log(this.usrPanNo);
+        console.log(this.spousePanNo);
         //this.taxDeductedCollectedFrm.valueChanges.subscribe(data =>console.log('Form changes', data));
         if (this.taxDeductedCollectedFrm.valid)  
             this.isTaxDeductedCollectedComponentValid.emit(true);
