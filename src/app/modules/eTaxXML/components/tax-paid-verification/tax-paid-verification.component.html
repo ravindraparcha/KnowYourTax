@@ -104,8 +104,10 @@
                             <tr *ngFor="let OtherExemptionModel of OtherExemptionModels; let i = index">
                                 <td>
                                     <select id="OtherExemptionModelSelectedIncomeNature" #OtherExemptionModelSelectedIncomeNature="ngModel" name="OtherExemptionModelSelectedIncomeNature_{{i}}"
-                                        class="form-control" [(ngModel)]="OtherExemptionModel.selectedIncomeNature" name="OtherExemptionModelSelectedIncomeNature_{{i}}"
-                                        required [ngClass]="OtherExemptionModel.selectedIncomeNature !=null ? 'valid': 'invalid'">
+                                        class="form-control" [(ngModel)]="OtherExemptionModel.selectedIncomeNature" name="OtherExemptionModelSelectedIncomeNature_{{i}}" 
+                                        required [ngClass]="OtherExemptionModel.selectedIncomeNature !=null ? 'valid': 'invalid'"  
+                                        UpdateNextField  nextField='OtherExemptionModelDescriptionIfAnyOtherSelected' setValue='NA' indexValue="{{i}}">
+                                        
                                         <option [ngValue]=null>Select</option>
                                         <option [ngValue]="nature.value" *ngFor="let nature of incomeNatureList">
                                             {{nature.text}}
@@ -113,7 +115,8 @@
                                 </td>
                                 <td>
                                     <input [(ngModel)]="OtherExemptionModel.descriptionIfAnyOtherSelected" required class="form-control" type="text" #OtherExemptionModelDescriptionIfAnyOtherSelected="ngModel"
-                                        name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" [ngClass]="OtherExemptionModel.descriptionIfAnyOtherSelected!=''? 'valid': 'invalid'" />
+                                        name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" [ngClass]="OtherExemptionModel.descriptionIfAnyOtherSelected!=''? 'valid': 'invalid'" 
+                                        />
                                 </td>
                                 <td>
                                     <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" required type="text" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"
