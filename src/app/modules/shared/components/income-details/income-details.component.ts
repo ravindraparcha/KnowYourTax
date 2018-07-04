@@ -4,7 +4,7 @@ import { ConfigurationService } from '../../services/ConfigurationService';
 import { DeductionsComponent } from '../deduction/deductions.components';
 import { IncomeTaxModel, TaxComputationModel } from '../../models/deduction.model';
 import { NgForm } from "@angular/forms";
-
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -14,9 +14,11 @@ declare var $: any;
 
 export class IncomeDetailsComponent implements OnInit {
 
+    @Input() isCalculator: string;
+
     public incomeDetailsModel: IncomeDetailsModel;
     incomeTaxModel: any;
-    constructor(public _configuration: ConfigurationService) { }
+    constructor(public _configuration: ConfigurationService,private _toastr: ToastrService) { }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
     //@Output() outputCalculateTax : EventEmitter<any> = new EventEmitter<any>();
@@ -34,7 +36,8 @@ export class IncomeDetailsComponent implements OnInit {
     //     return true;
     //   }
 
-    private initialValue: any;
+    //private initialValue: any;
+   
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -66,14 +69,14 @@ export class IncomeDetailsComponent implements OnInit {
     }
 
     calculateSalaryPensionSum() {
-        
+
         this.incomeDetailsModel.salaryPensionSum =
             (isNaN(parseInt(this.incomeDetailsModel.allowance)) ? 0 : parseInt(this.incomeDetailsModel.allowance)) -
             (isNaN(parseInt(this.incomeDetailsModel.deductionUS16)) ? 0 : parseInt(this.incomeDetailsModel.deductionUS16)) +
-                (isNaN(parseInt(this.incomeDetailsModel.perquisites)) ? 0 : parseInt(this.incomeDetailsModel.perquisites)) +
-                (isNaN(parseInt(this.incomeDetailsModel.profitLieuOfSalary)) ? 0 : parseInt(this.incomeDetailsModel.profitLieuOfSalary)) +
-                (isNaN(parseInt(this.incomeDetailsModel.salary)) ? 0 : parseInt(this.incomeDetailsModel.salary));
-                 this.incomeDetailsModel.salaryPensionSum = Math.ceil( this.incomeDetailsModel.salaryPensionSum);
+            (isNaN(parseInt(this.incomeDetailsModel.perquisites)) ? 0 : parseInt(this.incomeDetailsModel.perquisites)) +
+            (isNaN(parseInt(this.incomeDetailsModel.profitLieuOfSalary)) ? 0 : parseInt(this.incomeDetailsModel.profitLieuOfSalary)) +
+            (isNaN(parseInt(this.incomeDetailsModel.salary)) ? 0 : parseInt(this.incomeDetailsModel.salary));
+        this.incomeDetailsModel.salaryPensionSum = Math.ceil(this.incomeDetailsModel.salaryPensionSum);
         this.calculateGrossTotal();
     }
 
@@ -87,10 +90,10 @@ export class IncomeDetailsComponent implements OnInit {
 
     calculateIncomeChargeableUnderHouseProperty() {
         this.incomeDetailsModel.housePropertySum =
-            (isNaN(this.incomeDetailsModel.annualValue) ? 0 : this.incomeDetailsModel.annualValue)-
+            (isNaN(this.incomeDetailsModel.annualValue) ? 0 : this.incomeDetailsModel.annualValue) -
             (isNaN(this.incomeDetailsModel.annualValuePercentageAmount) ? 0 : this.incomeDetailsModel.annualValuePercentageAmount) -
             (isNaN(parseInt(this.incomeDetailsModel.interestOnBorrowedCapital)) ? 0 : parseInt(this.incomeDetailsModel.interestOnBorrowedCapital));
-            this.incomeDetailsModel.housePropertySum= Math.ceil(this.incomeDetailsModel.housePropertySum);
+        this.incomeDetailsModel.housePropertySum = Math.ceil(this.incomeDetailsModel.housePropertySum);
         this.calculateGrossTotal();
     }
     onChangeGrossTotalIncome() {
@@ -105,7 +108,10 @@ export class IncomeDetailsComponent implements OnInit {
 
         if (this.incomeDetailsModel.selectedHousePropertyType == 'S') {
             this.incomeDetailsModel.rent = '0';
-            this.incomeDetailsModel.taxPaidToLocalAuthority ='0';
+            this.incomeDetailsModel.taxPaidToLocalAuthority = '0';
+        }
+        else if (this.incomeDetailsModel.selectedHousePropertyType == 'L' && this.isCalculator=='false') {
+            this._toastr.warning('Make sure to fill 26QC details under tax details','Warning',this._configuration.CustomToastOptions);
         }
         else if (this.incomeDetailsModel.selectedHousePropertyType == null) {
             this.incomeDetailsModel.rent = '0';

@@ -210,7 +210,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="incomeDetails" class="tab-pane fade in active" style="padding: 0 5px 0 5px">
-                            <income-details [advanceTaxPaid]="advanceTaxPaidModels" (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
+                            <income-details [advanceTaxPaid]="advanceTaxPaidModels" isCalculator='false' (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
                             <tax-deducted-collected [taxDeducted]="taxDeducted" (isTaxDeductedCollectedComponentValid)="isTaxDeductedCollectedComponentValid($event)"></tax-deducted-collected>
