@@ -86,7 +86,7 @@ export class DeductionsComponent implements OnInit {
         this.deductionModel.advanceTax = 0;
 
         this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
-        this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);
+        this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);       
     }
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
@@ -223,7 +223,7 @@ export class DeductionsComponent implements OnInit {
         }
 
         //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
-        //referece:- https://cleartax.in/s/income-tax-rebate-us-87a
+        //reference:- https://cleartax.in/s/income-tax-rebate-us-87a
         if (totalTax <= slabData.rebateAmount && totalTax > 0)
             this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
         else
@@ -232,16 +232,7 @@ export class DeductionsComponent implements OnInit {
 
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
-
-
-        //Calculate interest rate 234 start
-        // if (this.taxComputationModel.balanceTaxAfterRelief < this._configuration.taxLiability) {
-        //     this.taxComputationModel.feeUnder234F = 0;
-        //     this.taxComputationModel.interest234A = 0;
-        //     this.taxComputationModel.interest234B = 0;
-        //     this.taxComputationModel.interest234C = 0;
-        //     //return;
-        // }
+ 
         this.taxComputationModel.feeUnder234F = 0;
         this.taxComputationModel.interest234A = 0;
         this.taxComputationModel.interest234B = 0;
@@ -390,7 +381,7 @@ export class DeductionsComponent implements OnInit {
         this.taxComputationModel.totalInterestPayable = this.taxComputationModel.interest234A + this.taxComputationModel.interest234B + this.taxComputationModel.interest234C + this.taxComputationModel.feeUnder234F;
         this.taxComputationModel.totalTaxFeeInterest = this.taxComputationModel.balanceTaxAfterRelief + this.taxComputationModel.totalInterestPayable;
         this._sharedTaxService.changeTotalTaxAmount(this.taxComputationModel.totalTaxFeeInterest);
-
+       
         //console.log(slabResults);
         this.taxComputationModel = this.taxComputationModel;
         return this.incomeTaxModel;

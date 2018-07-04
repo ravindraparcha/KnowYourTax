@@ -32,6 +32,7 @@ export class XmlGeneratorService {
             }
             else if (element.infoType === "80g")
                 this.add80GNode(element.data);
+
             else if (element.infoType === "taxCollectedDeducted")
                 this.addTaxDeductedCollected(element.data);
 
@@ -225,7 +226,7 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
         let incomeTaxModel = incomeDetail.incomeTaxModel;
         this.addUserDeductionNode(incomeTaxModel.userTaxModel);
-        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel);
+        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel,incomeTaxModel.taxComputationModel.totalTaxFeeInterest);
         this.addTaxComputationNode(incomeTaxModel.taxComputationModel);
     }
 
@@ -235,10 +236,11 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
     }
 
-    private addSysCalculatedDeductionNode(sysDeductions) {
+    private addSysCalculatedDeductionNode(sysDeductions,totalIncome : number) {
         this.xmlWriter.startElement("ITRForm:DeductUndChapVIA");
-        this.addDeductionNode(sysDeductions, false);
+        this.addDeductionNode(sysDeductions, false);        
         this.xmlWriter.endElement();
+        this.xmlWriter.writeElement('ITRForm:TotalIncome',totalIncome);
     }
 
     private addDeductionNode(deductions, isUsrNode: boolean) {
