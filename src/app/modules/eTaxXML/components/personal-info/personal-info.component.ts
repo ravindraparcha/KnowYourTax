@@ -3,16 +3,16 @@ import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import { FormatDateService } from '../../services/formatDateService';
-import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
+import { SharedTaxService } from '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
-import {NgForm} from "@angular/forms";
+import { NgForm } from "@angular/forms";
 
 @Component({
     selector: 'personal-info',
     templateUrl: './personal-info.component.html'
 })
-export class PersonalInfoComponent  implements OnInit {
+export class PersonalInfoComponent implements OnInit {
 
     @Input()
     set personalInfoData(personalInfoData: PersonalInfoModel) {
@@ -38,22 +38,25 @@ export class PersonalInfoComponent  implements OnInit {
     public isReceiptNumber: boolean = true;
     public isFilingDate: boolean = true;
     public isNoticeNumber: boolean = true;
-    public isNoticeDate: boolean = true;     
+    public isNoticeDate: boolean = true;
     public model: any;
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
-        disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
+        sunHighlight:true,        
+        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },     
+         
     };
     filedAgainstNoticeOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
+        sunHighlight:true,
         openSelectorTopOfInput: true,
-        disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
+        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },        
     };
 
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
-          
+
     }
 
     // when old value does not match with new value during expression evaluation for child component
