@@ -202,7 +202,7 @@ export class eTaxXMLComponent implements OnInit {
         //     return;
         // }
         this.validatePersonalInfoComponent();
-        debugger;
+       
         if (!this.isPersonalInfoFrmValid && this.isPersonalInfoFrmValid!=undefined) {
             this._toastr.error(this.getTabErrorMessage('Personal Information'), 'Error', this._configuration.CustomToastOptions);
             return;

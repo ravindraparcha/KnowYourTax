@@ -16,7 +16,7 @@ export class UpdateNextFieldDirective implements Validator {
     @Input() indexValue: number;
     constructor( @Attribute('nextField') private _nextField: string, @Attribute('percentage') private _percentage: number,@Attribute('setValue') private _setValue : string) { }
     public validate(control: AbstractControl) {
-        debugger;
+        
         let nextField = control.root.get(this._nextField + '_' + this.indexValue);
         if (control.value == undefined || control.value == null || control.value == '') {
             if (nextField != null)
