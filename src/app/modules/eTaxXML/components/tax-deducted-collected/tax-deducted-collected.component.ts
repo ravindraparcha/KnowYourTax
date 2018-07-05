@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter, KeyValueChanges, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
 
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
- 
-import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
+
+import { SharedTaxService } from '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ConfigurationService } from "../../../shared/services/ConfigurationService";
 
 declare var $: any;
@@ -24,37 +24,39 @@ export class TaxDeductedCollectedComponent implements OnInit {
 
     public taxDeductedUnder26QCModels = [];
     private newTaxDeductedUnder26QCModel;
-
+    private taxDeductedUnder26QCModelsDiffer: KeyValueDiffer<TaxDeductedUnder26QCModel, any>;
     public taxCollectionDeductionYearList = [];
     public taxDeductionTenantYearList = [];
-     
+
     public taxCollectedModels = [];
     private newTaxCollectedModel;
 
-    private usrPanNo:string;
-    private spousePanNo:string;
-    private _subscription : Subscription;
+    private usrPanNo: string;
+    private spousePanNo: string;
+    private _subscription: Subscription;
 
     @Output() isTaxDeductedCollectedComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('taxDeductedCollectedFrm') taxDeductedCollectedFrm;
-    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService,private _toastr:ToastrService, private _configuration : ConfigurationService) { 
+    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService, private _toastr: ToastrService,
+        private _configuration: ConfigurationService, private _differs: KeyValueDiffers) {
         this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this.usrPanNo = item);
         this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this.spousePanNo = item);
+        //this.taxDeductedUnder26QCModelsDiffer = this._differs.find(this.newTaxDeductedUnder26QCModel).create(null);
     }
 
     @Input()
     set taxDeducted(taxDeductedModels: TaxDeductedSalaryModel[]) {
-        this.taxDeductedSalaryModels=[];
+        this.taxDeductedSalaryModels = [];
         if (taxDeductedModels != undefined) {
             for (let i = 0; i < taxDeductedModels.length; i++)
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
-            this.taxCollectedDeductedModel.taxDeductedSalaryModels =this.taxDeductedSalaryModels;
+            this.taxCollectedDeductedModel.taxDeductedSalaryModels = this.taxDeductedSalaryModels;
         }
-        
+
     }
-     
+
     public getAdvanceTaxSelfAssessmentTaxModelOutput(output: AdvanceTaxSelfAssessmentTaxModel[]) {
-        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels  = output;
+        this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = output;
     }
 
     ngAfterViewInit() {
@@ -78,8 +80,19 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = [];
         this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = [];
         this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = [];
+        this.newTaxDeductedUnder26QCModel = {};
+        this.taxDeductedUnder26QCModelsDiffer = this._differs.find(this.newTaxDeductedUnder26QCModel).create();
 
-        
+    }
+    ngDoCheck(): void {
+        let isDeducted26QCchanged = this.taxDeductedUnder26QCModelsDiffer.diff(this.newTaxDeductedUnder26QCModel);
+        if (isDeducted26QCchanged) {
+            let panNumberList:string[]=[];
+            for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
+                panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
+            }
+            this._sharedTaxService.changeTenantPANNumberList(panNumberList);
+        }
     }
     private getTaxCollectionDeductionYearList() {
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
@@ -99,29 +112,29 @@ export class TaxDeductedCollectedComponent implements OnInit {
         return keyValuePair.reverse();
     }
 
-    addNewTaxDeductedSalary() {       
+    addNewTaxDeductedSalary() {
         this.newTaxDeductedSalaryModel = new TaxDeductedSalaryModel("", "", "", 0, 0);
         this.taxDeductedSalaryModels.push(this.newTaxDeductedSalaryModel);
         this.taxCollectedDeductedModel.taxDeductedSalaryModels = this.taxDeductedSalaryModels;
         this.calculateTaxDeductedAmount();
     }
     deleteTaxDeductedSalaryItem(index: number) {
-        
+
         this.deleteItemFromArray(this.taxDeductedSalaryModels, index);
         this.calculateTaxDeductedAmount();
     }
-   
-    private calculateTaxDeductedAmount() {        
+
+    private calculateTaxDeductedAmount() {
         let tdsSum = 0;
         for (let taxDeductedSalaryModel of this.taxCollectedDeductedModel.taxDeductedSalaryModels)
             tdsSum += taxDeductedSalaryModel.taxDeducted;
         for (let taxDeductedOtherThanSalaryModel of this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels) {
-            if(taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear==null)
+            if (taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear == null)
                 continue;
             tdsSum += taxDeductedOtherThanSalaryModel.amountClaimedThisYear;
         }
         for (let taxDeductedUnder26QCModel of this.taxCollectedDeductedModel.taxDeductedUnder26QCModels) {
-            if(taxDeductedUnder26QCModel.selectedTenantDeductionYear==null)
+            if (taxDeductedUnder26QCModel.selectedTenantDeductionYear == null)
                 continue;
             tdsSum += taxDeductedUnder26QCModel.amountClaimedThisYear;
         }
@@ -131,24 +144,24 @@ export class TaxDeductedCollectedComponent implements OnInit {
         console.log(this.taxDeductedSalaryModels);
         console.log(this.taxDeductedOtherThanSalaryModels);
         console.log(this.taxDeductedUnder26QCModels);
-        console.log(this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels );
+        console.log(this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels);
         console.log(this.taxCollectedModels);
     }
 
-    addNewTaxDeductedOtherThanSalary() {         
-        this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)        
+    addNewTaxDeductedOtherThanSalary() {
+        this.newTaxDeductedOtherThanSalaryModel = new TaxDeductedOtherThanSalaryModel("", "", 0, 0, 0)
         this.taxDeductedOtherThanSalaryModels.push(this.newTaxDeductedOtherThanSalaryModel);
-        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = this.taxDeductedOtherThanSalaryModels;        
+        this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels = this.taxDeductedOtherThanSalaryModels;
     }
     deleteTaxDeductedOtherThanSalaryItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedOtherThanSalaryModels, index);
-        this.calculateTaxDeductedAmount();        
+        this.calculateTaxDeductedAmount();
     }
-     
+
     addNewTaxDeductedUnder26QC() {
         this.newTaxDeductedUnder26QCModel = new TaxDeductedUnder26QCModel("", "", 0, 0, 0);
         this.taxDeductedUnder26QCModels.push(this.newTaxDeductedUnder26QCModel);
-        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;    
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;
         this.updatePANList();
     }
     deleteTaxDeductedUnder26QCItem(index: number) {
@@ -158,13 +171,13 @@ export class TaxDeductedCollectedComponent implements OnInit {
     }
 
     private updatePANList() {
-        let panNumberList:string[]=[]; 
-        for(let i=0;i<this.taxDeductedUnder26QCModels.length;i++) {
+        let panNumberList: string[] = [];
+        for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
             panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
         }
         this._sharedTaxService.changeTenantPANNumberList(panNumberList);
     }
-      
+
     addNewTaxCollection() {
         this.newTaxCollectedModel = new TaxCollectedModel("", "", 0, 0);
         this.taxCollectedModels.push(this.newTaxCollectedModel);
@@ -179,7 +192,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
     private calculateTaxCollection() {
         let sum = 0;
         for (let taxCollectedModel of this.taxCollectedDeductedModel.taxCollectedModels) {
-            if(taxCollectedModel.selectedTaxCollectionYear==0)
+            if (taxCollectedModel.selectedTaxCollectionYear == 0)
                 continue;
             sum += taxCollectedModel.amountClaimedThisYear;
         }
@@ -188,18 +201,22 @@ export class TaxDeductedCollectedComponent implements OnInit {
     deleteItemFromArray(itemArray: any[], index: number) {
         itemArray.splice(index, 1);
     }
-    
-    public validateTaxDeductedCollectedComponentForm() {                
-        for(let i=0;i < this.taxDeductedUnder26QCModels.length;i++) {
-            if(this.usrPanNo==this.taxDeductedUnder26QCModels[i].PAN || this.spousePanNo==this.taxDeductedUnder26QCModels[i].PAN) {
-                this._toastr.error('<b>Tax Details Tab-</b>Tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);                
+
+    public validateTaxDeductedCollectedComponentForm() {
+         let errorFound:boolean=false;
+        for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
+            if (this.usrPanNo == this.taxDeductedUnder26QCModels[i].PAN || this.spousePanNo == this.taxDeductedUnder26QCModels[i].PAN) {
+                this._toastr.error('<b>Tax Details Tab-</b>Tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);
                 this.isTaxDeductedCollectedComponentValid.emit(undefined);
-                return false; 
+                errorFound=true;
+                return false;
             }
-        }         
-        if (this.taxDeductedCollectedFrm.valid)  
+        }
+        if(errorFound)
+            return;
+        if (this.taxDeductedCollectedFrm.valid)
             this.isTaxDeductedCollectedComponentValid.emit(true);
-        else 
-            this.isTaxDeductedCollectedComponentValid.emit(false);         
+        else
+            this.isTaxDeductedCollectedComponentValid.emit(false);
     }
 }

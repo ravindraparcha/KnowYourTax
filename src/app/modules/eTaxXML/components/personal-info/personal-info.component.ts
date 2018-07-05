@@ -41,25 +41,25 @@ export class PersonalInfoComponent implements OnInit {
     public isNoticeNumber: boolean = true;
     public isNoticeDate: boolean = true;
     public model: any;
-    private _subscription : Subscription;
+    private _subscription: Subscription;
     private tenantPANNumberList: string[];
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
-        sunHighlight:true,        
-        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },     
-         
+        sunHighlight: true,
+        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
+
     };
     filedAgainstNoticeOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
-        sunHighlight:true,
+        sunHighlight: true,
         openSelectorTopOfInput: true,
-        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },        
+        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
     };
 
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
-            this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);
+        this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);
 
     }
 
@@ -185,8 +185,17 @@ export class PersonalInfoComponent implements OnInit {
     }
 
     public validatePersonalInfoComponentForm() {
-        //this.personalInfoForm.valueChanges.subscribe(data =>console.log('Form changes', data));
-        console.log(this.tenantPANNumberList);
+        let errorFound:boolean=false;
+        this.tenantPANNumberList.forEach(pan => {
+            if (this.personalInfo.panNo == pan || this.personalInfo.spousePanNo == pan) {
+                this._toastr.error('<b>Personal Information Tab-</b>Any tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);
+                this.isPersonalInfoComponentValid.emit(undefined);
+                errorFound=true;
+                return false;
+            }
+        });        
+        if(errorFound)
+            return;
         if (this.form.valid)
             this.isPersonalInfoComponentValid.emit(true);
         else
@@ -197,7 +206,7 @@ export class PersonalInfoComponent implements OnInit {
         this._sharedTaxService.changeUserPANNumber(this.personalInfo.panNo);
     }
 
-    public onChangeSpousePanCardNumber(panNumber:string) {
+    public onChangeSpousePanCardNumber(panNumber: string) {
         this._sharedTaxService.changeSpousePANNumber(this.personalInfo.spousePanNo);
     }
 
