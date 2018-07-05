@@ -3,8 +3,8 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/cor
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import {FormatDateService} from '../../services/formatDateService';
-import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
+import { FormatDateService } from '../../services/formatDateService';
+import { SharedTaxService } from '../../../shared/services/sharedTaxService';
 import { Subscription } from 'rxjs/Rx';
 declare var $: any;
 @Component({
@@ -16,28 +16,32 @@ export class TaxPaidVerificationComponent implements OnInit {
     public taxPaidModel: TaxPaidModel;
     public verificationModel: VerificationModel;
 
-    public OtherExemptionModels = [];
+    public OtherExemptionModels ;
     public newOtherExemptionModel;
 
-    public otherAccountDetailModels = [];
+    public otherAccountDetailModels ;
     public newOtherAccountDetailModel;
 
     public accountDetailModel;
-    public model:any;
-    public incomeNatureList = [];
-    private _subscription : Subscription;
-    private totalTaxInterest : number=0;
+    public model: any;
+    public incomeNatureList ;
+    private _subscription: Subscription;
+    private totalTaxInterest: number;
 
     @Output() isTaxPaidVerificationComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('taxPaidVerificationFrm') taxPaidVerificationFrm;
 
-    myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat
-    };
+    public myOptions: INgxMyDpOptions ; 
+    constructor(private _configuration: ConfigurationService, private _formatDateService: FormatDateService, private _sharedTaxService: SharedTaxService) {
+        this.myOptions = {
+            dateFormat: this._configuration.dateTimeFormat
+        };
+        this.OtherExemptionModels = [];
+        this.otherAccountDetailModels = [];
+        this.incomeNatureList = [];
+        this.totalTaxInterest = 0;
+    }
 
-    
-    
-    constructor(private _configuration: ConfigurationService, private _formatDateService: FormatDateService, private _sharedTaxService : SharedTaxService) { }
     ngOnInit() {
 
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -49,28 +53,28 @@ export class TaxPaidVerificationComponent implements OnInit {
         });
 
         this.taxPaidModel = new TaxPaidModel();
-        this.verificationModel = new VerificationModel("","","",0,"",null,"","",0);
+        this.verificationModel = new VerificationModel("", "", "", 0, "", null, "", "", 0);
         this.incomeNatureList = this._configuration.incomeNatureList;
         this.accountDetailModel = new AccountDetailModel("", "", "");
         this.taxPaidModel.accountDetail = this.accountDetailModel;
         this.taxPaidModel.otherExemptionModels = [];
         this.taxPaidModel.otherAccountDetails = [];
-        this.taxPaidModel.verificationModel=this.verificationModel;
- 
-        this._subscription = this._sharedTaxService.getTDSAmount().subscribe(item => this.taxPaidModel.totalTDSClaimed=item);
-        this._subscription=this._sharedTaxService.getTCSAmount().subscribe(item=>this.taxPaidModel.totalTCSClaimed=item);
-        this._subscription = this._sharedTaxService.getSelfAssessmentAmount().subscribe(item => this.taxPaidModel.totalSelfAssessmentTaxPaid=item);
-        this._subscription = this._sharedTaxService.getAdvanceTaxAmount().subscribe(item => this.taxPaidModel.totalAdvanceTaxPaid=item);
-        this._subscription = this._sharedTaxService.getTotalTaxAmount().subscribe(item=>this.totalTaxInterest=item);
-        this._subscription = this._sharedTaxService.getTotalTDSTCS().subscribe(item=>this.taxPaidModel.totalTaxesPaid=item);
-        this._subscription=this._sharedTaxService.getAmountPayable().subscribe(item=>this.taxPaidModel.amountPayable=item);
-        this._subscription=this._sharedTaxService.getRefund().subscribe(item=>this.taxPaidModel.refund=item);
+        this.taxPaidModel.verificationModel = this.verificationModel;
+
+        this._subscription = this._sharedTaxService.getTDSAmount().subscribe(item => this.taxPaidModel.totalTDSClaimed = item);
+        this._subscription = this._sharedTaxService.getTCSAmount().subscribe(item => this.taxPaidModel.totalTCSClaimed = item);
+        this._subscription = this._sharedTaxService.getSelfAssessmentAmount().subscribe(item => this.taxPaidModel.totalSelfAssessmentTaxPaid = item);
+        this._subscription = this._sharedTaxService.getAdvanceTaxAmount().subscribe(item => this.taxPaidModel.totalAdvanceTaxPaid = item);
+        this._subscription = this._sharedTaxService.getTotalTaxAmount().subscribe(item => this.totalTaxInterest = item);
+        this._subscription = this._sharedTaxService.getTotalTDSTCS().subscribe(item => this.taxPaidModel.totalTaxesPaid = item);
+        this._subscription = this._sharedTaxService.getAmountPayable().subscribe(item => this.taxPaidModel.amountPayable = item);
+        this._subscription = this._sharedTaxService.getRefund().subscribe(item => this.taxPaidModel.refund = item);
     }
     addNewOtherExemption() {
- 
+
         this.newOtherExemptionModel = new OtherExemptionModel("", 0);
         this.OtherExemptionModels.push(this.newOtherExemptionModel);
-        this.taxPaidModel.otherExemptionModels=this.OtherExemptionModels;
+        this.taxPaidModel.otherExemptionModels = this.OtherExemptionModels;
     }
     deleteOtherExemptionItem(index: number) {
         this.OtherExemptionModels.splice(index, 1);
@@ -79,20 +83,20 @@ export class TaxPaidVerificationComponent implements OnInit {
     addNewOtherAccountDetailModel() {
         this.newOtherAccountDetailModel = new AccountDetailModel("", "", "");
         this.otherAccountDetailModels.push(this.newOtherAccountDetailModel);
-        this.taxPaidModel.otherAccountDetails=this.otherAccountDetailModels;
+        this.taxPaidModel.otherAccountDetails = this.otherAccountDetailModels;
     }
     deleteOtherAccountDetailModelItem(index: number) {
         this.otherAccountDetailModels.splice(index, 1);
     }
 
-    onVerficationDateChanged(event:IMyDateModel){
+    onVerficationDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.verificationModel.verficationDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.verificationModel.verificationDateXml =this._formatDateService.formatDate(event.date.day,event.date.month,event.date.year,"yyyy-mm-dd","-");
+            this.verificationModel.verificationDateXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
             this.verificationModel.verficationDate = "";
-            this.verificationModel.verificationDateXml ="";
+            this.verificationModel.verificationDateXml = "";
         }
     }
 
@@ -102,11 +106,11 @@ export class TaxPaidVerificationComponent implements OnInit {
         console.log(this.otherAccountDetailModels);
 
     }
-    
-    public validateTaxPaidVerificationComponentForm() {         
-        if (this.taxPaidVerificationFrm.valid)  
+
+    public validateTaxPaidVerificationComponentForm() {
+        if (this.taxPaidVerificationFrm.valid)
             this.isTaxPaidVerificationComponentValid.emit(true);
-        else 
-            this.isTaxPaidVerificationComponentValid.emit(false);         
+        else
+            this.isTaxPaidVerificationComponentValid.emit(false);
     }
 }

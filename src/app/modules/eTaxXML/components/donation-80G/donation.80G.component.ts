@@ -8,34 +8,39 @@ import { ConfigurationService } from '../../../shared/services/ConfigurationServ
     templateUrl:'./donation.80G.component.html'
 })
 
-export class Donation80GComponent implements OnInit {
+export class Donation80GComponent  {
 
     public donation80G : Donation80G;
 
-    public donation100DeductionWithoutQualifyingLimitModels=[];
+    public donation100DeductionWithoutQualifyingLimitModels;
     public newDonation100DeductionWithoutQualifyingLimitModel;
 
-    public donation50DeductionWithoutQualifyingLimitModels=[];
+    public donation50DeductionWithoutQualifyingLimitModels;
     public newDonation50DeductionWithoutQualifyingLimitModel;
 
-    public donation100DeductionWithQualifyingLimitModels=[];
+    public donation100DeductionWithQualifyingLimitModels;
     public newDonation100DeductionWithQualifyingLimitModel;
 
-    public donation50DeductionWithQualifyingLimitModels=[];
+    public donation50DeductionWithQualifyingLimitModels;
     public newDonation50DeductionWithQualifyingLimitModel;
 
     @Output() isDonation80GComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('donation80GForm') donation80GForm;
     
-    constructor(public configuration : ConfigurationService){}
-     
-    ngOnInit() {
+    constructor(public configuration : ConfigurationService) {
+        this.donation100DeductionWithoutQualifyingLimitModels=[];
+        this.donation50DeductionWithoutQualifyingLimitModels=[];
+        this.donation100DeductionWithQualifyingLimitModels=[];
+        this.donation50DeductionWithQualifyingLimitModels=[];
+
         this.donation80G = new Donation80G();
         this.donation80G.donation100DeductionWithoutQualifyingLimit=[];
         this.donation80G.donation50DeductionWithoutQualifyingLimit= [];
         this.donation80G.donation100DeductionWithQualifyingLimit = [];
         this.donation80G.donation50DeductionWithQualifyingLimit = [];
     }
+     
+     
 
     addNewDonation100DeductionWithoutQualifyingLimit() {
         this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);

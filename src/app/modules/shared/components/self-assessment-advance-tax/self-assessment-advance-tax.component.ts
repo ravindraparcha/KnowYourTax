@@ -14,7 +14,7 @@ import { ConfigurationService } from '../../services/ConfigurationService';
 
 export class SelfAssessmentAdvanceTaxComponent  {
 
-    public advanceTaxSelfAssessmentTaxModels = [];
+    public advanceTaxSelfAssessmentTaxModels ;
     private newAdvanceTaxSelfAssessmentTaxModel;
 
     public taxTypeList = [];
@@ -23,6 +23,7 @@ export class SelfAssessmentAdvanceTaxComponent  {
     
     constructor(private _configuration: ConfigurationService,private _sharedTaxService: SharedTaxService,private _sharedXMLService: FormatDateService) {
         this.taxTypeList=[{'value':'SelfAssessmentTax', 'text':'Self Assessment Tax'},{'value':'AdvanceTax','text':'Advance Tax'}];        
+        this.advanceTaxSelfAssessmentTaxModels = [];
     }
 
     myOptions: INgxMyDpOptions = {

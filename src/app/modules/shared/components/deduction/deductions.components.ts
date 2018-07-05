@@ -21,7 +21,7 @@ export class DeductionsComponent implements OnInit {
     public deductionList = [];
     public sectionForm;
 
-    public calculationResult = {};
+    public calculationResult;
     public taxComputationModel: TaxComputationModel;
     public incomeTaxModel: IncomeTaxModel;
     public deductionModel: DeductionModel;
@@ -29,8 +29,8 @@ export class DeductionsComponent implements OnInit {
     public selfAssessmentAdvanceTax: any[];
     private _subscription: Subscription;
     private _returnFiledSection: number;
-    private selfAssessmentTaxPaid: number = 0;
-    private advanceTaxForm26AS: number = 0;
+    private selfAssessmentTaxPaid: number ;
+    private advanceTaxForm26AS: number ;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
@@ -49,15 +49,20 @@ export class DeductionsComponent implements OnInit {
 
     }
 
-    myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat,
-        //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
-    };
+    public myOptions: INgxMyDpOptions;
 
     constructor(private _configuration: ConfigurationService, private _fb: FormBuilder,
         private toastr: ToastsManager, vcr: ViewContainerRef,
         private _slimLoader: slimLoaderBarService, private _sharedTaxService: SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);
+
+        this.myOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
+        };
+        this.selfAssessmentTaxPaid = 0;
+        this.advanceTaxForm26AS = 0;
+        this.calculationResult = {};
     }
 
     ngOnInit() {
@@ -86,13 +91,13 @@ export class DeductionsComponent implements OnInit {
         this.deductionModel.advanceTax = 0;
 
         this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
-        this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);       
+        this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);
     }
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
             // list all your form controls here, which belongs to your form array
             deductionText: [text],
-            deductionValue: [value,Validators],
+            deductionValue: [value, Validators],
             deductionSection: [section],
             parent: [parent]
         });
@@ -232,7 +237,7 @@ export class DeductionsComponent implements OnInit {
 
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
- 
+
         this.taxComputationModel.feeUnder234F = 0;
         this.taxComputationModel.interest234A = 0;
         this.taxComputationModel.interest234B = 0;
@@ -381,7 +386,7 @@ export class DeductionsComponent implements OnInit {
         this.taxComputationModel.totalInterestPayable = this.taxComputationModel.interest234A + this.taxComputationModel.interest234B + this.taxComputationModel.interest234C + this.taxComputationModel.feeUnder234F;
         this.taxComputationModel.totalTaxFeeInterest = this.taxComputationModel.balanceTaxAfterRelief + this.taxComputationModel.totalInterestPayable;
         this._sharedTaxService.changeTotalTaxAmount(this.taxComputationModel.totalTaxFeeInterest);
-       
+
         //console.log(slabResults);
         this.taxComputationModel = this.taxComputationModel;
         return this.incomeTaxModel;
@@ -396,7 +401,7 @@ export class DeductionsComponent implements OnInit {
         let month: number, year: number, date: number;
         this.selfAssessmentTaxPaid = 0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
-            if(selfAssmntAdvnceTx.depositDate==null || selfAssmntAdvnceTx.depositDate=="") {
+            if (selfAssmntAdvnceTx.depositDate == null || selfAssmntAdvnceTx.depositDate == "") {
                 continue;
             }
             date = selfAssmntAdvnceTx.depositDate.formatted.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1));

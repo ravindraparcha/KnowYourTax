@@ -36,29 +36,38 @@ export class PersonalInfoComponent implements OnInit {
     //@ViewChild('personalInfoFrm') personalInfoForm;   
     @ViewChild('personalInfoFrm') form: NgForm;
 
-    public isReceiptNumber: boolean = true;
-    public isFilingDate: boolean = true;
-    public isNoticeNumber: boolean = true;
-    public isNoticeDate: boolean = true;
+    public isReceiptNumber: boolean;
+    public isFilingDate: boolean;
+    public isNoticeNumber: boolean;
+    public isNoticeDate: boolean;
     public model: any;
     private _subscription: Subscription;
     private tenantPANNumberList: string[];
-    myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat,
-        sunHighlight: true,
-        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
-
-    };
-    filedAgainstNoticeOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat,
-        sunHighlight: true,
-        openSelectorTopOfInput: true,
-        disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
-    };
+    public myOptions: INgxMyDpOptions;
+    public filedAgainstNoticeOptions: INgxMyDpOptions;
 
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
+
+        this.isReceiptNumber = true;
+        this.isFilingDate = true;
+        this.isNoticeNumber = true;
+        this.isNoticeDate = true;
+
+        this.myOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            sunHighlight: true,
+            disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
+
+        };
+        this.filedAgainstNoticeOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            sunHighlight: true,
+            openSelectorTopOfInput: true,
+            disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
+        };
+
         this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);
 
     }
@@ -185,16 +194,16 @@ export class PersonalInfoComponent implements OnInit {
     }
 
     public validatePersonalInfoComponentForm() {
-        let errorFound:boolean=false;
+        let errorFound: boolean = false;
         this.tenantPANNumberList.forEach(pan => {
             if (this.personalInfo.panNo == pan || this.personalInfo.spousePanNo == pan) {
                 this._toastr.error('<b>Personal Information Tab-</b>Any tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);
                 this.isPersonalInfoComponentValid.emit(undefined);
-                errorFound=true;
+                errorFound = true;
                 return false;
             }
-        });        
-        if(errorFound)
+        });
+        if (errorFound)
             return;
         if (this.form.valid)
             this.isPersonalInfoComponentValid.emit(true);

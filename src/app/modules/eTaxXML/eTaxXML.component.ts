@@ -37,29 +37,40 @@ export class eTaxXMLComponent implements OnInit {
     public personalInfoData = new PersonalInfoModel();
     public taxDeducted;
     private parseJson;
-    private xmlDataArray = [];
+    private xmlDataArray ;
     public advanceTaxPaidModels;
     public incomeData: IncomeData;
     public incomeTaxModel: any;
 
-    public totalTDSClaimed: number = 0;
-    public totalTCSClaimed: number = 0;
-    public totalSelfAssessmentTaxPaid: number = 0;
-    public totalAdvanceTaxPaid: number = 0;
-    public totalTaxInterest: number = 0;
-    public totalTaxesPaid: number = 0;
-    public amountPayable: number = 0;
-    public refund: number = 0;
+    public totalTDSClaimed: number;
+    public totalTCSClaimed: number ;
+    public totalSelfAssessmentTaxPaid: number;
+    public totalAdvanceTaxPaid: number ;
+    public totalTaxInterest: number ;
+    public totalTaxesPaid: number ;
+    public amountPayable: number ;
+    public refund: number;
 
     public accountDetailModel;
     public model: any;
-    public incomeNatureList = [];
+    public incomeNatureList ;
     private _subscription: Subscription;
 
    
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService, private _sharedTaxService: SharedTaxService
-    ) { }
+    ) {
+        this.xmlDataArray = [];        
+        this.totalTDSClaimed = 0;
+        this.totalTCSClaimed = 0;
+        this.totalSelfAssessmentTaxPaid = 0;
+        this.totalAdvanceTaxPaid = 0;
+        this.totalTaxInterest = 0;
+        this.totalTaxesPaid = 0;
+        this.amountPayable = 0;
+        this.refund = 0;
+        this.incomeNatureList = [];
+     }
 
     canDeactivate() {
         return true;
