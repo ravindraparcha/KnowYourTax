@@ -354,4 +354,6 @@ padding-right: 17px;
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {     
     border-top: 2px solid #65bcea;
 }
- 
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color:#fafdff;
+}

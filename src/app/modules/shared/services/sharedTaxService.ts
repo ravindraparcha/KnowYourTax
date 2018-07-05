@@ -41,10 +41,10 @@ export class SharedTaxService {
     public getSpousePANNumber() {
         return this.spousePANNumber;
     }
-     public changePANNumberList(pans:string[]) {
+     public changeTenantPANNumberList(pans:string[]) {
         this.tenantPANNumberList.emit(pans);
     }
-    public getPANNumberList() {
+    public getTenantPANNumberList() {
         return this.tenantPANNumberList;
     }
 

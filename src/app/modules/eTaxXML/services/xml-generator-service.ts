@@ -49,7 +49,7 @@ export class XmlGeneratorService {
             let currentDate = new Date();
             panNo = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
         }
-        saveAs(blob, 'ITR1_' + panNo + ".xml");
+        //saveAs(blob, 'ITR1_' + panNo + ".xml");
     }
     private addPredefinedXmlNodes() {
         this.xmlWriterRequire = require('xml-writer');

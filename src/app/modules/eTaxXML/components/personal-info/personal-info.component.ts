@@ -7,6 +7,7 @@ import { SharedTaxService } from '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
 import { NgForm } from "@angular/forms";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: 'personal-info',
@@ -40,6 +41,8 @@ export class PersonalInfoComponent implements OnInit {
     public isNoticeNumber: boolean = true;
     public isNoticeDate: boolean = true;
     public model: any;
+    private _subscription : Subscription;
+    private tenantPANNumberList: string[];
     myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat,
         sunHighlight:true,        
@@ -56,6 +59,7 @@ export class PersonalInfoComponent implements OnInit {
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
+            this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);
 
     }
 
@@ -182,10 +186,19 @@ export class PersonalInfoComponent implements OnInit {
 
     public validatePersonalInfoComponentForm() {
         //this.personalInfoForm.valueChanges.subscribe(data =>console.log('Form changes', data));
+        console.log(this.tenantPANNumberList);
         if (this.form.valid)
             this.isPersonalInfoComponentValid.emit(true);
         else
             this.isPersonalInfoComponentValid.emit(false);
+    }
+
+    public onChangeUserPanCardNumber() {
+        this._sharedTaxService.changeUserPANNumber(this.personalInfo.panNo);
+    }
+
+    public onChangeSpousePanCardNumber(panNumber:string) {
+        this._sharedTaxService.changeSpousePANNumber(this.personalInfo.spousePanNo);
     }
 
 }

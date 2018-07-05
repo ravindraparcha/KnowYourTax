@@ -3,7 +3,10 @@ import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEm
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
  
 import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
+import { ToastrService } from 'ngx-toastr';
 import {Subscription} from 'rxjs';
+import { ConfigurationService } from "../../../shared/services/ConfigurationService";
+
 declare var $: any;
 
 @Component({
@@ -34,12 +37,10 @@ export class TaxDeductedCollectedComponent implements OnInit {
 
     @Output() isTaxDeductedCollectedComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('taxDeductedCollectedFrm') taxDeductedCollectedFrm;
-    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService) { 
+    constructor(private cd: ChangeDetectorRef, private _sharedTaxService: SharedTaxService,private _toastr:ToastrService, private _configuration : ConfigurationService) { 
         this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this.usrPanNo = item);
         this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this.spousePanNo = item);
     }
-
-    
 
     @Input()
     set taxDeducted(taxDeductedModels: TaxDeductedSalaryModel[]) {
@@ -51,6 +52,7 @@ export class TaxDeductedCollectedComponent implements OnInit {
         }
         
     }
+     
     public getAdvanceTaxSelfAssessmentTaxModelOutput(output: AdvanceTaxSelfAssessmentTaxModel[]) {
         this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels  = output;
     }
@@ -140,17 +142,27 @@ export class TaxDeductedCollectedComponent implements OnInit {
     }
     deleteTaxDeductedOtherThanSalaryItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedOtherThanSalaryModels, index);
-        this.calculateTaxDeductedAmount();
+        this.calculateTaxDeductedAmount();        
     }
      
     addNewTaxDeductedUnder26QC() {
         this.newTaxDeductedUnder26QCModel = new TaxDeductedUnder26QCModel("", "", 0, 0, 0);
         this.taxDeductedUnder26QCModels.push(this.newTaxDeductedUnder26QCModel);
-        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;         
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;    
+        this.updatePANList();
     }
     deleteTaxDeductedUnder26QCItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedUnder26QCModels, index);
         this.calculateTaxDeductedAmount();
+        this.updatePANList();
+    }
+
+    private updatePANList() {
+        let panNumberList:string[]=[]; 
+        for(let i=0;i<this.taxDeductedUnder26QCModels.length;i++) {
+            panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
+        }
+        this._sharedTaxService.changeTenantPANNumberList(panNumberList);
     }
       
     addNewTaxCollection() {
@@ -177,10 +189,14 @@ export class TaxDeductedCollectedComponent implements OnInit {
         itemArray.splice(index, 1);
     }
     
-    public validateTaxDeductedCollectedComponentForm() {       
-        console.log(this.usrPanNo);
-        console.log(this.spousePanNo);
-        //this.taxDeductedCollectedFrm.valueChanges.subscribe(data =>console.log('Form changes', data));
+    public validateTaxDeductedCollectedComponentForm() {                
+        for(let i=0;i < this.taxDeductedUnder26QCModels.length;i++) {
+            if(this.usrPanNo==this.taxDeductedUnder26QCModels[i].PAN || this.spousePanNo==this.taxDeductedUnder26QCModels[i].PAN) {
+                this._toastr.error('<b>Tax Details Tab-</b>Tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);                
+                this.isTaxDeductedCollectedComponentValid.emit(undefined);
+                return false; 
+            }
+        }         
         if (this.taxDeductedCollectedFrm.valid)  
             this.isTaxDeductedCollectedComponentValid.emit(true);
         else 
