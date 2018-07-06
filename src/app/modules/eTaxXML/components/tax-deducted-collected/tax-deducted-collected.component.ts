@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter, KeyValueChanges, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter, KeyValueChanges, KeyValueDiffer, KeyValueDiffers, OnDestroy } from "@angular/core";
 
 import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThanSalaryModel, TaxDeductedUnder26QCModel, AdvanceTaxSelfAssessmentTaxModel, TaxCollectedModel } from '../../models/tax-deducted-collected.model';
 
@@ -14,7 +14,7 @@ declare var $: any;
     templateUrl: './tax-deducted-collected.component.html'
 })
 
-export class TaxDeductedCollectedComponent implements OnInit {
+export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
     public taxCollectedDeductedModel: TaxCollectedDeductedModel;
     public taxDeductedSalaryModels;
     private newTaxDeductedSalaryModel;
@@ -55,6 +55,10 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this.usrPanNo = item);
         this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this.spousePanNo = item);
         //this.taxDeductedUnder26QCModelsDiffer = this._differs.find(this.newTaxDeductedUnder26QCModel).create(null);
+    }
+    ngOnDestroy() {        
+        this._subscription.unsubscribe();
+        this.isTaxDeductedCollectedComponentValid=null;
     }
 
     @Input()
