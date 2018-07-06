@@ -193,16 +193,16 @@ export class eTaxXMLComponent implements OnInit {
 
         //validate child component
         
-        this.validateIncomeDetailsComponent();
-        if (!this.isIncomeDetailsFrmValid && this.isIncomeDetailsFrmValid!=undefined) {
-            this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
-            return;
-        }
-        // this.validateTaxDeductedCollectedComponent();
-        // if (!this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid!=undefined) {
-        //     this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
+        // this.validateIncomeDetailsComponent();
+        // if (!this.isIncomeDetailsFrmValid && this.isIncomeDetailsFrmValid!=undefined) {
+        //     this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
         //     return;
         // }
+        this.validateTaxDeductedCollectedComponent();
+        if (!this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid!=undefined) {
+            this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
+            return;
+        }
         // this.validateTaxPaidVerificationComponent();
         // if (!this.isTaxPaidVerificationFrmValid && this.isTaxPaidVerificationFrmValid!=undefined) {
         //     this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
