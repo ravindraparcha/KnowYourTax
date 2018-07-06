@@ -113,10 +113,10 @@
                                             {{nature.text}}
                                     </select>
                                 </td>
-                                <td>
+                                <td>                                   
                                     <input [(ngModel)]="OtherExemptionModel.descriptionIfAnyOtherSelected" required class="form-control" type="text" #OtherExemptionModelDescriptionIfAnyOtherSelected="ngModel"
                                         name="OtherExemptionModelDescriptionIfAnyOtherSelected_{{i}}" [ngClass]="OtherExemptionModel.descriptionIfAnyOtherSelected!=''? 'valid': 'invalid'" 
-                                        />
+                                        [readonly]='OtherExemptionModel.selectedIncomeNature=="OTH"' />
                                 </td>
                                 <td>
                                     <input [(ngModel)]="OtherExemptionModel.amount" class="form-control" required type="text" #OtherExemptionModelAmount="ngModel" name="OtherExemptionModelAmount_{{i}}"

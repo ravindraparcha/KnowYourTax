@@ -17,14 +17,14 @@ export class TaxPaidVerificationComponent implements OnInit {
     public verificationModel: VerificationModel;
 
     public OtherExemptionModels ;
-    public newOtherExemptionModel;
+    private _newOtherExemptionModel;
 
     public otherAccountDetailModels ;
-    public newOtherAccountDetailModel;
+    private _newOtherAccountDetailModel;
 
     public accountDetailModel;
     public model: any;
-    public incomeNatureList ;
+    public incomeNatureList;
     private _subscription: Subscription;
     private totalTaxInterest: number;
 
@@ -72,8 +72,8 @@ export class TaxPaidVerificationComponent implements OnInit {
     }
     addNewOtherExemption() {
 
-        this.newOtherExemptionModel = new OtherExemptionModel("", 0);
-        this.OtherExemptionModels.push(this.newOtherExemptionModel);
+        this._newOtherExemptionModel = new OtherExemptionModel("", 0);
+        this.OtherExemptionModels.push(this._newOtherExemptionModel);
         this.taxPaidModel.otherExemptionModels = this.OtherExemptionModels;
     }
     deleteOtherExemptionItem(index: number) {
@@ -81,8 +81,8 @@ export class TaxPaidVerificationComponent implements OnInit {
     }
 
     addNewOtherAccountDetailModel() {
-        this.newOtherAccountDetailModel = new AccountDetailModel("", "", "");
-        this.otherAccountDetailModels.push(this.newOtherAccountDetailModel);
+        this._newOtherAccountDetailModel = new AccountDetailModel("", "", "");
+        this.otherAccountDetailModels.push(this._newOtherAccountDetailModel);
         this.taxPaidModel.otherAccountDetails = this.otherAccountDetailModels;
     }
     deleteOtherAccountDetailModelItem(index: number) {

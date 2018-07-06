@@ -29,8 +29,8 @@ export class DeductionsComponent implements OnInit {
     public selfAssessmentAdvanceTax: any[];
     private _subscription: Subscription;
     private _returnFiledSection: number;
-    private selfAssessmentTaxPaid: number ;
-    private advanceTaxForm26AS: number ;
+    private _selfAssessmentTaxPaid: number ;
+    private _advanceTaxForm26AS: number ;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
@@ -169,7 +169,7 @@ export class DeductionsComponent implements OnInit {
 
         this.createAdvanceTaxModelArray(this.selfAssessmentAdvanceTax);
 
-        this.deductionModel.advanceTax = this.advanceTaxForm26AS + this.selfAssessmentTaxPaid;
+        this.deductionModel.advanceTax = this._advanceTaxForm26AS + this._selfAssessmentTaxPaid;
 
         if (this.sectionForm == undefined)
             return new IncomeTaxModel();
@@ -399,7 +399,7 @@ export class DeductionsComponent implements OnInit {
         this.advanceTaxModels = this.advanceTaxModels.filter(x => x.isAdvanceTax != true);
         let advanceTaxModel;
         let month: number, year: number, date: number;
-        this.selfAssessmentTaxPaid = 0;
+        this._selfAssessmentTaxPaid = 0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
             if (selfAssmntAdvnceTx.depositDate == null || selfAssmntAdvnceTx.depositDate == "") {
                 continue;
@@ -407,7 +407,7 @@ export class DeductionsComponent implements OnInit {
             date = selfAssmntAdvnceTx.depositDate.formatted.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1));
             month = selfAssmntAdvnceTx.depositDate.formatted.substring(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2));
             year = selfAssmntAdvnceTx.depositDate.formatted.substr(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2) + 1);
-            this.selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
+            this._selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
             //decrease month by 1 
             month -= 1;
             let dateObj = new Date(year, month, date);
@@ -537,8 +537,7 @@ export class DeductionsComponent implements OnInit {
                             balanceAmount = 0;
                     }
                     if (usrSection.parent == parentSectionName) {
-                        if (usrSection.enteredAmount > balanceAmount) {
-                            //usrSection.enteredAmount = balanceAmount;
+                        if (usrSection.enteredAmount > balanceAmount) {                            
                             usrSection.limit = balanceAmount;
                             balanceAmount = 0;
                         }
@@ -549,8 +548,7 @@ export class DeductionsComponent implements OnInit {
                         }
                     }
                     else if (usrSection.name == parentSectionName) {
-                        if (usrSection.enteredAmount > msData.limit) {
-                            //usrSection.enteredAmount = balanceAmount;
+                        if (usrSection.enteredAmount > msData.limit) {                            
                             usrSection.limit = msData.limit;
 
                         }

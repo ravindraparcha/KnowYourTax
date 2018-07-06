@@ -15,7 +15,7 @@ import { ConfigurationService } from '../../services/ConfigurationService';
 export class SelfAssessmentAdvanceTaxComponent  {
 
     public advanceTaxSelfAssessmentTaxModels ;
-    private newAdvanceTaxSelfAssessmentTaxModel;
+    private _newAdvanceTaxSelfAssessmentTaxModel;
 
     public taxTypeList = [];
     @Output() advanceTaxSelfAssessmentTaxModelOutput: EventEmitter<AdvanceTaxSelfAssessmentTaxModel[]> = new EventEmitter<AdvanceTaxSelfAssessmentTaxModel[]>();
@@ -26,12 +26,12 @@ export class SelfAssessmentAdvanceTaxComponent  {
         this.advanceTaxSelfAssessmentTaxModels = [];
     }
 
-    myOptions: INgxMyDpOptions = {
+    public myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
     };
     addNewAdvanceTaxSelfAssessmentTax() {
-        this.newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", "0", "");
-        this.advanceTaxSelfAssessmentTaxModels.push(this.newAdvanceTaxSelfAssessmentTaxModel);
+        this._newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", "0", "");
+        this.advanceTaxSelfAssessmentTaxModels.push(this._newAdvanceTaxSelfAssessmentTaxModel);
         //this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = this.advanceTaxSelfAssessmentTaxModels;
         this.advanceTaxSelfAssessmentTaxModelOutput.emit(this.advanceTaxSelfAssessmentTaxModels);
     }
@@ -57,12 +57,12 @@ export class SelfAssessmentAdvanceTaxComponent  {
     }
     onDepositDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
+            this._newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
+            this._newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
         }
         else {
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
-            this.newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = "";
+            this._newAdvanceTaxSelfAssessmentTaxModel.depositDate = "";
+            this._newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = "";
         }
     }
 

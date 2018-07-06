@@ -13,16 +13,16 @@ export class Donation80GComponent  {
     public donation80G : Donation80G;
 
     public donation100DeductionWithoutQualifyingLimitModels;
-    public newDonation100DeductionWithoutQualifyingLimitModel;
+    private _newDonation100DeductionWithoutQualifyingLimitModel;
 
     public donation50DeductionWithoutQualifyingLimitModels;
-    public newDonation50DeductionWithoutQualifyingLimitModel;
+    private _newDonation50DeductionWithoutQualifyingLimitModel;
 
     public donation100DeductionWithQualifyingLimitModels;
-    public newDonation100DeductionWithQualifyingLimitModel;
+    private _newDonation100DeductionWithQualifyingLimitModel;
 
     public donation50DeductionWithQualifyingLimitModels;
-    public newDonation50DeductionWithQualifyingLimitModel;
+    private _newDonation50DeductionWithQualifyingLimitModel;
 
     @Output() isDonation80GComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('donation80GForm') donation80GForm;
@@ -43,8 +43,8 @@ export class Donation80GComponent  {
      
 
     addNewDonation100DeductionWithoutQualifyingLimit() {
-        this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
-        this.donation100DeductionWithoutQualifyingLimitModels.push(this.newDonation100DeductionWithoutQualifyingLimitModel);
+        this._newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
+        this.donation100DeductionWithoutQualifyingLimitModels.push(this._newDonation100DeductionWithoutQualifyingLimitModel);
         this.donation80G.donation100DeductionWithoutQualifyingLimit = this.donation100DeductionWithoutQualifyingLimitModels;        
     }
     deleteDonation100DeductionWithoutQualifyingLimitItem(index: number) {
@@ -52,16 +52,16 @@ export class Donation80GComponent  {
     }
 
     addNewDonation50DeductionWithoutQualifyingLimit() {
-        this.newDonation50DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);        
-        this.donation50DeductionWithoutQualifyingLimitModels.push(this.newDonation50DeductionWithoutQualifyingLimitModel);
+        this._newDonation50DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);        
+        this.donation50DeductionWithoutQualifyingLimitModels.push(this._newDonation50DeductionWithoutQualifyingLimitModel);
         this.donation80G.donation50DeductionWithoutQualifyingLimit = this.donation50DeductionWithoutQualifyingLimitModels;
     }
     deleteDonation50DeductionWithoutQualifyingLimitItem(index: number) {
         this.donation50DeductionWithoutQualifyingLimitModels.splice(index,1);
     }
     addNewDonation100DeductionWithQualifyingLimit() {
-        this.newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
-        this.donation100DeductionWithQualifyingLimitModels.push(this.newDonation100DeductionWithoutQualifyingLimitModel);
+        this._newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
+        this.donation100DeductionWithQualifyingLimitModels.push(this._newDonation100DeductionWithoutQualifyingLimitModel);
         this.donation80G.donation100DeductionWithQualifyingLimit = this.donation100DeductionWithQualifyingLimitModels;
     }    
     deleteDonation100DeductionWithQualifyingLimitItem(index: number) {
@@ -69,8 +69,8 @@ export class Donation80GComponent  {
     }
 
     addNewDonation50DeductionWithQualifyingLimit() {
-        this.newDonation50DeductionWithQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
-        this.donation50DeductionWithQualifyingLimitModels.push(this.newDonation50DeductionWithQualifyingLimitModel);
+        this._newDonation50DeductionWithQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
+        this.donation50DeductionWithQualifyingLimitModels.push(this._newDonation50DeductionWithQualifyingLimitModel);
         this.donation80G.donation50DeductionWithQualifyingLimit=this.donation50DeductionWithQualifyingLimitModels;
     }
     deleteDonation50DeductionWithQualifyingLimitItem(index: number) {
