@@ -16,6 +16,8 @@ export class SharedTaxService {
     @Output() userPANNumber : EventEmitter<string> = new EventEmitter();
     @Output() spousePANNumber :  EventEmitter<string> = new EventEmitter();
     @Output() tenantPANNumberList :  EventEmitter<string[]> = new EventEmitter();
+    @Output() isTenantAdded : EventEmitter<boolean> = new EventEmitter();
+
     private tds;
     private tcs;
     private selfAssessment;
@@ -32,20 +34,27 @@ export class SharedTaxService {
     public changeUserPANNumber(pan:string) {
         this.userPANNumber.emit(pan);
     }
-    public getUserPANNumber() {
+    public getUserPANNumber() : EventEmitter<string> {
         return this.userPANNumber;
     }
     public changeSpousePANNumber(pan:string) {
         this.spousePANNumber.emit(pan);
     }
-    public getSpousePANNumber() {
+    public getSpousePANNumber() :EventEmitter<string> {
         return this.spousePANNumber;
     }
      public changeTenantPANNumberList(pans:string[]) {
         this.tenantPANNumberList.emit(pans);
     }
-    public getTenantPANNumberList() {
+    public getTenantPANNumberList() :EventEmitter<string[]> {
         return this.tenantPANNumberList;
+    }
+
+    public changeIsTenantAdded(isTenantAdded: boolean) {
+        this.isTenantAdded.emit(isTenantAdded);
+    }
+    public getIsTenantAdded() : EventEmitter<boolean> {
+        return this.isTenantAdded;
     }
 
     public changeTDSAmount(taxAmount: number) {
@@ -53,7 +62,7 @@ export class SharedTaxService {
         this.changeTotalTDSTCS();
         this.totalTDS.emit(taxAmount);
     }
-    public getTDSAmount() {
+    public getTDSAmount() : EventEmitter<number> {
         return this.totalTDS;
     }
     public changeTCSAmount(taxAmount: number) {
@@ -61,7 +70,7 @@ export class SharedTaxService {
         this.changeTotalTDSTCS();
         this.totalTCS.emit(taxAmount);
     }
-    public getTCSAmount() {
+    public getTCSAmount() :EventEmitter<number> {
         return this.totalTCS;
     }
     public changeSelfAssessmentAmount(taxAmount: number) {
@@ -69,7 +78,7 @@ export class SharedTaxService {
         this.changeTotalTDSTCS();
         this.totalSelfAssessmentTax.emit(taxAmount);
     }
-    public getSelfAssessmentAmount() {
+    public getSelfAssessmentAmount() :EventEmitter<number> {
         return this.totalSelfAssessmentTax;
     }
     public changeAdvanceTaxAmount(taxAmount: number) {
@@ -77,7 +86,7 @@ export class SharedTaxService {
         this.changeTotalTDSTCS();
         this.totalAdvanceTax.emit(taxAmount);
     }
-    public getAdvanceTaxAmount() {
+    public getAdvanceTaxAmount() :EventEmitter<number> {
         return this.totalAdvanceTax;
     }
 
@@ -86,7 +95,7 @@ export class SharedTaxService {
         this.changeRefund();
         this.totalTDSTCS.emit(this.getTotalTaxDeductedCollected());
     }
-    public getTotalTDSTCS() {
+    public getTotalTDSTCS() :EventEmitter<number> {
         return this.totalTDSTCS;
     }
 
@@ -96,33 +105,33 @@ export class SharedTaxService {
         this.changeRefund();
         this.totalTax.emit(taxAmount);
     }
-    public getTotalTaxAmount() {
+    public getTotalTaxAmount() :EventEmitter<number> {
         return this.totalTax;
     }
     private changeAmountPayable() {
         return this.amountPayable.emit(this.getDifference(true));
     }
-    public getAmountPayable() {
+    public getAmountPayable() :EventEmitter<number> {
         return this.amountPayable;
     }
     public changeSelfAssessmentAdvanceTax(selfAssessmentAdvanceTax) {
         this.selfAssessmentAdvanceTax.emit(selfAssessmentAdvanceTax);
     }
-    public getSelfAssessmentAdvanceTax() {
+    public getSelfAssessmentAdvanceTax() :EventEmitter<number> {
         return this.selfAssessmentAdvanceTax;
     }
 
     public changeReturnFiledSection(returnFiledSec) {
         this.returnFiledSection.emit(returnFiledSec);
     }
-    public getReturnFiledSection() {
+    public getReturnFiledSection() :EventEmitter<number> {
         return this.returnFiledSection;
     }
     private changeRefund() {
         return this.refund.emit(this.getDifference(false));
 
     }
-    public getRefund() {
+    public getRefund():EventEmitter<number> {
         return this.refund;
     }
     private getDifference(isAmountPayable): number {

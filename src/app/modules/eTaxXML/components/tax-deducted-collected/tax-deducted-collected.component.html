@@ -333,7 +333,7 @@
                         <table class="table table-striped table-bordered table-responsive">
                             <thead>
                                 <tr>
-                                    <th>Collector's tax collection a/c number</th>
+                                    <th>Collector's tax collection A/C number</th>
                                     <th>Collector name</th>
                                     <th>Amount subject to colleection</th>
                                     <th style="width: 12%">Tax collection year</th>
@@ -346,8 +346,8 @@
                                 <tr *ngFor="let taxCollectedModel of taxCollectedModels; let i = index">
                                     <td>
                                         <input [(ngModel)]="taxCollectedModel.taxCollectionAccountNo" class="form-control" type="text" #taxCollectedModelTaxCollectionAccountNo="ngModel"
-                                            name="taxCollectedModelTaxCollectionAccountNo_{{i}}"  NumberValidator/>
-                                            <div class="border-left-error" *ngIf="taxCollectedModelTaxCollectionAccountNo.errors && taxCollectedModelTaxCollectionAccountNo.errors.numberError">{{taxCollectedModelTaxCollectionAccountNo.errors.numberError.errorMsg}}</div>
+                                            name="taxCollectedModelTaxCollectionAccountNo_{{i}}"  TanCardValidator/>
+                                            <div class="border-left-error" *ngIf="taxCollectedModelTaxCollectionAccountNo.errors && taxCollectedModelTaxCollectionAccountNo.errors.tanNoError">{{taxCollectedModelTaxCollectionAccountNo.errors.tanNoError.errorMsg}}</div>
                                     </td>
                                     <td>
                                         <input [(ngModel)]="taxCollectedModel.name" class="form-control" type="text" #taxCollectedModelName="ngModel" name="taxCollectedModelName_{{i}}"
