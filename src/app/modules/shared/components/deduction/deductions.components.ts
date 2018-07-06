@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input, OnDestroy } from "@angular/core";
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
@@ -16,7 +16,7 @@ declare var $: any;
     templateUrl: './deductions-component.html'
 })
 
-export class DeductionsComponent implements OnInit {
+export class DeductionsComponent implements OnInit,OnDestroy {
     public selectedSectionValue;
     public deductionList = [];
     public sectionForm;
@@ -93,6 +93,11 @@ export class DeductionsComponent implements OnInit {
         this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
         this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);
     }
+
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
+    }
+
     initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
             // list all your form controls here, which belongs to your form array

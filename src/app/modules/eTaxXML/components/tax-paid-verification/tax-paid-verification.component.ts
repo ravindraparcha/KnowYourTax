@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy } from "@angular/core";
 
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
@@ -12,7 +12,7 @@ declare var $: any;
     templateUrl: './tax-paid-verification.component.html'
 })
 
-export class TaxPaidVerificationComponent implements OnInit {
+export class TaxPaidVerificationComponent implements OnInit,OnDestroy {
     public taxPaidModel: TaxPaidModel;
     public verificationModel: VerificationModel;
 
@@ -70,6 +70,10 @@ export class TaxPaidVerificationComponent implements OnInit {
         this._subscription = this._sharedTaxService.getAmountPayable().subscribe(item => this.taxPaidModel.amountPayable = item);
         this._subscription = this._sharedTaxService.getRefund().subscribe(item => this.taxPaidModel.refund = item);
     }
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
+    }
+
     addNewOtherExemption() {
 
         this._newOtherExemptionModel = new OtherExemptionModel("", 0);

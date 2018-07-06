@@ -57,8 +57,7 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         //this.taxDeductedUnder26QCModelsDiffer = this._differs.find(this.newTaxDeductedUnder26QCModel).create(null);
     }
     ngOnDestroy() {        
-        this._subscription.unsubscribe();
-        this.isTaxDeductedCollectedComponentValid=null;
+        this._subscription.unsubscribe();       
     }
 
     @Input()

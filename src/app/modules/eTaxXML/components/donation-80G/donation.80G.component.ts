@@ -39,9 +39,7 @@ export class Donation80GComponent  {
         this.donation80G.donation100DeductionWithQualifyingLimit = [];
         this.donation80G.donation50DeductionWithQualifyingLimit = [];
     }
-     
-     
-
+      
     addNewDonation100DeductionWithoutQualifyingLimit() {
         this._newDonation100DeductionWithoutQualifyingLimitModel = new DonationDeduction("","","",null,0,"",0,0);
         this.donation100DeductionWithoutQualifyingLimitModels.push(this._newDonation100DeductionWithoutQualifyingLimitModel);

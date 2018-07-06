@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild, OnDestroy } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
 import { ConfigurationService } from '../../../shared/services/ConfigurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
@@ -13,7 +13,7 @@ import { Subscription } from "rxjs";
     selector: 'personal-info',
     templateUrl: './personal-info.component.html'
 })
-export class PersonalInfoComponent implements OnInit {
+export class PersonalInfoComponent implements OnInit,OnDestroy {
 
     @Input()
     set personalInfoData(personalInfoData: PersonalInfoModel) {
@@ -81,6 +81,10 @@ export class PersonalInfoComponent implements OnInit {
     ngOnInit() {
         this.initialisePersonalModelObject();
     }
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
+    }
+
     initialisePersonalModelObject() {
         this.personalInfo = new PersonalInfoModel();
         this.personalInfo.birthDate = "";

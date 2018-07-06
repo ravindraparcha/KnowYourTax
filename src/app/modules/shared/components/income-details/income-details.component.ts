@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
 import { ConfigurationService } from '../../services/ConfigurationService';
 import { DeductionsComponent } from '../deduction/deductions.components';
@@ -14,7 +14,7 @@ declare var $: any;
     templateUrl: './income-details.component.html'
 })
 
-export class IncomeDetailsComponent implements OnInit {
+export class IncomeDetailsComponent implements OnInit, OnDestroy {
 
     @Input() isCalculator: string;
 
@@ -73,6 +73,10 @@ export class IncomeDetailsComponent implements OnInit {
         //     // }
         // });
     }
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
+    }
+
 
     calculateSalaryPensionSum() {
 
