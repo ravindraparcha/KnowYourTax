@@ -23,7 +23,8 @@
         <label class="control-label col-sm-2 text-left">PAN number</label>
         <div class="col-sm-3">
             <input type="text" required novalidate [ngClass]="panNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.panNo"
-                #panNo="ngModel" name="panNo" PanCardValidator DuplicateCheckValidator duplicateCheckInput='{{personalInfo.spousePanNo}}' (input)='onChangeUserPanCardNumber()'/>
+                #panNo="ngModel" name="panNo" PanCardValidator DuplicateCheckValidator duplicateCheckInput='{{personalInfo.spousePanNo}}'
+                (input)='onChangeUserPanCardNumber()' />
             <div class="border-left-error" *ngIf="panNo.errors && panNo.errors.panNoError">{{panNo.errors.panNoError.errorMsg}}</div>
             <div class="border-left-error" *ngIf="panNo.errors && panNo.errors.duuplicateError">Your Pan No cannot be same as your spouse</div>
         </div>
@@ -47,8 +48,8 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Flat/Door/Block Number</label>
         <div class="col-sm-3">
-            <input type="text" required novalidate  name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate class="form-control"
-                [(ngModel)]="personalInfo.flatDoorBlockNo" #flatDoorBlockNo="ngModel" />
+            <input type="text" required novalidate name="flatDoorBlockNo" [ngClass]="flatDoorBlockNo.valid? 'valid': 'invalid'" novalidate
+                class="form-control" [(ngModel)]="personalInfo.flatDoorBlockNo" #flatDoorBlockNo="ngModel" />
         </div>
         <label class="control-label col-sm-2 text-left">Premises/Building/Village</label>
         <div class="col-sm-3">
@@ -61,8 +62,8 @@
         <label class="control-label col-sm-2 text-left">Date of birth</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input class="form-control" required readonly [ngClass]="personalInfo.birthDate ? 'valid': 'invalid'"
-                    style="float:none;border-radius: 0;" [(ngModel)]="model" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="personalInfo.birthDate"
+                <input class="form-control" required readonly [ngClass]="personalInfo.birthDate ? 'valid': 'invalid'" style="float:none;border-radius: 0;"
+                    [(ngModel)]="model" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="personalInfo.birthDate"
                     [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onBirthDateChanged($event)" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="dp.clearDate()">
@@ -84,12 +85,12 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Area/Locality</label>
         <div class="col-sm-3">
-            <input type="text" required nonvalidate  [ngClass]="areaLocality.valid? 'valid': 'invalid'" novalidate class="form-control" [(ngModel)]="personalInfo.areaLocality"
-                #areaLocality="ngModel" name="areaLocality" />
+            <input type="text" required nonvalidate [ngClass]="areaLocality.valid? 'valid': 'invalid'" novalidate class="form-control"
+                [(ngModel)]="personalInfo.areaLocality" #areaLocality="ngModel" name="areaLocality" />
         </div>
         <label class="control-label col-sm-2 text-left">Town/City/District</label>
         <div class="col-sm-3">
-            <input type="text" required  novalidate [ngClass]="townCityDistrict.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.townCityDistrict"
+            <input type="text" required novalidate [ngClass]="townCityDistrict.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.townCityDistrict"
                 #townCityDistrict="ngModel" name="townCityDistrict" />
         </div>
     </div>
@@ -115,13 +116,13 @@
     <div class="form-group margin-top15">
         <label class="control-label col-sm-2 text-left">Email Address</label>
         <div class="col-sm-3">
-            <input type="text" required novalidate  [ngClass]="email.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.email"
+            <input type="text" required novalidate [ngClass]="email.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.email"
                 EmailValidator #email="ngModel" name="email" />
             <div class="border-left-error" *ngIf="email.errors && email.errors.emailError">{{email.errors.emailError.errorMsg}}</div>
         </div>
         <label class="control-label col-sm-2 text-left">Mobile Number</label>
         <div class="col-sm-3">
-            <input type="text" required  nonvalidate [ngClass]="mobileNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.mobileNo"
+            <input type="text" required nonvalidate [ngClass]="mobileNo.valid? 'valid': 'invalid'" class="form-control" [(ngModel)]="personalInfo.mobileNo"
                 #mobileNo="ngModel" name="mobileNo" MobileNoValidator />
             <div class="border-left-error" *ngIf="mobileNo.errors && mobileNo.errors.mobileNoError">{{mobileNo.errors.mobileNoError.errorMsg}}</div>
         </div>
@@ -157,12 +158,13 @@
                 <option [ngValue]=null>Select</option>             
                 <option [ngValue]="st.value" *ngFor="let st of _configuration.yesNoList">
                     {{st.text}}
-            </select>            
+            </select>
         </div>
         <label class="control-label col-sm-2 text-left">If yes, spouse PAN number</label>
         <div class="col-sm-3">
             <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.spousePanNo" #spousePanNo="ngModel" name="spousePanNo"
-                PanCardValidator [disabled]="personalInfo.selectedGovernedByPortugueseCivil!='Y'" DuplicateCheckValidator duplicateCheckInput='{{personalInfo.panNo}}' (input)='onChangeSpousePanCardNumber()'/>
+                PanCardValidator [disabled]="personalInfo.selectedGovernedByPortugueseCivil!='Y'" DuplicateCheckValidator duplicateCheckInput='{{personalInfo.panNo}}'
+                (input)='onChangeSpousePanCardNumber()' />
             <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.panNoError">{{spousePanNo.errors.panNoError.errorMsg}}</div>
             <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.duuplicateError">Your Pan No cannot be same as your spouse</div>
         </div>
@@ -182,7 +184,7 @@
         <div class="col-sm-3">
             <div class="input-group">
                 <input class="form-control" readonly style="float:none;border-radius: 0;" placeholder="Select a date" ngx-mydatepicker name="originalReturnDate"
-                    [(ngModel)]="personalInfo.filingOriginalReturnDate"  [(ngModel)]="model" [options]="myOptions" #originalReturnDatePicker="ngx-mydatepicker"
+                    [(ngModel)]="personalInfo.filingOriginalReturnDate" [(ngModel)]="model" [options]="myOptions" #originalReturnDatePicker="ngx-mydatepicker"
                     (dateChanged)="onOriginalFilingReturnDateChanged($event)" [disabled]='!isFilingDate' />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="padding: 6px 13px;" (click)="originalReturnDatePicker.clearDate()">
@@ -235,5 +237,5 @@
         <div class="col-sm-3">
             &nbsp; </div>
 
-    </div>
+    </div>-->
 </form>

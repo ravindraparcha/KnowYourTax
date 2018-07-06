@@ -85,7 +85,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
         this._subscription.unsubscribe();
     }
 
-    initialisePersonalModelObject() {
+    private initialisePersonalModelObject() {
         this.personalInfo = new PersonalInfoModel();
         this.personalInfo.birthDate = "";
         //this.personalInfo.selectedState = "";
@@ -99,7 +99,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
         this.personalInfo.country = "91";
 
     }
-    onBirthDateChanged(event: IMyDateModel) {
+    public onBirthDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
@@ -110,7 +110,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
             this.personalInfo.birthDateXml = "";
         }
     }
-    onOriginalFilingReturnDateChanged(event: IMyDateModel) {
+    public onOriginalFilingReturnDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filingOriginalReturnDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
             this.personalInfo.filingOriginalReturnDateXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
@@ -121,7 +121,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
 
         }
     }
-    onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
+    public onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filedAgainstNotice = event.date.day + "/" + event.date.month + "/" + event.date.year;
             this.personalInfo.filedAgainstNoticeXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
@@ -131,7 +131,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
             this.personalInfo.filedAgainstNoticeXml = "";
         }
     }
-    changeReturnFileSection() {
+    public changeReturnFileSection() {
         this.onChangeReturnFileSectionReturnType();
         this._sharedTaxService.changeReturnFiledSection(this.personalInfo.selectedReturnFiledSection);
 
@@ -172,11 +172,11 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
         }
 
     }
-    onChangeGovernedByPortuguesesCivil() {
+    public onChangeGovernedByPortuguesesCivil() {
         if (this.personalInfo.selectedGovernedByPortugueseCivil != 'Y')
             this.personalInfo.spousePanNo = "";
     }
-    onChangeOrginalRevisedFile() {
+    public onChangeOrginalRevisedFile() {
         this.onChangeReturnFileSectionReturnType();
     }
 
@@ -220,7 +220,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
         this._sharedTaxService.changeUserPANNumber(this.personalInfo.panNo);
     }
 
-    public onChangeSpousePanCardNumber(panNumber: string) {
+    public onChangeSpousePanCardNumber() {
         this._sharedTaxService.changeSpousePANNumber(this.personalInfo.spousePanNo);
     }
 

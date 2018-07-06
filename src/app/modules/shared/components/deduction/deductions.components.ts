@@ -40,9 +40,9 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         if (this.deductionModel === undefined)
             this.deductionModel = new DeductionModel();
         if (taxModel !== undefined) {
-            this.advanceTaxForm26AS = 0;
+            this._advanceTaxForm26AS = 0;
             for (let i = 0; i < taxModel.length; i++) {
-                this.advanceTaxForm26AS += taxModel[i].amount;
+                this._advanceTaxForm26AS += taxModel[i].amount;
             }
             this.advanceTaxModels = taxModel;
         }
@@ -60,8 +60,8 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             dateFormat: this._configuration.dateTimeFormat,
             //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
         };
-        this.selfAssessmentTaxPaid = 0;
-        this.advanceTaxForm26AS = 0;
+        this._selfAssessmentTaxPaid = 0;
+        this._advanceTaxForm26AS = 0;
         this.calculationResult = {};
     }
 
@@ -98,7 +98,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         this._subscription.unsubscribe();
     }
 
-    initialiseNewRow(text: string, value: number, section: string, parent: string) {
+    private initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
             // list all your form controls here, which belongs to your form array
             deductionText: [text],
@@ -107,7 +107,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             parent: [parent]
         });
     }
-    addSection() {
+   public addSection() {
         let section = this.selectedSectionValue;
         let duplicateFound = false;
 
@@ -129,7 +129,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         });
     }
 
-    deleteSection(index: number) {
+    public deleteSection(index: number) {
         // control refers to your formarray
         const control = <FormArray>this.sectionForm.controls['itemRows'];
         // remove the chosen row
@@ -139,7 +139,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         this.onCalculateDeductionSum.emit(sum);
     }
 
-    onDueDateChanged(event: IMyDateModel) {
+    public onDueDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.deductionModel.dueDate = event.jsdate.toString();  //event.date.day + "/" + event.date.month + "/" + event.date.year;            
@@ -148,7 +148,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             this.deductionModel.dueDate = "";
         }
     }
-    onFilingDateChanged(event: IMyDateModel) {
+    public onFilingDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.deductionModel.filingDate = event.jsdate.toString();  //event.date.day + "/" + event.date.month + "/" + event.date.year;            
@@ -157,12 +157,12 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             this.deductionModel.filingDate = "";
         }
     }
-    onDeductionChangeCalculateSum(formData: any) {
+   public  onDeductionChangeCalculateSum(formData: any) {
         let sum = this.calculateDeduction(formData.value.itemRows);
         this.onCalculateDeductionSum.emit(sum);
     }
 
-    calculateDeduction(deductionsArray) {
+    private calculateDeduction(deductionsArray) {
         let sum = 0;
         for (let deduction of deductionsArray) {
             sum += deduction.deductionValue;
@@ -170,7 +170,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         return sum;
     }
 
-    calculateTax(): IncomeTaxModel {
+    public calculateTax(): IncomeTaxModel {
 
         this.createAdvanceTaxModelArray(this.selfAssessmentAdvanceTax);
 
@@ -625,11 +625,11 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         return index;
     }
 
-    onDeductionChange() {
+    public onDeductionChange() {
         this.addSection();
     }
 
-    onChangeCalculateDeductionAmount(formData: any) {
+    public onChangeCalculateDeductionAmount(formData: any) {
         let sum = 0;
         for (let deduction of formData.form.value) {
             sum += deduction.amount;

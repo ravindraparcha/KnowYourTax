@@ -37,30 +37,35 @@ export class eTaxXMLComponent implements OnInit {
     public personalInfoData = new PersonalInfoModel();
     public taxDeducted;
     private parseJson;
-    private xmlDataArray ;
+    private xmlDataArray;
     public advanceTaxPaidModels;
     public incomeData: IncomeData;
     public incomeTaxModel: any;
 
     public totalTDSClaimed: number;
-    public totalTCSClaimed: number ;
+    public totalTCSClaimed: number;
     public totalSelfAssessmentTaxPaid: number;
-    public totalAdvanceTaxPaid: number ;
-    public totalTaxInterest: number ;
-    public totalTaxesPaid: number ;
-    public amountPayable: number ;
+    public totalAdvanceTaxPaid: number;
+    public totalTaxInterest: number;
+    public totalTaxesPaid: number;
+    public amountPayable: number;
     public refund: number;
 
     public accountDetailModel;
     public model: any;
-    public incomeNatureList ;
+    public incomeNatureList;
     private _subscription: Subscription;
 
-   
+    public isPersonalInfoFrmValid: boolean;
+    public isTaxDeductedCollectedFrmValid: boolean;
+    public isIncomeDetailsFrmValid: boolean;
+    public isTaxPaidVerificationFrmValid: boolean;
+    public isDeduction80GComponentValid: boolean;
+
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService, private _sharedTaxService: SharedTaxService
     ) {
-        this.xmlDataArray = [];        
+        this.xmlDataArray = [];
         this.totalTDSClaimed = 0;
         this.totalTCSClaimed = 0;
         this.totalSelfAssessmentTaxPaid = 0;
@@ -70,7 +75,7 @@ export class eTaxXMLComponent implements OnInit {
         this.amountPayable = 0;
         this.refund = 0;
         this.incomeNatureList = [];
-     }
+    }
 
     canDeactivate() {
         return true;
@@ -92,7 +97,7 @@ export class eTaxXMLComponent implements OnInit {
         this._subscription = this._sharedTaxService.getRefund().subscribe(item => this.refund = item);
     }
 
-    onFileSelection(event: EventTarget) {
+    public onFileSelection(event: EventTarget) {
         let $this = this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
         let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
@@ -184,22 +189,18 @@ export class eTaxXMLComponent implements OnInit {
         }
         return -1;
     }
-    public isPersonalInfoFrmValid: boolean;
-    public isTaxDeductedCollectedFrmValid: boolean;
-    public isIncomeDetailsFrmValid: boolean;
-    public isTaxPaidVerificationFrmValid: boolean;
-    public isDeduction80GComponentValid: boolean;
-    generateXML() {
+
+    public generateXML() {
 
         //validate child component
-        
+
         // this.validateIncomeDetailsComponent();
         // if (!this.isIncomeDetailsFrmValid && this.isIncomeDetailsFrmValid!=undefined) {
         //     this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
         //     return;
         // }
         this.validateTaxDeductedCollectedComponent();
-        if (!this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid!=undefined) {
+        if (!this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid != undefined) {
             this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
@@ -278,7 +279,7 @@ export class eTaxXMLComponent implements OnInit {
     public isDonation80GComponentValid(isFormValid: boolean) {
         this.isDeduction80GComponentValid = isFormValid;
     }
-    validateDeduction80GComponent() {
+    public validateDeduction80GComponent() {
         this._donation80GComponent.validateDonation80GComponentForm();
     }
 

@@ -29,13 +29,13 @@ export class SelfAssessmentAdvanceTaxComponent  {
     public myOptions: INgxMyDpOptions = {
         dateFormat: this._configuration.dateTimeFormat
     };
-    addNewAdvanceTaxSelfAssessmentTax() {
+    public addNewAdvanceTaxSelfAssessmentTax() {
         this._newAdvanceTaxSelfAssessmentTaxModel = new AdvanceTaxSelfAssessmentTaxModel("", "", "0", "");
         this.advanceTaxSelfAssessmentTaxModels.push(this._newAdvanceTaxSelfAssessmentTaxModel);
         //this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = this.advanceTaxSelfAssessmentTaxModels;
         this.advanceTaxSelfAssessmentTaxModelOutput.emit(this.advanceTaxSelfAssessmentTaxModels);
     }
-    deleteAdvanceTaxSelfAssessmentTaxItem(index: number) {
+    public deleteAdvanceTaxSelfAssessmentTaxItem(index: number) {
         this.deleteItemFromArray(this.advanceTaxSelfAssessmentTaxModels, index);
         this.calculateAdvanceTaxSelfAssessmentTax();        
         this.advanceTaxSelfAssessmentTaxModelOutput.emit(this.advanceTaxSelfAssessmentTaxModels);
@@ -55,7 +55,7 @@ export class SelfAssessmentAdvanceTaxComponent  {
         this._sharedTaxService.changeSelfAssessmentAmount(selfAssessmentSum);
         this._sharedTaxService.changeSelfAssessmentAdvanceTax(this.advanceTaxSelfAssessmentTaxModels);
     }
-    onDepositDateChanged(event: IMyDateModel) {
+    public onDepositDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this._newAdvanceTaxSelfAssessmentTaxModel.depositDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
             this._newAdvanceTaxSelfAssessmentTaxModel.depositDateXml = this._sharedXMLService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
@@ -66,7 +66,7 @@ export class SelfAssessmentAdvanceTaxComponent  {
         }
     }
 
-    deleteItemFromArray(itemArray: any[], index: number) {
+    private deleteItemFromArray(itemArray: any[], index: number) {
         itemArray.splice(index, 1);
     }
 }

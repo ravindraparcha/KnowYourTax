@@ -52,8 +52,8 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = [];
         this.taxCollectedDeductedModel.advanceTaxSelfAssessmentTaxModels = [];
         this._newTaxDeductedUnder26QCModel = {};
-        this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this.usrPanNo = item);
-        this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this.spousePanNo = item);
+        this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this._usrPanNo = item);
+        this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this._spousePanNo = item);
         //this.taxDeductedUnder26QCModelsDiffer = this._differs.find(this.newTaxDeductedUnder26QCModel).create(null);
     }
     ngOnDestroy() {        

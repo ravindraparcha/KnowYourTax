@@ -78,7 +78,7 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
     }
 
 
-    calculateSalaryPensionSum() {
+    public calculateSalaryPensionSum() {
 
         this.incomeDetailsModel.salaryPensionSum =
             (isNaN(parseInt(this.incomeDetailsModel.allowance)) ? 0 : parseInt(this.incomeDetailsModel.allowance)) -
@@ -90,7 +90,7 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
         this.calculateGrossTotal();
     }
 
-    calculateAnnualValue() {
+    public calculateAnnualValue() {
         this.incomeDetailsModel.annualValue =
             isNaN(parseInt(this.incomeDetailsModel.rent)) ? 0 : parseInt(this.incomeDetailsModel.rent) -
                 (isNaN(parseInt(this.incomeDetailsModel.taxPaidToLocalAuthority)) ? 0 : parseInt(this.incomeDetailsModel.taxPaidToLocalAuthority));
@@ -98,7 +98,7 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
         this.incomeDetailsModel.annualValuePercentageAmount = Math.ceil(this.incomeDetailsModel.annualValuePercentageAmount);
     }
 
-    calculateIncomeChargeableUnderHouseProperty() {
+    public calculateIncomeChargeableUnderHouseProperty() {
         this.incomeDetailsModel.housePropertySum =
             (isNaN(this.incomeDetailsModel.annualValue) ? 0 : this.incomeDetailsModel.annualValue) -
             (isNaN(this.incomeDetailsModel.annualValuePercentageAmount) ? 0 : this.incomeDetailsModel.annualValuePercentageAmount) -
@@ -106,15 +106,15 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
         this.incomeDetailsModel.housePropertySum = Math.ceil(this.incomeDetailsModel.housePropertySum);
         this.calculateGrossTotal();
     }
-    onChangeGrossTotalIncome() {
+    public onChangeGrossTotalIncome() {
         this.calculateGrossTotal();
     }
-    calculateGrossTotal() {
+    public calculateGrossTotal() {
         this.incomeDetailsModel.grossTotalIncome = this.incomeDetailsModel.salaryPensionSum + this.incomeDetailsModel.housePropertySum + (isNaN(parseInt(this.incomeDetailsModel.incomeFromOtherSources)) ? 0 : parseInt(this.incomeDetailsModel.incomeFromOtherSources));
         this.incomeDetailsModel.grossTotalIncome = Math.ceil(this.incomeDetailsModel.grossTotalIncome);
     }
 
-    disableEnableHouseProperty() {
+    public disableEnableHouseProperty() {
 
         if (this.incomeDetailsModel.selectedHousePropertyType == 'S') {
             this.incomeDetailsModel.rent = '0';
@@ -134,7 +134,7 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
 
         this.calculateAnnualValue();
     }
-    updateTotalDeductions(sum: number) {
+    public updateTotalDeductions(sum: number) {
         this.incomeDetailsModel.totalDeductionSum = sum;
     }
 

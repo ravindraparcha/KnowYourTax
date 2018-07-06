@@ -80,20 +80,20 @@ export class TaxPaidVerificationComponent implements OnInit,OnDestroy {
         this.OtherExemptionModels.push(this._newOtherExemptionModel);
         this.taxPaidModel.otherExemptionModels = this.OtherExemptionModels;
     }
-    deleteOtherExemptionItem(index: number) {
+    public deleteOtherExemptionItem(index: number) {
         this.OtherExemptionModels.splice(index, 1);
     }
 
-    addNewOtherAccountDetailModel() {
+    public addNewOtherAccountDetailModel() {
         this._newOtherAccountDetailModel = new AccountDetailModel("", "", "");
         this.otherAccountDetailModels.push(this._newOtherAccountDetailModel);
         this.taxPaidModel.otherAccountDetails = this.otherAccountDetailModels;
     }
-    deleteOtherAccountDetailModelItem(index: number) {
+    public deleteOtherAccountDetailModelItem(index: number) {
         this.otherAccountDetailModels.splice(index, 1);
     }
 
-    onVerficationDateChanged(event: IMyDateModel) {
+    public onVerficationDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.verificationModel.verficationDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
             this.verificationModel.verificationDateXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
