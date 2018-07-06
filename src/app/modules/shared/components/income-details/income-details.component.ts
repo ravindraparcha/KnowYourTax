@@ -5,6 +5,8 @@ import { DeductionsComponent } from '../deduction/deductions.components';
 import { IncomeTaxModel, TaxComputationModel } from '../../models/deduction.model';
 import { NgForm } from "@angular/forms";
 import { ToastrService } from 'ngx-toastr';
+import { SharedTaxService } from '../../services/sharedTaxService';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -18,7 +20,6 @@ export class IncomeDetailsComponent implements OnInit {
 
     public incomeDetailsModel: IncomeDetailsModel;
     incomeTaxModel: any;
-    constructor(public _configuration: ConfigurationService,private _toastr: ToastrService) { }
     public advanceTaxAlreadyPaid;
     @ViewChild(DeductionsComponent) deductionsComponent: DeductionsComponent;
     //@Output() outputCalculateTax : EventEmitter<any> = new EventEmitter<any>();
@@ -30,6 +31,11 @@ export class IncomeDetailsComponent implements OnInit {
 
     @Output() isIncomeDetailsComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     @ViewChild('incomeDetailsForm') form: NgForm;
+    private _subscription: Subscription;
+    private isTenantAdded: boolean;
+    constructor(public _configuration: ConfigurationService, private _toastr: ToastrService, private _sharedTaxService: SharedTaxService) {
+        this._subscription = this._sharedTaxService.getIsTenantAdded().subscribe(item => this.isTenantAdded = item);
+    }
 
     // canDeactivate() {
 
@@ -37,7 +43,7 @@ export class IncomeDetailsComponent implements OnInit {
     //   }
 
     //private initialValue: any;
-   
+
     ngOnInit() {
         this.incomeDetailsModel = new IncomeDetailsModel();
         $('.panel-collapse').on('show.bs.collapse', function () {
@@ -110,8 +116,8 @@ export class IncomeDetailsComponent implements OnInit {
             this.incomeDetailsModel.rent = '0';
             this.incomeDetailsModel.taxPaidToLocalAuthority = '0';
         }
-        else if (this.incomeDetailsModel.selectedHousePropertyType == 'L' && this.isCalculator=='false') {
-            this._toastr.warning('Make sure to fill 26QC details under tax details','Warning',this._configuration.CustomToastOptions);
+        else if (this.incomeDetailsModel.selectedHousePropertyType == 'L' && this.isCalculator == 'false') {
+            this._toastr.warning('Make sure to fill 26QC details under tax details', 'Warning', this._configuration.CustomToastOptions);
         }
         else if (this.incomeDetailsModel.selectedHousePropertyType == null) {
             this.incomeDetailsModel.rent = '0';
@@ -129,6 +135,17 @@ export class IncomeDetailsComponent implements OnInit {
     }
 
     public validateIncomeDetailsComponentForm() {
+        let errorFound: boolean = false;
+        if (this.incomeDetailsModel.selectedHousePropertyType == 'L' && this.isCalculator == 'false') {
+            if (!this.isTenantAdded || this.isTenantAdded == undefined) {
+                this._sharedTaxService.changeIsTenantAdded(undefined);
+                this._toastr.error('<b>Tax details Tab-</b>You have selected House Property type="Given on rent" in Personal information tab. Make sure to add details under 26QC', 'Error', this._configuration.CustomToastOptions);
+                errorFound = true;
+            }
+        }
+        if (errorFound)
+            return;
+
         if (this.form.valid)
             this.isIncomeDetailsComponentValid.emit(true);
         else

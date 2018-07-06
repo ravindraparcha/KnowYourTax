@@ -69,7 +69,6 @@ export class PersonalInfoComponent implements OnInit {
         };
 
         this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);
-
     }
 
     // when old value does not match with new value during expression evaluation for child component
@@ -195,14 +194,16 @@ export class PersonalInfoComponent implements OnInit {
 
     public validatePersonalInfoComponentForm() {
         let errorFound: boolean = false;
-        this.tenantPANNumberList.forEach(pan => {
-            if (this.personalInfo.panNo == pan || this.personalInfo.spousePanNo == pan) {
-                this._toastr.error('<b>Personal Information Tab-</b>Any tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);
-                this.isPersonalInfoComponentValid.emit(undefined);
-                errorFound = true;
-                return false;
-            }
-        });
+        if (this.tenantPANNumberList != undefined) {
+            this.tenantPANNumberList.forEach(pan => {
+                if (this.personalInfo.panNo == pan || this.personalInfo.spousePanNo == pan) {
+                    this._toastr.error('<b>Personal Information Tab-</b>Any tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);
+                    this.isPersonalInfoComponentValid.emit(undefined);
+                    errorFound = true;
+                    return false;
+                }
+            });
+        }
         if (errorFound)
             return;
         if (this.form.valid)

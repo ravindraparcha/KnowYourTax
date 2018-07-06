@@ -94,9 +94,12 @@ export class TaxDeductedCollectedComponent implements OnInit {
         if (isDeducted26QCchanged) {
             let panNumberList: string[] = [];
             for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
-                panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
+                if(this.taxDeductedUnder26QCModels[i].PAN.length > 0)
+                    panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
             }
             this._sharedTaxService.changeTenantPANNumberList(panNumberList);
+            if(panNumberList.length>0)
+                this._sharedTaxService.changeIsTenantAdded(true);
         }
     }
     private getTaxCollectionDeductionYearList() {
@@ -124,7 +127,6 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.calculateTaxDeductedAmount();
     }
     deleteTaxDeductedSalaryItem(index: number) {
-
         this.deleteItemFromArray(this.taxDeductedSalaryModels, index);
         this.calculateTaxDeductedAmount();
     }
@@ -167,21 +169,21 @@ export class TaxDeductedCollectedComponent implements OnInit {
         this.newTaxDeductedUnder26QCModel = new TaxDeductedUnder26QCModel("", "", 0, 0, 0);
         this.taxDeductedUnder26QCModels.push(this.newTaxDeductedUnder26QCModel);
         this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;
-        this.updatePANList();
+        //this.updatePANList();
     }
     deleteTaxDeductedUnder26QCItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedUnder26QCModels, index);
         this.calculateTaxDeductedAmount();
-        this.updatePANList();
+        //this.updatePANList();
     }
 
-    private updatePANList() {
-        let panNumberList: string[] = [];
-        for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
-            panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
-        }
-        this._sharedTaxService.changeTenantPANNumberList(panNumberList);
-    }
+    // private updatePANList() {
+    //     let panNumberList: string[] = [];
+    //     for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
+    //         panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
+    //     }
+    //     this._sharedTaxService.changeTenantPANNumberList(panNumberList);
+    // }
 
     addNewTaxCollection() {
         this.newTaxCollectedModel = new TaxCollectedModel("", "", 0, 0);
