@@ -249,6 +249,7 @@ code {
     margin-top: 2px;
     background-color: #f1fbff;
     font-style:italic;        
+    color:#5e5c5c;
 }
 .border-left-error{    
     border-left: 2px solid red;

@@ -266,13 +266,13 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-1">I,</label>
                         <div class="col-sm-2">
-                            <input [(ngModel)]="verificationModel.fullName" class="form-control" type="text" placeholder="Your name here" #verificationModelFullName="ngModel"
+                            <input [(ngModel)]="verificationModel.fullName"  required novalidate [ngClass]="verificationModelFullName.valid? 'valid': 'invalid'"  class="form-control" type="text" placeholder="Your name here" #verificationModelFullName="ngModel"
                                 name="verificationModelFullName" CharacterNumberValidator [validationType]=2/>
                             <div class="border-left-error" *ngIf="verificationModelFullName.errors && verificationModelFullName.errors.error">{{verificationModelFullName.errors.error.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-2" style="text-align:left;">son/daughter of</label>
                         <div class="col-sm-2">
-                            <input [(ngModel)]="verificationModel.sonDaughterOf" class="form-control" type="text" placeholder="Father's name here" #verificationModelSonDaughterOf="ngModel"
+                            <input [(ngModel)]="verificationModel.sonDaughterOf" required novalidate [ngClass]="verificationModelSonDaughterOf.valid? 'valid': 'invalid'" class="form-control" type="text" placeholder="Father's name here" #verificationModelSonDaughterOf="ngModel"
                                 name="verificationModelSonDaughterOf" CharacterNumberValidator [validationType]=2/>
                             <div class="border-left-error" *ngIf="verificationModelSonDaughterOf.errors && verificationModelSonDaughterOf.errors.error">{{verificationModelSonDaughterOf.errors.error.errorMsg}}</div>
                         </div>
@@ -284,13 +284,13 @@
                             I further declare that I am making this in my capacity as
                         </label>
                         <div class="col-sm-2">
-                            <input [(ngModel)]="verificationModel.capacity" class="form-control" type="text" placeholder="Capacity" #verificationModelCapacity="ngModel"
+                            <input [(ngModel)]="verificationModel.capacity" required novalidate [ngClass]="verificationModelCapacity.valid? 'valid': 'invalid'" class="form-control" type="text" placeholder="Capacity" #verificationModelCapacity="ngModel"
                                 name="verificationModelCapacity" NumberValidator/>
                                 <div class="border-left-error" *ngIf="verificationModelCapacity.errors && verificationModelCapacity.errors.numberError">{{verificationModelCapacity.errors.numberError.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-7" style="text-align:left;">and I am also competent to make this return and verify it. I am holding permanent account number</label>
                         <div class="col-sm-2">
-                            <input [(ngModel)]="verificationModel.PAN" class="form-control" type="text" placeholder="Your PAN number" #verificationModelPAN="ngModel"
+                            <input [(ngModel)]="verificationModel.PAN"   required novalidate [ngClass]="verificationModelPAN.valid? 'valid': 'invalid'" class="form-control" type="text" placeholder="Your PAN number" #verificationModelPAN="ngModel"
                                 name="verificationModelPAN" PanCardValidator />
                             <div class="border-left-error" *ngIf="verificationModelPAN.errors && verificationModelPAN.errors.panNoError">{{verificationModelPAN.errors.panNoError.errorMsg}}</div>
                         </div>
@@ -298,7 +298,7 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-1" style="text-align:left;">Place</label>
                         <div class="col-sm-2">
-                            <input [(ngModel)]="verificationModel.place" class="form-control" type="text" placeholder="Place here" #verificationModelPlace="ngModel"
+                            <input [(ngModel)]="verificationModel.place"    required novalidate [ngClass]="verificationModelPlace.valid? 'valid': 'invalid'" class="form-control" type="text" placeholder="Place here" #verificationModelPlace="ngModel"
                                 name="verificationModelPlace" CharacterNumberValidator [validationType]=2/>
                             <div class="border-left-error" *ngIf="verificationModelPlace.errors && verificationModelPlace.errors.error">{{verificationModelPlace.errors.error.errorMsg}}</div>
                         </div>

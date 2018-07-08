@@ -162,11 +162,21 @@
         </div>
         <label class="control-label col-sm-2 text-left">If yes, spouse PAN number</label>
         <div class="col-sm-3">
-            <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.spousePanNo" #spousePanNo="ngModel" name="spousePanNo"
-                PanCardValidator [disabled]="personalInfo.selectedGovernedByPortugueseCivil!='Y'" DuplicateCheckValidator duplicateCheckInput='{{personalInfo.panNo}}'
-                (input)='onChangeSpousePanCardNumber()' />
-            <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.panNoError">{{spousePanNo.errors.panNoError.errorMsg}}</div>
-            <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.duuplicateError">Your Pan No cannot be same as your spouse</div>
+              
+            <div *ngIf="personalInfo.selectedGovernedByPortugueseCivil=='Y';else spouse_NgTemplate">
+                    <input type="text" novalidate class="form-control" required [ngClass]="spousePanNo.valid>0? 'valid': 'invalid'" [(ngModel)]="personalInfo.spousePanNo" #spousePanNo="ngModel" name="spousePanNo"
+                    PanCardValidator [disabled]="personalInfo.selectedGovernedByPortugueseCivil!='Y'" DuplicateCheckValidator duplicateCheckInput='{{personalInfo.panNo}}'
+                    (input)='onChangeSpousePanCardNumber()' />
+                    <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.panNoError">{{spousePanNo.errors.panNoError.errorMsg}}</div>
+                    <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.duuplicateError">Your Pan No cannot be same as your spouse</div>
+            </div>
+            <ng-template #spouse_NgTemplate>
+                    <input type="text" novalidate class="form-control" [(ngModel)]="personalInfo.spousePanNo" #spousePanNo="ngModel" name="spousePanNo"
+                    PanCardValidator [disabled]="personalInfo.selectedGovernedByPortugueseCivil!='Y'" DuplicateCheckValidator duplicateCheckInput='{{personalInfo.panNo}}'
+                    (input)='onChangeSpousePanCardNumber()' />                  
+                    <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.panNoError">{{spousePanNo.errors.panNoError.errorMsg}}</div>
+                    <div class="border-left-error" *ngIf="spousePanNo.errors && spousePanNo.errors.duuplicateError">Your Pan No cannot be same as your spouse</div>
+            </ng-template>           
         </div>
     </div>
 
