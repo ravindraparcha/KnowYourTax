@@ -32,8 +32,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
     }
 
     public personalInfo: PersonalInfoModel;
-    @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
-    //@ViewChild('personalInfoFrm') personalInfoForm;   
+    @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();    
     @ViewChild('personalInfoFrm') form: NgForm;
 
     public isReceiptNumber: boolean;
@@ -45,6 +44,7 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
     private tenantPANNumberList: string[];
     public myOptions: INgxMyDpOptions;
     public filedAgainstNoticeOptions: INgxMyDpOptions;
+    public dobOptions : INgxMyDpOptions;
 
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
@@ -66,6 +66,11 @@ export class PersonalInfoComponent implements OnInit,OnDestroy {
             sunHighlight: true,
             openSelectorTopOfInput: true,
             disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
+        };
+        this.dobOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            sunHighlight: true,
+            disableSince :{ year: new Date().getFullYear(), month: 4, day: 1 },
         };
 
         this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);

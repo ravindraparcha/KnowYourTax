@@ -32,7 +32,7 @@ export class UpdateNextFieldDirective implements Validator {
             }
         }
         if(this._setValue!=null) {
-            if(control.value=="OTH") 
+            if(control.value!=="OTH") 
                 nextField.setValue(this._setValue); 
             else 
                 nextField.setValue('');               

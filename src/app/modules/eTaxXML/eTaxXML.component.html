@@ -83,7 +83,7 @@
                                         <td>{{incomeTaxModel.taxComputationModel.totalInterestPayable | indianCurrency}}</td>
                                     </tr>
                                     <tr style="font-weight: bold;">
-                                        <td>Total tax and interest</td>
+                                        <td>Total</td>
                                         <td>&nbsp;</td>
                                         <td>{{incomeTaxModel.taxComputationModel.totalTaxFeeInterest | indianCurrency}}</td>
                                     </tr>
@@ -136,7 +136,7 @@
                         style='text-align:left;color:green'>No tax to pay</label>
                     <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund >0"
                         style='text-align:left;color:green'>You will get refund for {{refund | indianCurrency}}</label>
-                    <!--<button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button>-->
+                    <!-- <button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button> -->
                     <button class="btn btn-default" (click)="generateXML()">Generate xml</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
@@ -188,7 +188,7 @@
                                 <a data-toggle="tab" href="#personInfo" data-toggle="modal" data-target="#form26ASModel">Upload Form 26AS on your browser</a>
                             </div>
                             <div class="col-xs-5" style="text-align: right">
-                                <button class="btn btn-default" (click)="calculateTax()">Calculate tax and proceed</button>
+                                <button class="btn btn-default" (click)="calculateTax()">Proceed</button>
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,7 @@
                     <div style="padding:0 6px 10px 5px">
                         <div class="row">
                             <div class="col-xs-12" style="text-align: right">
-                                <button class="btn btn-default" (click)="calculateTax()">Calculate tax and proceed</button>
+                                <button class="btn btn-default" (click)="calculateTax()">Proceed</button>
                             </div>
                         </div>
                     </div>

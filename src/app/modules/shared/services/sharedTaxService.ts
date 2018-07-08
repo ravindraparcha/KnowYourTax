@@ -58,6 +58,11 @@ export class SharedTaxService {
         return this.spousePANNumber;
     }
     public changeTenantPANNumberList(pans: string[]) {
+        if(pans.length>0)
+            this.changeIsTenantAdded(true);
+        else 
+            this.changeIsTenantAdded(false);
+            
         this.tenantPANNumberList.emit(pans);
     }
     public getTenantPANNumberList(): EventEmitter<string[]> {

@@ -75,7 +75,6 @@ export class TaxPaidVerificationComponent implements OnInit,OnDestroy {
     }
 
     addNewOtherExemption() {
-
         this._newOtherExemptionModel = new OtherExemptionModel("", 0);
         this.OtherExemptionModels.push(this._newOtherExemptionModel);
         this.taxPaidModel.otherExemptionModels = this.OtherExemptionModels;
@@ -108,7 +107,6 @@ export class TaxPaidVerificationComponent implements OnInit,OnDestroy {
         console.log(this.taxPaidModel);
         console.log(this.OtherExemptionModels);
         console.log(this.otherAccountDetailModels);
-
     }
 
     public validateTaxPaidVerificationComponentForm() {

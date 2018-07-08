@@ -121,7 +121,7 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
             this.incomeDetailsModel.taxPaidToLocalAuthority = '0';
         }
         else if (this.incomeDetailsModel.selectedHousePropertyType == 'L' && this.isCalculator == 'false') {
-            this._toastr.warning('Make sure to fill 26QC details under tax details', 'Warning', this._configuration.CustomToastOptions);
+            this._toastr.info('Make sure to fill 26QC details under tax details', 'Information', this._configuration.CustomToastOptions);
         }
         else if (this.incomeDetailsModel.selectedHousePropertyType == null) {
             this.incomeDetailsModel.rent = '0';
@@ -131,7 +131,6 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
             this.incomeDetailsModel.interestOnBorrowedCapital = '0';
             this.incomeDetailsModel.housePropertySum = 0;
         }
-
         this.calculateAnnualValue();
     }
     public updateTotalDeductions(sum: number) {
@@ -142,8 +141,8 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
         let errorFound: boolean = false;
         if (this.incomeDetailsModel.selectedHousePropertyType == 'L' && this.isCalculator == 'false') {
             if (!this.isTenantAdded || this.isTenantAdded == undefined) {
-                this._sharedTaxService.changeIsTenantAdded(undefined);
-                this._toastr.error('<b>Tax details Tab-</b>You have selected House Property type="Given on rent" in Personal information tab. Make sure to add details under 26QC', 'Error', this._configuration.CustomToastOptions);
+                this.isIncomeDetailsComponentValid.emit(undefined);
+                this._toastr.error('<b>Tax details Tab-</b>You have selected House Property type="Given on rent" in Income details tab. Make sure to add details under 26QC', 'Error', this._configuration.CustomToastOptions);
                 errorFound = true;
             }
         }

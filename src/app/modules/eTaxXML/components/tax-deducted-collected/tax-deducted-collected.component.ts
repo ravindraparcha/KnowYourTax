@@ -44,7 +44,7 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         this.taxCollectionDeductionYearList = [];
         this.taxDeductionTenantYearList = [];
         this.taxCollectedModels = [];
-        this.taxDeductedOtherThanSalaryModels=[];
+        this.taxDeductedOtherThanSalaryModels = [];
         this.taxCollectedDeductedModel = new TaxCollectedDeductedModel();
         this.taxCollectedDeductedModel.taxCollectedModels = [];
         this.taxCollectedDeductedModel.taxDeductedSalaryModels = [];
@@ -54,10 +54,9 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         this._newTaxDeductedUnder26QCModel = {};
         this._subscription = this._sharedTaxService.getUserPANNumber().subscribe(item => this._usrPanNo = item);
         this._subscription = this._sharedTaxService.getSpousePANNumber().subscribe(item => this._spousePanNo = item);
-        //this.taxDeductedUnder26QCModelsDiffer = this._differs.find(this.newTaxDeductedUnder26QCModel).create(null);
     }
-    ngOnDestroy() {        
-        this._subscription.unsubscribe();       
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
     }
 
     @Input()
@@ -68,7 +67,6 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
                 this.taxDeductedSalaryModels.push(taxDeductedModels[i]);
             this.taxCollectedDeductedModel.taxDeductedSalaryModels = this.taxDeductedSalaryModels;
         }
-
     }
 
     public getAdvanceTaxSelfAssessmentTaxModelOutput(output: AdvanceTaxSelfAssessmentTaxModel[]) {
@@ -86,11 +84,9 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         $('.panel-collapse').on('hide.bs.collapse', function () {
             $(this).siblings('.panel-heading-custom').removeClass('active');
         });
-        this.taxCollectionDeductionYearList = this.getTaxCollectionDeductionYearList();
-        let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
-        this.taxDeductionTenantYearList = [{ "key": previousYear, "value": previousYear }];
+        this.taxCollectionDeductionYearList = this.getFinancialYearList();
+        this.taxDeductionTenantYearList = this.getFinancialYearList();
         this._taxDeductedUnder26QCModelsDiffer = this._differs.find(this._newTaxDeductedUnder26QCModel).create();
-
     }
     ngDoCheck(): void {
         let isDeducted26QCchanged = this._taxDeductedUnder26QCModelsDiffer.diff(this._newTaxDeductedUnder26QCModel);
@@ -101,6 +97,14 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
             }
             this._sharedTaxService.changeTenantPANNumberList(panNumberList);
         }
+    }
+    private getFinancialYearList(): object[] {
+        let keyValuePair = [];
+        let currentYear = new Date().getFullYear();
+        let previousYear = new Date(currentYear - 1, 0, 1).getFullYear();
+        keyValuePair.push({ 'key': previousYear, 'value': previousYear });
+        keyValuePair.push({ 'key': currentYear, 'value': currentYear });
+        return keyValuePair;
     }
     private getTaxCollectionDeductionYearList() {
         let previousYear = new Date(new Date().getFullYear() - 1, 0, 1).getFullYear();
@@ -127,24 +131,23 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         this.calculateTaxDeductedAmount();
     }
     deleteTaxDeductedSalaryItem(index: number) {
-
         this.deleteItemFromArray(this.taxDeductedSalaryModels, index);
         this.calculateTaxDeductedAmount();
     }
 
     private calculateTaxDeductedAmount() {
-        let tdsSum = 0;
+        let tdsSum:number= 0;
         for (let taxDeductedSalaryModel of this.taxCollectedDeductedModel.taxDeductedSalaryModels)
-            tdsSum += taxDeductedSalaryModel.taxDeducted;
+            tdsSum += parseInt(taxDeductedSalaryModel.taxDeducted.toString());
         for (let taxDeductedOtherThanSalaryModel of this.taxCollectedDeductedModel.taxDeductedOtherThanSalaryModels) {
             if (taxDeductedOtherThanSalaryModel.selectedOtherThanSalaryYear == null)
                 continue;
-            tdsSum += taxDeductedOtherThanSalaryModel.amountClaimedThisYear;
+            tdsSum += parseInt(taxDeductedOtherThanSalaryModel.amountClaimedThisYear.toString());
         }
         for (let taxDeductedUnder26QCModel of this.taxCollectedDeductedModel.taxDeductedUnder26QCModels) {
             if (taxDeductedUnder26QCModel.selectedTenantDeductionYear == null)
                 continue;
-            tdsSum += taxDeductedUnder26QCModel.amountClaimedThisYear;
+            tdsSum += parseInt(taxDeductedUnder26QCModel.amountClaimedThisYear.toString());
         }
         this._sharedTaxService.changeTDSAmount(tdsSum);
     }
@@ -169,21 +172,11 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
     addNewTaxDeductedUnder26QC() {
         this._newTaxDeductedUnder26QCModel = new TaxDeductedUnder26QCModel("", "", 0, 0, 0);
         this.taxDeductedUnder26QCModels.push(this._newTaxDeductedUnder26QCModel);
-        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;
-        this.updatePANList();
+        this.taxCollectedDeductedModel.taxDeductedUnder26QCModels = this.taxDeductedUnder26QCModels;       
     }
     deleteTaxDeductedUnder26QCItem(index: number) {
         this.deleteItemFromArray(this.taxDeductedUnder26QCModels, index);
-        this.calculateTaxDeductedAmount();
-        this.updatePANList();
-    }
-
-    private updatePANList() {
-        let panNumberList: string[] = [];
-        for (let i = 0; i < this.taxDeductedUnder26QCModels.length; i++) {
-            panNumberList.push(this.taxDeductedUnder26QCModels[i].PAN);
-        }
-        this._sharedTaxService.changeTenantPANNumberList(panNumberList);
+        this.calculateTaxDeductedAmount();       
     }
 
     addNewTaxCollection() {
@@ -202,7 +195,7 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         for (let taxCollectedModel of this.taxCollectedDeductedModel.taxCollectedModels) {
             if (taxCollectedModel.selectedTaxCollectionYear == 0)
                 continue;
-            sum += taxCollectedModel.amountClaimedThisYear;
+            sum += parseInt(taxCollectedModel.amountClaimedThisYear.toString());
         }
         this._sharedTaxService.changeTCSAmount(sum);
     }

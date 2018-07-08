@@ -49,7 +49,7 @@ export class XmlGeneratorService {
             let currentDate = new Date();
             panNo = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
         }
-        //saveAs(blob, 'ITR1_' + panNo + ".xml");
+        saveAs(blob, 'ITR1_' + panNo + ".xml");
     }
     private addPredefinedXmlNodes() {
         this.xmlWriterRequire = require('xml-writer');
@@ -223,10 +223,11 @@ export class XmlGeneratorService {
         // if (incomeDetails.grossTotalIncome !== undefined && incomeDetails.grossTotalIncome !== null)
         //     this.xmlWriter.writeElement("ITRForm:GrossTotIncome", incomeDetails.grossTotalIncome);
 
-        this.xmlWriter.endElement();
         let incomeTaxModel = incomeDetail.incomeTaxModel;
         this.addUserDeductionNode(incomeTaxModel.userTaxModel);
-        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel,incomeTaxModel.taxComputationModel.totalTaxFeeInterest);
+        this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel);
+        this.xmlWriter.writeElement('ITRForm:TotalIncome',incomeTaxModel.taxComputationModel.totalTaxFeeInterest);
+        this.xmlWriter.endElement();
         this.addTaxComputationNode(incomeTaxModel.taxComputationModel);
     }
 
@@ -236,11 +237,49 @@ export class XmlGeneratorService {
         this.xmlWriter.endElement();
     }
 
-    private addSysCalculatedDeductionNode(sysDeductions,totalIncome : number) {
+    private addSysCalculatedDeductionNode(sysDeductions) {
         this.xmlWriter.startElement("ITRForm:DeductUndChapVIA");
         this.addDeductionNode(sysDeductions, false);        
         this.xmlWriter.endElement();
-        this.xmlWriter.writeElement('ITRForm:TotalIncome',totalIncome);
+        
+    }
+
+    private addTaxComputationNode(incomeDetails) {
+        this.xmlWriter.startElement("ITRForm:ITR1_TaxComputation");
+
+        if (incomeDetails.taxPayableOnTotalIncome !== undefined && incomeDetails.taxPayableOnTotalIncome !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalTaxPayable", incomeDetails.taxPayableOnTotalIncome);
+        if (incomeDetails.rebateAmt !== undefined && incomeDetails.rebateAmt !== null)
+            this.xmlWriter.writeElement("ITRForm:Rebate87A", incomeDetails.rebateAmt);
+        if (incomeDetails.taxPayableAfterRebate !== undefined && incomeDetails.taxPayableAfterRebate !== null)
+            this.xmlWriter.writeElement("ITRForm:TaxPayableOnRebate", incomeDetails.taxPayableAfterRebate);
+        if (incomeDetails.cessTax !== undefined && incomeDetails.cessTax !== null)
+            this.xmlWriter.writeElement("ITRForm:EducationCess", incomeDetails.cessTax);
+        if (incomeDetails.totalTaxAndCess !== undefined && incomeDetails.totalTaxAndCess !== null)
+            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxAndCess);
+        if (incomeDetails.reliefUnder89 !== undefined && incomeDetails.reliefUnder89 !== null)
+            this.xmlWriter.writeElement("ITRForm:Section89", incomeDetails.reliefUnder89);
+        if (incomeDetails.balanceTaxAfterRelief !== undefined && incomeDetails.balanceTaxAfterRelief !== null)
+            this.xmlWriter.writeElement("ITRForm:NetTaxLiability", incomeDetails.balanceTaxAfterRelief);
+        if (incomeDetails.totalInterestPayable !== undefined && incomeDetails.totalInterestPayable !== null)
+            this.xmlWriter.writeElement("ITRForm:TotalIntrstPay", incomeDetails.totalInterestPayable);
+
+        
+        this.xmlWriter.startElement("ITRForm:IntrstPay");
+
+        if (incomeDetails.interest234A !== undefined && incomeDetails.interest234A !== null)
+            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234A", incomeDetails.interest234A);
+        if (incomeDetails.interest234B !== undefined && incomeDetails.interest234B !== null)
+            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234B", incomeDetails.interest234B);
+        if (incomeDetails.interest234C !== undefined && incomeDetails.interest234C !== null)
+            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234C", incomeDetails.interest234C);
+        if (incomeDetails.feeUnder234F !== undefined && incomeDetails.feeUnder234F !== null)
+            this.xmlWriter.writeElement("ITRForm:LateFilingFee234F", incomeDetails.feeUnder234F);
+        if (incomeDetails.totalTaxFeeInterest !== undefined && incomeDetails.totalTaxFeeInterest !== null)
+            this.xmlWriter.writeElement("ITRForm:TotTaxPlusIntrstPay", incomeDetails.totalTaxFeeInterest);
+
+        this.xmlWriter.endElement();
+        this.xmlWriter.endElement();
     }
 
     private addDeductionNode(deductions, isUsrNode: boolean) {
@@ -308,43 +347,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotalChapVIADeductions", total);
     }
 
-    private addTaxComputationNode(incomeDetails) {
-        this.xmlWriter.startElement("ITRForm:ITR1_TaxComputation");
-
-        if (incomeDetails.taxPayableOnTotalIncome !== undefined && incomeDetails.taxPayableOnTotalIncome !== null)
-            this.xmlWriter.writeElement("ITRForm:TotalTaxPayable", incomeDetails.taxPayableOnTotalIncome);
-        if (incomeDetails.rebateAmt !== undefined && incomeDetails.rebateAmt !== null)
-            this.xmlWriter.writeElement("ITRForm:Rebate87A", incomeDetails.rebateAmt);
-        if (incomeDetails.taxPayableAfterRebate !== undefined && incomeDetails.taxPayableAfterRebate !== null)
-            this.xmlWriter.writeElement("ITRForm:TaxPayableOnRebate", incomeDetails.taxPayableAfterRebate);
-        if (incomeDetails.cessTax !== undefined && incomeDetails.cessTax !== null)
-            this.xmlWriter.writeElement("ITRForm:EducationCess", incomeDetails.cessTax);
-        if (incomeDetails.totalTaxAndCess !== undefined && incomeDetails.totalTaxAndCess !== null)
-            this.xmlWriter.writeElement("ITRForm:GrossTaxLiability", incomeDetails.totalTaxAndCess);
-        if (incomeDetails.reliefUnder89 !== undefined && incomeDetails.reliefUnder89 !== null)
-            this.xmlWriter.writeElement("ITRForm:Section89", incomeDetails.reliefUnder89);
-        if (incomeDetails.balanceTaxAfterRelief !== undefined && incomeDetails.balanceTaxAfterRelief !== null)
-            this.xmlWriter.writeElement("ITRForm:NetTaxLiability", incomeDetails.balanceTaxAfterRelief);
-        if (incomeDetails.totalInterestPayable !== undefined && incomeDetails.totalInterestPayable !== null)
-            this.xmlWriter.writeElement("ITRForm:TotalIntrstPay", incomeDetails.totalInterestPayable);
-
-        this.xmlWriter.endElement();
-        this.xmlWriter.startElement("ITRForm:IntrstPay");
-
-        if (incomeDetails.interest234A !== undefined && incomeDetails.interest234A !== null)
-            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234A", incomeDetails.interest234A);
-        if (incomeDetails.interest234B !== undefined && incomeDetails.interest234B !== null)
-            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234B", incomeDetails.interest234B);
-        if (incomeDetails.interest234C !== undefined && incomeDetails.interest234C !== null)
-            this.xmlWriter.writeElement("ITRForm:IntrstPayUs234C", incomeDetails.interest234C);
-        if (incomeDetails.feeUnder234F !== undefined && incomeDetails.feeUnder234F !== null)
-            this.xmlWriter.writeElement("ITRForm:LateFilingFee234F", incomeDetails.feeUnder234F);
-        if (incomeDetails.totalTaxFeeInterest !== undefined && incomeDetails.totalTaxFeeInterest !== null)
-            this.xmlWriter.writeElement("ITRForm:TotTaxPlusIntrstPay", incomeDetails.totalTaxFeeInterest);
-
-        this.xmlWriter.endElement();
-    }
-
+    
     private addTaxPaid(taxPaid) {
         this.agricultureIncome = taxPaid.agricultureIncome;
         this.xmlWriter.startElement("ITRForm:TaxPaid");
@@ -461,7 +464,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid", deducted.amountClaimedThisYear);
 
                 this.xmlWriter.endElement();
-                deductedSum += parseInt(deducted.taxDeducted);
+                deductedSum += parseInt(deducted.amountClaimedThisYear);
             }
             this.xmlWriter.writeElement("ITRForm:TotalTDSonOthThanSals", deductedSum);
             this.xmlWriter.endElement();
@@ -483,7 +486,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:ClaimOutOfTotTDSOnAmtPaid", deducted.amountClaimedThisYear);
 
                 this.xmlWriter.endElement();
-                deductedSum += parseInt(deducted.taxDeducted);
+                deductedSum += parseInt(deducted.amountClaimedThisYear);
             }
             this.xmlWriter.writeElement("ITRForm:TotalTDSDetails26QC", deductedSum);
             this.xmlWriter.endElement();
@@ -508,7 +511,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:AmtTCSClaimedThisYear", collected.amountClaimedThisYear);
 
                 this.xmlWriter.endElement();
-                collectedSum += parseInt(collected.taxDeducted);
+                collectedSum += parseInt(collected.amountClaimedThisYear);
             }
             this.xmlWriter.writeElement("ITRForm:TotalSchTCS", collectedSum);
             this.xmlWriter.endElement();
