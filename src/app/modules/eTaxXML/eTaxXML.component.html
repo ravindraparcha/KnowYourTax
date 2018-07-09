@@ -6,11 +6,11 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h5 class="modal-title" style="color:black;">Calculation Result</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body"  style='padding-bottom:0;'>
                 <div class="row">
                     <div class='col-sm-6'>
                         <table class="table table-striped table-bordered fixHeaderTable">
-                            <thead style="background:linear-gradient(#fafafa, #dadada)">
+                            <thead style="background:linear-gradient(#ffffff, #91cfef)">
                                 <tr>
                                     <th style="width:34.8%">Section</th>
                                     <th>Entered Amount</th>
@@ -34,7 +34,7 @@
                     <div class='col-sm-6'>
                         <div style="position: relative;padding: 0 15px 0 15px;">
                             <table class="table table-striped table-bordered">
-                                <thead style="background:linear-gradient(#fafafa, #dadada)">
+                                <thead style="background:linear-gradient(#ffffff, #91cfef)">
                                     <tr>
                                         <th>Description</th>
                                         <th>Amount</th>
@@ -42,6 +42,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td>Taxable income</td>
+                                        <td>{{incomeTaxModel.taxComputationModel.netTaxableIncome | indianCurrency}}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
                                     <tr>
                                         <td>Income Tax</td>
                                         <td>{{incomeTaxModel.taxComputationModel.taxPayableOnTotalIncome | indianCurrency}}</td>
@@ -83,7 +88,7 @@
                                         <td>{{incomeTaxModel.taxComputationModel.totalInterestPayable | indianCurrency}}</td>
                                     </tr>
                                     <tr style="font-weight: bold;">
-                                        <td>Total tax and interest</td>
+                                        <td>Total</td>
                                         <td>&nbsp;</td>
                                         <td>{{incomeTaxModel.taxComputationModel.totalTaxFeeInterest | indianCurrency}}</td>
                                     </tr>
@@ -127,18 +132,18 @@
             </div>
 
 
-            <div class="modal-footer" style="border-top:0;padding-top:0;padding-right:28px;">
+            <div class="modal-footer" style="border-top:0;padding-top:0;padding-right:44px;">               
                 <div class='row'>
-                    <div *ngIf="(amountPayable > 0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0); else hideMsg">
+                    <div *ngIf="(amountPayable > 0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0)">
                         <label class="col-sm-6" style='text-align:left;color:red'>Please ready challan for tax payable {{amountPayable | indianCurrency}} for generating xml</label>
                     </div>
-                    <ng-template #hideMsg>
-                        <label class="col-sm-6">&nbsp;</label>
-                    </ng-template>
-                    <div class='col-sm-6 '>
-                        <button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                    <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund == 0"
+                        style='text-align:left;color:green'>No tax to pay</label>
+                    <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund >0"
+                        style='text-align:left;color:green'>You will get refund for {{refund | indianCurrency}}</label>
+                    <button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                    <!-- <button class="btn btn-default" (click)="generateXML()">Generate xml</button> -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -172,8 +177,9 @@
     </div>
 </div>
 <!-- End modal -->
+<assessment-year></assessment-year>
 <form #calcFrm="ngForm">
-    <div class="container margin-top15 margin-top65 margin-bottom70">
+    <div class="container margin-bottom70"  style='margin-top:3px;'>
         <div class="row">
             <div class="panel panel-default border-radius border-box">
                 <div class="panel-heading">Generate e-filing Tax XML </div>
@@ -188,7 +194,7 @@
                                 <a data-toggle="tab" href="#personInfo" data-toggle="modal" data-target="#form26ASModel">Upload Form 26AS on your browser</a>
                             </div>
                             <div class="col-xs-5" style="text-align: right">
-                                <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
+                                <button class="btn btn-default" (click)="calculateTax()">Proceed</button>
                             </div>
                         </div>
                     </div>
@@ -211,7 +217,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="incomeDetails" class="tab-pane fade in active" style="padding: 0 5px 0 5px">
-                            <income-details [advanceTaxPaid]="advanceTaxPaidModels" (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
+                            <income-details [advanceTaxPaid]="advanceTaxPaidModels" isCalculator='false' (isIncomeDetailsComponentValid)="isIncomeDetailsComponentValid($event)"></income-details>
                         </div>
                         <div id="taxDetails" class="tab-pane fade" style="padding: 0 5px 0 5px">
                             <tax-deducted-collected [taxDeducted]="taxDeducted" (isTaxDeductedCollectedComponentValid)="isTaxDeductedCollectedComponentValid($event)"></tax-deducted-collected>
@@ -227,12 +233,12 @@
                         </div>
                     </div>
                     <div style="padding:0 6px 10px 5px">
-                            <div class="row">                              
-                                <div class="col-xs-12" style="text-align: right">
-                                    <button class="btn btn-default" (click)="calculateTax()">Calculate tax</button>
-                                </div>
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: right">
+                                <button class="btn btn-default" (click)="calculateTax()">Proceed</button>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>

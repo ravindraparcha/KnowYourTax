@@ -7,7 +7,7 @@ import { filter, map, catchError } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import {slimLoaderBarService} from  './slimLoaderBarService';
-import { ConfigurationService } from "../services/ConfigurationService";
+import { ConfigurationService } from "../services/configurationService";
 
 @Injectable()
 export class CalculatorService {    

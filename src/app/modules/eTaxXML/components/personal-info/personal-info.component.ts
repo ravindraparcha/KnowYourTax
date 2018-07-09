@@ -1,18 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild,HostListener } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild, OnDestroy } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/configurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import { FormatDateService } from '../../services/formatDateService';
-import { SharedTaxService } from  '../../../shared/services/sharedTaxService';
+import { SharedTaxService } from '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 
-import {NgForm} from "@angular/forms";
+import { NgForm } from "@angular/forms";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: 'personal-info',
     templateUrl: './personal-info.component.html'
 })
-export class PersonalInfoComponent  implements OnInit {
+export class PersonalInfoComponent implements OnInit,OnDestroy {
 
     @Input()
     set personalInfoData(personalInfoData: PersonalInfoModel) {
@@ -31,29 +32,48 @@ export class PersonalInfoComponent  implements OnInit {
     }
 
     public personalInfo: PersonalInfoModel;
-    @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();
-    //@ViewChild('personalInfoFrm') personalInfoForm;   
+    @Output() isPersonalInfoComponentValid: EventEmitter<boolean> = new EventEmitter<boolean>();    
     @ViewChild('personalInfoFrm') form: NgForm;
 
-    public isReceiptNumber: boolean = true;
-    public isFilingDate: boolean = true;
-    public isNoticeNumber: boolean = true;
-    public isNoticeDate: boolean = true;     
+    public isReceiptNumber: boolean;
+    public isFilingDate: boolean;
+    public isNoticeNumber: boolean;
+    public isNoticeDate: boolean;
     public model: any;
-    myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat,
-        disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
-    };
-    filedAgainstNoticeOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat,
-        openSelectorTopOfInput: true,
-        disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
-    };
+    private _subscription: Subscription;
+    private tenantPANNumberList: string[];
+    public myOptions: INgxMyDpOptions;
+    public filedAgainstNoticeOptions: INgxMyDpOptions;
+    public dobOptions : INgxMyDpOptions;
 
     constructor(private cd: ChangeDetectorRef,
         public _configuration: ConfigurationService, private _formatDateService: FormatDateService,
         private _sharedTaxService: SharedTaxService, private _toastr: ToastrService) {
-          
+
+        this.isReceiptNumber = true;
+        this.isFilingDate = true;
+        this.isNoticeNumber = true;
+        this.isNoticeDate = true;
+
+        this.myOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            sunHighlight: true,
+            disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
+
+        };
+        this.filedAgainstNoticeOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            sunHighlight: true,
+            openSelectorTopOfInput: true,
+            disableUntil: { year: new Date().getFullYear(), month: 3, day: 31 },
+        };
+        this.dobOptions = {
+            dateFormat: this._configuration.dateTimeFormat,
+            sunHighlight: true,
+            disableSince :{ year: new Date().getFullYear(), month: 4, day: 1 },
+        };
+
+        this._subscription = this._sharedTaxService.getTenantPANNumberList().subscribe(item => this.tenantPANNumberList = item);
     }
 
     // when old value does not match with new value during expression evaluation for child component
@@ -66,7 +86,11 @@ export class PersonalInfoComponent  implements OnInit {
     ngOnInit() {
         this.initialisePersonalModelObject();
     }
-    initialisePersonalModelObject() {
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
+    }
+
+    private initialisePersonalModelObject() {
         this.personalInfo = new PersonalInfoModel();
         this.personalInfo.birthDate = "";
         //this.personalInfo.selectedState = "";
@@ -80,7 +104,7 @@ export class PersonalInfoComponent  implements OnInit {
         this.personalInfo.country = "91";
 
     }
-    onBirthDateChanged(event: IMyDateModel) {
+    public onBirthDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.personalInfo.birthDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
@@ -91,7 +115,7 @@ export class PersonalInfoComponent  implements OnInit {
             this.personalInfo.birthDateXml = "";
         }
     }
-    onOriginalFilingReturnDateChanged(event: IMyDateModel) {
+    public onOriginalFilingReturnDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filingOriginalReturnDate = event.date.day + "/" + event.date.month + "/" + event.date.year;
             this.personalInfo.filingOriginalReturnDateXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
@@ -102,7 +126,7 @@ export class PersonalInfoComponent  implements OnInit {
 
         }
     }
-    onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
+    public onfiledAgainstNoticeDateChanged(event: IMyDateModel) {
         if (event.date.day != 0) {
             this.personalInfo.filedAgainstNotice = event.date.day + "/" + event.date.month + "/" + event.date.year;
             this.personalInfo.filedAgainstNoticeXml = this._formatDateService.formatDate(event.date.day, event.date.month, event.date.year, "yyyy-mm-dd", "-");
@@ -112,7 +136,7 @@ export class PersonalInfoComponent  implements OnInit {
             this.personalInfo.filedAgainstNoticeXml = "";
         }
     }
-    changeReturnFileSection() {
+    public changeReturnFileSection() {
         this.onChangeReturnFileSectionReturnType();
         this._sharedTaxService.changeReturnFiledSection(this.personalInfo.selectedReturnFiledSection);
 
@@ -153,11 +177,11 @@ export class PersonalInfoComponent  implements OnInit {
         }
 
     }
-    onChangeGovernedByPortuguesesCivil() {
+    public onChangeGovernedByPortuguesesCivil() {
         if (this.personalInfo.selectedGovernedByPortugueseCivil != 'Y')
             this.personalInfo.spousePanNo = "";
     }
-    onChangeOrginalRevisedFile() {
+    public onChangeOrginalRevisedFile() {
         this.onChangeReturnFileSectionReturnType();
     }
 
@@ -178,11 +202,31 @@ export class PersonalInfoComponent  implements OnInit {
     }
 
     public validatePersonalInfoComponentForm() {
-        //this.personalInfoForm.valueChanges.subscribe(data =>console.log('Form changes', data));
+        let errorFound: boolean = false;
+        if (this.tenantPANNumberList != undefined) {
+            this.tenantPANNumberList.forEach(pan => {
+                if (this.personalInfo.panNo == pan || this.personalInfo.spousePanNo == pan) {
+                    this._toastr.error('<b>Personal Information Tab-</b>Any tenant PAN number could not be same as yours or your spouse PAN number', 'Error', this._configuration.CustomToastOptions);
+                    this.isPersonalInfoComponentValid.emit(undefined);
+                    errorFound = true;
+                    return false;
+                }
+            });
+        }
+        if (errorFound)
+            return;
         if (this.form.valid)
             this.isPersonalInfoComponentValid.emit(true);
         else
             this.isPersonalInfoComponentValid.emit(false);
+    }
+
+    public onChangeUserPanCardNumber() {
+        this._sharedTaxService.changeUserPANNumber(this.personalInfo.panNo);
+    }
+
+    public onChangeSpousePanCardNumber() {
+        this._sharedTaxService.changeSpousePANNumber(this.personalInfo.spousePanNo);
     }
 
 }

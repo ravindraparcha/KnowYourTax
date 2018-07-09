@@ -248,8 +248,8 @@ code {
     padding-left: 4px;
     margin-top: 2px;
     background-color: #f1fbff;
-    font-style:italic;
-    border-bottom: 1px solid #35bce9;
+    font-style:italic;        
+    color:#5e5c5c;
 }
 .border-left-error{    
     border-left: 2px solid red;
@@ -324,7 +324,7 @@ th{
 }
 .fixHeaderTable  tbody{
   display:block;
-  height:353px;
+  height:369px;
   overflow:auto;
 }
 
@@ -355,4 +355,9 @@ padding-right: 17px;
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {     
     border-top: 2px solid #65bcea;
 }
- 
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color:#fafdff;
+}
+.margin-top10 {
+    margin-top:10px;
+}
