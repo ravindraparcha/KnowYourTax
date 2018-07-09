@@ -141,8 +141,8 @@
                         style='text-align:left;color:green'>No tax to pay</label>
                     <label class="col-sm-6" *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0 && refund >0"
                         style='text-align:left;color:green'>You will get refund for {{refund | indianCurrency}}</label>
-                    <!-- <button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button> -->
-                    <button class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                    <button *ngIf="amountPayable==0 && incomeTaxModel.taxComputationModel.totalTaxFeeInterest > 0" class="btn btn-default" (click)="generateXML()">Generate xml</button>
+                    <!-- <button class="btn btn-default" (click)="generateXML()">Generate xml</button> -->
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
