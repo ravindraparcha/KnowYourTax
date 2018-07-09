@@ -16,7 +16,7 @@ declare var $: any;
     templateUrl: './deductions-component.html'
 })
 
-export class DeductionsComponent implements OnInit,OnDestroy {
+export class DeductionsComponent implements OnInit, OnDestroy {
     public selectedSectionValue;
     public deductionList = [];
     public sectionForm;
@@ -29,8 +29,8 @@ export class DeductionsComponent implements OnInit,OnDestroy {
     public selfAssessmentAdvanceTax: any[];
     private _subscription: Subscription;
     private _returnFiledSection: number;
-    private _selfAssessmentTaxPaid: number ;
-    private _advanceTaxForm26AS: number ;
+    private _selfAssessmentTaxPaid: number;
+    private _advanceTaxForm26AS: number;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
@@ -107,7 +107,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             parent: [parent]
         });
     }
-   public addSection() {
+    public addSection() {
         let section = this.selectedSectionValue;
         let duplicateFound = false;
 
@@ -157,7 +157,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             this.deductionModel.filingDate = "";
         }
     }
-   public  onDeductionChangeCalculateSum(formData: any) {
+    public onDeductionChangeCalculateSum(formData: any) {
         let sum = this.calculateDeduction(formData.value.itemRows);
         this.onCalculateDeductionSum.emit(sum);
     }
@@ -221,7 +221,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         }
         //Total income - as per excel
         let netTaxableIncome = this.grossTotalIncome - deductionApplicable;
-
+        this.taxComputationModel.netTaxableIncome = netTaxableIncome;
         let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
 
@@ -232,14 +232,8 @@ export class DeductionsComponent implements OnInit,OnDestroy {
             this.taxComputationModel.cessTax += result.cessTax;
         }
 
-        //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
-        //reference:- https://cleartax.in/s/income-tax-rebate-us-87a
-        if (totalTax <= slabData.rebateAmount && totalTax > 0)
-            this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
-        else
-            this.taxComputationModel.taxPayableAfterRebate = totalTax;
-
-
+       
+        this.taxComputationModel.taxPayableAfterRebate = totalTax;
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
 
@@ -542,7 +536,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
                             balanceAmount = 0;
                     }
                     if (usrSection.parent == parentSectionName) {
-                        if (usrSection.enteredAmount > balanceAmount) {                            
+                        if (usrSection.enteredAmount > balanceAmount) {
                             usrSection.limit = balanceAmount;
                             balanceAmount = 0;
                         }
@@ -553,7 +547,7 @@ export class DeductionsComponent implements OnInit,OnDestroy {
                         }
                     }
                     else if (usrSection.name == parentSectionName) {
-                        if (usrSection.enteredAmount > msData.limit) {                            
+                        if (usrSection.enteredAmount > msData.limit) {
                             usrSection.limit = msData.limit;
 
                         }
@@ -566,9 +560,8 @@ export class DeductionsComponent implements OnInit,OnDestroy {
         }
     }
 
-    private calculateTaxPerSlab(netTotalIncome: number) {
+    private calculateTaxPerSlab(netTotalIncome: number): SlabResult[] {
 
-        let tax = 0;
         let slabResults = [];
         let slabTax = 0;
         let slabList = this._configuration.slabs;
@@ -580,32 +573,39 @@ export class DeductionsComponent implements OnInit,OnDestroy {
                 break;
             }
         }
-        slabs = slabData.slabLimits;
+        slabs = slabData.slabLimits;      
         for (let slab of slabs) {
             slabTax = 0;
             let slabResult = new SlabResult();
             //first slab has exemption			 
             if (netTotalIncome >= slab.max) {
-                slabTax = Math.ceil(((slab.max - slab.min) * slab.rate) / 100);
+                slabTax = Math.floor(((slab.max - slab.min) * slab.rate) / 100);
+                slabResult.taxableAmount = slab.max - slab.min;
             }
             else if (netTotalIncome >= slab.min) {
-                slabTax = Math.ceil(((netTotalIncome - slab.min) * slab.rate) / 100);
+                if (netTotalIncome < slabData.rebateLimit) {
+                    slabTax = 0;
+                }
+                else if (netTotalIncome == slabData.rebateLimit) {
+                    slabTax = slabData.rebateAmount;
+                    slabResult.taxableAmount = slabData.rebateAmount;;
+                }
+                else {
+                    slabTax = Math.floor(((netTotalIncome - slab.min) * slab.rate) / 100);
+                    slabResult.taxableAmount = netTotalIncome - slab.min;
+                }
             }
+            else
+                slabResult.taxableAmount = 0;
 
             slabResult.min = slab.min;
             slabResult.max = slab.max;
-            slabResult.taxableAmount = slab.max - slab.min;
             slabResult.tax = slabTax;
-            slabResult.cessTax = Math.ceil(slabTax * slabData.cess / 100);
+            slabResult.cessTax = Math.floor(slabTax * slabData.cess / 100);
             slabResult.totalTax = slabResult.tax + slabResult.cessTax;
             slabResults.push(slabResult);
-        }
-        for (let i = 0; i < slabResults.length; i++)
-            tax += slabResults[i].totalTax;
-        //console.log(tax);
-        return slabResults;
-        // console.log(slabResults);
-
+        }         
+        return slabResults;        
     }
 
     private getSectionName(usrSectionName) {
