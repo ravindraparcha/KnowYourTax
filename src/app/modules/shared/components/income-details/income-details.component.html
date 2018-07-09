@@ -5,7 +5,7 @@
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#salaryPensionCollapse" aria-expanded="true" aria-controls="collapseOne">
                         <div style="font-size:15px;">
-                            <span style="font-size:small;">SALARY / PENSION</span>
+                            <span style="font-size:15px;">Salary / Pension</span>
                             <span>&nbsp; = </span>
                             <span style="font-size:large;">{{incomeDetailsModel.salaryPensionSum | indianCurrency }}</span>
                             <!-- <span style="font-size:large;">Net total income {{incomeDetailsModel.totalTaxableIncome | indianCurrency }}</span> -->
@@ -18,34 +18,38 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Salary</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary"
-                                #salary="ngModel" name="salary" />
-
+                            <input type="text" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.salary"
+                                #salary="ngModel" name="salary" NumberValidator />
                             <div class="border-left-info">Excluding all allowances,perquisites and profit in lieu of salary</div>
+                            <div class="border-left-error" *ngIf="salary.errors && salary.errors.numberError">{{salary.errors.numberError.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-2 text-left">Allowance not exempt</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.allowance"
-                                #allowance="ngModel" name="allowance" />
+                            <input type="text" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.allowance"
+                                #allowance="ngModel" name="allowance" NumberValidator />
+                                <div class="border-left-error" *ngIf="allowance.errors && allowance.errors.numberError">{{allowance.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Value of perquisites</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.perquisites"
-                                #perquisites="ngModel" name="perquisites" />
+                            <input type="text" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.perquisites"
+                                #perquisites="ngModel" name="perquisites" NumberValidator/>
+                                <div class="border-left-error" *ngIf="perquisites.errors && perquisites.errors.numberError">{{perquisites.errors.numberError.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-2 text-left">Profit in lieu of salary</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.profitLieuOfSalary"
-                                #profitLieuOfSalary="ngModel" name="profitLieuOfSalary" />
+                            <input type="text" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.profitLieuOfSalary"
+                                #profitLieuOfSalary="ngModel" name="profitLieuOfSalary" NumberValidator />
+                                <div class="border-left-error" *ngIf="profitLieuOfSalary.errors && profitLieuOfSalary.errors.numberError">{{profitLieuOfSalary.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Deduction u/s 16</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.deductionUS16"
-                                #deductionUS16="ngModel" name="deductionUS16" />
+                            <input type="text" novalidate class="form-control" (input)="calculateSalaryPensionSum()" [(ngModel)]="incomeDetailsModel.deductionUS16"
+                                #deductionUS16="ngModel" name="deductionUS16" NumberValidator/>
+                                <div class="border-left-error" *ngIf="deductionUS16.errors && deductionUS16.errors.numberError">{{deductionUS16.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                 </div>
@@ -56,7 +60,7 @@
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#housePropertyCollapse" aria-expanded="true" aria-controls="collapseOne">
                         <div style="font-size:15px;">
-                            <span style="font-size:small;">HOUSE PROPERTY</span>
+                            <span style="font-size:15px;">House property</span>
                             <span>&nbsp; = </span>
                             <span style="font-size:large;">{{incomeDetailsModel.housePropertySum | indianCurrency }}</span>
                         </div>
@@ -78,17 +82,18 @@
                         </div>
                         <label class="control-label col-sm-2 text-left">Gross rent received(A)</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType!=null && incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null"
-                                [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" (input)="calculateAnnualValue()"
-                            />
+                            <input type="text" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType!=null && incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null"
+                                [(ngModel)]="incomeDetailsModel.rent" #rent="ngModel" name="rent" (input)="calculateAnnualValue()" NumberValidator/>
+                            <div class="border-left-error" *ngIf="rent.errors && rent.errors.numberError">{{rent.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Tax paid to local authority(B)</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType!=null && incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null"
+                            <input type="text" novalidate class="form-control" [attr.disabled]="incomeDetailsModel.selectedHousePropertyType!=null && incomeDetailsModel.selectedHousePropertyType=='S' ? '' : null"
                                 [(ngModel)]="incomeDetailsModel.taxPaidToLocalAuthority" #taxPaidToLocalAuthority="ngModel" name="taxPaidToLocalAuthority"
-                                (input)="calculateAnnualValue()" />
+                                (input)="calculateAnnualValue()" NumberValidator/>
+                                <div class="border-left-error" *ngIf="taxPaidToLocalAuthority.errors && taxPaidToLocalAuthority.errors.numberError">{{taxPaidToLocalAuthority.errors.numberError.errorMsg}}</div>
                         </div>
                         <label class="control-label col-sm-2 text-left">Annual value(C=A-B)</label>
                         <div class="col-sm-3">
@@ -102,8 +107,9 @@
                         </div>
                         <label class="control-label col-sm-2 text-left">Interest payable on borrowed capital(E)</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.interestOnBorrowedCapital" #interestOnBorrowedCapital="ngModel"
-                                name="interestOnBorrowedCapital" (input)="calculateIncomeChargeableUnderHouseProperty()" />
+                            <input type="text" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.interestOnBorrowedCapital" #interestOnBorrowedCapital="ngModel"
+                                name="interestOnBorrowedCapital" (input)="calculateIncomeChargeableUnderHouseProperty()" NumberValidator/>
+                            <div class="border-left-error" *ngIf="interestOnBorrowedCapital.errors && interestOnBorrowedCapital.errors.numberError">{{interestOnBorrowedCapital.errors.numberError.errorMsg}}</div>
                         </div>
                     </div>
                     <div class="form-group margin-top15">
@@ -126,9 +132,10 @@
                     <div class="form-group margin-top15">
                         <label class="control-label col-sm-2 text-left">Income from other sources</label>
                         <div class="col-sm-3">
-                            <input type="number" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.incomeFromOtherSources" #incomeFromOtherSources="ngModel"
-                                name="incomeFromOtherSources" (input)="onChangeGrossTotalIncome()" />
+                            <input type="text" novalidate class="form-control" [(ngModel)]="incomeDetailsModel.incomeFromOtherSources" #incomeFromOtherSources="ngModel"
+                                name="incomeFromOtherSources" (input)="onChangeGrossTotalIncome()" NumberValidator/>
                             <div class="border-left-info">Ensure to fill TDS2</div>
+                            <div class="border-left-error" *ngIf="incomeFromOtherSources.errors && incomeFromOtherSources.errors.numberError">{{incomeFromOtherSources.errors.numberError.errorMsg}}</div>
                         </div>
 
                         <label class="control-label col-sm-2 text-left">Gross total income</label>
@@ -145,7 +152,7 @@
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#deductionCollapse" aria-expanded="true" aria-controls="collapseOne">
                         <div style="font-size:15px;">
-                            <span style="font-size:small;">DEDUCTIONS</span>
+                            <span style="font-size:15px;">Deductions</span>
                             <span>&nbsp; = </span>
                             <span style="font-size:large;">{{incomeDetailsModel.totalDeductionSum | indianCurrency }}</span>
                         </div>
@@ -157,20 +164,6 @@
                     <deductions [grossTotalIncome]="incomeDetailsModel.grossTotalIncome" [advanceTaxAlreadyPaid]="advanceTaxAlreadyPaid" (onCalculateDeductionSum)="updateTotalDeductions($event)"></deductions>
                 </div>
             </div>
-        </div>         
-        <!-- <div *ngIf='showAssessmentAdvanceTax=="true"' class="panel-custom panel-default-custom">
-            <div class="panel-heading-custom" role="tab" id="tds4SelfAssessmentAdvanceTaxHeading" style="font-size:15px;">
-                <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tds4Collapse" aria-expanded="true" aria-controls="collapseFour">
-                        <div style="font-size:15px;">Details of advance tax and self assessment tax</div>
-                    </a>
-                </h4>
-            </div>
-            <div id="tds4Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="tds4SelfAssessmentAdvanceTaxHeading">
-                <div class="panel-body">
-                    <self-assessment-advance-tax (advanceTaxSelfAssessmentTaxModelOutput)='getAdvanceTaxSelfAssessmentTaxModelOutput($event)'></self-assessment-advance-tax>
-                </div>
-            </div>
-        </div> -->
+        </div>                 
     </div>
 </form>

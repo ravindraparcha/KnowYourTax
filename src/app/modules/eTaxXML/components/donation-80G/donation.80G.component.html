@@ -23,6 +23,7 @@
                                 <th>Pincode</th>
                                 <th>Donee's PAN</th>
                                 <th>Donation amount</th>
+                                <th>Eligible donation amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -50,10 +51,11 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="number" #donation100DeductionWithoutQualifyingLimitModelPinCode="ngModel"
+                                    <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelPinCode="ngModel"
                                         name="donation100DeductionWithoutQualifyingLimitModelPinCode_{{i}}" PinCodeValidator
-                                    />
+                                        NumberValidator />
                                     <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelPinCode.errors && donation100DeductionWithoutQualifyingLimitModelPinCode.errors.pinCodeError">{{donation100DeductionWithoutQualifyingLimitModelPinCode.errors.pinCodeError.errorMsg}}</div>
+                                    <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelPinCode.errors && donation100DeductionWithoutQualifyingLimitModelPinCode.errors.numberError">{{donation100DeductionWithoutQualifyingLimitModelPinCode.errors.numberError.errorMsg}}</div>
                                 </td>
                                 <td>
                                     <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.PAN" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelPAN="ngModel"
@@ -61,10 +63,16 @@
                                     <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelPAN.errors && donation100DeductionWithoutQualifyingLimitModelPAN.errors.panNoError">{{donation100DeductionWithoutQualifyingLimitModelPAN.errors.panNoError.errorMsg}}</div>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="number" #donation100DeductionWithoutQualifyingLimitModelDonationAmount="ngModel"
-                                        name="donation100DeductionWithoutQualifyingLimitModelDonationAmount_{{i}}" />
+                                    <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelDonationAmount="ngModel"
+                                        name="donation100DeductionWithoutQualifyingLimitModelDonationAmount_{{i}}" NumberValidator
+                                        UpdateNextField  nextField='donation100DeductionWithoutQualifyingLimitModelEligibleDonationAmount' percentage='100' indexValue="{{i}}" />
+                                    <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelDonationAmount.errors && donation100DeductionWithoutQualifyingLimitModelDonationAmount.errors.numberError">{{donation100DeductionWithoutQualifyingLimitModelDonationAmount.errors.numberError.errorMsg}}</div>
                                 </td>
-
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithoutQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="text" #donation100DeductionWithoutQualifyingLimitModelEligibleDonationAmount="ngModel"
+                                        name="donation100DeductionWithoutQualifyingLimitModelEligibleDonationAmount_{{i}}" NumberValidator readonly/>
+                                    <div class="border-left-error" *ngIf="donation100DeductionWithoutQualifyingLimitModelEligibleDonationAmount.errors && donation100DeductionWithoutQualifyingLimitModelEligibleDonationAmount.errors.numberError">{{donation100DeductionWithoutQualifyingLimitModelEligibleDonationAmount.errors.numberError.errorMsg}}</div>
+                                </td>
                                 <td>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation100DeductionWithoutQualifyingLimitItem(i)">
@@ -81,7 +89,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
-
+                                <td>&nbsp;</td>
                                 <td>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button" (click)="addNewDonation100DeductionWithoutQualifyingLimit()">
@@ -119,6 +127,7 @@
                                 <th>Pincode</th>
                                 <th>Donee's PAN</th>
                                 <th>Donation amount</th>
+                                <th>Eligible donation amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -146,9 +155,10 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="number" #donation50DeductionWithoutQualifyingLimitModelPinCode='ngModel'
-                                        name="donation50DeductionWithoutQualifyingLimitModelPinCode_{{i}}" PinCodeValidator />
+                                    <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.pinCode" class="form-control" type="text" #donation50DeductionWithoutQualifyingLimitModelPinCode='ngModel'
+                                        name="donation50DeductionWithoutQualifyingLimitModelPinCode_{{i}}" PinCodeValidator NumberValidator/>
                                     <div class="border-left-error" *ngIf="donation50DeductionWithoutQualifyingLimitModelPinCode.errors && donation50DeductionWithoutQualifyingLimitModelPinCode.errors.pinCodeError">{{donation50DeductionWithoutQualifyingLimitModelPinCode.errors.pinCodeError.errorMsg}}</div>
+                                    <div class="border-left-error" *ngIf="donation50DeductionWithoutQualifyingLimitModelPinCode.errors && donation50DeductionWithoutQualifyingLimitModelPinCode.errors.numberError">{{donation50DeductionWithoutQualifyingLimitModelPinCode.errors.numberError.errorMsg}}</div>
                                 </td>
                                 <td>
                                     <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.PAN" class="form-control" type="text" #donation50DeductionWithoutQualifyingLimitModelPAN='ngModel'
@@ -156,10 +166,18 @@
                                     <div class="border-left-error" *ngIf="donation50DeductionWithoutQualifyingLimitModelPAN.errors && donation50DeductionWithoutQualifyingLimitModelPAN.errors.panNoError">{{donation50DeductionWithoutQualifyingLimitModelPAN.errors.panNoError.errorMsg}}</div>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="number" #donation50DeductionWithoutQualifyingLimitModelDonationAmount='ngModel'
-                                        name="donation50DeductionWithoutQualifyingLimitModelDonationAmount_{{i}}" />
-                                </td>
+                                    <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.donationAmount" class="form-control" type="text" #donation50DeductionWithoutQualifyingLimitModelDonationAmount='ngModel'
+                                        name="donation50DeductionWithoutQualifyingLimitModelDonationAmount_{{i}}" NumberValidator 
+                                        UpdateNextField  nextField='donation50DeductionWithoutQualifyingLimitModelEligibleDonationAmount' percentage='50' indexValue="{{i}}"/>
+                                    <div class="border-left-error" *ngIf="donation50DeductionWithoutQualifyingLimitModelDonationAmount.errors && donation50DeductionWithoutQualifyingLimitModelDonationAmount.errors.numberError">{{donation50DeductionWithoutQualifyingLimitModelDonationAmount.errors.numberError.errorMsg}}</div>
 
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation50DeductionWithoutQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="text" #donation50DeductionWithoutQualifyingLimitModelEligibleDonationAmount='ngModel'
+                                        name="donation50DeductionWithoutQualifyingLimitModelEligibleDonationAmount_{{i}}" NumberValidator readonly/>
+                                    <div class="border-left-error" *ngIf="donation50DeductionWithoutQualifyingLimitModelEligibleDonationAmount.errors && donation50DeductionWithoutQualifyingLimitModelEligibleDonationAmount.errors.numberError">{{donation50DeductionWithoutQualifyingLimitModelEligibleDonationAmount.errors.numberError.errorMsg}}</div>
+
+                                </td>
                                 <td>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default removeIcon" type="button" (click)="deleteDonation50DeductionWithoutQualifyingLimitItem(i)">
@@ -169,6 +187,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -213,6 +232,7 @@
                                 <th>Pincode</th>
                                 <th>Donee's PAN</th>
                                 <th>Donation amount</th>
+                                <th>Eligible donation amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -240,9 +260,10 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.pinCode" class="form-control" type="number" #donation100DeductionWithQualifyingLimitModelPinCode='ngModel'
-                                        name="donation100DeductionWithQualifyingLimitModelPinCode_{{i}}" PinCodeValidator />
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.pinCode" class="form-control" type="text" #donation100DeductionWithQualifyingLimitModelPinCode='ngModel'
+                                        name="donation100DeductionWithQualifyingLimitModelPinCode_{{i}}" PinCodeValidator NumberValidator/>
                                     <div class="border-left-error" *ngIf="donation100DeductionWithQualifyingLimitModelPinCode.errors && donation100DeductionWithQualifyingLimitModelPinCode.errors.pinCodeError">{{donation100DeductionWithQualifyingLimitModelPinCode.errors.pinCodeError.errorMsg}}</div>
+                                    <div class="border-left-error" *ngIf="donation100DeductionWithQualifyingLimitModelPinCode.errors && donation100DeductionWithQualifyingLimitModelPinCode.errors.numberError">{{donation100DeductionWithQualifyingLimitModelPinCode.errors.numberError.errorMsg}}</div>
                                 </td>
                                 <td>
                                     <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.PAN" class="form-control" type="text" #donation100DeductionWithQualifyingLimitModelPAN='ngModel'
@@ -250,8 +271,16 @@
                                     <div class="border-left-error" *ngIf="donation100DeductionWithQualifyingLimitModelPAN.errors && donation100DeductionWithQualifyingLimitModelPAN.errors.panNoError">{{donation100DeductionWithQualifyingLimitModelPAN.errors.panNoError.errorMsg}}</div>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="number" #donation100DeductionWithQualifyingLimitModel.donationAmount='ngModel'
-                                        name="donation100DeductionWithQualifyingLimitModel.donationAmount_{{i}}" />
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="text" #donation100DeductionWithQualifyingLimitModelDonationAmount='ngModel'
+                                        name="donation100DeductionWithQualifyingLimitModel.donationAmount_{{i}}" NumberValidator
+                                        UpdateNextField  nextField='donation100DeductionWithQualifyingLimitModelEligibleDonationAmount' percentage='100' indexValue="{{i}}"/>
+                                    <div class="border-left-error" *ngIf="donation100DeductionWithQualifyingLimitModelDonationAmount.errors && donation100DeductionWithQualifyingLimitModelDonationAmount.errors.numberError">{{donation100DeductionWithQualifyingLimitModelDonationAmount.errors.numberError.errorMsg}}</div>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation100DeductionWithQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="text"
+                                        #donation100DeductionWithQualifyingLimitModelEligibleDonationAmount='ngModel' name="donation100DeductionWithQualifyingLimitModelEligibleDonationAmount_{{i}}"
+                                        NumberValidator readonly/>
+                                    <div class="border-left-error" *ngIf="donation100DeductionWithQualifyingLimitModelEligibleDonationAmount.errors && donation100DeductionWithQualifyingLimitModelEligibleDonationAmount.errors.numberError">{{donation100DeductionWithQualifyingLimitModelEligibleDonationAmount.errors.numberError.errorMsg}}</div>
                                 </td>
 
                                 <td>
@@ -263,6 +292,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -307,6 +337,7 @@
                                 <th>Pincode</th>
                                 <th>Donee's PAN</th>
                                 <th>Donation amount</th>
+                                <th>Eligible donation amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -334,9 +365,10 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.pinCode" class="form-control" type="number" #donation50DeductionWithQualifyingLimitModelPinCode='ngModel'
-                                        name="donation50DeductionWithQualifyingLimitModelPinCode_{{i}}" PinCodeValidator />
+                                    <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.pinCode" class="form-control" type="text" #donation50DeductionWithQualifyingLimitModelPinCode='ngModel'
+                                        name="donation50DeductionWithQualifyingLimitModelPinCode_{{i}}" PinCodeValidator NumberValidator/>
                                     <div class="border-left-error" *ngIf="donation50DeductionWithQualifyingLimitModelPinCode.errors && donation50DeductionWithQualifyingLimitModelPinCode.errors.pinCodeError">{{donation50DeductionWithQualifyingLimitModelPinCode.errors.pinCodeError.errorMsg}}</div>
+                                    <div class="border-left-error" *ngIf="donation50DeductionWithQualifyingLimitModelPinCode.errors && donation50DeductionWithQualifyingLimitModelPinCode.errors.numberError">{{donation50DeductionWithQualifyingLimitModelPinCode.errors.numberError.errorMsg}}</div>
 
                                 </td>
                                 <td>
@@ -344,8 +376,15 @@
                                         name="donation50DeductionWithQualifyingLimitModelPAN_{{i}}" />
                                 </td>
                                 <td>
-                                    <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="number" #donation50DeductionWithQualifyingLimitModelDonationAmount='ngModel'
-                                        name="donation50DeductionWithQualifyingLimitModelDonationAmount_{{i}}" />
+                                    <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="text" #donation50DeductionWithQualifyingLimitModelDonationAmount='ngModel'
+                                        name="donation50DeductionWithQualifyingLimitModelDonationAmount_{{i}}" NumberValidator
+                                        UpdateNextField  nextField='donation50DeductionWithQualifyingLimitModelEligibleDonationAmount' percentage='50' indexValue="{{i}}"/> 
+                                    <div class="border-left-error" *ngIf="donation50DeductionWithQualifyingLimitModelDonationAmount.errors && donation50DeductionWithQualifyingLimitModelDonationAmount.errors.numberError">{{donation50DeductionWithQualifyingLimitModelDonationAmount.errors.numberError.errorMsg}}</div>
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.eligibleDonationAmount" class="form-control" type="text" #donation50DeductionWithQualifyingLimitModelEligibleDonationAmount='ngModel'
+                                        name="donation50DeductionWithQualifyingLimitModelEligibleDonationAmount_{{i}}" NumberValidator readonly/>
+                                    <div class="border-left-error" *ngIf="donation50DeductionWithQualifyingLimitModelEligibleDonationAmount.errors && donation50DeductionWithQualifyingLimitModelEligibleDonationAmount.errors.numberError">{{donation50DeductionWithQualifyingLimitModelEligibleDonationAmount.errors.numberError.errorMsg}}</div>
                                 </td>
                                 <td>
                                     <span class="input-group-btn">
@@ -363,7 +402,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
-
+                                <td>&nbsp;</td>
                                 <td>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button" (click)="addNewDonation50DeductionWithQualifyingLimit()">

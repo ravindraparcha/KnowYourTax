@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Form26ASParserService } from './services/form26AS-parser-service';
 import { PersonalInfoModel } from './models/personal-info.model';
 import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../shared/models/deduction.model';
-import { ConfigurationService } from '../shared/services/ConfigurationService';
+import { ConfigurationService } from '../shared/services/configurationService';
 import { TaxDeductedSalaryModel } from './models/tax-deducted-collected.model';
 import { IncomeData } from '../../modules/shared/models/income-details.model';
 import { XmlGeneratorService } from './services/xml-generator-service';
@@ -37,29 +37,45 @@ export class eTaxXMLComponent implements OnInit {
     public personalInfoData = new PersonalInfoModel();
     public taxDeducted;
     private parseJson;
-    private xmlDataArray = [];
+    private xmlDataArray;
     public advanceTaxPaidModels;
     public incomeData: IncomeData;
     public incomeTaxModel: any;
 
-    public totalTDSClaimed: number = 0;
-    public totalTCSClaimed: number = 0;
-    public totalSelfAssessmentTaxPaid: number = 0;
-    public totalAdvanceTaxPaid: number = 0;
-    public totalTaxInterest: number = 0;
-    public totalTaxesPaid: number = 0;
-    public amountPayable: number = 0;
-    public refund: number = 0;
+    public totalTDSClaimed: number;
+    public totalTCSClaimed: number;
+    public totalSelfAssessmentTaxPaid: number;
+    public totalAdvanceTaxPaid: number;
+    public totalTaxInterest: number;
+    public totalTaxesPaid: number;
+    public amountPayable: number;
+    public refund: number;
 
     public accountDetailModel;
     public model: any;
-    public incomeNatureList = [];
+    public incomeNatureList;
     private _subscription: Subscription;
 
-   
+    public isPersonalInfoFrmValid: boolean;
+    public isTaxDeductedCollectedFrmValid: boolean;
+    public isIncomeDetailsFrmValid: boolean;
+    public isTaxPaidVerificationFrmValid: boolean;
+    public isDeduction80GComponentValid: boolean;
+
     constructor(private _form26ASParserService: Form26ASParserService, private _configuration: ConfigurationService,
         private _xmlGeneratorService: XmlGeneratorService, private _toastr: ToastrService, private _sharedTaxService: SharedTaxService
-    ) { }
+    ) {
+        this.xmlDataArray = [];
+        this.totalTDSClaimed = 0;
+        this.totalTCSClaimed = 0;
+        this.totalSelfAssessmentTaxPaid = 0;
+        this.totalAdvanceTaxPaid = 0;
+        this.totalTaxInterest = 0;
+        this.totalTaxesPaid = 0;
+        this.amountPayable = 0;
+        this.refund = 0;
+        this.incomeNatureList = [];
+    }
 
     canDeactivate() {
         return true;
@@ -81,7 +97,7 @@ export class eTaxXMLComponent implements OnInit {
         this._subscription = this._sharedTaxService.getRefund().subscribe(item => this.refund = item);
     }
 
-    onFileSelection(event: EventTarget) {
+    public onFileSelection(event: EventTarget) {
         let $this = this;
         let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
         let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
@@ -173,39 +189,38 @@ export class eTaxXMLComponent implements OnInit {
         }
         return -1;
     }
-    public isPersonalInfoFrmValid: boolean;
-    public isTaxDeductedCollectedFrmValid: boolean;
-    public isIncomeDetailsFrmValid: boolean;
-    public isTaxPaidVerificationFrmValid: boolean;
-    public isDeduction80GComponentValid: boolean;
-    generateXML() {
+
+    public generateXML() {
 
         //validate child component
+
         this.validateIncomeDetailsComponent();
-        if (!this.isIncomeDetailsFrmValid) {
+        if (!this.isIncomeDetailsFrmValid && this.isIncomeDetailsFrmValid!=undefined) {
             this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateTaxDeductedCollectedComponent();
-        if (!this.isTaxDeductedCollectedFrmValid) {
+        if (!this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid != undefined) {
             this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateTaxPaidVerificationComponent();
-        if (!this.isTaxPaidVerificationFrmValid) {
+        if (!this.isTaxPaidVerificationFrmValid && this.isTaxPaidVerificationFrmValid!=undefined) {
             this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateDeduction80GComponent();
-        if (!this.isDeduction80GComponentValid) {
+        if (!this.isDeduction80GComponentValid && this.isDeduction80GComponentValid!=undefined) {
             this._toastr.error(this.getTabErrorMessage('80G details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
-        this.validatePersonalInfoComponent();
-        if (!this.isPersonalInfoFrmValid) {
+        this.validatePersonalInfoComponent();       
+        if (!this.isPersonalInfoFrmValid && this.isPersonalInfoFrmValid!=undefined) {
             this._toastr.error(this.getTabErrorMessage('Personal Information'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
+        if(!this.isIncomeDetailsFrmValid  || !this.isTaxDeductedCollectedFrmValid || !this.isTaxPaidVerificationFrmValid || !this.isDeduction80GComponentValid || !this.isPersonalInfoFrmValid)
+            return;
 
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
@@ -266,7 +281,7 @@ export class eTaxXMLComponent implements OnInit {
     public isDonation80GComponentValid(isFormValid: boolean) {
         this.isDeduction80GComponentValid = isFormValid;
     }
-    validateDeduction80GComponent() {
+    public validateDeduction80GComponent() {
         this._donation80GComponent.validateDonation80GComponentForm();
     }
 

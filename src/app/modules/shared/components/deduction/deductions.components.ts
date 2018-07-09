@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input } from "@angular/core";
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
+import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input, OnDestroy } from "@angular/core";
+import { ConfigurationService } from '../../../shared/services/configurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
-import { FormBuilder, FormControl, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { slimLoaderBarService } from '../../../shared/services/slimLoaderBarService';
 
@@ -16,12 +16,12 @@ declare var $: any;
     templateUrl: './deductions-component.html'
 })
 
-export class DeductionsComponent implements OnInit {
+export class DeductionsComponent implements OnInit, OnDestroy {
     public selectedSectionValue;
     public deductionList = [];
     public sectionForm;
 
-    public calculationResult = {};
+    public calculationResult;
     public taxComputationModel: TaxComputationModel;
     public incomeTaxModel: IncomeTaxModel;
     public deductionModel: DeductionModel;
@@ -29,8 +29,8 @@ export class DeductionsComponent implements OnInit {
     public selfAssessmentAdvanceTax: any[];
     private _subscription: Subscription;
     private _returnFiledSection: number;
-    private selfAssessmentTaxPaid: number = 0;
-    private advanceTaxForm26AS: number = 0;
+    private _selfAssessmentTaxPaid: number;
+    private _advanceTaxForm26AS: number;
     @Input() grossTotalIncome: number;
     @Output() onCalculateDeductionSum: EventEmitter<any> = new EventEmitter<any>();
 
@@ -40,24 +40,28 @@ export class DeductionsComponent implements OnInit {
         if (this.deductionModel === undefined)
             this.deductionModel = new DeductionModel();
         if (taxModel !== undefined) {
-            this.advanceTaxForm26AS = 0;
+            this._advanceTaxForm26AS = 0;
             for (let i = 0; i < taxModel.length; i++) {
-                this.advanceTaxForm26AS += taxModel[i].amount;
+                this._advanceTaxForm26AS += taxModel[i].amount;
             }
             this.advanceTaxModels = taxModel;
         }
 
     }
 
-    myOptions: INgxMyDpOptions = {
-        dateFormat: this._configuration.dateTimeFormat,
-        //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
-    };
+    public myOptions: INgxMyDpOptions;
 
     constructor(private _configuration: ConfigurationService, private _fb: FormBuilder,
         private toastr: ToastsManager, vcr: ViewContainerRef,
         private _slimLoader: slimLoaderBarService, private _sharedTaxService: SharedTaxService) {
         this.toastr.setRootViewContainerRef(vcr);
+
+        this.myOptions = {
+            dateFormat: this._configuration.dateTimeFormat,             
+        };
+        this._selfAssessmentTaxPaid = 0;
+        this._advanceTaxForm26AS = 0;
+        this.calculationResult = {};
     }
 
     ngOnInit() {
@@ -88,16 +92,21 @@ export class DeductionsComponent implements OnInit {
         this._subscription = this._sharedTaxService.getSelfAssessmentAdvanceTax().subscribe(item => this.selfAssessmentAdvanceTax = item);
         this._subscription = this._sharedTaxService.getReturnFiledSection().subscribe(item => this._returnFiledSection = item);
     }
-    initialiseNewRow(text: string, value: number, section: string, parent: string) {
+
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
+    }
+
+    private initialiseNewRow(text: string, value: number, section: string, parent: string) {
         return this._fb.group({
             // list all your form controls here, which belongs to your form array
             deductionText: [text],
-            deductionValue: [value],
+            deductionValue: [value, Validators],
             deductionSection: [section],
             parent: [parent]
         });
     }
-    addSection() {
+    public addSection() {
         let section = this.selectedSectionValue;
         let duplicateFound = false;
 
@@ -119,7 +128,7 @@ export class DeductionsComponent implements OnInit {
         });
     }
 
-    deleteSection(index: number) {
+    public deleteSection(index: number) {
         // control refers to your formarray
         const control = <FormArray>this.sectionForm.controls['itemRows'];
         // remove the chosen row
@@ -129,7 +138,7 @@ export class DeductionsComponent implements OnInit {
         this.onCalculateDeductionSum.emit(sum);
     }
 
-    onDueDateChanged(event: IMyDateModel) {
+    public onDueDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.deductionModel.dueDate = event.jsdate.toString();  //event.date.day + "/" + event.date.month + "/" + event.date.year;            
@@ -138,7 +147,7 @@ export class DeductionsComponent implements OnInit {
             this.deductionModel.dueDate = "";
         }
     }
-    onFilingDateChanged(event: IMyDateModel) {
+    public onFilingDateChanged(event: IMyDateModel) {
         // console.log('onDateChanged(): ', event.date, ' - jsdate: ', new Date(event.jsdate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - epoc timestamp: ', event.epoc);
         if (event.date.day != 0) {
             this.deductionModel.filingDate = event.jsdate.toString();  //event.date.day + "/" + event.date.month + "/" + event.date.year;            
@@ -147,12 +156,12 @@ export class DeductionsComponent implements OnInit {
             this.deductionModel.filingDate = "";
         }
     }
-    onDeductionChangeCalculateSum(formData: any) {
+    public onDeductionChangeCalculateSum(formData: any) {
         let sum = this.calculateDeduction(formData.value.itemRows);
         this.onCalculateDeductionSum.emit(sum);
     }
 
-    calculateDeduction(deductionsArray) {
+    private calculateDeduction(deductionsArray) {
         let sum = 0;
         for (let deduction of deductionsArray) {
             sum += deduction.deductionValue;
@@ -160,11 +169,11 @@ export class DeductionsComponent implements OnInit {
         return sum;
     }
 
-    calculateTax(): IncomeTaxModel {
+    public calculateTax(): IncomeTaxModel {
 
         this.createAdvanceTaxModelArray(this.selfAssessmentAdvanceTax);
 
-        this.deductionModel.advanceTax = this.advanceTaxForm26AS + this.selfAssessmentTaxPaid;
+        this.deductionModel.advanceTax = this._advanceTaxForm26AS + this._selfAssessmentTaxPaid;
 
         if (this.sectionForm == undefined)
             return new IncomeTaxModel();
@@ -199,18 +208,14 @@ export class DeductionsComponent implements OnInit {
                     deductionApplicable += deduction.enteredAmount;
             }
         }
-
-        //calculate rebate amount
-        let slabList = this._configuration.slabs;
-        let slabData;
-        for (let data of slabList) {
-            if (data.ayYear == this.getAssessmentYear()) {
-                slabData = data;
-                break;
-            }
-        }
+        
         //Total income - as per excel
         let netTaxableIncome = this.grossTotalIncome - deductionApplicable;
+        let netIncomeAfterExemption = this.grossTotalIncome - deductionApplicable - this._configuration.selectedSlabs[0].exemption;
+        if(netIncomeAfterExemption<=0)
+             this.taxComputationModel.netTaxableIncome = 0;
+        else 
+            this.taxComputationModel.netTaxableIncome = netIncomeAfterExemption;
 
         let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
@@ -222,26 +227,11 @@ export class DeductionsComponent implements OnInit {
             this.taxComputationModel.cessTax += result.cessTax;
         }
 
-        //calculate tax if total tax(without cess charges) to pay is less than rebateAmount set
-        //referece:- https://cleartax.in/s/income-tax-rebate-us-87a
-        if (totalTax <= slabData.rebateAmount && totalTax > 0)
-            this.taxComputationModel.taxPayableAfterRebate = totalTax - slabData.rebateAmount;
-        else
-            this.taxComputationModel.taxPayableAfterRebate = totalTax;
-
-
+       
+        this.taxComputationModel.taxPayableAfterRebate = totalTax;
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
         this.taxComputationModel.balanceTaxAfterRelief = this.taxComputationModel.totalTaxAndCess - this.deductionModel.relief;
 
-
-        //Calculate interest rate 234 start
-        // if (this.taxComputationModel.balanceTaxAfterRelief < this._configuration.taxLiability) {
-        //     this.taxComputationModel.feeUnder234F = 0;
-        //     this.taxComputationModel.interest234A = 0;
-        //     this.taxComputationModel.interest234B = 0;
-        //     this.taxComputationModel.interest234C = 0;
-        //     //return;
-        // }
         this.taxComputationModel.feeUnder234F = 0;
         this.taxComputationModel.interest234A = 0;
         this.taxComputationModel.interest234B = 0;
@@ -403,15 +393,15 @@ export class DeductionsComponent implements OnInit {
         this.advanceTaxModels = this.advanceTaxModels.filter(x => x.isAdvanceTax != true);
         let advanceTaxModel;
         let month: number, year: number, date: number;
-        this.selfAssessmentTaxPaid = 0;
+        this._selfAssessmentTaxPaid = 0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
-            if(selfAssmntAdvnceTx.depositDate==null || selfAssmntAdvnceTx.depositDate=="") {
+            if (selfAssmntAdvnceTx.depositDate == null || selfAssmntAdvnceTx.depositDate == "") {
                 continue;
             }
             date = selfAssmntAdvnceTx.depositDate.formatted.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1));
             month = selfAssmntAdvnceTx.depositDate.formatted.substring(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2));
             year = selfAssmntAdvnceTx.depositDate.formatted.substr(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2) + 1);
-            this.selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
+            this._selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
             //decrease month by 1 
             month -= 1;
             let dateObj = new Date(year, month, date);
@@ -430,18 +420,17 @@ export class DeductionsComponent implements OnInit {
         return (currentDate.getFullYear() + "-" + nextDate.getFullYear());
     }
     private getSectionWithLimitAndAmount(deductions) {
-        let dSum = 0;
-        let masterDataList = this._configuration.masterSec;
+        let dSum = 0;       
         let usrSections = [];
         let enteredAmount = 0;
         let sectionOptionIndex = 0;
-        let masterData;
-        for (let data of masterDataList) {
-            if (data.ayYear == this.getAssessmentYear()) {
-                masterData = data.sections;
-                break;
-            }
-        }
+        let masterData = this._configuration.selectedMasterSec[0].sections;
+        // for (let data of masterDataList) {
+        //     if (data.ayYear == this.getAssessmentYear()) {
+        //         masterData = data.sections;
+        //         break;
+        //     }
+        // }
 
         for (let msData of masterData) {
             dSum = 0;
@@ -542,7 +531,6 @@ export class DeductionsComponent implements OnInit {
                     }
                     if (usrSection.parent == parentSectionName) {
                         if (usrSection.enteredAmount > balanceAmount) {
-                            //usrSection.enteredAmount = balanceAmount;
                             usrSection.limit = balanceAmount;
                             balanceAmount = 0;
                         }
@@ -554,7 +542,6 @@ export class DeductionsComponent implements OnInit {
                     }
                     else if (usrSection.name == parentSectionName) {
                         if (usrSection.enteredAmount > msData.limit) {
-                            //usrSection.enteredAmount = balanceAmount;
                             usrSection.limit = msData.limit;
 
                         }
@@ -567,46 +554,46 @@ export class DeductionsComponent implements OnInit {
         }
     }
 
-    private calculateTaxPerSlab(netTotalIncome: number) {
+    private calculateTaxPerSlab(netTotalIncome: number): SlabResult[] {
 
-        let tax = 0;
         let slabResults = [];
         let slabTax = 0;
-        let slabList = this._configuration.slabs;
-        let slabs;
-        let slabData;
-        for (let data of slabList) {
-            if (data.ayYear == this.getAssessmentYear()) {
-                slabData = data;
-                break;
-            }
-        }
-        slabs = slabData.slabLimits;
+        let slabList = this._configuration.selectedSlabs        
+        let slabData=this._configuration.selectedSlabs[0];         
+        let slabs = slabData.slabLimits;      
+
         for (let slab of slabs) {
             slabTax = 0;
             let slabResult = new SlabResult();
             //first slab has exemption			 
             if (netTotalIncome >= slab.max) {
-                slabTax = Math.ceil(((slab.max - slab.min) * slab.rate) / 100);
+                slabTax = Math.floor(((slab.max - slab.min) * slab.rate) / 100);
+                slabResult.taxableAmount = slab.max - slab.min;
             }
             else if (netTotalIncome >= slab.min) {
-                slabTax = Math.ceil(((netTotalIncome - slab.min) * slab.rate) / 100);
+                if (netTotalIncome < slabData.rebateLimit) {
+                    slabTax = 0;
+                }
+                else if (netTotalIncome == slabData.rebateLimit) {
+                    slabTax = slabData.rebateAmount;
+                    slabResult.taxableAmount = slabData.rebateAmount;;
+                }
+                else {
+                    slabTax = Math.floor(((netTotalIncome - slab.min) * slab.rate) / 100);
+                    slabResult.taxableAmount = netTotalIncome - slab.min;
+                }
             }
+            else
+                slabResult.taxableAmount = 0;
 
             slabResult.min = slab.min;
             slabResult.max = slab.max;
-            slabResult.taxableAmount = slab.max - slab.min;
             slabResult.tax = slabTax;
-            slabResult.cessTax = Math.ceil(slabTax * slabData.cess / 100);
+            slabResult.cessTax = Math.floor(slabTax * slabData.cess / 100);
             slabResult.totalTax = slabResult.tax + slabResult.cessTax;
             slabResults.push(slabResult);
-        }
-        for (let i = 0; i < slabResults.length; i++)
-            tax += slabResults[i].totalTax;
-        //console.log(tax);
-        return slabResults;
-        // console.log(slabResults);
-
+        }         
+        return slabResults;        
     }
 
     private getSectionName(usrSectionName) {
@@ -626,11 +613,11 @@ export class DeductionsComponent implements OnInit {
         return index;
     }
 
-    onDeductionChange() {
+    public onDeductionChange() {
         this.addSection();
     }
 
-    onChangeCalculateDeductionAmount(formData: any) {
+    public onChangeCalculateDeductionAmount(formData: any) {
         let sum = 0;
         for (let deduction of formData.form.value) {
             sum += deduction.amount;

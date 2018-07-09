@@ -8,14 +8,19 @@ declare var $: any;
   templateUrl: './app.component.html'//,
   //styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'app';
-  @ViewChild('spinnerElement')
-  spinnerElement: ElementRef
-  ngOnInit() {
-    
-  }
+  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
+  constructor(private router: Router,
+    private ngZone: NgZone,
+    private renderer: Renderer, private _slimLoaderBarService: slimLoaderBarService,
+    private spinner: NgxSpinnerService) {
+    router.events.subscribe((event: RouterEvent) => {
+      this._navigationInterceptor(event);
+    });
+   
+  } 
   ngAfterViewInit() {
     $("document").ready(function () {
       setTimeout(function () {
@@ -23,6 +28,7 @@ export class AppComponent implements OnInit {
       }, 1000);
     });
     $('.navbar-nav li, .homeLink, .otherLink').on('click', function () {
+      debugger;
       $('.navbar-nav li').removeClass('active');
       if ($(this).hasClass('otherLink'))
         return;
@@ -33,15 +39,9 @@ export class AppComponent implements OnInit {
         $(this).addClass('active');
     });
   }
-  constructor(private router: Router,
-    private ngZone: NgZone,
-    private renderer: Renderer, private _slimLoaderBarService: slimLoaderBarService,private spinner: NgxSpinnerService) {
-    router.events.subscribe((event: RouterEvent) => {
-      this._navigationInterceptor(event);
-    });
-  }
   // Shows and hides the loading spinner during RouterEvent changes
   private _navigationInterceptor(event: RouterEvent): void {
+    debugger;
     this._slimLoaderBarService.completeLoading();
     if (event instanceof NavigationStart) {
       // Run this function outside of Angular's zone to
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     }
     if (event instanceof NavigationEnd) {
       this._hideLoadingBar();
-    }   
+    }
     if (event instanceof NavigationCancel) {
       this._hideLoadingBar();
     }
@@ -70,4 +70,5 @@ export class AppComponent implements OnInit {
       this.spinner.hide();
     })
   }
+
 }

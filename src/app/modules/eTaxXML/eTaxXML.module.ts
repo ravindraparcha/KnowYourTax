@@ -7,7 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import {eTaxXMLComponent} from '../eTaxXML/eTaxXML.component';
 import {PersonalInfoComponent} from '../eTaxXML/components/personal-info/personal-info.component';
-import {sharedModule} from  '../shared/sharedModule';//'../../sharedModule/sharedModule';
+import {sharedModule} from  '../shared/sharedModule'; 
 import {DeductionsComponent} from '../shared/components/deduction/deductions.components';
 import { IncomeDetailsComponent } from  '../shared/components/income-details/income-details.component';
 import {TaxDeductedCollectedComponent} from '../eTaxXML/components/tax-deducted-collected/tax-deducted-collected.component';
@@ -36,14 +36,16 @@ import {CountValidatorDirective} from './validators/CountDirective';
 import {DuplicateCheckValidatorDirective} from './validators/DuplicateCheckDirective';
 import {NumberLimitValidatorDirective} from './validators/NumberLimitDirective';
 import {TanCardValidatorDirective} from './validators/TanCardDirective';
+
 //Validator ends
+import { UpdateNextFieldDirective} from './directives/update-next-field.directive';
 import {eTaxXMLRoutingModule} from './eTaxXML.routing';
 import { CommonModule } from '@angular/common';  
-
+import {coreSharedModule} from '../../core-shared/core.shared.module';
 
 @NgModule({
     imports: [NgSelectModule,
-              NgxMyDatePickerModule.forRoot(),sharedModule,
+              NgxMyDatePickerModule.forRoot(),sharedModule, coreSharedModule,
               ToastrModule.forRoot({timeOut: 1000,
                 positionClass: 'toast-center'}),
                 eTaxXMLRoutingModule,FormsModule,ReactiveFormsModule,CommonModule],
@@ -55,7 +57,7 @@ import { CommonModule } from '@angular/common';
                     AadharCardEnrollmentIdValidatorDirective,MobileNoValidatorDirective,PinCodeValidatorDirective,ReceiptNumberValidatorDirective,
                     NoticeNumberValidatorDirective,CompareTwoNumbersValidatorDirective,RequiredValidatorDirective,
                     IFSCValidatorDirective,CharacterNumberValidatorDirective,CountValidatorDirective,
-                    DuplicateCheckValidatorDirective,NumberLimitValidatorDirective,TanCardValidatorDirective],
+                    DuplicateCheckValidatorDirective,NumberLimitValidatorDirective,TanCardValidatorDirective,UpdateNextFieldDirective],
     exports : [eTaxXMLComponent]
 })
 

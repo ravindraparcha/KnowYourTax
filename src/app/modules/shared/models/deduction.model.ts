@@ -42,6 +42,7 @@ export class TaxModel {
 
 export class TaxComputationModel {   
     public totalIncome: number= 0;
+    public netTaxableIncome : number =0;
     public taxPayableOnTotalIncome: number= 0;
     public rebateAmt: number= 0;
     public taxPayableAfterRebate: number= 0;
