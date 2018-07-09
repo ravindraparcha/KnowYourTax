@@ -8,7 +8,7 @@ declare var $: any;
   templateUrl: './app.component.html'//,
   //styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'app';
   @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
       }, 1000);
     });
     $('.navbar-nav li, .homeLink, .otherLink').on('click', function () {
+      debugger;
       $('.navbar-nav li').removeClass('active');
       if ($(this).hasClass('otherLink'))
         return;
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
   }
   // Shows and hides the loading spinner during RouterEvent changes
   private _navigationInterceptor(event: RouterEvent): void {
+    debugger;
     this._slimLoaderBarService.completeLoading();
     if (event instanceof NavigationStart) {
       // Run this function outside of Angular's zone to
