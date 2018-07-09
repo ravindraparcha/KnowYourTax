@@ -567,7 +567,7 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:IdentificationNoOfTRP", verification.TRPIdentificationNo);
         if (verification.TRPName !== undefined && verification.TRPName !== "")
             this.xmlWriter.writeElement("ITRForm:NameOfTRP", verification.TRPName.toUpperCase());
-        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "")
+        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "" && verification.TRPReimbursementAmount!='0')
             this.xmlWriter.writeElement("ITRForm:ReImbFrmGov", verification.TRPReimbursementAmount);
 
         this.xmlWriter.endElement();

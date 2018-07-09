@@ -4,7 +4,7 @@ import { AdvanceTaxSelfAssessmentTaxModel } from '../../../eTaxXML/models/tax-de
 import { SharedTaxService } from '../../services/sharedTaxService';
 import { IMyDateModel, INgxMyDpOptions } from 'ngx-mydatepicker';
 import { FormatDateService } from '../../../eTaxXML/services/formatDateService';
-import { ConfigurationService } from '../../services/ConfigurationService';
+import { ConfigurationService } from '../../services/configurationService';
  
 
 @Component({

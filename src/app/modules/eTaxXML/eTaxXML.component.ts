@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Form26ASParserService } from './services/form26AS-parser-service';
 import { PersonalInfoModel } from './models/personal-info.model';
 import { AdvanceTaxModel, IncomeTaxModel, TaxComputationModel, TaxModel } from '../shared/models/deduction.model';
-import { ConfigurationService } from '../shared/services/ConfigurationService';
+import { ConfigurationService } from '../shared/services/configurationService';
 import { TaxDeductedSalaryModel } from './models/tax-deducted-collected.model';
 import { IncomeData } from '../../modules/shared/models/income-details.model';
 import { XmlGeneratorService } from './services/xml-generator-service';

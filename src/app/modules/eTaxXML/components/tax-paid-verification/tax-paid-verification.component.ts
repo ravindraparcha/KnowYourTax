@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy } from "@angular/core";
 
 import { TaxPaidModel, OtherExemptionModel, AccountDetailModel, VerificationModel } from '../../models/tax-paid.model';
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/configurationService';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
 import { FormatDateService } from '../../services/formatDateService';
 import { SharedTaxService } from '../../../shared/services/sharedTaxService';
@@ -53,7 +53,7 @@ export class TaxPaidVerificationComponent implements OnInit,OnDestroy {
         });
 
         this.taxPaidModel = new TaxPaidModel();
-        this.verificationModel = new VerificationModel("", "", "", 0, "", null, "", "", 0);
+        this.verificationModel = new VerificationModel("", "", "", 0, "", null, "", "", "");
         this.incomeNatureList = this._configuration.incomeNatureList;
         this.accountDetailModel = new AccountDetailModel("", "", "");
         this.taxPaidModel.accountDetail = this.accountDetailModel;

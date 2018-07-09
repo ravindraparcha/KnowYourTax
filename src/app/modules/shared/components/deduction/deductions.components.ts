@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, ViewContainerRef, Input, OnDestroy } from "@angular/core";
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/configurationService';
 import { DeductionModel, SlabResult, TaxComputationModel, IncomeTaxModel, TaxModel, AdvanceTaxModel } from '../../models/deduction.model';
 import { FormBuilder, FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -57,8 +57,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         this.toastr.setRootViewContainerRef(vcr);
 
         this.myOptions = {
-            dateFormat: this._configuration.dateTimeFormat,
-            //disableSince: { year: new Date().getFullYear(), month: 4, day: 1 }
+            dateFormat: this._configuration.dateTimeFormat,             
         };
         this._selfAssessmentTaxPaid = 0;
         this._advanceTaxForm26AS = 0;
@@ -209,19 +208,15 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                     deductionApplicable += deduction.enteredAmount;
             }
         }
-
-        //calculate rebate amount
-        let slabList = this._configuration.slabs;
-        let slabData;
-        for (let data of slabList) {
-            if (data.ayYear == this.getAssessmentYear()) {
-                slabData = data;
-                break;
-            }
-        }
+        
         //Total income - as per excel
         let netTaxableIncome = this.grossTotalIncome - deductionApplicable;
-        this.taxComputationModel.netTaxableIncome = netTaxableIncome;
+        let netIncomeAfterExemption = this.grossTotalIncome - deductionApplicable - this._configuration.selectedSlabs[0].exemption;
+        if(netIncomeAfterExemption<=0)
+             this.taxComputationModel.netTaxableIncome = 0;
+        else 
+            this.taxComputationModel.netTaxableIncome = netIncomeAfterExemption;
+
         let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
 
@@ -425,18 +420,17 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         return (currentDate.getFullYear() + "-" + nextDate.getFullYear());
     }
     private getSectionWithLimitAndAmount(deductions) {
-        let dSum = 0;
-        let masterDataList = this._configuration.masterSec;
+        let dSum = 0;       
         let usrSections = [];
         let enteredAmount = 0;
         let sectionOptionIndex = 0;
-        let masterData;
-        for (let data of masterDataList) {
-            if (data.ayYear == this.getAssessmentYear()) {
-                masterData = data.sections;
-                break;
-            }
-        }
+        let masterData = this._configuration.selectedMasterSec[0].sections;
+        // for (let data of masterDataList) {
+        //     if (data.ayYear == this.getAssessmentYear()) {
+        //         masterData = data.sections;
+        //         break;
+        //     }
+        // }
 
         for (let msData of masterData) {
             dSum = 0;
@@ -564,16 +558,10 @@ export class DeductionsComponent implements OnInit, OnDestroy {
 
         let slabResults = [];
         let slabTax = 0;
-        let slabList = this._configuration.slabs;
-        let slabs;
-        let slabData;
-        for (let data of slabList) {
-            if (data.ayYear == this.getAssessmentYear()) {
-                slabData = data;
-                break;
-            }
-        }
-        slabs = slabData.slabLimits;      
+        let slabList = this._configuration.selectedSlabs        
+        let slabData=this._configuration.selectedSlabs[0];         
+        let slabs = slabData.slabLimits;      
+
         for (let slab of slabs) {
             slabTax = 0;
             let slabResult = new SlabResult();

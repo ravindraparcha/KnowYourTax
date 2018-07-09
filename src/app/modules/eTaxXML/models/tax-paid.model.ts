@@ -45,9 +45,9 @@ export class VerificationModel {
     public verificationDateXml : string;
     public TRPIdentificationNo:string;
     public TRPName:string;
-    public TRPReimbursementAmount:number;
+    public TRPReimbursementAmount:string;
     constructor(fullName:string, sonDaughterOf :string, PAN:string,capacity:number,place:string,
-        verficationDate:string,TRPIdentificationNo:string,TRPName:string,TRPReimbursementAmount:number){
+        verficationDate:string,TRPIdentificationNo:string,TRPName:string,TRPReimbursementAmount:string){
             this.fullName=fullName;
             this.sonDaughterOf=sonDaughterOf;
             this.PAN=PAN;

@@ -358,3 +358,6 @@ padding-right: 17px;
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color:#fafdff;
 }
+.margin-top10 {
+    margin-top:10px;
+}

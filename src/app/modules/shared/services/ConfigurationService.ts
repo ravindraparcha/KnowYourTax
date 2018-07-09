@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 export class ConfigurationService {
     public ServerWithApiUrl: string = environment.apiUrl;
     public CustomToastOptions = {
-        positionClass: 'toast-top-center', newestOnTop: true, closeButton: true, timeOut: 4000,enableHtml:true
+        positionClass: 'toast-top-center', newestOnTop: true, closeButton: true, timeOut: 4000, enableHtml: true
     }
     public ErrorOccurred = "Some error occurred. Try refreshing page or contact administrator";
 
@@ -86,8 +86,8 @@ export class ConfigurationService {
     public allowedHousePropertyLoss: number = 200000;
     // public dueDateForFiling: string = "31/07/" + new Date().getFullYear(); //dd/mm//yyyy format
     // public section234BEndDate: string = "31/03/" + new Date().getFullYear();
-    public taxLiability =10000;
-    public sec234FTotalIncomeLimit=500000;
+    public taxLiability = 10000;
+    public sec234FTotalIncomeLimit = 500000;
     //Need to get list of deductions from server for assessment year
     //income tax calculation input starts here
     public deductionList = [
@@ -101,7 +101,7 @@ export class ConfigurationService {
         { "name": "80C_8", "text": "Principal repayment of Home Loan" },
         { "name": "80C_9", "text": "NPS(National Pension System)" },
         { "name": "80C_10", "text": "Life Insurance Premium" },
-        { "name": "80C_11", "text": "Sukanya Samriddhi Account Deposit Scheme" },        
+        { "name": "80C_11", "text": "Sukanya Samriddhi Account Deposit Scheme" },
         { "name": "80CCD1", "text": "Government notified Pension Scheme/NPS" }, //Actual section = 80CCD1 comes under 80C
 
         { "name": "80CCC", "text": "LIC/Life insurance company pension for tax benefit" }, //Actual section = 80CCC comes under 80C
@@ -175,6 +175,8 @@ export class ConfigurationService {
 
     // ];
 
+    public selectedMasterSec = [];
+    public selectedSlabs = [];
     public masterSec = [
         {
             ayYear: '2018-2019',
@@ -182,8 +184,8 @@ export class ConfigurationService {
                 {
                     name: "80C",
                     limit: 150000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: [
                         { name: "80C_1", limit: 0 }, { name: "80C_2", limit: 0 }, { name: "80C_3", limit: 0 }, { name: "80C_4", limit: 0 },
                         { name: "80C_5", limit: 0 }, { name: "80C_6", limit: 0 }, , { name: "80C_7", limit: 0 }, { name: "80C_8", limit: 0 },
@@ -195,36 +197,36 @@ export class ConfigurationService {
                     name: "80CCC",
                     limit: 0,  // check with parent if amount found, subtract it
                     options: [],
-                    parent : "80C",
-                    grossLimit : 0,
+                    parent: "80C",
+                    grossLimit: 0,
                 },
                 {
                     name: "80CCD1",
                     limit: 0,  // check with parent if amount found, subtract it
                     options: [],
-                    parent : "80C",
-                    grossLimit : 0,
+                    parent: "80C",
+                    grossLimit: 0,
                 },
                 {
                     name: "80CCD1B",
                     limit: 50000,
-                    parent : "",
+                    parent: "",
                     options: [],
-                    grossLimit : 0,
+                    grossLimit: 0,
                 },
                 {
                     name: "80CCD2",
                     limit: 10.0,
-                    parent : "",
+                    parent: "",
                     options: [],
-                    grossLimit : 0,
+                    grossLimit: 0,
                 },
 
                 {
                     name: "80D",
                     limit: 0,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: [
                         { name: "80D_1", limit: 25000 }, { name: "80D_2", limit: 30000 }, { name: "80D_3", limit: 25000 }, { name: "80D_4", limit: 30000 },
                         { name: "80D_5", limit: 50000 }, { name: "80D_6", limit: 55000 }, { name: "80D_7", limit: 60000 },
@@ -233,8 +235,8 @@ export class ConfigurationService {
                 {
                     name: "80DD",
                     limit: 0,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: [
                         { name: "80DD_1", limit: 75000 }, { name: "80DD_2", limit: 125000 }
                     ]
@@ -242,8 +244,8 @@ export class ConfigurationService {
                 {
                     name: "80DDB",
                     limit: 0,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: [
                         { name: "80DDB_1", limit: 40000 }, { name: "80DDB_2", limit: 40000 }, { name: "80DDB_2", limit: 60000 }
                     ]
@@ -251,89 +253,242 @@ export class ConfigurationService {
                 {
                     name: "80CCG", //applicable only gross total income is less than 12 lakhs  https://cleartax.in/s/80c-80-deductions#80CCG
                     limit: 25000,
-                    parent : "",
-                    grossLimit : 1200000,
+                    parent: "",
+                    grossLimit: 1200000,
                     options: []
                 },
                 {
                     name: "80E",
                     limit: -1,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80EE",
                     limit: 50000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80G",
                     limit: 2000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80GG",
                     limit: 60000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80GGA",
                     limit: 10000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80GGC",
                     limit: -1,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80QQB",
                     limit: 300000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80RRB",
                     limit: 300000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "TTA",
                     limit: 10000,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: []
                 },
                 {
                     name: "80U",
                     limit: 0,
-                    parent : "",
-                    grossLimit : 0,
+                    parent: "",
+                    grossLimit: 0,
                     options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]
                 }
-            ]
-        }];
+            ],            
+        },
+        {
+            ayYear: '2019-2020',
+            sections: [
+                {
+                    name: "80C",
+                    limit: 150000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: [
+                        { name: "80C_1", limit: 0 }, { name: "80C_2", limit: 0 }, { name: "80C_3", limit: 0 }, { name: "80C_4", limit: 0 },
+                        { name: "80C_5", limit: 0 }, { name: "80C_6", limit: 0 }, , { name: "80C_7", limit: 0 }, { name: "80C_8", limit: 0 },
+                        { name: "80C_9", limit: 0 }, { name: "80C_10", limit: 0 }, , { name: "80C_11", limit: 0 }, { name: "80C_12", limit: 0 },
+                        { name: "80C_13", limit: 0 }
+                    ]
+                },
+                {
+                    name: "80CCC",
+                    limit: 0,  // check with parent if amount found, subtract it
+                    options: [],
+                    parent: "80C",
+                    grossLimit: 0,
+                },
+                {
+                    name: "80CCD1",
+                    limit: 0,  // check with parent if amount found, subtract it
+                    options: [],
+                    parent: "80C",
+                    grossLimit: 0,
+                },
+                {
+                    name: "80CCD1B",
+                    limit: 50000,
+                    parent: "",
+                    options: [],
+                    grossLimit: 0,
+                },
+                {
+                    name: "80CCD2",
+                    limit: 10.0,
+                    parent: "",
+                    options: [],
+                    grossLimit: 0,
+                },
+
+                {
+                    name: "80D",
+                    limit: 0,
+                    parent: "",
+                    grossLimit: 0,
+                    options: [
+                        { name: "80D_1", limit: 25000 }, { name: "80D_2", limit: 30000 }, { name: "80D_3", limit: 25000 }, { name: "80D_4", limit: 30000 },
+                        { name: "80D_5", limit: 50000 }, { name: "80D_6", limit: 55000 }, { name: "80D_7", limit: 60000 },
+                    ]
+                },
+                {
+                    name: "80DD",
+                    limit: 0,
+                    parent: "",
+                    grossLimit: 0,
+                    options: [
+                        { name: "80DD_1", limit: 75000 }, { name: "80DD_2", limit: 125000 }
+                    ]
+                },
+                {
+                    name: "80DDB",
+                    limit: 0,
+                    parent: "",
+                    grossLimit: 0,
+                    options: [
+                        { name: "80DDB_1", limit: 40000 }, { name: "80DDB_2", limit: 40000 }, { name: "80DDB_2", limit: 60000 }
+                    ]
+                },
+                {
+                    name: "80CCG", //applicable only gross total income is less than 12 lakhs  https://cleartax.in/s/80c-80-deductions#80CCG
+                    limit: 25000,
+                    parent: "",
+                    grossLimit: 1200000,
+                    options: []
+                },
+                {
+                    name: "80E",
+                    limit: -1,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80EE",
+                    limit: 50000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80G",
+                    limit: 2000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80GG",
+                    limit: 60000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80GGA",
+                    limit: 10000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80GGC",
+                    limit: -1,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80QQB",
+                    limit: 300000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80RRB",
+                    limit: 300000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "TTA",
+                    limit: 10000,
+                    parent: "",
+                    grossLimit: 0,
+                    options: []
+                },
+                {
+                    name: "80U",
+                    limit: 0,
+                    parent: "",
+                    grossLimit: 0,
+                    options: [{ name: "80U_1", limit: 75000 }, { name: "80U_2", limit: 125000 }]
+                }
+            ],            
+        }
+        ];
 
     public slabs = [
         {
+            ayYear: '2018-2019',
             cess: 3,
             rebateLimit: 350000,
             rebateAmount: 2500,
-            ayYear: '2018-2019',
+            exemption : 250000,
             slabLimits: [
                 {
                     min: 250000,
@@ -351,7 +506,32 @@ export class ConfigurationService {
                     rate: 30
                 }
             ]
-        }];
+        },
+        {
+            ayYear: '2019-2020',
+            cess: 4,
+            rebateLimit: 350000,
+            rebateAmount: 2500,
+            exemption : 250000,
+            slabLimits: [
+                {
+                    min: 250000,
+                    max: 500000,
+                    rate: 5
+                },
+                {
+                    min: 500000,
+                    max: 1000000,
+                    rate: 20
+                },
+                {
+                    min: 1000000,
+                    max: 5000000,
+                    rate: 30
+                }
+            ]
+        }
+        ];
     //income tax calculation input ends here
 
     public incomeNatureList = [

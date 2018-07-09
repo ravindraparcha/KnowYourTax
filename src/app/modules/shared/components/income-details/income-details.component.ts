@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { IncomeDetailsModel } from '../../models/income-details.model';
-import { ConfigurationService } from '../../services/ConfigurationService';
+import { ConfigurationService } from '../../services/configurationService';
 import { DeductionsComponent } from '../deduction/deductions.components';
 import { IncomeTaxModel, TaxComputationModel } from '../../models/deduction.model';
 import { NgForm } from "@angular/forms";

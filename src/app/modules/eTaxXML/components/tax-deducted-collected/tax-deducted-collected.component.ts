@@ -5,7 +5,7 @@ import { TaxCollectedDeductedModel, TaxDeductedSalaryModel, TaxDeductedOtherThan
 import { SharedTaxService } from '../../../shared/services/sharedTaxService';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { ConfigurationService } from "../../../shared/services/ConfigurationService";
+import { ConfigurationService } from "../../../shared/services/configurationService";
 
 declare var $: any;
 

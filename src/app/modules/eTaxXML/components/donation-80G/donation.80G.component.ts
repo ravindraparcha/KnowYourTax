@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter, HostListener } from '@angular/core';
 import { Donation80G,DonationDeduction } from '../../models/donation-80G.model';
 import { INgxMyDpOptions, IMyDateModel } from "ngx-mydatepicker";
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/configurationService';
 
 @Component({
     selector:'donation-80G',

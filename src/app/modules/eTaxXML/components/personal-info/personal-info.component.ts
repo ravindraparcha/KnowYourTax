@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewContainerRef, ViewChild, OnDestroy } from "@angular/core";
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { ConfigurationService } from '../../../shared/services/ConfigurationService';
+import { ConfigurationService } from '../../../shared/services/configurationService';
 import { PersonalInfoModel } from '../../models/personal-info.model';
 import { FormatDateService } from '../../services/formatDateService';
 import { SharedTaxService } from '../../../shared/services/sharedTaxService';
