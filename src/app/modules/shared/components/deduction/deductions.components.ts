@@ -431,13 +431,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         let enteredAmount = 0;
         let sectionOptionIndex = 0;
         let masterData = this._configuration.selectedMasterSec[0].sections;
-        // for (let data of masterDataList) {
-        //     if (data.ayYear == this.getAssessmentYear()) {
-        //         masterData = data.sections;
-        //         break;
-        //     }
-        // }
-
+        
         for (let msData of masterData) {
             dSum = 0;
             sectionOptionIndex = 0;
@@ -463,9 +457,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                             }
                         }
                         if (msData.options.length > 0) {
-                            if (usrDeduction.deductionValue > msData.limit) {
-                                //dSum += msData.limit;
-                                //enteredAmount += msData.limit;
+                            if (usrDeduction.deductionValue > msData.limit) {                                
                                 enteredAmount = usrDeduction.deductionValue;
                                 dSum = msData.limit;
                             }
@@ -500,8 +492,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                         }
                     }
                     else if (msData.limit == -1) {
-                        dSum += usrDeduction.deductionValue;
-                        //msData.limit = dSum;
+                        dSum += usrDeduction.deductionValue;                       
                         enteredAmount = dSum;
                     }
 

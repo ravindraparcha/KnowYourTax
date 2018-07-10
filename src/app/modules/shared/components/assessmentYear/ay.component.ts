@@ -1,6 +1,6 @@
 
 import { Component,OnInit } from '@angular/core';
-import { ConfigurationService } from '../../modules/shared/services/configurationService';
+import { ConfigurationService } from '../../../shared/services/configurationService';
 
 @Component({
     selector: 'assessment-year',
