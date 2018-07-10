@@ -84,8 +84,8 @@ export class TaxDeductedCollectedComponent implements OnInit, OnDestroy {
         $('.panel-collapse').on('hide.bs.collapse', function () {
             $(this).siblings('.panel-heading-custom').removeClass('active');
         });
-        this.taxCollectionDeductionYearList = this.getFinancialYearList();
-        this.taxDeductionTenantYearList = this.getFinancialYearList();
+        this.taxCollectionDeductionYearList = this.getTaxCollectionDeductionYearList();
+        this.taxDeductionTenantYearList = this.getTaxCollectionDeductionYearList();
         this._taxDeductedUnder26QCModelsDiffer = this._differs.find(this._newTaxDeductedUnder26QCModel).create();
     }
     ngDoCheck(): void {
