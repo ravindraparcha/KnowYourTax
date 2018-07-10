@@ -411,7 +411,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             //decrease month by 1 
             month -= 1;
             let dateObj = new Date(year, month, date);
-            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), taxPaid, true);
+            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), selfAssmntAdvnceTx.taxPaid, true);
             this.advanceTaxModels.push(advanceTaxModel);
         }
     }
