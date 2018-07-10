@@ -395,6 +395,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         let advanceTaxModel;
         let month: number, year: number, date: number;
         this._selfAssessmentTaxPaid = 0;
+        let taxPaid:number=0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
             if (selfAssmntAdvnceTx.depositDate == null || selfAssmntAdvnceTx.depositDate == "") {
                 continue;
@@ -402,11 +403,15 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             date = selfAssmntAdvnceTx.depositDate.formatted.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1));
             month = selfAssmntAdvnceTx.depositDate.formatted.substring(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2));
             year = selfAssmntAdvnceTx.depositDate.formatted.substr(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2) + 1);
-            this._selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
+            taxPaid=0;
+            if(selfAssmntAdvnceTx.selectedTaxType=="AdvanceTax")
+                taxPaid= parseInt(selfAssmntAdvnceTx.taxPaid);
+
+            this._selfAssessmentTaxPaid += taxPaid;
             //decrease month by 1 
             month -= 1;
             let dateObj = new Date(year, month, date);
-            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), selfAssmntAdvnceTx.taxPaid, true);
+            advanceTaxModel = new AdvanceTaxModel(dateObj.toString(), taxPaid, true);
             this.advanceTaxModels.push(advanceTaxModel);
         }
     }
@@ -572,16 +577,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             }
             else if (netTotalIncome >= slab.min) {
                 slabTax = ((netTotalIncome - slab.min) * slab.rate) / 100;
-                    slabResult.taxableAmount = netTotalIncome - slab.min;
-               
-                // if (netTotalIncome <= slabData.rebateLimit) {
-                //     slabTax = slabData.rebateAmount;
-                //     slabResult.taxableAmount = slabData.rebateAmount;
-                // }
-                // else {
-                //     slabTax = Math.floor(((netTotalIncome - slab.min) * slab.rate) / 100);
-                //     slabResult.taxableAmount = netTotalIncome - slab.min;
-                // }
+                    slabResult.taxableAmount = netTotalIncome - slab.min;              
             }
             else
                 slabResult.taxableAmount = 0;
