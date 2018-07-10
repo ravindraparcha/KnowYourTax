@@ -220,13 +220,14 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
 
-        let totalTax = 0;
+        let totalTax : number = 0;
         this.taxComputationModel.cessTax = 0;
         for (let result of slabResults) {
             totalTax += result.tax;
             this.taxComputationModel.cessTax += result.cessTax;
         }
-
+        totalTax = Math.ceil(totalTax);
+        this.taxComputationModel.cessTax = Math.ceil(this.taxComputationModel.cessTax);
        
         this.taxComputationModel.taxPayableAfterRebate = totalTax;
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
@@ -557,8 +558,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
     private calculateTaxPerSlab(netTotalIncome: number): SlabResult[] {
 
         let slabResults = [];
-        let slabTax = 0;
-        let slabList = this._configuration.selectedSlabs        
+        let slabTax = 0;             
         let slabData=this._configuration.selectedSlabs[0];         
         let slabs = slabData.slabLimits;      
 
@@ -567,30 +567,36 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             let slabResult = new SlabResult();
             //first slab has exemption			 
             if (netTotalIncome >= slab.max) {
-                slabTax = Math.floor(((slab.max - slab.min) * slab.rate) / 100);
+                slabTax = ((slab.max - slab.min) * slab.rate) / 100;
                 slabResult.taxableAmount = slab.max - slab.min;
             }
             else if (netTotalIncome >= slab.min) {
-                if (netTotalIncome < slabData.rebateLimit) {
-                    slabTax = 0;
-                }
-                else if (netTotalIncome == slabData.rebateLimit) {
-                    slabTax = slabData.rebateAmount;
-                    slabResult.taxableAmount = slabData.rebateAmount;;
-                }
-                else {
-                    slabTax = Math.floor(((netTotalIncome - slab.min) * slab.rate) / 100);
+                slabTax = ((netTotalIncome - slab.min) * slab.rate) / 100;
                     slabResult.taxableAmount = netTotalIncome - slab.min;
-                }
+               
+                // if (netTotalIncome <= slabData.rebateLimit) {
+                //     slabTax = slabData.rebateAmount;
+                //     slabResult.taxableAmount = slabData.rebateAmount;
+                // }
+                // else {
+                //     slabTax = Math.floor(((netTotalIncome - slab.min) * slab.rate) / 100);
+                //     slabResult.taxableAmount = netTotalIncome - slab.min;
+                // }
             }
             else
                 slabResult.taxableAmount = 0;
 
+            if(netTotalIncome<= slabData.rebateLimit) {
+                if(slabTax>slabData.rebateAmount)
+                    slabTax-=slabData.rebateAmount;
+                else 
+                    slabTax=0;
+            }
             slabResult.min = slab.min;
             slabResult.max = slab.max;
             slabResult.tax = slabTax;
-            slabResult.cessTax = Math.floor(slabTax * slabData.cess / 100);
-            slabResult.totalTax = slabResult.tax + slabResult.cessTax;
+            slabResult.cessTax = slabTax * slabData.cess / 100;
+            slabResult.totalTax = Math.ceil(slabResult.tax + slabResult.cessTax);
             slabResults.push(slabResult);
         }         
         return slabResults;        
