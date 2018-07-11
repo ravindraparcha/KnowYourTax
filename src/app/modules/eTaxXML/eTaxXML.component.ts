@@ -193,35 +193,40 @@ export class eTaxXMLComponent implements OnInit {
     public generateXML() {
 
         //validate child component
-
+        let allformerCompValid=true;
         this.validateIncomeDetailsComponent();
         if (!this.isIncomeDetailsFrmValid && this.isIncomeDetailsFrmValid!=undefined) {
+            allformerCompValid=false;
             this._toastr.error(this.getTabErrorMessage('Income details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateTaxDeductedCollectedComponent();
-        if (!this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid != undefined) {
+        if (allformerCompValid && !this.isTaxDeductedCollectedFrmValid && this.isTaxDeductedCollectedFrmValid != undefined) {
+            allformerCompValid=false;
             this._toastr.error(this.getTabErrorMessage('Tax Details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateTaxPaidVerificationComponent();
-        if (!this.isTaxPaidVerificationFrmValid && this.isTaxPaidVerificationFrmValid!=undefined) {
+        if (allformerCompValid && !this.isTaxPaidVerificationFrmValid && this.isTaxPaidVerificationFrmValid!=undefined) {
+            allformerCompValid=false;
             this._toastr.error(this.getTabErrorMessage('Tax paid and verification'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validateDeduction80GComponent();
-        if (!this.isDeduction80GComponentValid && this.isDeduction80GComponentValid!=undefined) {
+        if (allformerCompValid && !this.isDeduction80GComponentValid && this.isDeduction80GComponentValid!=undefined) {
+            allformerCompValid=false;
             this._toastr.error(this.getTabErrorMessage('80G details'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
         this.validatePersonalInfoComponent();       
-        if (!this.isPersonalInfoFrmValid && this.isPersonalInfoFrmValid!=undefined) {
+        if (allformerCompValid && !this.isPersonalInfoFrmValid && this.isPersonalInfoFrmValid!=undefined) {
+            allformerCompValid=false;
             this._toastr.error(this.getTabErrorMessage('Personal Information'), 'Error', this._configuration.CustomToastOptions);
             return;
         }
-        if(!this.isIncomeDetailsFrmValid  || !this.isTaxDeductedCollectedFrmValid || !this.isTaxPaidVerificationFrmValid || !this.isDeduction80GComponentValid || !this.isPersonalInfoFrmValid)
+        if(!allformerCompValid)
             return;
-
+         
         this.xmlDataArray = [];
         this.createSectionArray('personalInfo', this._personalInfoComponent.personalInfo);
         this.incomeData = new IncomeData();
