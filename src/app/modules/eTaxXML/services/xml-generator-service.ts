@@ -275,10 +275,12 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:IntrstPayUs234C", incomeDetails.interest234C);
         if (incomeDetails.feeUnder234F !== undefined && incomeDetails.feeUnder234F !== null)
             this.xmlWriter.writeElement("ITRForm:LateFilingFee234F", incomeDetails.feeUnder234F);
+        
+        this.xmlWriter.endElement();
+
         if (incomeDetails.totalTaxFeeInterest !== undefined && incomeDetails.totalTaxFeeInterest !== null)
             this.xmlWriter.writeElement("ITRForm:TotTaxPlusIntrstPay", incomeDetails.totalTaxFeeInterest);
-
-        this.xmlWriter.endElement();
+            
         this.xmlWriter.endElement();
     }
 
