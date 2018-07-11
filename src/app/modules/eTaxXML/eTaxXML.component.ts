@@ -236,9 +236,9 @@ export class eTaxXMLComponent implements OnInit {
         this.incomeData.incomeTaxModel = this._incomeDetailsComponent.deductionsComponent.incomeTaxModel;
         this.createSectionArray('incomeDetails', this.incomeData);
         this.createSectionArray('taxPaid', this._taxPaidVerificationComponent.taxPaidModel);
-        this.createSectionArray('taxCollectedDeducted', this._taxDeductedCollectedComponent.taxCollectedDeductedModel);
-        this.createSectionArray('verification', this._taxPaidVerificationComponent.taxPaidModel.verificationModel);
         this.createSectionArray('80g', this._donation80GComponent.donation80G);
+        this.createSectionArray('taxCollectedDeducted', this._taxDeductedCollectedComponent.taxCollectedDeductedModel);
+        this.createSectionArray('verification', this._taxPaidVerificationComponent.taxPaidModel.verificationModel);       
         this._xmlGeneratorService.generateXML(this.xmlDataArray);
     }
 
