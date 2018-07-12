@@ -220,13 +220,14 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         let slabResults = [];
         slabResults = this.calculateTaxPerSlab(netTaxableIncome);
 
-        let totalTax = 0;
+        let totalTax : number = 0;
         this.taxComputationModel.cessTax = 0;
         for (let result of slabResults) {
             totalTax += result.tax;
             this.taxComputationModel.cessTax += result.cessTax;
         }
-
+        totalTax = Math.ceil(totalTax);
+        this.taxComputationModel.cessTax = Math.ceil(this.taxComputationModel.cessTax);
        
         this.taxComputationModel.taxPayableAfterRebate = totalTax;
         this.taxComputationModel.totalTaxAndCess = this.taxComputationModel.taxPayableAfterRebate + this.taxComputationModel.cessTax;
@@ -291,8 +292,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             let advanceTaxDeposited = 0;;
             if (this.taxComputationModel.balanceTaxAfterRelief > this._configuration.taxLiability) {
                 let mntArray = [3, 6, 9, 12];
-                let taxPercentageArr = [15, 45, 75, 100];
-                let quarterLastDate;
+                let taxPercentageArr = [15, 45, 75, 100];                
                 for (let i = 0; i < mntArray.length; i++) {
                     let fDate = new Date(filingDt.getFullYear() - 1, 0, 15);
                     fDate.setMonth(mntArray[i] - 1);
@@ -309,7 +309,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                         months = 1;
 
                     if (this.advanceTaxModels !== undefined && this.advanceTaxModels.length > 0) {
-                        let advanceTax = 0;
+                        
                         for (let j = 0; j < this.advanceTaxModels.length; j++) {
                             let d = new Date(this.advanceTaxModels[j].transactionDate);
                             if (d >= fDate && d <= lDate) {
@@ -321,12 +321,8 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                             balanceAdvanceTax = 0;
                         else
                             balanceAdvanceTax = (tax - advanceTaxDeposited) - (tax - advanceTaxDeposited) % 100;
-
-                        let diffDate: number;
-                        diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
-
+                                               
                         // for 234C, tax is calculated for all 3 months, for last installment, tax will be calculated for 1 month
-
                         let interTax = ((months * 1) * balanceAdvanceTax) / 100;
                         if ((i == 0 && interTax >= (this.taxComputationModel.balanceTaxAfterRelief * 12) / 100)
                             || (i == 1 && interTax >= (this.taxComputationModel.balanceTaxAfterRelief * 36) / 100)) {
@@ -340,7 +336,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                     }
                 }
             }
-            this.taxComputationModel.interest234C = Math.ceil(this.taxComputationModel.interest234C);
+            this.taxComputationModel.interest234C =Math.ceil(this.taxComputationModel.interest234C);
 
 
             //Section 234F
@@ -394,6 +390,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         let advanceTaxModel;
         let month: number, year: number, date: number;
         this._selfAssessmentTaxPaid = 0;
+        let taxPaid:number=0;
         for (let selfAssmntAdvnceTx of selfAssmntAdvnceTaxArr) {
             if (selfAssmntAdvnceTx.depositDate == null || selfAssmntAdvnceTx.depositDate == "") {
                 continue;
@@ -401,7 +398,11 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             date = selfAssmntAdvnceTx.depositDate.formatted.substr(0, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1));
             month = selfAssmntAdvnceTx.depositDate.formatted.substring(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 1) + 1, this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2));
             year = selfAssmntAdvnceTx.depositDate.formatted.substr(this.getPosition(selfAssmntAdvnceTx.depositDate.formatted, "/", 2) + 1);
-            this._selfAssessmentTaxPaid += selfAssmntAdvnceTx.taxPaid;
+            taxPaid=0;
+            if(selfAssmntAdvnceTx.selectedTaxType=="AdvanceTax")
+                taxPaid= parseInt(selfAssmntAdvnceTx.taxPaid);
+
+            this._selfAssessmentTaxPaid += taxPaid;
             //decrease month by 1 
             month -= 1;
             let dateObj = new Date(year, month, date);
@@ -425,13 +426,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
         let enteredAmount = 0;
         let sectionOptionIndex = 0;
         let masterData = this._configuration.selectedMasterSec[0].sections;
-        // for (let data of masterDataList) {
-        //     if (data.ayYear == this.getAssessmentYear()) {
-        //         masterData = data.sections;
-        //         break;
-        //     }
-        // }
-
+        
         for (let msData of masterData) {
             dSum = 0;
             sectionOptionIndex = 0;
@@ -457,9 +452,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                             }
                         }
                         if (msData.options.length > 0) {
-                            if (usrDeduction.deductionValue > msData.limit) {
-                                //dSum += msData.limit;
-                                //enteredAmount += msData.limit;
+                            if (usrDeduction.deductionValue > msData.limit) {                                
                                 enteredAmount = usrDeduction.deductionValue;
                                 dSum = msData.limit;
                             }
@@ -494,8 +487,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                         }
                     }
                     else if (msData.limit == -1) {
-                        dSum += usrDeduction.deductionValue;
-                        //msData.limit = dSum;
+                        dSum += usrDeduction.deductionValue;                       
                         enteredAmount = dSum;
                     }
 
@@ -557,8 +549,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
     private calculateTaxPerSlab(netTotalIncome: number): SlabResult[] {
 
         let slabResults = [];
-        let slabTax = 0;
-        let slabList = this._configuration.selectedSlabs        
+        let slabTax = 0;             
         let slabData=this._configuration.selectedSlabs[0];         
         let slabs = slabData.slabLimits;      
 
@@ -567,30 +558,27 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             let slabResult = new SlabResult();
             //first slab has exemption			 
             if (netTotalIncome >= slab.max) {
-                slabTax = Math.floor(((slab.max - slab.min) * slab.rate) / 100);
+                slabTax = ((slab.max - slab.min) * slab.rate) / 100;
                 slabResult.taxableAmount = slab.max - slab.min;
             }
             else if (netTotalIncome >= slab.min) {
-                if (netTotalIncome < slabData.rebateLimit) {
-                    slabTax = 0;
-                }
-                else if (netTotalIncome == slabData.rebateLimit) {
-                    slabTax = slabData.rebateAmount;
-                    slabResult.taxableAmount = slabData.rebateAmount;;
-                }
-                else {
-                    slabTax = Math.floor(((netTotalIncome - slab.min) * slab.rate) / 100);
-                    slabResult.taxableAmount = netTotalIncome - slab.min;
-                }
+                slabTax = ((netTotalIncome - slab.min) * slab.rate) / 100;
+                    slabResult.taxableAmount = netTotalIncome - slab.min;              
             }
             else
                 slabResult.taxableAmount = 0;
 
+            if(netTotalIncome<= slabData.rebateLimit) {
+                if(slabTax>slabData.rebateAmount)
+                    slabTax-=slabData.rebateAmount;
+                else 
+                    slabTax=0;
+            }
             slabResult.min = slab.min;
             slabResult.max = slab.max;
             slabResult.tax = slabTax;
-            slabResult.cessTax = Math.floor(slabTax * slabData.cess / 100);
-            slabResult.totalTax = slabResult.tax + slabResult.cessTax;
+            slabResult.cessTax = slabTax * slabData.cess / 100;
+            slabResult.totalTax = Math.ceil(slabResult.tax + slabResult.cessTax);
             slabResults.push(slabResult);
         }         
         return slabResults;        

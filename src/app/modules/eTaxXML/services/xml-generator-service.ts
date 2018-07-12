@@ -49,7 +49,7 @@ export class XmlGeneratorService {
             let currentDate = new Date();
             panNo = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
         }
-        saveAs(blob, 'ITR1_' + panNo + ".xml");
+        saveAs(blob, 'ITR1_' + panNo.toUpperCase() + ".xml");
     }
     private addPredefinedXmlNodes() {
         this.xmlWriterRequire = require('xml-writer');
@@ -226,7 +226,7 @@ export class XmlGeneratorService {
         let incomeTaxModel = incomeDetail.incomeTaxModel;
         this.addUserDeductionNode(incomeTaxModel.userTaxModel);
         this.addSysCalculatedDeductionNode(incomeTaxModel.systemTaxModel);
-        this.xmlWriter.writeElement('ITRForm:TotalIncome',incomeTaxModel.taxComputationModel.totalTaxFeeInterest);
+        this.xmlWriter.writeElement('ITRForm:TotalIncome',incomeTaxModel.taxComputationModel.netTaxableIncome);
         this.xmlWriter.endElement();
         this.addTaxComputationNode(incomeTaxModel.taxComputationModel);
     }
@@ -275,10 +275,12 @@ export class XmlGeneratorService {
             this.xmlWriter.writeElement("ITRForm:IntrstPayUs234C", incomeDetails.interest234C);
         if (incomeDetails.feeUnder234F !== undefined && incomeDetails.feeUnder234F !== null)
             this.xmlWriter.writeElement("ITRForm:LateFilingFee234F", incomeDetails.feeUnder234F);
+        
+        this.xmlWriter.endElement();
+
         if (incomeDetails.totalTaxFeeInterest !== undefined && incomeDetails.totalTaxFeeInterest !== null)
             this.xmlWriter.writeElement("ITRForm:TotTaxPlusIntrstPay", incomeDetails.totalTaxFeeInterest);
-
-        this.xmlWriter.endElement();
+            
         this.xmlWriter.endElement();
     }
 
@@ -297,18 +299,18 @@ export class XmlGeneratorService {
             else if (element.name == "80CCD2")
                 this.xmlWriter.writeElement("ITRForm:Section80CCDEmployer", parseInt(element.amount));
             else if (element.name == "80D") {
-                if (isUsrNode)
+                if (isUsrNode && element.option!="0")
                     this.xmlWriter.writeElement("ITRForm:Section80DUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80D", parseInt(element.amount));
             }
 
             else if (element.name == "80DD") {
-                if (isUsrNode)
+                if (isUsrNode && element.option!="0")
                     this.xmlWriter.writeElement("ITRForm:Section80DDUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80DD", parseInt(element.amount));
             }
             else if (element.name == "80DDB") {
-                if (isUsrNode)
+                if (isUsrNode && element.option!="0")
                     this.xmlWriter.writeElement("ITRForm:Section80DDBUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80DDB", parseInt(element.amount));
             }
@@ -328,7 +330,7 @@ export class XmlGeneratorService {
 
 
             else if (element.name == "80U") {
-                if (isUsrNode)
+                if (isUsrNode && element.option!="0")
                     this.xmlWriter.writeElement("ITRForm:Section80UUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80U", parseInt(element.amount));
             }
@@ -376,7 +378,7 @@ export class XmlGeneratorService {
             //if (otherExemptModel.selectedIncomeNature != "") {
             this.xmlWriter.startElement("ITRForm:OthersIncDtls");
             this.xmlWriter.writeElement("ITRForm:NatureDesc", otherExemptModel.selectedIncomeNature);
-            this.xmlWriter.writeElement("ITRForm:OthNatOfInc", otherExemptModel.descriptionIfAnyOtherSelected);
+            this.xmlWriter.writeElement("ITRForm:OthNatOfInc", otherExemptModel.descriptionIfAnyOtherSelected.toUpperCase());
             this.xmlWriter.writeElement("ITRForm:OthAmount", otherExemptModel.amount);
             this.xmlWriter.endElement();
             amountSum += parseInt(otherExemptModel.amount);
@@ -401,7 +403,7 @@ export class XmlGeneratorService {
         if (taxPaid.accountDetail.ifscCode !== undefined && taxPaid.accountDetail.ifscCode !== null)
             this.xmlWriter.writeElement("ITRForm:IFSCCode", taxPaid.accountDetail.ifscCode);
         if (taxPaid.accountDetail.bankName !== undefined && taxPaid.accountDetail.bankName !== null)
-            this.xmlWriter.writeElement("ITRForm:BankName", taxPaid.accountDetail.bankName);
+            this.xmlWriter.writeElement("ITRForm:BankName", taxPaid.accountDetail.bankName.toUpperCase());
         if (taxPaid.accountDetail.accountNo !== undefined && taxPaid.accountDetail.accountNo !== null)
             this.xmlWriter.writeElement("ITRForm:BankAccountNo", taxPaid.accountDetail.accountNo);
         this.xmlWriter.endElement();
@@ -412,7 +414,7 @@ export class XmlGeneratorService {
                 if (otherAccountDetails.ifscCode !== undefined && otherAccountDetails.ifscCode !== null)
                     this.xmlWriter.writeElement("ITRForm:IFSCCode", otherAccountDetails.ifscCode);
                 if (otherAccountDetails.bankName !== undefined && otherAccountDetails.bankName !== null)
-                    this.xmlWriter.writeElement("ITRForm:BankName", otherAccountDetails.bankName);
+                    this.xmlWriter.writeElement("ITRForm:BankName", otherAccountDetails.bankName.toUpperCase());
                 if (otherAccountDetails.accountNo !== undefined && otherAccountDetails.accountNo !== null)
                     this.xmlWriter.writeElement("ITRForm:BankAccountNo", otherAccountDetails.accountNo);
                 this.xmlWriter.endElement();
@@ -561,22 +563,23 @@ export class XmlGeneratorService {
 
         this.xmlWriter.endElement();
 
-        //tax return preparer
-        this.xmlWriter.startElement("ITRForm:TaxReturnPreparer");
-        if (verification.TRPIdentificationNo !== undefined && verification.TRPIdentificationNo !== "")
+        //tax return preparer        
+        if (verification.TRPIdentificationNo !== undefined && verification.TRPIdentificationNo !== "") {
+            this.xmlWriter.startElement("ITRForm:TaxReturnPreparer");
             this.xmlWriter.writeElement("ITRForm:IdentificationNoOfTRP", verification.TRPIdentificationNo);
+        }
         if (verification.TRPName !== undefined && verification.TRPName !== "")
             this.xmlWriter.writeElement("ITRForm:NameOfTRP", verification.TRPName.toUpperCase());
-        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "" && verification.TRPReimbursementAmount!='0')
+        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "" && verification.TRPReimbursementAmount!='0') {
             this.xmlWriter.writeElement("ITRForm:ReImbFrmGov", verification.TRPReimbursementAmount);
-
-        this.xmlWriter.endElement();
+            this.xmlWriter.endElement();
+        }        
     }
 
     private donationAmt: number = 0;
     private eligibleAmt: number = 0;
     private add80GNode(section80g) {
-
+                
         if (section80g.donation100DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation50DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation100DeductionWithQualifyingLimit.length == 0 &&
@@ -610,7 +613,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon100Percent", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += parseInt(donationAmount.donationAmount);
-        this.eligibleAmt += parseInt(donationAmount.donationAmount);
+        this.eligibleAmt += parseInt(donationAmount.eligibleAmount);
     }
     private add80gDonee50PercentWithoutQualifyingLimit(section80g) {
         if (section80g.donation50DeductionWithoutQualifyingLimit.length == 0)
@@ -621,7 +624,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon50Percent", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += parseInt(donationAmount.donationAmount);
-        this.eligibleAmt += parseInt(donationAmount.donationAmount);
+        this.eligibleAmt += parseInt(donationAmount.eligibleAmount);
     }
     private add80gDonee100PercentWithQualifyingLimit(section80g) {
         if (section80g.donation100DeductionWithQualifyingLimit.length == 0)
@@ -632,7 +635,7 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon100PercentApprReqd", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += parseInt(donationAmount.donationAmount);
-        this.eligibleAmt += parseInt(donationAmount.donationAmount);
+        this.eligibleAmt += parseInt(donationAmount.eligibleAmount);
     }
     private add80gDonee50PercentWithQualifyingLimit(section80g) {
         if (section80g.donation50DeductionWithQualifyingLimit.length == 0)
@@ -643,9 +646,9 @@ export class XmlGeneratorService {
         this.xmlWriter.writeElement("ITRForm:TotEligibleDon50PercentApprReqd", donationAmount.eligibleAmount);
         this.xmlWriter.endElement();
         this.donationAmt += parseInt(donationAmount.donationAmount);
-        this.eligibleAmt += parseInt(donationAmount.donationAmount);
+        this.eligibleAmt += parseInt(donationAmount.eligibleAmount);
     }
-    private addDoneeNodes(doneeDonations): any {
+    private addDoneeNodes(doneeDonations): any {         
         let eligibleAmount = 0;
         let donationAmount = 0;
         for (let doneeDonation of doneeDonations) {
@@ -662,18 +665,18 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", doneeDonation.cityTownDistrict.toUpperCase());
             if (doneeDonation.selectedStateCode !== null && doneeDonation.selectedStateCode != "")
                 this.xmlWriter.writeElement("ITRForm:StateCode", doneeDonation.selectedStateCode);
-            if (doneeDonation.pinCode !== undefined && doneeDonation.pinCode != "")
+            if (doneeDonation.pinCode !== null && doneeDonation.pinCode != "")
                 this.xmlWriter.writeElement("ITRForm:PinCode", doneeDonation.pinCode);
             this.xmlWriter.endElement();
+
             if (doneeDonation.donationAmount !== undefined && doneeDonation.donationAmount != 0) {
-                this.xmlWriter.writeElement("ITRForm:DonationAmt", doneeDonation.donationAmount);
-                this.xmlWriter.writeElement("ITRForm:EligibleDonationAmt", doneeDonation.donationAmount);
+                this.xmlWriter.writeElement("ITRForm:DonationAmt", doneeDonation.donationAmount);               
             }
             if (doneeDonation.eligibleDonationAmount !== undefined && doneeDonation.eligibleDonationAmount != 0)
                 this.xmlWriter.writeElement("ITRForm:EligibleDonationAmt", doneeDonation.eligibleDonationAmount);
             this.xmlWriter.endElement();
             donationAmount += parseInt(doneeDonation.donationAmount);
-            eligibleAmount += parseInt(doneeDonation.donationAmount);
+            eligibleAmount += parseInt(doneeDonation.eligibleDonationAmount);
         }
         return { donationAmount: donationAmount, eligibleAmount: eligibleAmount };
     }

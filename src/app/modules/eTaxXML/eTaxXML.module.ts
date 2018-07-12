@@ -41,11 +41,11 @@ import {TanCardValidatorDirective} from './validators/TanCardDirective';
 import { UpdateNextFieldDirective} from './directives/update-next-field.directive';
 import {eTaxXMLRoutingModule} from './eTaxXML.routing';
 import { CommonModule } from '@angular/common';  
-import {coreSharedModule} from '../../core-shared/core.shared.module';
+
 
 @NgModule({
     imports: [NgSelectModule,
-              NgxMyDatePickerModule.forRoot(),sharedModule, coreSharedModule,
+              NgxMyDatePickerModule.forRoot(),sharedModule,
               ToastrModule.forRoot({timeOut: 1000,
                 positionClass: 'toast-center'}),
                 eTaxXMLRoutingModule,FormsModule,ReactiveFormsModule,CommonModule],

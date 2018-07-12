@@ -373,8 +373,9 @@
                                 </td>
                                 <td>
                                     <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.PAN" class="form-control" type="text" #donation50DeductionWithQualifyingLimitModelPAN='ngModel'
-                                        name="donation50DeductionWithQualifyingLimitModelPAN_{{i}}" />
-                                </td>
+                                        name="donation50DeductionWithQualifyingLimitModelPAN_{{i}}" PanCardValidator/>
+                                        <div class="border-left-error" *ngIf="donation50DeductionWithQualifyingLimitModelPAN.errors && donation50DeductionWithQualifyingLimitModelPAN.errors.panNoError">{{donation50DeductionWithQualifyingLimitModelPAN.errors.panNoError.errorMsg}}</div>
+                                 </td>
                                 <td>
                                     <input [(ngModel)]="donation50DeductionWithQualifyingLimitModel.donationAmount" class="form-control" type="text" #donation50DeductionWithQualifyingLimitModelDonationAmount='ngModel'
                                         name="donation50DeductionWithQualifyingLimitModelDonationAmount_{{i}}" NumberValidator
