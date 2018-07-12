@@ -6,12 +6,11 @@ import {sharedModule} from '../shared/sharedModule';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CommonModule } from '@angular/common';  
 import { FormatDateService } from '../eTaxXML/services/formatDateService';
-import {coreSharedModule} from '../../core-shared/core.shared.module';
+
 @NgModule({
     imports: [              
         CalculatorRoutingModule,
-        sharedModule,
-        coreSharedModule,
+        sharedModule,        
         FormsModule,
         NgxMyDatePickerModule.forRoot(),
         FormsModule,

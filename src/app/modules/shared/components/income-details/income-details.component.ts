@@ -96,6 +96,7 @@ export class IncomeDetailsComponent implements OnInit, OnDestroy {
                 (isNaN(parseInt(this.incomeDetailsModel.taxPaidToLocalAuthority)) ? 0 : parseInt(this.incomeDetailsModel.taxPaidToLocalAuthority));
         this.incomeDetailsModel.annualValuePercentageAmount = (this.incomeDetailsModel.annualValue * this._configuration.annualValuePercentage) / 100;
         this.incomeDetailsModel.annualValuePercentageAmount = Math.ceil(this.incomeDetailsModel.annualValuePercentageAmount);
+        this.calculateIncomeChargeableUnderHouseProperty();
     }
 
     public calculateIncomeChargeableUnderHouseProperty() {
