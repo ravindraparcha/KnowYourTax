@@ -139,7 +139,7 @@ export class ConfigurationService {
 
         { "name": "80RRB", "text": "Deduction on income received through patent royalty" },
 
-        { "name": "TTA", "text": "Deduction on interest received on saving bank accounts" },
+        { "name": "80TTA", "text": "Deduction on interest received on saving bank accounts" },
 
         { "name": "80U_1", "text": "Medical treatment for self" },
         { "name": "80U_2", "text": "Medical treatment for  self with 40% disability" },
@@ -314,7 +314,7 @@ export class ConfigurationService {
                     options: []
                 },
                 {
-                    name: "TTA",
+                    name: "80TTA",
                     limit: 10000,
                     parent: "",
                     grossLimit: 0,
@@ -465,7 +465,7 @@ export class ConfigurationService {
                     options: []
                 },
                 {
-                    name: "TTA",
+                    name: "80TTA",
                     limit: 10000,
                     parent: "",
                     grossLimit: 0,

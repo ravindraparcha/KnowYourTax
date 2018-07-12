@@ -579,7 +579,7 @@ export class XmlGeneratorService {
     private donationAmt: number = 0;
     private eligibleAmt: number = 0;
     private add80GNode(section80g) {
-
+        debugger;
         if (section80g.donation100DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation50DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation100DeductionWithQualifyingLimit.length == 0 &&
@@ -668,6 +668,7 @@ export class XmlGeneratorService {
             if (doneeDonation.pinCode !== undefined && doneeDonation.pinCode != "")
                 this.xmlWriter.writeElement("ITRForm:PinCode", doneeDonation.pinCode);
             this.xmlWriter.endElement();
+
             if (doneeDonation.donationAmount !== undefined && doneeDonation.donationAmount != 0) {
                 this.xmlWriter.writeElement("ITRForm:DonationAmt", doneeDonation.donationAmount);               
             }
@@ -675,7 +676,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:EligibleDonationAmt", doneeDonation.eligibleDonationAmount);
             this.xmlWriter.endElement();
             donationAmount += parseInt(doneeDonation.donationAmount);
-            eligibleAmount += parseInt(doneeDonation.eligibleAmount);
+            eligibleAmount += parseInt(doneeDonation.eligibleDonationAmount);
         }
         return { donationAmount: donationAmount, eligibleAmount: eligibleAmount };
     }
