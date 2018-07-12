@@ -579,7 +579,7 @@ export class XmlGeneratorService {
     private donationAmt: number = 0;
     private eligibleAmt: number = 0;
     private add80GNode(section80g) {
-        debugger;
+                
         if (section80g.donation100DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation50DeductionWithoutQualifyingLimit.length == 0 &&
             section80g.donation100DeductionWithQualifyingLimit.length == 0 &&
