@@ -292,8 +292,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
             let advanceTaxDeposited = 0;;
             if (this.taxComputationModel.balanceTaxAfterRelief > this._configuration.taxLiability) {
                 let mntArray = [3, 6, 9, 12];
-                let taxPercentageArr = [15, 45, 75, 100];
-                let quarterLastDate;
+                let taxPercentageArr = [15, 45, 75, 100];                
                 for (let i = 0; i < mntArray.length; i++) {
                     let fDate = new Date(filingDt.getFullYear() - 1, 0, 15);
                     fDate.setMonth(mntArray[i] - 1);
@@ -310,7 +309,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                         months = 1;
 
                     if (this.advanceTaxModels !== undefined && this.advanceTaxModels.length > 0) {
-                        let advanceTax = 0;
+                        
                         for (let j = 0; j < this.advanceTaxModels.length; j++) {
                             let d = new Date(this.advanceTaxModels[j].transactionDate);
                             if (d >= fDate && d <= lDate) {
@@ -322,12 +321,8 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                             balanceAdvanceTax = 0;
                         else
                             balanceAdvanceTax = (tax - advanceTaxDeposited) - (tax - advanceTaxDeposited) % 100;
-
-                        let diffDate: number;
-                        diffDate = Math.abs(filingDt.getTime() - dueDt.getTime());
-
+                                               
                         // for 234C, tax is calculated for all 3 months, for last installment, tax will be calculated for 1 month
-
                         let interTax = ((months * 1) * balanceAdvanceTax) / 100;
                         if ((i == 0 && interTax >= (this.taxComputationModel.balanceTaxAfterRelief * 12) / 100)
                             || (i == 1 && interTax >= (this.taxComputationModel.balanceTaxAfterRelief * 36) / 100)) {
@@ -341,7 +336,7 @@ export class DeductionsComponent implements OnInit, OnDestroy {
                     }
                 }
             }
-            this.taxComputationModel.interest234C = Math.ceil(this.taxComputationModel.interest234C);
+            this.taxComputationModel.interest234C =Math.ceil(this.taxComputationModel.interest234C);
 
 
             //Section 234F

@@ -51,10 +51,10 @@ export class ConfigurationService {
     ];
 
     public employerCategoryList = [
-        { "empCatValue": "GOV", empCatText: "GOV" },
-        { "empCatValue": "PSU", empCatText: "PSU" },
-        { "empCatValue": "OTH", empCatText: "OTH" },
-        { "empCatValue": "NA", empCatText: "NA" },
+        { "empCatValue": "GOV", empCatText: "Government" },
+        { "empCatValue": "PSU", empCatText: "Public Sector Unit" },
+        { "empCatValue": "OTH", empCatText: "Others" },
+        { "empCatValue": "NA", empCatText: "Not Applicable" },
     ];
     public returnFiledList = [
         { "returnFileValue": "11", "returnFileText": "11-On Or Before DueDt 139(1)" },
