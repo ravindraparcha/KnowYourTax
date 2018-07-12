@@ -49,7 +49,7 @@ export class XmlGeneratorService {
             let currentDate = new Date();
             panNo = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
         }
-        saveAs(blob, 'ITR1_' + panNo + ".xml");
+        saveAs(blob, 'ITR1_' + panNo.toUpperCase() + ".xml");
     }
     private addPredefinedXmlNodes() {
         this.xmlWriterRequire = require('xml-writer');
@@ -310,7 +310,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:Section80DD", parseInt(element.amount));
             }
             else if (element.name == "80DDB") {
-                if (isUsrNode)
+                if (isUsrNode && element.option!="0")
                     this.xmlWriter.writeElement("ITRForm:Section80DDBUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80DDB", parseInt(element.amount));
             }
@@ -330,7 +330,7 @@ export class XmlGeneratorService {
 
 
             else if (element.name == "80U") {
-                if (isUsrNode)
+                if (isUsrNode && element.option!="0")
                     this.xmlWriter.writeElement("ITRForm:Section80UUsrType", element.option);
                 this.xmlWriter.writeElement("ITRForm:Section80U", parseInt(element.amount));
             }
@@ -563,16 +563,17 @@ export class XmlGeneratorService {
 
         this.xmlWriter.endElement();
 
-        //tax return preparer
-        this.xmlWriter.startElement("ITRForm:TaxReturnPreparer");
-        if (verification.TRPIdentificationNo !== undefined && verification.TRPIdentificationNo !== "")
+        //tax return preparer        
+        if (verification.TRPIdentificationNo !== undefined && verification.TRPIdentificationNo !== "") {
+            this.xmlWriter.startElement("ITRForm:TaxReturnPreparer");
             this.xmlWriter.writeElement("ITRForm:IdentificationNoOfTRP", verification.TRPIdentificationNo);
+        }
         if (verification.TRPName !== undefined && verification.TRPName !== "")
             this.xmlWriter.writeElement("ITRForm:NameOfTRP", verification.TRPName.toUpperCase());
-        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "" && verification.TRPReimbursementAmount!='0')
+        if (verification.TRPReimbursementAmount !== undefined && verification.TRPReimbursementAmount !== "" && verification.TRPReimbursementAmount!='0') {
             this.xmlWriter.writeElement("ITRForm:ReImbFrmGov", verification.TRPReimbursementAmount);
-
-        this.xmlWriter.endElement();
+            this.xmlWriter.endElement();
+        }        
     }
 
     private donationAmt: number = 0;
