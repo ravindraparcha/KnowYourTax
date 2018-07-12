@@ -648,7 +648,7 @@ export class XmlGeneratorService {
         this.donationAmt += parseInt(donationAmount.donationAmount);
         this.eligibleAmt += parseInt(donationAmount.eligibleAmount);
     }
-    private addDoneeNodes(doneeDonations): any {
+    private addDoneeNodes(doneeDonations): any {         
         let eligibleAmount = 0;
         let donationAmount = 0;
         for (let doneeDonation of doneeDonations) {
@@ -665,7 +665,7 @@ export class XmlGeneratorService {
                 this.xmlWriter.writeElement("ITRForm:CityOrTownOrDistrict", doneeDonation.cityTownDistrict.toUpperCase());
             if (doneeDonation.selectedStateCode !== null && doneeDonation.selectedStateCode != "")
                 this.xmlWriter.writeElement("ITRForm:StateCode", doneeDonation.selectedStateCode);
-            if (doneeDonation.pinCode !== undefined && doneeDonation.pinCode != "")
+            if (doneeDonation.pinCode !== null && doneeDonation.pinCode != "")
                 this.xmlWriter.writeElement("ITRForm:PinCode", doneeDonation.pinCode);
             this.xmlWriter.endElement();
 
