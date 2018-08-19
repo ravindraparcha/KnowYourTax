@@ -4,6 +4,7 @@ import { PrivacyPolicyComponent, AboutComponent } from './footer/footer';
 
 export const rootRouterConfig: Routes =
   [
+    
     {
       path: 'calculator', loadChildren: './modules/calculator/calculator.module#CalculatorModule'      
     },
